@@ -1,0 +1,73 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <h2>Informasi - Jadwal Dokter</h2>
+      </div>
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/power-button.svg" (click)="logout($event)"
+          alt="logout">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="container-table">
+    <div class="search-input">
+      <input type="text" class="input input-medium"
+        placeholder="Cari Poli / Ruangan">
+      <button class="button button-search">
+        Cari
+      </button>
+    </div>
+    <div class="row" *ngFor="let item of dataDummy">
+      <table class="small-table">
+        <thead>
+          <tr class="row-head">
+            <th>{{item.namaDokter}}</th>
+          </tr>
+        </thead>
+        <tr>
+          <td>Jam Buka</td>
+        </tr>
+        <tr>
+          <td>Jam Tutup</td>
+        </tr>
+      </table>
+      <table class="big-table">
+        <thead>
+          <tr class="row-head">
+            <th *ngFor="let kehadiran of item.kehadiran">{{kehadiran.hari}}</th>
+          </tr>
+        </thead>
+        <tr>
+          <td *ngFor="let jam of item.kehadiran">{{jam.buka}}</td>
+
+
+        </tr>
+        <tr>
+          <td *ngFor="let jam of item.kehadiran">{{jam.tutup}}</td>
+        </tr>
+
+      </table>
+    </div>
+
+    <!-- <p class="empty-message" *ngIf="data.length === 0">No Record Found</p> -->
+    <button class="load-more" *ngIf="data.length !== 0">Tampilkan Lebih Banyak</button>
+  </div>
+  <div class="informasi-action" style="margin-top: 100px;">
+    <!-- <hr> -->
+    <div class="container">
+      <button class="btn-subscribe bg-violet"
+        [routerLink]="['/kiosk/informasi/pelayanan']">Kembali</button>
+    </div>
+
+  </div>
+</div>

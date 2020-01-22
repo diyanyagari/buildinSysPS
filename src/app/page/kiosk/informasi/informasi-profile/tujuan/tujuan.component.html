@@ -1,0 +1,66 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item action">
+        <img src="../../../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img src="../../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <h2>Informasi - Profile - Tujuan</h2>
+      </div>
+      <div class="header-item action">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/power-button.svg" alt="logout" (click)="logout($event)">
+      </div>
+
+
+    </div>
+  </div>
+  <div class="content">
+    <div class="container-content">
+      <div class="kiosk-card">
+        <!-- <h1>Tujuan</h1> -->
+        <div class="kiosk-card-content text-big" *ngIf="data.length == 0">
+          <h1>
+            Data Tujuan Kosong
+          </h1>
+        </div>
+        <div class="kiosk-card-content text-big">
+          <ol>
+            <li *ngFor="let item of data">
+              {{item.tujuan}}
+            </li>
+          </ol>
+          
+          <!-- 
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum. -->
+        </div>
+      </div>
+      <!-- <div class="kiosk-card">
+        <h1>Misi</h1>
+        <div class="kiosk-card-content">
+          1. Menyehatkan
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="informasi-action">
+    <!-- <hr> -->
+    <div class="container">
+      <button class="btn-subscribe bg-violet"
+        routerLink="/kiosk/informasi/profile/">Kembali</button>
+    </div>
+
+  </div>
+</div>

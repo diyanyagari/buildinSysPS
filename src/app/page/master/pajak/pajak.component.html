@@ -1,0 +1,332 @@
+<div class="ui-fluid" *ngIf="laporan">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<h1>{{'frmPajak_title' | translate | splitCharT}}</h1>
+				<div class="ui-g">
+					<div class="ui-g-12">
+						<span *ngIf="tab == 'jenis'">
+							<div id="report-pdf-jenis-pajak" style="height: 450px;">{{'frmPajak_silahkanTunggu'| translate | splitCharT}}</div>
+						</span>
+						<span *ngIf="tab == 'pajak'">
+							<div id="report-pdf-pajak" style="height: 450px;">{{'frmPajak_silahkanTunggu'| translate | splitCharT}}</div>
+						</span>
+					</div>
+					<div class="ui-g-12">
+						<div class="ui-g-12 ui-md-8"></div>
+						<div class="ui-g-12 ui-md-4">
+							<button pButton type="button" label="Tutup" icon="fa-close" (click)="tutupLaporan()"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui-fluid" *ngIf="!laporan">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<h1 style="font-weight: bolder;">{{'frmPajak_title'| translate | splitCharT }}</h1>
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<p-tabView>
+					<p-tabPanel header="{{'frmPajak_jenisPajak'| translate | splitCharT }}">
+						<h1>{{'frmPajak_titleJenisPajak'| translate | splitCharT}}</h1>
+						<form [formGroup]="formJenisPajak" (ngSubmit)="onSubmitJenisPajak()">
+							<div class="ui-g form-group">
+								<div class="ui-fluid">
+									<div class="ui-g">
+										
+										<div class="ui-g-6">
+											<div class="ui-g-12 ui-md-10" hidden>
+												<span class="ui-float-label" hidden>
+													<input id="input" type="text" hidden formControlName="kode" pInputText disabled />
+													<label for="input" hidden>{{'frmPajak_kode'| translate | splitCharT }}</label>
+												</span>
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<label for="input">{{'frmPajak_parent'| translate | splitCharT }}</label>
+												<p-dropdown id="jenisPajakHead" filter="filter" class="ui-inputwrapper-filled" formControlName="kdJenisPajakHead" [options]="listJenisPajakHead"
+												[autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<label for="input">{{'frmPajak_nama'| translate | splitCharT }}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!formJenisPajak.get('namaJenisPajak').valid && formJenisPajak.get('namaJenisPajak').touched" style="color: red">
+														{{'frmPajak_required'| translate | splitCharT}}</span>
+													</label>
+													<input id="jenisPajak" type="text" formControlName="namaJenisPajak" [(ngModel)]="toReportJenisPajak" (ngModelChange)="valuechangeJenisPajak($event)"
+													pInputText />
+													
+												</div>
+												<div class="ui-g-12 ui-md-10">
+													<label for="input">{{'frmPajak_deskripsi'| translate | splitCharT }}</label>
+													<textarea [rows]="5" [cols]="30" formControlName="deskripsi" pInputTextarea autoResize="autoResize" class="ui-inputwrapper-filled"></textarea>
+													
+												</div>
+												<!-- <div class="ui-g-12 ui-md-10">
+													<label for="input">{{'statusEnabled'| translate | splitCharT }}</label>
+												</div> -->
+												<div class="ui-g-12 ui-md-10">
+													<p-checkbox binary="true" label="{{'frmPajak_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+													<span *ngIf="!formJenisPajak.get('statusEnabled').valid && formJenisPajak.get('statusEnabled').touched" style="color: red">*</span>
+													<span *ngIf="!formJenisPajak.get('statusEnabled').valid && formJenisPajak.get('statusEnabled').touched" style="color: red">{{'frmPajak_required'| translate | splitCharT}}</span>
+												</div>
+											</div>
+											
+											
+											<div class="ui-g-6">
+												<p-fieldset legend="{{'frmPajak_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+													<form [formGroup]="formJenisPajak" (ngSubmit)="onSubmitJenisPajak()">
+														<div class="ui-g-12 ui-md-10">
+															<label for="input">{{'frmPajak_reportDisplay'| translate | splitCharT }}
+																<span style="color: red;font-weight: bolder;"></span>
+																<span *ngIf="!formJenisPajak.get('reportDisplay').valid && formJenisPajak.get('reportDisplay').touched" style="color: red">*
+																	{{'frmPajak_required'| translate | splitCharT}}</span>
+																</label>
+																<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="reportJenisPajak" pInputText/>
+																
+															</div>
+															<div class="ui-g-12 ui-md-10">
+																<label for="input">{{'frmPajak_kodeExternal'| translate | splitCharT }}</label>
+																<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+															</div>
+															<div class="ui-g-12 ui-md-10">
+																<label for="input">{{'frmPajak_namaExternal'| translate | splitCharT }}</label>
+																<input id="input" type="text" formControlName="namaExternal" pInputText/>
+															</div>
+															
+														</form>
+													</p-fieldset>
+												</div>
+												
+												<!-- <div class="ui-g-12"> -->
+													<div class="ui-g-12 ui-md-7"></div>
+													<div class="ui-g-12 ui-md-1">
+														<button pButton type="button" label="{{'frmPajak_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="resetJenisPajak()"></button>
+													</div>
+													<div class="ui-g-12 ui-md-1">
+														<button pButton type="submit" label="{{'frmPajak_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+													</div>
+													<div class="ui-g-12 ui-md-1">
+														<button pButton type="button" label="{{'frmPajak_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDeleteJenisPajak()"></button>
+													</div>
+													<div class="ui-g-12 ui-md-1">
+														<button pButton type="button" label="{{'frmPajak_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetakJenisPajak()"></button>
+													</div>
+													<div class="ui-g-12 ui-md-1">
+														<p-splitButton label="{{'frmPajak_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+														
+													</div>
+												<!-- </div> -->
+											</div>
+										</div>
+									</div>
+								</form>
+								<div class="ui-g-12">
+									<p-dataTable [value]="listDataJenisPajak" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+									selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelectJenisPajak($event)" [lazy]="true" [loading]="loadingJenisPajak"
+									loadingIcon="fa-spinner" [totalRecords]="totalRecordsJenisPajak" (onLazyLoad)="loadPageJenisPajak($event)" expandableRows="true">
+									<p-header>
+										<div class="ui-helper-clearfix">
+											<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+											<input type="text" pInputText size="50" placeholder="{{'frmPajak_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarianJenisPajak"
+											(keypress)="cariJenisPajak()" style="width: 20%;float:right;">
+											<span style="float: left;padding:0.3em;">{{'frmPajak_tableTitle'| translate | splitCharT}}</span>
+										</div>
+									</p-header>
+									<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+									<p-column field="namaJenisPajakHead" header="{{'frmPajak_tableParent'| translate | splitCharT }}"></p-column>
+									<p-column field="namaJenisPajak" header="{{'frmPajak_tableNama'| translate | splitCharT }}"></p-column>
+									<p-column field="deskripsi" header="{{'frmPajak_tableDeskripsi'| translate | splitCharT }}"></p-column>
+									<p-column field="statusEnabled" header="{{'frmPajak_tableStatus'| translate | splitCharT }}">
+										<ng-template let-col="rowData" pTemplate type="body">
+											{{col.statusEnabled | truefalse | translate | splitCharT }}
+										</ng-template> 
+									</p-column>
+									<ng-template let-detail pTemplate="rowexpansion">
+										<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+												<div class="ui-grid-col-12">
+													<div class="ui-grid ui-grid-responsive ui-grid-pad">
+														<div class="ui-grid-row">
+															<div class="ui-grid-col-2 label">
+																<span style="color:black">{{ 'frmPajak_optional' | translate | splitCharT }}</span>
+															</div>
+														</div>
+														<hr>
+														<div class="ui-grid-row">
+															<div class="ui-grid label">{{'frmPajak_tableReportDisplay'| translate | splitCharT }} </div>
+															<div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+														</div>
+														<div class="ui-grid-row">
+															<div class="ui-grid label">{{'frmPajak_tableKodeExternal' | translate | splitCharT}} </div>
+															<div class="ui-grid-col-4">{{detail.kodeExternal}}</div>
+														</div>
+														<div class="ui-grid-row">
+															<div class="ui-grid label">{{'frmPajak_tableNamaExternal'| translate | splitCharT}} </div>
+															<div class="ui-grid-col-4">{{detail.namaExternal}}</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</ng-template>
+								</p-dataTable>
+							</div>
+						</p-tabPanel>
+						
+						
+						<p-tabPanel header="{{'frmPajak_pajak'| translate | splitCharT }}">
+							<h1>{{'frmPajak_title'| translate | splitCharT}}</h1>
+							<form [formGroup]="formPajak" (ngSubmit)="onSubmitPajak()">
+								<div class="ui-g form-group">
+									<div class="ui-fluid">
+										<div class="ui-g">
+											
+											<div class="ui-g-6">
+												<div class="ui-g-12 ui-md-10" hidden>
+													<span class="ui-float-label" hidden>
+														<input id="input" hidden type="text" formControlName="kode" pInputText disabled/>
+														<label for="input" hidden> {{'frmPajak_kode'| translate | splitCharT }}</label>
+													</span>
+												</div>
+												<div class="ui-g-12 ui-md-10">
+													<label for="pajak">{{'frmPajak_nama'| translate | splitCharT }}
+														<span style="color: red;font-weight: bolder;">*</span>
+														<span *ngIf="!formPajak.get('namaPajak').valid && formPajak.get('namaPajak').touched" style="color: red"> {{'frmPajak_required'| translate | splitCharT}}</span>
+													</label>
+													<input id="pajak" type="text" formControlName="namaPajak" [(ngModel)]="toReportPajak" (ngModelChange)="valuechangePajak($event)"
+													pInputText/>
+													
+												</div>
+												<div class="ui-g-12 ui-md-10">
+													<label for="jenisPajak">{{'frmPajak_jenisPajak'| translate | splitCharT }}</label>
+													<p-dropdown id="jenisPajak" formControlName="kdJenisPajak" [options]="listJenispajak" [autoWidth]="false" [filter]="true"
+													filterBy="label" class="ui-inputwrapper-filled"></p-dropdown>
+												</div>
+												<div class="ui-g-12 ui-md-10">
+													<label for="deskripsi">{{'frmPajak_deskripsi'| translate | splitCharT }}
+														<span style="color: red;font-weight: bolder;">*</span>
+														<span *ngIf="!formPajak.get('deskripsi').valid && formPajak.get('deskripsi').touched" style="color: red"> {{'frmPajak_required'| translate | splitCharT}}</span>
+													</label>
+													<textarea [rows]="5" [cols]="30" formControlName="deskripsi" pInputTextarea autoResize="autoResize" class="ui-inputwrapper-filled"></textarea>
+													<!-- <input id="deskripsi" type="text" formControlName="deskripsi" pInputText/> -->
+													
+												</div>
+												<!-- <div class="ui-g-12 ui-md-10">
+													<label for="input">{{'statusEnabled'| translate | splitCharT }}</label>
+												</div> -->
+												<div class="ui-g-12 ui-md-10">
+													<p-checkbox binary="true" label="{{'frmPajak_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+													<span *ngIf="!formPajak.get('statusEnabled').valid && formPajak.get('statusEnabled').touched" style="color: red">*</span>
+													<span *ngIf="!formPajak.get('statusEnabled').valid && formPajak.get('statusEnabled').touched" style="color: red">{{'frmPajak_required'| translate | splitCharT}}</span>
+												</div>
+												
+											</div>
+											
+											
+											<div class="ui-g-6">
+												<p-fieldset legend="{{'frmPajak_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+													<form [formGroup]="formPajak" (ngSubmit)="onSubmitPajak()">
+														<div class="ui-g-12 ui-md-10">
+															<label for="input">{{'frmPajak_reportDisplay'| translate | splitCharT }}
+																<span style="color: red;font-weight: bolder;"></span>
+																<span *ngIf="!formPajak.get('reportDisplay').valid && formPajak.get('reportDisplay').touched" style="color: red">* {{'frmPajak_required'| translate | splitCharT}}</span>
+															</label>
+															<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="reportPajak" pInputText/>
+															
+														</div>
+														<div class="ui-g-12 ui-md-10">
+															<label for="input">{{'frmPajak_kodeExternal'| translate | splitCharT }}</label>
+															<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+														</div>
+														<div class="ui-g-12 ui-md-10">
+															<label for="input">{{'frmPajak_namaExternal'| translate | splitCharT }}</label>
+															<input id="input" type="text" formControlName="namaExternal" pInputText/>
+														</div>
+													</form>
+												</p-fieldset>
+											</div>
+											
+											<!-- <div class="ui-g-12"> -->
+												<div class="ui-g-12 ui-md-7"></div>
+												<div class="ui-g-12 ui-md-1">
+													<button pButton type="button" label="{{'frmPajak_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="resetPajak()"></button>
+												</div>
+												<div class="ui-g-12 ui-md-1">
+													<button pButton type="submit" label="{{'frmPajak_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+												</div>
+												<div class="ui-g-12 ui-md-1">
+													<button pButton type="button" label="{{'frmPajak_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDeletePajak()"></button>
+												</div>
+												<div class="ui-g-12 ui-md-1">
+													<button pButton type="button" label="{{'frmPajak_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetakPajak()"></button>
+												</div>
+												<div class="ui-g-12 ui-md-1">
+													<p-splitButton label="{{'frmPajak_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items2"></p-splitButton>
+													
+												</div>
+											<!-- </div> -->
+										</div>
+									</div>
+								</div>
+							</form>
+							<div class="ui-g-12">
+								<p-dataTable [value]="listDataPajak" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+								[(selection)]="selected" scrollable="true" (onRowSelect)="onRowSelectPajak($event)" [lazy]="true" [loading]="loading"
+								loadingIcon="fa-spinner" [totalRecords]="totalRecordsPajak" (onLazyLoad)="loadPagePajak($event)" expandableRows="true">
+								<p-header>
+									<div class="ui-helper-clearfix">
+										<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+										<input type="text" pInputText size="50" placeholder="{{'frmPajak_pencarianNamaPajak'| translate | splitCharT}}" [(ngModel)]="pencarian" (keypress)="cariPajak()"
+										style="width: 20%;float:right;">
+										<span style="float: left;padding:0.3em;">{{'frmPajak_daftarMasterPajak'| translate | splitCharT}}</span>
+									</div>
+								</p-header>
+								<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+								<p-column field="namaPajak" header="{{'frmPajak_tblNamaPajak'| translate | splitCharT }}"></p-column>
+								<p-column field="namaJenisPajak" header="{{'frmPajak_tblJenisPajak'| translate | splitCharT }}"></p-column>
+								<p-column field="deskripsi" header="{{'frmPajak_tblDeskripsi'| translate | splitCharT }}"></p-column>
+								<p-column field="statusEnabled" header="{{'frmPajak_tblStatusEnabled'| translate | splitCharT }}">
+									<ng-template let-col="rowData" pTemplate type="body">
+										{{col.statusEnabled | truefalse | translate | splitCharT }}
+									</ng-template> 
+								</p-column>
+								<ng-template let-detail pTemplate="rowexpansion">
+									<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+										<div class="ui-grid ui-grid-responsive ui-grid-pad">
+											<div class="ui-grid-col-12">
+												<div class="ui-grid ui-grid-responsive ui-grid-pad">
+													<div class="ui-grid-row">
+														<div class="ui-grid-col-2 label">
+															<span style="color:black">{{ 'frmPajak_optional' | translate | splitCharT }}</span>
+														</div>
+													</div>
+													<hr>
+													<div class="ui-grid-row">
+														<div class="ui-grid label">{{'frmPajak_tblReportDisplay'| translate | splitCharT }} </div>
+														<div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+													</div>
+													<div class="ui-grid-row">
+														<div class="ui-grid label">{{'frmPajak_tblKodeExternal' | translate | splitCharT}} </div>
+														<div class="ui-grid-col-4">{{detail.kodeExternal}}</div>
+													</div>
+													<div class="ui-grid-row">
+														<div class="ui-grid label">{{'frmPajak_tblNamaExternal '| translate | splitCharT}} </div>
+														<div class="ui-grid-col-4">{{detail.namaExternal}}</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</ng-template>
+							</p-dataTable>
+						</div>
+					</p-tabPanel>
+					
+				</p-tabView>
+			</div>
+		</div>
+	</div>
+</div>

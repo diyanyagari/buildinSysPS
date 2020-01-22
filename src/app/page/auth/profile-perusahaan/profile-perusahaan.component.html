@@ -1,0 +1,143 @@
+<div class="login-bg">
+    <img src="assets/layout/images/login/bg-login.jpg"/>
+</div>
+
+<div class="login-bg-overlay"></div>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+<div class="ui-fluid">
+    <div class="ui-g">
+       <div class="bg-green ui-g-8 ui-g-offset-0">
+	       	<div class="ui-g form-group">
+	       		<div class="ui-g-12">
+	       			<div *ngIf="proses" class="ui-g">
+	       				
+                        <div class="ui-g-12"><strong>{{statusText}}</strong><hr *ngIf="berhasil"/></div>
+                        <div *ngIf="berhasil" class="ui-g-12"><strong>{{'Informasi Perusahaan'| translate | splitCharT }}</strong></div>
+                        <div *ngIf="berhasil"  class="ui-g-8">
+                            <div class="ui-g">
+                                <div class="ui-g-3">{{'Jenis Industri'| translate | splitCharT }}</div>
+                                <div class="ui-g-1">:</div>
+                                <div class="ui-g-8">{{sJenisIndustri}}</div>
+                                     
+                                     
+                                <div class="ui-g-3">{{'Nama Perusahaan'| translate | splitCharT }}</div>
+                                <div class="ui-g-1">:</div>
+                                <div class="ui-g-8">{{sNamaPerusahaan}}</div>
+                                     
+                                <div class="ui-g-3">{{'Hostname'| translate | splitCharT }}</div>
+                                <div class="ui-g-1">:</div>
+                                <div class="ui-g-8">{{sHostname}}</div>
+
+
+                                <div class="ui-g-12"><strong>{{'Informasi Pegawai / Login'| translate | splitCharT }}</strong></div>
+                                     
+                                <div class="ui-g-3">{{'Username'| translate | splitCharT }}</div>
+                                <div class="ui-g-1">:</div>
+                                <div class="ui-g-8">{{sUsername}}</div>
+                            </div>    
+                        </div>       
+
+                        <div *ngIf="berhasil" class="ui-g-4">
+                            <div><strong>{{'Gambar Logo'| translate | splitCharT }}</strong></div>
+                            <img *ngIf="smbrFoto !== null" [src]="(smbrFoto | imgsec) | async" height="175px" class="img-responsive" />
+                        </div>  
+   
+
+                        <div class="ui-g-12 ui-g-offset-6"><img *ngIf="loading" src="{{ imgLoading }}" /></div>
+
+	       			</div>	
+	       			
+	       			<form  *ngIf="!proses"  [formGroup]="form" (ngSubmit)="onSubmit()">
+	       				<div class="ui-g">
+                            <div class="ui-g-8"  style="border: 1px dotted #AAA" >
+
+	                            <div class="ui-g">
+	                                <div class="ui-g-12">Company / Profile</div>
+	                            </div>
+
+	                            <div class="ui-g">
+		                            <div class="ui-g-12">
+		                                <label for="kdJenisProfile">{{'Jenis Industri'| translate | splitCharT }}</label>
+		                                <p-dropdown [style]="bg-solid-white" id="dropdownJnsprofile" filter="filter" [options]="kdJenisProfile" formControlName="kdJenisProfile" [autoWidth]="false"></p-dropdown>
+		                            </div>
+	                        	</div>
+
+	                            <div class="ui-g">
+		                            <div class="ui-g-6">
+		                                <label><strong>{{'File Data Excel Profile Perusahaan'| translate | splitCharT }}</strong></label>
+		                            	<input type="text" formControlName="fileExcelProfile" readonly="true" pInputText/>   
+		                            	<button pButton type="button" label="{{'Unduh Template Profile Perusahaan'| translate | splitCharT }}" icon="fa-cloud-download" (click)="download()"></button>
+		                            </div>
+		                            <div class="ui-g-6">
+		                                <p-fileUpload (onUpload)="fileUploadProfile($event)" name="file" (onBeforeSend)="addHeader($event)" auto="false" [url]="urlUpload()" withCredentials="true" ></p-fileUpload>	                                
+		                            </div>  
+	                        	</div>
+
+	                            <div class="ui-g">
+	                                <div class="ui-g-12">Master Data HR</div>
+	                            </div>
+
+	                            <div class="ui-g">
+		                            <div class="ui-g-6">
+		                                <label><strong>{{'File Data Excel Master HR'| translate | splitCharT }}</strong></label>
+		                            	<input type="text" formControlName="fileExcelMaster" readonly="true" pInputText/>   
+		                            	<button pButton type="button" label="{{'Unduh Template Profile Perusahaan'| translate | splitCharT }}" icon="fa-cloud-download" (click)="download()"></button>
+		                            </div>
+		                            <div class="ui-g-6">
+		                                <p-fileUpload (onUpload)="fileUploadMaster($event)" name="file" (onBeforeSend)="addHeader($event)" auto="false" [url]="urlUpload()" withCredentials="true" ></p-fileUpload>	                                
+		                            </div>
+	                        	</div>
+
+	                        	<div class="ui-g">
+	                                <div class="ui-g-12">Data Pegawai</div>
+	                            </div>
+
+	                            <div class="ui-g">
+		                            <div class="ui-g-6">
+		                            	<label><strong>{{'File Data Excel Pegawai'| translate | splitCharT }}</strong></label>
+		                                <input type="text" formControlName="fileExcelPegawai" readonly="true" pInputText/>   
+		                            	<button pButton type="button" label="{{'Unduh Template Profile Perusahaan'| translate | splitCharT }}" icon="fa-cloud-download" (click)="download()"></button>
+		                            </div>
+		                            <div class="ui-g-6">	                                
+		                                <p-fileUpload (onUpload)="fileUploadPegawai($event)" name="file" (onBeforeSend)="addHeader($event)" auto="false" [url]="urlUpload()" withCredentials="true" ></p-fileUpload>
+		                            </div>
+	                        	</div>
+                        	</div>
+
+                        	<div class="ui-g-4">
+
+                                <div class="ui-g form-group">    
+
+                                    <div class="ui-g-12">
+                                        <br>
+                                        <p-fileUpload #fubauto mode="basic" (onUpload)="fileUpload($event)" accept="image/*" name="file"
+                                        maxFileSize="2000000" (onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()" auto="true" chooseLabel="Browse"
+                                        withCredentials="true"></p-fileUpload>
+                                        <label for="gambarLogo">{{'Gambar Logo'| translate | splitCharT }}</label>
+                                        <input id="gambarLogo" type="text" formControlName="gambarLogo" [(ngModel)]="namaFoto" disabled pInputText/>
+                                       <img *ngIf="smbrFoto !== null"  [src]="(smbrFoto | imgsec) | async" height="175px" class="img-responsive" />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>            
+	       			</form>	
+	       		</div>	
+	       		<div *ngIf="!proses" class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{'Proses'| translate | splitCharT }}" icon="fa-save" (click)="onSubmit()"></button>
+                </div>
+
+                <div *ngIf="proses" class="ui-g-12 ui-md-2 ui-md-offset-2">
+                    <button pButton type="button" label="{{'Kembali'| translate | splitCharT }}" icon="fa-arrow-left" (click)="kembali()"></button>
+                </div>
+
+                <div *ngIf="berhasil" class="ui-g-12 ui-md-2">
+                    <button pButton type="button" label="{{'Login'| translate | splitCharT }}" icon="fa-user-circle" (click)="kembali()"></button>
+                </div>
+
+	       	</div>
+	    </div>   		
+	</div>
+</div>	    

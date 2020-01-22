@@ -1,0 +1,181 @@
+<div class="ui-fluid">
+		<div class="ui-g">
+			<div class="ui-g-12">
+				<div class="card card-w-title">
+					<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+					<h1>{{'frmDetailJenisProduk_title'| translate | splitCharT }}</h1>
+					<div class="ui-g form-group">
+						<div class="ui-g-12">
+							<form [formGroup]="form" (ngSubmit)="onSubmit()">
+								<div class="ui-g-6">
+									<div class="ui-g-12 ui-md-10" hidden>
+										<span class="ui-float-label" hidden>
+											<input id="input" type="text" hidden formControlName="kode" pInputText disabled />
+											<label for="input" hidden>{{'kodeDetailJenisProduk'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<label for="input">{{'frmDetailJenisProduk_nama'| translate | splitCharT }}</label>
+										<input type="text" formControlName="namaDetailJenisProduk" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)" pInputText
+										/>
+										<span *ngIf="!form.get('namaDetailJenisProduk').valid && form.get('namaDetailJenisProduk').touched" style="color: red"> {{'namaDetailJenisProduk'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+									</div>
+									<!-- <div class="ui-g-12 ui-md-10">
+										<span class="ui-float-label">
+										<p-dropdown formControlName="kdJenisProduk" class="ui-inputwrapper-filled" [options]="kdJenisProduk" [autoWidth]="false"></p-dropdown>
+										<label for="input">{{'jenisProduk'| translate | splitCharT }}</label>
+									 </span>
+										<span *ngIf="!form.get('kdJenisProduk').valid && form.get('kdJenisProduk').touched" style="color: red"> {{'jenisProduk'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+									</div> -->
+									<div class="ui-g-12 ui-md-10" hidden>
+										<span class="ui-float-label" hidden>
+											<input type="number" hidden formControlName="persenHargaCito" pInputText placeholder="{{'persenHargaCito'| translate | splitCharT }}" pTooltip="{{'persenHargaCito'| translate | splitCharT }}"
+											 tooltipPosition="top" />
+	
+										</span>
+										<!-- <span *ngIf="!form.get('persenHargaCito').valid && form.get('persenHargaCito').touched" style="color: red"> {{'persenHargaCito'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+									</div>
+									<!-- <div class="ui-g-12 ui-md-10">
+											<label for="input">{{'statusEnabled'| translate | splitCharT }}</label>
+										</div> -->
+									<div class="ui-g-12 ui-md-10">
+										<p-checkbox binary="true" label="{{'frmDetailJenisProduk_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+										<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red"> {{'statusEnabled'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+									</div>
+								</div>
+	
+								<!-- <div class="ui-g-4">
+									<div class="ui-g-12 ui-md-10">
+										<span class="ui-float-label">
+										   <p-dropdown formControlName="kdAccount"  class="ui-inputwrapper-filled" [options]="kdAccount" [autoWidth]="false"></p-dropdown>
+										<label for="input">{{'account'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<label for="input">{{'isRegistrasiAsset'| translate | splitCharT }}</label>
+									</div>
+									<div class="ui-g-12 ui-md-8">
+										<div class="ui-g">
+											<div class="ui-g-6">
+												<p-radioButton name="rg" value="1" label="{{'Ya'| translate | splitCharT }}" formControlName="isRegistrasiAset"></p-radioButton>
+											</div>
+											<div class="ui-g-6">
+												<p-radioButton name="rg" value="0" label="{{'Tidak'| translate | splitCharT }}" formControlName="isRegistrasiAset"></p-radioButton>
+											</div>
+										</div>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<label for="input">{{'statusEnabled'| translate | splitCharT }}</label>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<p-checkbox binary="true" label="Aktif" formControlName="statusEnabled"></p-checkbox>
+										<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red"> {{'statusEnabled'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+									</div>
+	
+								</div> -->
+	
+								<div class="ui-g-6">
+									<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+										<form [formGroup]="form" (ngSubmit)="onSubmit()">
+											<div class="ui-g-12 ui-md-10">
+												<label for="input">{{'frmDetailJenisProduk_reportDisplay'| translate | splitCharT }}</label>
+												<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+												<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red"> {{'reportDisplay'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<label for="input">{{'frmDetailJenisProduk_kodeExternal'| translate | splitCharT }}</label>
+												<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<label for="input">{{'frmDetailJenisProduk_namaExternal'| translate | splitCharT }}</label>
+												<input id="input" type="text" formControlName="namaExternal" pInputText/>
+											</div>
+										</form>
+									</p-fieldset>
+								</div>
+	
+								<div class="ui-g-12">
+										<div class="ui-g-12 ui-md-7"></div>
+										<div class="ui-g-12 ui-md-1">
+											<button pButton type="button" label="{{'frmDetailJenisProduk_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="resetDetailJenisProduk()"></button>
+										</div>
+										<div class="ui-g-12 ui-md-1">
+											<button pButton type="submit" label="{{'frmDetailJenisProduk_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+										</div>
+										<div class="ui-g-12 ui-md-1">
+											<button pButton type="button" label="{{'frmDetailJenisProduk_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDeleteDetailJenisProduk()"></button>
+										</div>
+										<div class="ui-g-12 ui-md-1">
+											<button pButton type="button" label="{{'frmDetailJenisProduk_btnCetak'| translate | splitCharT}}" icon="fa-print"></button>
+										</div>
+										<div class="ui-g-12 ui-md-1">
+											<p-splitButton label="{{'frmDetailJenisProduk_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+										</div>
+									</div>
+	
+							</form>
+						</div>
+	
+						<div class="ui-g-12">
+							<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							 [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="Loading" loadingIcon="fa-spinner"
+							 [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+								<p-header>
+									<div class="ui-helper-clearfix">
+										<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+										<input type="text" pInputText size="50" placeholder="{{'frmDetailJenisProduk_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keypress)="cari()"
+										 style="width: 20%;float:right;">
+										<span style="float: left;padding:0.3em;">{{'frmDetailJenisProduk_tableTitle'| translate | splitCharT}}</span>
+									</div>
+								</p-header>
+								<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+								<p-column field="namaDetailJenisProduk" header="{{'frmDetailJenisProduk_tableNama'| translate | splitCharT}}"></p-column>
+								<!-- <p-column field="namaJenisProduk" header="{{'jenisProduk'| translate | splitCharT}}"></p-column> -->
+								<!-- <p-column field="persenHargaCito" header="{{'persenHargaCito'| translate | splitCharT}}"></p-column> -->
+								<!-- <p-column field="namaAccount" header="{{'account'| translate | splitCharT}}"></p-column>
+								<p-column field="isRegistrasiAset" header="{{'isRegistrasiAsset'| translate | splitCharT}}">
+									  <ng-template let-pick="rowData" pTemplate type="body">
+										<span *ngIf="pick.isRegistrasiAset == 1">Ya</span>
+										<span *ngIf="pick.isRegistrasiAset == 0">Tidak</span>
+									</ng-template>
+								</p-column> -->
+								<p-column field="statusEnabled" header="{{'frmDetailJenisProduk_tableStatus'| translate | splitCharT }}">
+									<ng-template let-col="rowData" pTemplate type="body">
+										{{col.statusEnabled | truefalse | translate | splitCharT }}
+									</ng-template> 
+								</p-column>
+								<ng-template let-detail pTemplate="rowexpansion">
+									<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+										<div class="ui-grid ui-grid-responsive ui-grid-pad">
+											<div class="ui-grid-col-12">
+												<div class="ui-grid ui-grid-responsive ui-grid-pad">
+													<div class="ui-grid-row">
+														<div class="ui-grid-col-2 label">
+															<span style="color:black">{{ 'frmDetailJenisProduk_optional' | translate | splitCharT }}</span>
+														</div>
+													</div>
+													<hr>
+													<div class="ui-grid-row">
+														<div class="ui-grid label">{{'frmDetailJenisProduk_tableReportDisplay'| translate | splitCharT }} </div>
+														<div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+													</div>
+													<div class="ui-grid-row">
+														<div class="ui-grid label">{{'frmDetailJenisProduk_tableKodeExternal' | translate | splitCharT}} </div>
+														<div class="ui-grid-col-4">{{detail.kodeExternal}}</div>
+													</div>
+													<div class="ui-grid-row">
+														<div class="ui-grid label">{{'frmDetailJenisProduk_tableNamaExternal'| translate | splitCharT}} </div>
+														<div class="ui-grid-col-4">{{detail.namaExternal}}</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</ng-template>
+							</p-dataTable>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

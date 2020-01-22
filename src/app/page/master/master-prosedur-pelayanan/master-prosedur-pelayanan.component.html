@@ -1,0 +1,595 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmMasterProsedurPelayanan_title'| translate | splitCharT }}</h1>
+				<!-- <p-tabView (onChange)="onTabChange($event)" [activeIndex]="tabIndex"> -->
+				<p-tabView (onChange)="onTabChange($event)" [activeIndex]="tabIndex">
+					<p-tabPanel header="{{'frmJenisDokumen_title'| translate | splitCharT }}">
+						<h1>{{'frmJenisDokumen_title'| translate | splitCharT }}</h1>
+						<form [formGroup]="formJenisDokumen">
+							<div class="ui-g form-group">
+								<div class="ui-g-6">
+									<div class="ui-g-12 ui-md-10" hidden>
+										<span class="ui-float-label" hidden>
+											<input id="input" type="text" hidden formControlName="kode" pInputText
+												readonly="true" />
+											<label for="input" hidden>{{'kodeJenisDokumen'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<label for="input">{{'frmJenisDokumen_parent'| translate | splitCharT }} </label>
+										<p-dropdown #dd id="dropdown" filter="filter" class="ui-inputwrapper-filled"
+											formControlName="kdJenisDokumenHead" [resetFilterOnHide]="true"
+											[options]="parentDokumen" [autoWidth]="false"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<label>{{'frmJenisDokumen_nama'| translate | splitCharT }}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span
+												*ngIf="!formJenisDokumen.get('namaJenisDokumen').valid && formJenisDokumen.get('namaJenisDokumen').touched"
+												style="color: red"> {{'required'| translate | splitCharT}}</span>
+										</label>
+										<input id="input" type="text" formControlName="namaJenisDokumen"
+											(keyup)="setReportDisplay1()" maxlength="100" pInputText />
+									</div>
+									<div class="ui-g-12 ui-md-12">
+										<p-checkbox binary="true" label="{{'frmJenisDokumen_status'| translate | splitCharT }}"
+											formControlName="statusEnabled"></p-checkbox>
+										<span
+											*ngIf="!formJenisDokumen.get('statusEnabled').valid && formJenisDokumen.get('statusEnabled').touched"
+											style="color: red">*</span>
+										<span
+											*ngIf="!formJenisDokumen.get('statusEnabled').valid && formJenisDokumen.get('statusEnabled').touched"
+											style="color: red"> {{'required'| translate | splitCharT}}.</span>
+									</div>
+								</div>
+								<!-- <div class="ui-g-12 ui-md-4"></div> -->
+								<div class="ui-g-6">
+									<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+										<form [formGroup]="formJenisDokumen" (ngSubmit)="onSubmit()">
+											<div class="ui-g-12 ui-md-10">
+												<label>{{'frmJenisDokumen_reportDisplay'| translate | splitCharT }}
+													<span
+														*ngIf="!formJenisDokumen.get('reportDisplay').valid && formJenisDokumen.get('reportDisplay').touched"
+														style="color: red"> *</span>
+													<span
+														*ngIf="!formJenisDokumen.get('reportDisplay').valid && formJenisDokumen.get('reportDisplay').touched"
+														style="color: red"> {{'required'| translate | splitCharT}}</span>
+												</label>
+												<input id="input" type="text" formControlName="reportDisplay"
+													[(ngModel)]="report" maxlength="100" pInputText />
+
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<label>{{'frmJenisDokumen_kodeExternal'| translate | splitCharT }}</label>
+												<input id="input" type="text" formControlName="kodeExternal"
+													maxlength="15" pInputText />
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<label>{{'frmJenisDokumen_namaExternal'| translate | splitCharT }}</label>
+												<input id="input" type="text" formControlName="namaExternal"
+													maxlength="30" pInputText />
+											</div>
+										</form>
+									</p-fieldset>
+								</div>
+
+								<div class="ui-g-12 ui-md-1 ui-md-offset-7">
+									<button pButton type="button" label="{{'frmAsal_btnBatal'| translate | splitCharT}}"
+										icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmAsal_btnSimpan'| translate | splitCharT}}"
+										icon="fa-save" (click)="onSubmit();clearFilterJenisDok(dd)"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmAsal_btnHapus'| translate | splitCharT}}"
+										icon="fa-trash" (click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmAsal_btnCetak'| translate | splitCharT}}"
+										icon="fa-print" (click)="cetak()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmAsal_btnExport'| translate | splitCharT }}" icon="fa-external-link"
+										[model]="items"></p-splitButton>
+								</div>
+							</div>
+						</form>
+					</p-tabPanel>
+					<p-tabPanel header="{{'frmDokumen_title'| translate | splitCharT }}">
+						<h1>{{'frmDokumen_title'| translate | splitCharT }} New</h1>
+						<form [formGroup]="formMasterDokumen">
+							<div class="ui-g form-group">
+								<div style="padding: 0px" class="ui-g-12 ui-md-6">
+									<div class="ui-g-12 ui-md-10" hidden>
+										<span class="ui-float-label" hidden>
+											<input id="inputKode" hidden type="text" hidden
+												class="ui-inputwrapper-filled" formControlName="kode" pInputText
+												disabled />
+											<label for="input" hidden>{{'kodeDokumen'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label>{{'frmDokumen_dokumenHead'| translate | splitCharT}}</label>
+										<p-dropdown #dd1 id="dropdownDokumenHead" filter="filter"
+											class="ui-inputwrapper-filled" formControlName="kdDokumenHead"
+											[options]="dokumenHead" [resetFilterOnHide]="true" [autoWidth]="false">
+										</p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label>{{'frmDokumen_jenisDokumen'| translate | splitCharT}}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span
+												*ngIf="!formMasterDokumen.get('kdJenisDokumen').valid && formMasterDokumen.get('kdJenisDokumen').touched"
+												style="color: red">{{'required'| translate | splitCharT}}</span>
+										</label>
+										<p-dropdown #dd2 id="dropdownDokumenHead" filter="filter"
+											class="ui-inputwrapper-filled" formControlName="kdJenisDokumen"
+											[options]="jenisDokumen" [resetFilterOnHide]="true" [autoWidth]="false">
+										</p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label>{{'frmDokumen_kategoriDokumen'| translate | splitCharT}}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span
+												*ngIf="!formMasterDokumen.get('kdKategoryDokumen').valid && formMasterDokumen.get('kdKategoryDokumen').touched"
+												style="color: red">{{'required'| translate | splitCharT}}</span>
+										</label>
+										<p-dropdown #dd3 id="dropdownKategoriDokumen" filter="filter"
+											class="ui-inputwrapper-filled" formControlName="kdKategoryDokumen"
+											[options]="kategoriDokumen" [resetFilterOnHide]="true" [autoWidth]="false">
+										</p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label>{{'frmDokumen_namaJudulDokumen'| translate | splitCharT}}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span
+												*ngIf="!formMasterDokumen.get('namaJudulDokumen').valid && formMasterDokumen.get('namaJudulDokumen').touched"
+												style="color: red">{{'required'| translate | splitCharT}}</span>
+										</label>
+										<input id="inputNamaJudul" type="text" formControlName="namaJudulDokumen"
+											(keyup)="setReportDisplay()" maxlength="150" pInputText />
+										<!-- <span *ngIf="!form.get('namaDokumen').valid && form.get('namaDokumen').touched" style="color: red"> {{'noDokumen'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmDokumen_deskripsiDokumen'| translate | splitCharT}}</label>
+											<textarea formControlName="deskripsiDokumen"
+												style="width:98.5%; height:64px"></textarea>
+										</div>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmDokumen_qtyHalamanDokumen'| translate | splitCharT}}</label>
+											<input formControlName="qtyPages" id="inputQtyPages" type="number"
+												pInputText min="0" (input)="qty()" />
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmDokumen_isbnDokumen'| translate | splitCharT}}</label>
+											<input formControlName="isbn" id="inputIsbn" type="text" pInputText />
+											<!-- <span *ngIf="!form.get('noDokumen').valid && form.get('noDokumen').touched"
+																style="color: red"> {{'noDokumen'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+										</div>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<p-fieldset [style]="{'padding':'0px'}"
+										legend="{{'frmDokumen_periodeDokumen'| translate | splitCharT}}">
+										<div style="padding-left: 0px" class="ui-g-12 ui-md-6">
+											<label>{{'frmDokumen_periodeTglAwalDokumen'| translate | splitCharT}}</label>
+											<app-calender formControlName="tglAwalBerlaku" dateFormat="dd M yy"
+												[showIcon]="true" monthNavigator="true" yearNavigator="true"
+												yearRange="1850:2050"></app-calender>
+										</div>
+										<div style="padding-right: 0px" class="ui-g-12 ui-md-6">
+											<label>{{'frmDokumen_periodeTglAkhirDokumen'| translate | splitCharT}}</label>
+											<app-calender [minDate]="tglAwalBerlaku" formControlName="tglAkhirBerlaku"
+												dateFormat="dd M yy" [showIcon]="true" monthNavigator="true"
+												yearNavigator="true" yearRange="1850:2050"></app-calender>
+										</div>
+									</p-fieldset>
+									<div style="padding-top: 10.6vh" class="ui-g-12 ui-md-12">
+										<div class="ui-g-12 ui-md-12">
+											<p-checkbox binary="true" label="{{'statusEnabled'| translate | splitCharT }}"
+												formControlName="statusEnabled"></p-checkbox>
+											<span
+												*ngIf="!formMasterDokumen.get('statusEnabled').valid && formMasterDokumen.get('statusEnabled').touched"
+												style="color: red">*</span>
+											<span
+												*ngIf="!formMasterDokumen.get('statusEnabled').valid && formMasterDokumen.get('statusEnabled').touched"
+												style="color: red">{{'required'| translate | splitCharT}}</span>
+										</div>
+									</div>
+								</div>
+
+								<div class="ui-g-12 ui-md-3">
+									<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+										<!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->
+										<form [formGroup]="formMasterDokumen" (ngSubmit)="onSubmit()">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-12">
+													<label>{{'frmDokumen_reportDisplay'| translate | splitCharT }}
+														<span
+															*ngIf="!formMasterDokumen.get('reportDisplay').valid && formMasterDokumen.get('reportDisplay').touched"
+															style="color: red">*</span>
+														<span
+															*ngIf="!formMasterDokumen.get('reportDisplay').valid && formMasterDokumen.get('reportDisplay').touched"
+															style="color: red"> {{'required'| translate | splitCharT}}</span>
+													</label>
+													<input id="inputReport" type="text" formControlName="reportDisplay"
+														[(ngModel)]="report" maxlength="150" pInputText />
+												</div>
+												<div class="ui-g-12 ui-md-12">
+													<label>{{'frmDokumen_kodeExternal'| translate | splitCharT }}</label>
+													<input id="inputKdExternal" type="text" maxlength="15"
+														formControlName="kodeExternal" pInputText />
+												</div>
+												<div class="ui-g-12 ui-md-12">
+													<label>{{'frmDokumen_namaExternal'| translate | splitCharT }}</label>
+													<input id="inputNamaExternal" type="text" maxlength="100"
+														formControlName="namaExternal" pInputText />
+												</div>
+											</div>
+										</form>
+									</p-fieldset>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<!-- <p-blockUI [target]="pnl1" [blocked]="dokumen1" [baseZIndex]=10
+										[autoZIndex]="false">
+										<i class="fa fa-lock fa-5x" style="position:absolute;top:25%;left:50%"></i>
+									</p-blockUI>
+									<p-blockUI [target]="pnl2" [blocked]="dokumen2" [baseZIndex]=10
+										[autoZIndex]="false">
+										<i class="fa fa-lock fa-5x" style="position:absolute;top:25%;left:50%"></i>
+									</p-blockUI>
+									<p-blockUI [target]="pnl3" [blocked]="dokumen3" [baseZIndex]=10
+										[autoZIndex]="false">
+										<i class="fa fa-lock fa-5x" style="position:absolute;top:25%;left:50%"></i>
+									</p-blockUI> -->
+									<p-fieldset legend="{{'frmDokumen_isiDokumen'| translate | splitCharT}}">
+										<!-- <div style="padding: 0px" class="ui-g-12 ui-md-6"> -->
+										<div style="padding: 0px" class="ui-g-12 ui-md-12">
+											<!-- <p-radioButton name="uploadData" [ngModelOptions]="{standalone: true}" [(ngModel)]="uploadData" label="Teks" [value]="valueRadio"></p-radioButton> -->
+											<p-radioButton hidden value="textEditor" [(ngModel)]="uploadData"
+												[ngModelOptions]="{standalone: true}"
+												label="{{'frmDokumen_isiTeksDokumen'| translate | splitCharT}}"
+												(ngModelChange)="getPilihIsi($event)"></p-radioButton>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<p-panel>
+												<p-editor [(ngModel)]="isiDokumen" [ngModelOptions]="{standalone: true}"
+													id="texteditor" [style]="{'height':'170px'}"></p-editor>
+											</p-panel>
+										</div>
+										<!-- </div> -->
+										<!-- <div style="padding: 0px" class="ui-g-12 ui-md-6"> -->
+										<div class="ui-g-12 ui-md-6">
+											<p-radioButton hidden value="file" [(ngModel)]="uploadData"
+												[ngModelOptions]="{standalone: true}"
+												label="{{'frmDokumen_isiFileDokumen'| translate | splitCharT}}"
+												(ngModelChange)="getPilihIsi($event)"></p-radioButton>
+											<p-panel class="ui-float-label" >
+												<span>
+													<p-fileUpload mode="basic" class="ui-inputwrapper-filled"
+														(onUpload)="fileUpload($event)" accept=".doc,.docx,.pdf,.mp4"
+														name="file" maxFileSize="1000000"
+														(onBeforeSend)="addHeader($event)" auto="true"
+														[url]="urlUpload()" withCredentials="true"
+														chooseLabel="{{'frmDokumen_pilihFile'| translate | splitCharT}}"
+														[showCancelButton]="false">
+													</p-fileUpload>
+												</span>
+												<input id="filePath" type="text" formControlName="pathFile"
+													[(ngModel)]="namaFile" disabled pInputText />
+											</p-panel>
+										</div>
+										<div class="ui-g-12 ui-md-6">
+											<p-radioButton hidden value="gambar" [(ngModel)]="uploadData"
+												[ngModelOptions]="{standalone: true}"
+												label="{{'frmDokumen_isiGambarDokumen'| translate | splitCharT}}"
+												(ngModelChange)="getPilihIsi($event)"></p-radioButton>
+											<p-panel class="ui-float-label" >
+												<span>
+													<p-fileUpload mode="basic" class="ui-inputwrapper-filled"
+														(onUpload)="imageUpload($event)" accept="image/*" name="file"
+														maxFileSize="1000000" (onBeforeSend)="addHeader($event)"
+														auto="true" [url]="urlUpload()" withCredentials="true"
+														chooseLabel="{{'frmDokumen_pilihGambar'| translate | splitCharT}}"
+														[showCancelButton]="false">
+													</p-fileUpload>
+												</span>
+												<input id="imagePath" type="text" formControlName="imageFile"
+													[(ngModel)]="namaImage" disabled pInputText />
+											</p-panel>
+										</div>
+										<!-- </div> -->
+									</p-fieldset>
+								</div>
+
+								<div class="ui-g-12 ui-md-12">
+									<p-fieldset legend="{{'frmDokumen_CreatorDokumen'| translate | splitCharT}}">
+										<p-dataTable class="ui-g-12 ui-md-6" [value]="listPegawaiPemilikDokumen"
+											[editable]="true">
+											<p-header>
+												<div class="ui-helper-clearfix">
+													<label
+														style="float:center;">{{'frmDokumen_pgwPemilikDokumen'| translate | splitCharT}}</label>
+													<button pButton type="button" icon="fa-plus"
+														(click)="tambahPegawaiPemilikDokumen()"
+														style="float:left;"></button>
+												</div>
+											</p-header>
+											<p-column field="kdPegawaiPemilik"
+												header="{{'frmDokumen_namaPgwPemilikDokumen'| translate | splitCharT}}"
+												[editable]="true">
+												<ng-template let-col let-data="rowData" pTemplate="body">
+													{{data[col.field].namaLengkap}}
+												</ng-template>
+												<ng-template let-col let-data="rowData" pTemplate="editor">
+													<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+														[options]="listPegawaiAktif" [(ngModel)]="data[col.field]"
+														[autoWidth]="false" [ngModelOptions]="{standalone: true}"
+														appendTo="body"></p-dropdown>
+												</ng-template>
+											</p-column>
+											<p-column styleClass="col-button" [style]="{'width': '50px'}">
+												<ng-template pTemplate="header">
+												</ng-template>
+												<ng-template pTemplate type="body" let-col let-dokumen="rowData"
+													let-ri="rowIndex">
+													<button type="button" pButton
+														(click)="hapusPegawaiPemilikDokumen(ri)"
+														icon="fa-trash"></button>
+												</ng-template>
+											</p-column>
+										</p-dataTable>
+
+										<p-dataTable class="ui-g-12 ui-md-6" [value]="listPemilikDokumenBaru"
+											[editable]="true">
+											<p-header>
+												<div class="ui-helper-clearfix">
+													<label
+														style="float:center;">{{'frmDokumen_pemilikDokumenbaru'| translate | splitCharT}}</label>
+													<button pButton type="button" icon="fa-plus"
+														(click)="tambahPemilikDokumenBaru()"
+														style="float:left;"></button>
+												</div>
+											</p-header>
+											<p-column field="namaPemilikDokumenBaru"
+												header="{{'frmDokumen_namaPemilikDokumenbaru'| translate | splitCharT}}"
+												[editable]="true">
+												<ng-template let-col let-data="rowData" let-i="rowIndex"
+													pTemplate="body">
+													<div>
+														<input type="text" pInputText [(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}" appendTo="body"
+															placeholder=" " />
+													</div>
+												</ng-template>
+											</p-column>
+											<p-column styleClass="col-button" [style]="{'width': '50px'}">
+												<ng-template pTemplate="header">
+												</ng-template>
+												<ng-template pTemplate type="body" let-col let-dokumen="rowData"
+													let-ri="rowIndex">
+													<button type="button" pButton (click)="hapusPemilikDokumenBaru(ri)"
+														icon="fa-trash"></button>
+												</ng-template>
+											</p-column>
+										</p-dataTable>
+									</p-fieldset>
+								</div>
+
+								<div class="ui-g-12 ui-md-12">
+									<p-fieldset legend="{{'frmDokumen_lokasiDokumen'| translate | splitCharT}}">
+										<div class="ui-g-12 ui-md-6">
+											<label>{{'frmDokumen_lokasiDropdownDokumen'| translate | splitCharT}}</label>
+											<p-dropdown id="dropdownDokumenHead" filter="filter"
+												class="ui-inputwrapper-filled" [options]="lokasiDokumen"
+												formControlName="kdLokasi" [autoWidth]="false"></p-dropdown>
+										</div>
+										<div class="ui-g-12 ui-md-6">
+											<label>{{'frmDokumen_qtyLokasiDokumen'| translate | splitCharT}}</label>
+											<input id="inputQtyDokumen" min="0" (input)="qtyLokasiDok()"
+												formControlName="qtyDokumen" type="number" pInputText />
+										</div>
+									</p-fieldset>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<div class="ui-g-12 ui-md-7"></div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmDokumen_btnBatal'| translate | splitCharT}}"
+											icon="fa-refresh" (click)="reset()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="submit" label="{{'frmDokumen_btnSimpan'| translate | splitCharT}}"
+											icon="fa-save"
+											(click)="onSubmit(); clearFilterMasterDok(dd1, dd2, dd3)"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmDokumen_btnHapus'| translate | splitCharT}}"
+											icon="fa-trash" (click)="confirmDelete()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmDokumen_btnCetak'| translate | splitCharT}}"
+											icon="fa-print" (click)="cetak()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<p-splitButton label="{{'frmDokumen_btnExport'| translate | splitCharT }}"
+											icon="fa-external-link" [model]="items"></p-splitButton>
+
+									</div>
+								</div>
+							</div>
+						</form>
+					</p-tabPanel>
+				</p-tabView>
+				<div class="ui-g form-group">
+					<div class="ui-g-12 ui-fluid">
+						<!-- jenis dokumen -->
+						<p-dataTable *ngIf="index == 0" [value]="listData" [rows]="10" [paginator]="true"
+							[pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							[(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true"
+							[loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords"
+							(onLazyLoad)="loadPage($event)" expandableRows="true">
+
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50"
+										placeholder="{{'frmJenisDokumen_tablePencarian'| translate | splitCharT}}"
+										[(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+									<span
+										style="float: left;padding:0.3em;">{{'frmJenisDokumen_tableTitle'| translate | splitCharT }}</span>
+								</div>
+							</p-header>
+							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+							<p-column field="namaJenisDokumenHead"
+								header="{{'frmJenisDokumen_tableParent'| translate | splitCharT }}"></p-column>
+							<p-column field="namaJenisDokumen" header="{{'frmJenisDokumen_tableNama'| translate | splitCharT }}">
+							</p-column>
+							<p-column field="statusEnabled" header="{{'frmJenisDokumen_tableStatus'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template>
+							</p-column>
+							<ng-template let-jenis pTemplate="rowexpansion">
+								<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+										<div class="ui-grid-col-12">
+											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+												<div class="ui-grid-row">
+													<div class="ui-grid-col-2 label">
+														<span
+															style="color:black">{{ 'frmJenisDokumen_optional' | translate | splitCharT }}</span>
+													</div>
+												</div>
+												<hr>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">
+														{{'frmJenisDokumen_tableReportDisplay'| translate | splitCharT }} </div>
+													<div class="ui-grid-col-4"> {{jenis.reportDisplay}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">
+														{{'frmJenisDokumen_tableKodeExternal' | translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{jenis.kodeExternal}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">
+														{{'frmJenisDokumen_tableNamaExternal'| translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{jenis.namaExternal}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-dataTable>
+
+						<!-- master dokumen -->
+						<p-dataTable *ngIf="index == 1" [value]="listData" [rows]="10" [paginator]="true"
+							[pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							[(selection)]="selected" scrollable="true" resizableColumns="true"
+							(onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading"
+							loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)"
+							expandableRows="true">
+
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50"
+										placeholder="{{'frmDokumen_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+										(keyup)="cari()" style="width: 20%;float:right;">
+									<span
+										style="float: left;padding:0.3em;">{{'frmDokumen_tableTitle'| translate | splitCharT }}</span>
+								</div>
+							</p-header>
+							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+							<p-column field="namaJudulDokumenHead" header="{{'frmDokumen_tableParent'| translate | splitCharT }}"
+								[style]="{'width':'200px'}"></p-column>
+							<!-- <p-column field="noDokumen" header="{{'frmDokumen_tableNomor'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column> -->
+							<p-column field="namaJudulDokumen" header="{{'frmDokumen_tableNama'| translate | splitCharT }}"
+								[style]="{'width':'180px'}"></p-column>
+							<p-column field="deskripsiDokumen" header="{{'frmDokumen_tableDeskripsi'| translate | splitCharT }}"
+								[style]="{'width':'150px'}"></p-column>
+							<p-column field="tglAwalBerlaku" header="{{'frmDokumen_tableTglAwalDokumen'| translate | splitCharT}}"
+								[style]="{'width':'150px'}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span *ngIf="pick.tglAwalBerlaku > null">{{pick.tglAwalBerlaku * 1000 | date:
+                                        'dd/MM/yyyy'}}</span>
+									<!-- <span *ngIf="pick.tglDokumen == null"></span> -->
+									<!-- <span *ngIf="pick.tglDokumen == 0">-</span> -->
+								</ng-template>
+							</p-column>
+							<p-column field="tglAkhirBerlaku" header="{{'frmDokumen_tableTglAkhirDokumen'| translate | splitCharT}}"
+								[style]="{'width':'150px'}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span *ngIf="pick.tglAwalBerlaku > null">{{pick.tglAkhirBerlaku * 1000 | date:
+                                        'dd/MM/yyyy'}}</span>
+									<!-- <span *ngIf="pick.tglDokumen == null"></span> -->
+									<!-- <span *ngIf="pick.tglDokumen == 0">-</span> -->
+								</ng-template>
+							</p-column>
+							<p-column field="namaJenisDokumen" header="{{'frmDokumen_tableJenis'| translate | splitCharT }}"
+								[style]="{'width':'150px'}"></p-column>
+							<p-column field="namaKategoryDokumen" header="{{'frmDokumen_tableKategori'| translate | splitCharT }}"
+								[style]="{'width':'150px'}"></p-column>
+							<p-column field="qtyPages" header="{{'frmDokumen_tableQtyDokumen'| translate | splitCharT}}"
+								[style]="{'width':'150px'}"></p-column>
+							<p-column field="isbn" header="{{'frmDokumen_tableIsbnDokumen'| translate | splitCharT}}"
+								[style]="{'width':'150px'}"></p-column>
+							<p-column field="isiDokumen" header="{{'frmDokumen_tableIsiDokumen'| translate | splitCharT}}"
+								[style]="{'width':'300px'}"></p-column>
+							<p-column field="pathFile" header="{{'frmDokumen_tableFileDokumen'| translate | splitCharT}}"
+								[style]="{'width':'300px'}"></p-column>
+							<p-column field="imageFile" header="{{'frmDokumen_tableGambarDokumen'| translate | splitCharT}}"
+								[style]="{'width':'300px'}"></p-column>
+							<p-column field="statusEnabled" header="{{'statusEnabled'| translate | splitCharT }}"
+								[style]="{'width':'100px'}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template>
+							</p-column>
+							<ng-template let-dokumen pTemplate="rowexpansion">
+								<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+										<div class="ui-grid-col-12">
+											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+												<div class="ui-grid-row">
+													<div class="ui-grid-col-2 label">
+														<span style="color:black">{{ 'optional' | translate | splitCharT }}</span>
+													</div>
+												</div>
+												<hr>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmDokumen_tableReportDisplay'|
+                                                        translate}} </div>
+													<div class="ui-grid-col-4"> {{dokumen.reportDisplay}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmDokumen_tableKodeExternal'
+                                                        | translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{dokumen.kodeExternal}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">
+														{{'frmDokumen_tableNamaExternal'| translate | splitCharT}}
+													</div>
+													<div class="ui-grid-col-4">{{dokumen.namaExternal}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

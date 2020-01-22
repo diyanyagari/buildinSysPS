@@ -1,0 +1,22 @@
+<div class="cicing-content activity-feed">
+	<div class="overview-chart-top">
+		<p-toolbar>
+			<div class="ui-toolbar-group-left">
+				<span class="overview-box-name">{{'PERSENTASI JABATAN' | translate | splitCharT | splitCharT }}</span>
+			</div>
+			<div class="ui-toolbar-group-right" style="margin-right: 55px">
+				<p-dropdown [options]="listTampilan" [autoWidth]="false" [(ngModel)]="tampilanPersentasiJabatan"></p-dropdown>
+			</div>
+		</p-toolbar>
+	</div>
+	<div id="dataJabatan" style="overflow: auto; height: 274px">
+		<p-chart type="polarArea" [data]="dataDonutJabatan" *ngIf="tampilanPersentasiJabatan == 4"></p-chart>
+		<p-chart type="bar" [data]="dataJabatan" *ngIf="tampilanPersentasiJabatan == 2"></p-chart>
+		<p-chart type="line" [data]="dataLineJabatan" *ngIf="tampilanPersentasiJabatan == 3"></p-chart>
+		<p-dataTable *ngIf="tampilanPersentasiJabatan == 1" [value]="jabatan" [rows]="10" [paginator]="true" [pageLinks]="3">
+			<p-column field="no" header="Nomor" [style]="{'width':'60px'}"></p-column>
+			<p-column field="namaJabatan" header="Jabatan" [style]="{'text-align':'left'}"></p-column>
+			<p-column field="totalPegawai" header="Jumlah Pegawai" [style]="{'text-align':'left'}"></p-column>
+		</p-dataTable>
+	</div>
+</div>

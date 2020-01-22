@@ -1,0 +1,668 @@
+<style type="text/css">
+  .lock-grid {
+    position: absolute;
+    top: 25%;
+    left: 45%
+  }
+</style>
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <h1 style="font-weight: bolder;">{{'frmPeriode_PeriodeTitle'| translate | splitCharT }}</h1>
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+
+        <p-dialog header="{{'frmPeriode_ubah'| translate | splitCharT }}" [resizable]="false" responsive="true" showEffect="fade" modal="modal" [(visible)]="dialogUbah"
+            width="500">
+            <div class="ui-g form-group" style="position: relative;">
+              <div class="ui-g-12 ui-md-12">
+                <form [formGroup]="formUbah">
+                  <div class="ui-g form-group" style="margin-bottom: 16px;">
+                    <!-- <div class="ui-g-12 ui-md-6">
+                      <label>{{'frmPeriode_namaPeriode'| translate | splitCharT}}</label>
+                      <input type="text" pInputText formControlName="namaPeriode" disabled />
+                    </div> -->
+                    <div class="ui-g-12 ui-md-6">
+                      <label>{{'frmPeriode_tanggalAwal'| translate | splitCharT}}</label>
+                      <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" formControlName="tglAwalPeriode" [showIcon]="true"
+                        appendTo="body" dateFormat="dd M yy" [minDate]="minDateAwal" [maxDate]="maxDateAwal" (onSelect)="setCutOffAwal($event)"></app-calender>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                      <label>{{'frmPeriode_tanggalAkhir'| translate | splitCharT}}</label>
+                      <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" formControlName="tglAkhirPeriode" [showIcon]="true"
+                        appendTo="body" dateFormat="dd M yy" [minDate]="minDateAkhir" [maxDate]="maxDateAkhir" (onSelect)="setCutOffAkhir($event)"></app-calender>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                      <label>{{'frmPeriode_tanggalCutOffAwal'| translate | splitCharT}}</label>
+                      <input type="text" pInputText formControlName="tglCutOffAwal"  disabled />
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                      <label>{{'frmPeriode_tanggalCutOffAkhir'| translate | splitCharT}}</label>
+                      <input type="text" pInputText formControlName="tglCutOffAkhir" disabled  />
+                    </div>
+                    
+                    
+                  </div>
+                </form>
+              </div>
+              
+            </div>
+            <p-footer>
+              <div class="ui-g-12 ui-md-2 ui-md-offset-8">
+                <button type="button" pButton icon="fa-close" (click)="reset()" label="{{'tutup'| translate | splitCharT}}"></button>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <button type="button" pButton icon="fa-check" (click)="simpanUbah()" label="{{'simpan'| translate | splitCharT}}"></button>
+              </div>
+            </p-footer>
+          </p-dialog>
+
+
+
+
+
+        <p-tabView>
+          <p-tabPanel header="{{'frmPeriode_Periode'| translate | splitCharT }}">
+            <div class="ui-fluid">
+              <div class="ui-g">
+                <div class="ui-g-12">
+                  <div class="card card-w-title">
+                    
+                    <p-tabView (onChange)="onTabChange($event)" [activeIndex]="tabIndex">
+                      <p-tabPanel header="{{'frmPeriode_title'| translate | splitCharT }}">
+                        <div class="ui-fluid">
+                          <div class="ui-g">
+                            <div class="ui-g-12">
+                              <div class="card card-w-title">
+                                <h1>{{'frmPeriode_title'| translate | splitCharT }}</h1>
+                                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                  <div class="ui-g form-group">
+                                    <div class="ui-g-12">
+                                      <div class="ui-g-12 ui-md-4">
+                                        <div class="ui-g-12 ui-md-10" hidden>
+                                          <span class="ui-float-label" hidden>
+                                            <input type="text" hidden formControlName="kode" pInputText disabled/>
+                                            <label for="input" hidden>{{'kode'| translate | splitCharT }}</label>
+                                          </span>
+                                        </div>
+                                        <!-- <div class="ui-g-12 ui-md-10">
+                                          <label for="input">{{'frmPeriode_parent'| translate | splitCharT }}</label>
+                                          <p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" formControlName="kdPeriodeHead" [options]="listPeriodeHead"
+                                          [autoWidth]="false"></p-dropdown>
+                                        </div> -->
+                                        <div class="ui-g-12 ui-md-12">
+                                          <label>{{'frmPeriode_nama'| translate | splitCharT}}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('namaPeriode').valid && form.get('namaPeriode').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                          </label>
+                                          <input type="text" formControlName="namaPeriode" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)" pInputText/>
+                                        </div>
+                                        <div class="ui-g-12  ui-md-12">
+                                          <label>{{'frmPeriode_kelompokTransaksi'| translate | splitCharT }}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('kdKelompokTransaksi').valid && form.get('kdKelompokTransaksi').touched" style="color: red">
+                                              {{'required'| translate | splitCharT}}</span>
+                                            </label>
+                                            <p-dropdown [filter]="true" filterBy="label" formControlName="kdKelompokTransaksi" [options]="listKelompokTransaksi"
+                                            [autoWidth]="false" disabled (ngModelChange)="getKdKelompokT($event)"></p-dropdown>
+                                          </div>
+                                          <div class="ui-g-6 ui-md-12">
+                                            <label for="input">{{'frmPeriode_Periodetrigger' | translate | splitCharT }}</label>
+                                            <p-dropdown filter="filter" (ngModelChange)="getFromPeriode($event)" class="ui-inputwrapper-filled" formControlName="kdPeriodeTrigger"
+                                            [options]="listPeriode" [autoWidth]="false"></p-dropdown>
+                                          </div>
+                                          <div class="ui-g-12 ui-md-12" [hidden]=showNewField>
+                                              <label>{{'frmPegawaiSkHitungPayroll_jumlahHariTerbitSlipGaji'| translate | splitCharT }}
+                                                  <!-- <span style="color: red;font-weight: bolder;">*</span>
+                                                  <span *ngIf="!form.get('qtyHariSlipGiven').valid && form.get('qtyHariSlipGiven').touched" style="color: red;font-weight: bolder;">
+                                                  required</span> -->
+                                              </label>
+                                              <input id="input" type="number" formControlName="qtyHariSlipGiven" pInputText/>
+                                          </div>
+                                          <div class="ui-g-12 ui-md-12" [hidden]=showNewField>
+                                              <label>{{'frmPegawaiSkHitungPayroll_tanggalBayar'| translate | splitCharT }}
+                                                  <!-- <span style="color: red;font-weight: bolder;">*</span>
+                                                  <span *ngIf="!form.get('tglBayar').valid && form.get('tglBayar').touched" style="color: red;font-weight: bolder;"> required</span> -->
+                                              </label>
+                                              <p-dropdown formControlName="tglBayar" filter="filter" class="ui-inputwrapper-filled" [options]="tglBayar" [autoWidth]="false"></p-dropdown>
+                                          </div>
+                                          <div class="ui-g-12 ui-md-12" [hidden]=showNewField>
+                                              <label>{{'frmPegawaiSkHitungPayroll_tanggalBayarMax'| translate | splitCharT }}
+                                                  <!-- <span style="color: red;font-weight: bolder;">*</span>
+                                                  <span *ngIf="!form.get('tglBayarMax').valid && form.get('tglBayarMax').touched" style="color: red;font-weight: bolder;">
+                                                  required</span> -->
+                                              </label>
+                                              <p-dropdown formControlName="tglBayarMax" filter="filter" class="ui-inputwrapper-filled" [options]="tglBayarMax" [autoWidth]="false"></p-dropdown>
+                                          </div>
+                                          <div class="ui-g-6 ui-md-12">
+                                            <p-checkbox binary="true" label="{{'frmPeriode_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                                            <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+                                            <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+                                          </div>
+                                        </div>
+                                        
+                                        <div class="ui-g-12 ui-md-5">
+
+                                          <div class="ui-g-12">
+                                            <form [formGroup]="form">
+                                              <p-checkbox label="Generate Periode" binary="true" (onChange)="getGenerate($event)" formControlName="generate"></p-checkbox>
+                                            </form>
+                                          </div>
+                                          <p-blockUI [target]="generateSet" [blocked]="cekGenerate" [baseZIndex]=10 [autoZIndex]="false">
+                                            <i class="fa fa-lock fa-5x lock-grid"></i>
+                                          </p-blockUI>
+                                          <p-fieldset #generateSet>
+                                            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                              <div class="ui-g-12 ui-md-4">
+                                                <div class="ui-g-12  ui-md-12">
+                                                  <label>{{'frmPeriode_tanggalAwal'| translate | splitCharT}}
+                                                    <!-- <span style="color: red;font-weight: bolder;">*</span>
+                                                      <span *ngIf="!form.get('tglAwalPeriode').valid && form.get('tglAwalPeriode').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> -->
+                                                    </label>
+                                                    <app-calender [monthNavigator]="true" (onSelect)="changeAwal($event)" dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+                                                    formControlName="tglAwalPeriode" [showIcon]="true"></app-calender>
+                                                  </div>
+                                                  <div class="ui-g-12  ui-md-12">
+                                                    <label>{{'frmPeriode_tanggalAkhir'| translate | splitCharT}}
+                                                      <!-- <span style="color: red;font-weight: bolder;">*</span>
+                                                        <span *ngIf="!form.get('tglAkhirPeriode').valid && form.get('tglAkhirPeriode').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> -->
+                                                      </label>
+                                                      <app-calender [monthNavigator]="true" (onSelect)="changeAkhir($event)" dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+                                                      formControlName="tglAkhirPeriode"  [showIcon]="true"></app-calender>
+                                                    </div>
+                                                    <div class="ui-g-12 ui-md-12">
+                                                      <label>{{'frmPeriode_qtyHari'| translate | splitCharT}}
+                                                        <!-- <span style="color: red;font-weight: bolder;">*</span>
+                                                          <span *ngIf="!form.get('qtyHari').valid && form.get('qtyHari').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> -->
+                                                        </label>
+                                                        <input type="number" formControlName="qtyHari" readonly="true" pInputText/>
+                                                      </div>
+                                                    </div>
+                                                    <div class="ui-g-12 ui-md-4">
+                                                      <div class="ui-g-12 ui-md-12">
+                                                        <label>{{'frmPeriode_qtyMinggu'| translate | splitCharT}}</label>
+                                                        <input type="number" formControlName="qtyMinggu" readonly="true" pInputText/>
+                                                      </div>
+                                                      <div class="ui-g-12 ui-md-12">
+                                                        <label>{{'frmPeriode_qtyBulan'| translate | splitCharT}}</label>
+                                                        <input type="number" formControlName="qtyBulan" readonly="true" pInputText/>
+                                                      </div>
+                                                      <div class="ui-g-12 ui-md-12">
+                                                        <label>{{'frmPeriode_qtyTahun'| translate | splitCharT}}</label>
+                                                        <input type="number" formControlName="qtyTahun" readonly="true" pInputText/>
+                                                      </div>
+                                                    </div>
+                                                    <div class="ui-g-12 ui-md-4">
+                                                      <div class="ui-g-12  ui-md-12">
+                                                        <!-- <app-calender [monthNavigator]="true" dateFormat="dd/mm/yy" [yearNavigator]="true" yearRange="2000:2030" formControlName="tglCutOffAwal"
+                                                          [showIcon]="true" ></app-calender> -->
+                                                          <label>{{'frmPeriode_tanggalCutOffAwal'| translate | splitCharT}} </label>
+                                                          <input type="number" formControlName="tglCutOffAwal" pInputText/>
+                                                        </div>
+                                                        <div class="ui-g-12  ui-md-12">
+                                                          <!-- <app-calender [monthNavigator]="true" dateFormat="dd/mm/yy" [yearNavigator]="true" yearRange="2000:2030" formControlName="tglCutOffAkhir"
+                                                            [showIcon]="true" ></app-calender> -->
+                                                            <label>{{'frmPeriode_tanggalCutOffAkhir'| translate | splitCharT}}</label>
+                                                            <input type="number" formControlName="tglCutOffAkhir" pInputText/>
+                                                          </div>
+                                                        </div>
+                                                      </form>
+                                                    </p-fieldset>
+                                                  </div>
+                                                  
+                                                  <div class="ui-g-12 ui-md-3">
+                                                    <p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+                                                      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                                        <div class="ui-g-12 ui-md-10">
+                                                          <label for="input">{{'frmPeriode_reportDisplay'| translate | splitCharT }}
+                                                            <span style="color: red;font-weight: bolder;"></span>
+                                                            <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'required'| translate | splitCharT}}</span>
+                                                          </label>
+                                                          <input type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+                                                        </div>
+                                                        <div class="ui-g-12 ui-md-10">
+                                                          <label for="input">{{'frmPeriode_kodeExternal'| translate | splitCharT }}</label>
+                                                          <input type="text" formControlName="kodeExternal" pInputText/>
+                                                        </div>
+                                                        <div class="ui-g-12 ui-md-10">
+                                                          <label for="input">{{'frmPeriode_namaExternal'| translate | splitCharT }}</label>
+                                                          <input type="text" formControlName="namaExternal" pInputText/>
+                                                        </div>
+                                                      </form>
+                                                    </p-fieldset>
+                                                  </div>
+                                                </div>
+                                                
+                                                
+                                                
+                                                <div class="ui-g-12">
+                                                  <div class="ui-g-12 ui-md-7"></div>
+                                                  <div class="ui-g-12 ui-md-1">
+                                                    <button pButton type="button" label="{{'frmPeriode_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+                                                  </div>
+                                                  <div class="ui-g-12 ui-md-1">
+                                                    <button pButton type="button" label="{{'frmPeriode_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+                                                  </div>
+                                                  <div class="ui-g-12 ui-md-1">
+                                                    <button pButton type="button" label="{{'frmPeriode_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+                                                  </div>
+                                                  <div class="ui-g-12 ui-md-1">
+                                                    <button pButton type="button" label="{{'frmPeriode_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+                                                  </div>
+                                                  <div class="ui-g-12 ui-md-1">
+                                                    <p-splitButton label="{{'frmPeriode_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </form>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </p-tabPanel>
+                                  
+                                  <p-tabPanel *ngFor="let item of listTab" [header]="item.namaPeriode">
+                                    <div class="ui-fluid">
+                                      <div class="ui-g">
+                                        <div class="ui-g-12">
+                                          <div class="card card-w-title">
+                                            <h1>{{item.namaPeriode}}</h1>
+                                            <form [formGroup]="formChild" (ngSubmit)="onSubmitChild()">
+                                              <div class="ui-g form-group">
+                                                <div class="ui-g-12">
+                                                  <div class="ui-g-4">
+                                                    <div class="ui-g-12 ui-md-10" hidden>
+                                                      <span class="ui-float-label" hidden>
+                                                        <input type="text" hidden formControlName="kode" pInputText disabled/>
+                                                        <label for="input" hidden>{{'kode'| translate | splitCharT }}</label>
+                                                      </span>
+                                                    </div>
+                                                    <!-- <div class="ui-g-12 ui-md-10">
+                                                      <label for="input">{{'frmPeriode_parent'| translate | splitCharT }}</label>
+                                                      <p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" formControlName="kdPeriodeHead" [options]="listPeriodeHead"
+                                                      [autoWidth]="false"></p-dropdown>
+                                                    </div> -->
+                                                    <div class="ui-g-12 ui-md-10">
+                                                      <label>{{'frmPeriode_nama'| translate | splitCharT}}
+                                                        <span style="color: red;font-weight: bolder;">*</span>
+                                                        <span *ngIf="!formChild.get('namaPeriode').valid && formChild.get('namaPeriode').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                                      </label>
+                                                      <input type="text" formControlName="namaPeriode" disabled="true" [(ngModel)]="toReportChild" (ngModelChange)="valuechangeChild($event)"
+                                                      pInputText/>
+                                                    </div>
+                                                    <div class="ui-g-12  ui-md-10">
+                                                      <label>{{'frmPeriode_tanggalAwal'| translate | splitCharT}}</label>
+                                                      <app-calender [monthNavigator]="true" dateFormat="dd M yy" [yearNavigator]="true" disabled="true" yearRange="2000:2030" formControlName="tglAwalPeriode"
+                                                      [showIcon]="true"></app-calender>
+                                                    </div>
+                                                    <div class="ui-g-12  ui-md-10">
+                                                      <label>{{'frmPeriode_tanggalAkhir'| translate | splitCharT}}</label>
+                                                      <app-calender [monthNavigator]="true" dateFormat="dd M yy" [yearNavigator]="true" disabled="true" yearRange="2000:2030" formControlName="tglAkhirPeriode"
+                                                      [showIcon]="true"></app-calender>
+                                                    </div>
+                                                    <div class="ui-g-12  ui-md-10">
+                                                      <!-- <app-calender [monthNavigator]="true" dateFormat="dd/mm/yy" [yearNavigator]="true" yearRange="2000:2030" formControlName="tglCutOffAwal"
+                                                        [showIcon]="true" ></app-calender> -->
+                                                        <label>{{'frmPeriode_tanggalCutOffAwal'| translate | splitCharT}}</label>
+                                                        <input type="number" formControlName="tglCutOffAwal" disabled="true" pInputText/>
+                                                      </div>
+                                                      <div class="ui-g-12  ui-md-10">
+                                                        <!-- <app-calender [monthNavigator]="true" dateFormat="dd/mm/yy" [yearNavigator]="true" yearRange="2000:2030" formControlName="tglCutOffAkhir"
+                                                          [showIcon]="true" ></app-calender> -->
+                                                          <label>{{'frmPeriode_tanggalCutOffAkhir'| translate | splitCharT}}</label>
+                                                          <input type="number" formControlName="tglCutOffAkhir" disabled="true" pInputText/>
+                                                        </div>
+                                                        <div class="ui-g-12 ui-md-10">
+                                                            <label>{{'frmPegawaiSkHitungPayroll_jumlahHariTerbitSlipGaji'| translate | splitCharT }}
+                                                            </label>
+                                                            <input id="input" type="number" formControlName="qtyHariSlipGiven" pInputText disabled="true"/>
+                                                        </div>
+                                                      </div>
+                                                      
+                                                      <div class="ui-g-4">
+                                                        <div class="ui-g-12 ui-md-10">
+                                                            <label>{{'frmPegawaiSkHitungPayroll_tanggalBayar'| translate | splitCharT }}
+                                                            </label>
+                                                            <input id="input" type="number" formControlName="tglBayar" pInputText disabled="true"/>
+                                                            <!-- <p-dropdown formControlName="tglBayar" disabled="true" filter="filter" class="ui-inputwrapper-filled" [options]="tglBayar" [autoWidth]="false"></p-dropdown> -->
+                                                        </div>
+                                                        <div class="ui-g-12 ui-md-10">
+                                                            <label>{{'frmPegawaiSkHitungPayroll_tanggalBayarMax'| translate | splitCharT }}
+                                                            </label>
+                                                            <input id="input" type="number" formControlName="tglBayarMax" pInputText disabled="true"/>
+                                                            <!-- <p-dropdown formControlName="tglBayarMax" disabled="true" filter="filter" class="ui-inputwrapper-filled" [options]="tglBayarMax" [autoWidth]="false"></p-dropdown> -->
+                                                        </div>
+                                                        <div class="ui-g-12 ui-md-10">
+                                                          <label>{{'frmPeriode_qtyHari'| translate | splitCharT}}
+                                                            <!-- <span style="color: red;font-weight: bolder;">*</span>
+                                                              <span *ngIf="!formChild.get('qtyHari').valid && formChild.get('qtyHari').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> -->
+                                                            </label>
+                                                            <input type="number" formControlName="qtyHari" disabled="true" pInputText/>
+                                                          </div>
+                                                          <div class="ui-g-12 ui-md-10">
+                                                            <label>{{'frmPeriode_qtyMinggu'| translate | splitCharT}}</label>
+                                                            <input type="number" formControlName="qtyMinggu" disabled="true" pInputText/>
+                                                          </div>
+                                                          <div class="ui-g-12 ui-md-10">
+                                                            <label>{{'frmPeriode_qtyBulan'| translate | splitCharT}}</label>
+                                                            <input type="number" formControlName="qtyBulan" disabled="true" pInputText/>
+                                                          </div>
+                                                          <div class="ui-g-12 ui-md-10">
+                                                            <label>{{'frmPeriode_qtyTahun'| translate | splitCharT}}</label>
+                                                            <input type="number" formControlName="qtyTahun" disabled="true" pInputText/>
+                                                          </div>
+                                                          <div class="ui-g-12 ui-md-10">
+                                                            <p-checkbox binary="true" label="{{'frmPeriode_status'| translate | splitCharT }}" disabled="true" formControlName="statusEnabled"></p-checkbox>
+                                                            <span *ngIf="!formChild.get('statusEnabled').valid && formChild.get('statusEnabled').touched" style="color: red">*</span>
+                                                            <span *ngIf="!formChild.get('statusEnabled').valid && formChild.get('statusEnabled').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+                                                          </div>
+                                                        </div>
+                                                        
+                                                        <div class="ui-g-4">
+                                                          <p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+                                                            <form [formGroup]="formChild" (ngSubmit)="onSubmit()">
+                                                              <div class="ui-g-12 ui-md-10">
+                                                                <label for="input">{{'frmPeriode_reportDisplay'| translate | splitCharT }}
+                                                                  <span style="color: red;font-weight: bolder;"></span>
+                                                                  <span *ngIf="!formChild.get('reportDisplay').valid && formChild.get('reportDisplay').touched" style="color: red">* {{'required'| translate | splitCharT}}</span>
+                                                                </label>
+                                                                <input type="text" formControlName="reportDisplay" [(ngModel)]="reportChild" pInputText/>
+                                                              </div>
+                                                              <div class="ui-g-12 ui-md-10">
+                                                                <label for="input">{{'frmPeriode_kodeExternal'| translate | splitCharT }}</label>
+                                                                <input type="text" formControlName="kodeExternal" pInputText/>
+                                                              </div>
+                                                              <div class="ui-g-12 ui-md-10">
+                                                                <label for="input">{{'frmPeriode_namaExternal'| translate | splitCharT }}</label>
+                                                                <input type="text" formControlName="namaExternal" pInputText/>
+                                                              </div>
+                                                            </form>
+                                                          </p-fieldset>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </form>
+                                                  
+                                                  <div class="ui-g-12">
+                                                    <form [formGroup]="formChild" (ngSubmit)="onSubmitChild()">
+                                                      <div class="ui-g form-group">
+                                                        <div class="ui-g-12 ui-md-7"></div>
+                                                        <div class="ui-g-12 ui-md-1">
+                                                          <button pButton type="button" label="{{'frmPeriode_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+                                                        </div>
+                                                        <div class="ui-g-12 ui-md-1">
+                                                          <button pButton type="submit" label="{{'frmPeriode_btnSimpan'| translate | splitCharT}}" [disabled]="formAktif" icon="fa-save"></button>
+                                                        </div>
+                                                        <div class="ui-g-12 ui-md-1">
+                                                          <button pButton type="button" label="{{'frmPeriode_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDeleteChild()"></button>
+                                                        </div>
+                                                        <div class="ui-g-12 ui-md-1">
+                                                          <button pButton type="button" label="{{'frmPeriode_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetakChild()"></button>
+                                                        </div>
+                                                        <div class="ui-g-12 ui-md-1">
+                                                          <p-splitButton label="{{'frmPeriode_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="itemsChild"></p-splitButton>
+                                                        </div>
+                                                      </div>
+                                                    </form>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </p-tabPanel>
+                                      </p-tabView>
+                                      
+                                      <div class="ui-g-12" *ngIf="form.get('kdPeriodeHead').value == null">
+                                        <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+                                        [(selection)]="selected" scrollable="true" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="Loading"
+                                        loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)">
+                                        <p-header>
+                                          <div class="ui-helper-clearfix">
+                                            <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                            <input type="text" pInputText size="50" placeholder="{{'frmPeriode_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+                                            style="width: 20%;float:right;">
+                                            <span style="float: left;padding:0.3em;">{{'frmPeriode_tableTitle'| translate | splitCharT }}</span>
+                                          </div>
+                                        </p-header>
+                                        <!-- <p-column field="namaPeriodeHead" header="{{'frmPeriode_tableParent'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column> -->
+                                        <p-column field="namaPeriode" header="{{'frmPeriode_tableNama'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+                                        <p-column field="namaKelompokTransaksi" header="{{'frmPeriode_tableKelompoTransaksi'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+                                        <p-column field="namaPeriodeTrigger" header="{{'frmPeriode_tablePeriodetrigger'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+                                        <p-column field="tglBayar" header="{{'frmPegawaiSkHitungPayroll_tableTanggalBayar'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+                                        <p-column field="tglBayarMax" header="{{'frmPegawaiSkHitungPayroll_tableTanggalBayarMax'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+                                        <p-column field="qtyHariSlipGiven" header="{{'frmPegawaiSkHitungPayroll_tableQtyHariSlipGiven'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+                                        <p-column field="tglAwalPeriode" header="{{'frmPeriode_tableTanggalAwal'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                                          <ng-template let-pick="rowData" pTemplate type="body">
+                                            <span *ngIf="pick.tglAwalPeriode > null">{{pick.tglAwalPeriode * 1000 | date: 'dd MMM yyyy'}}</span>
+                                          </ng-template>
+                                        </p-column>
+                                        <p-column field="tglAkhirPeriode" header="{{'frmPeriode_tableTanggalAkhir'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                                          <ng-template let-pick="rowData" pTemplate type="body">
+                                            <span *ngIf="pick.tglAkhirPeriode > null">{{pick.tglAkhirPeriode * 1000 | date: 'dd MMM yyyy'}}</span>
+                                          </ng-template>
+                                        </p-column>
+                                        <p-column field="qtyHari" header="{{'frmPeriode_tableQtyHari'| translate | splitCharT}}" [style]="{'width':'70px'}">
+                                          <ng-template let-pick="rowData" pTemplate type="body">
+                                            <span *ngIf="pick.qtyHari == 0">-</span>
+                                            <span *ngIf="pick.qtyHari != 0">{{pick.qtyHari}}</span>
+                                          </ng-template>
+                                        </p-column>
+                                        <p-column field="qtyMinggu" header="{{'frmPeriode_tableQtyMinggu'| translate | splitCharT}}" [style]="{'width':'90px'}">
+                                          <ng-template let-pick="rowData" pTemplate type="body">
+                                            <span *ngIf="pick.qtyMinggu == null">-</span>
+                                            <span *ngIf="pick.qtyMinggu != null">{{pick.qtyMinggu}}</span>
+                                          </ng-template>
+                                        </p-column>
+                                        <p-column field="qtyBulan" header="{{'frmPeriode_tableQtyBulan'| translate | splitCharT}}" [style]="{'width':'70px'}">
+                                          <ng-template let-pick="rowData" pTemplate type="body">
+                                            <span *ngIf="pick.qtyBulan == null">-</span>
+                                            <span *ngIf="pick.qtyBulan != null">{{pick.qtyBulan}}</span>
+                                          </ng-template>
+                                        </p-column>
+                                        <p-column field="qtyTahun" header="{{'frmPeriode_tableQtyTahun'| translate | splitCharT}}" [style]="{'width':'70px'}">
+                                          <ng-template let-pick="rowData" pTemplate type="body">
+                                            <span *ngIf="pick.qtyTahun == null">-</span>
+                                            <span *ngIf="pick.qtyTahun != null">{{pick.qtyTahun}}</span>
+                                          </ng-template>
+                                        </p-column>
+                                        <p-column field="tglCutOffAwal" header="{{'frmPeriode_tableTanggalCutOffAwal'| translate | splitCharT}}" [style]="{'width':'150px'}"> </p-column>
+                                        <p-column field="tglCutOffAkhir" header="{{'frmPeriode_tableTanggalCutOffAkhir'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                        <p-column field="statusEnabled" header="{{'frmPeriode_tableStatus'| translate | splitCharT }}" [style]="{'width':'70px'}">
+                                          <ng-template let-col="rowData" pTemplate type="body">
+                                            {{col.statusEnabled | truefalse | translate | splitCharT }}
+                                        </ng-template> 
+                                        </p-column>
+                                        <ng-template let-detail pTemplate="rowexpansion">
+                                          <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                                            <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                              <div class="ui-grid-col-12">
+                                                <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                                  <div class="ui-grid-row">
+                                                    <div class="ui-grid-col-2 label">
+                                                      <span style="color:black">{{ 'frmPeriode_optional' | translate | splitCharT }}</span>
+                                                    </div>
+                                                  </div>
+                                                  <hr>
+                                                  <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmPeriode_tableReportDisplay'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+                                                  </div>
+                                                  <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmPeriode_tableKodeExternal' | translate | splitCharT}} </div>
+                                                    <div class="ui-grid-col-4">{{detail.kodeExternal}}</div>
+                                                  </div>
+                                                  <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmPeriode_tableNamaExternal'| translate | splitCharT}} </div>
+                                                    <div class="ui-grid-col-4">{{detail.namaExternal}}</div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </ng-template>
+                                      </p-dataTable>
+                                    </div>
+                                    
+                                    <div class="ui-g-12" *ngIf="form.get('kdPeriodeHead').value != null">
+                                      <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+                                      [(selection)]="selected" scrollable="true" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="Loading"
+                                      loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)">
+                                      <p-header>
+                                        <div class="ui-helper-clearfix">
+                                          <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                          <input type="text" pInputText size="50" placeholder="{{'frmPeriode_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+                                          style="width: 20%;float:right;">
+                                          <span style="float: left;padding:0.3em;">{{'frmPeriode_tableTitle'| translate | splitCharT }}</span>
+                                        </div>
+                                      </p-header>
+                                      <!-- <p-column field="namaPeriodeHead" header="{{'frmPeriode_tableParent'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column> -->
+                                      <p-column field="namaPeriode" header="{{'frmPeriode_tableNama'| translate | splitCharT}}" [style]="{'width':'250px'}"></p-column>
+                                      <p-column field="tglAwalPeriode" header="{{'frmPeriode_tableTanggalAwal'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                                        <ng-template let-pick="rowData" pTemplate type="body">
+                                          <span *ngIf="pick.tglAwalPeriode > null">{{pick.tglAwalPeriode * 1000 | date: 'dd MMM yyyy'}}</span>
+                                        </ng-template>
+                                      </p-column>
+                                      <p-column field="tglAkhirPeriode" header="{{'frmPeriode_tableTanggalAkhir'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                                        <ng-template let-pick="rowData" pTemplate type="body">
+                                          <span *ngIf="pick.tglAkhirPeriode > null">{{pick.tglAkhirPeriode * 1000 | date: 'dd MMM yyyy'}}</span>
+                                        </ng-template>
+                                      </p-column>
+                                      <p-column field="qtyHari" header="{{'frmPeriode_tableQtyHari'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                                        <ng-template let-pick="rowData" pTemplate type="body">
+                                          <span *ngIf="pick.qtyHari == null">-</span>
+                                          <span *ngIf="pick.qtyHari != null">{{pick.qtyHari}}</span>
+                                        </ng-template>
+                                      </p-column>
+                                      <p-column field="qtyMinggu" header="{{'frmPeriode_tableQtyMinggu'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                                        <ng-template let-pick="rowData" pTemplate type="body">
+                                          <span *ngIf="pick.qtyMinggu == null">-</span>
+                                          <span *ngIf="pick.qtyMinggu != null">{{pick.qtyMinggu}}</span>
+                                        </ng-template>
+                                      </p-column>
+                                      <p-column field="qtyBulan" header="{{'frmPeriode_tableQtyBulan'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                                        <ng-template let-pick="rowData" pTemplate type="body">
+                                          <span *ngIf="pick.qtyBulan == null">-</span>
+                                          <span *ngIf="pick.qtyBulan != null">{{pick.qtyBulan}}</span>
+                                        </ng-template>
+                                      </p-column>
+                                      <p-column field="qtyTahun" header="{{'frmPeriode_tableQtyTahun'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                                        <ng-template let-pick="rowData" pTemplate type="body">
+                                          <span *ngIf="pick.qtyTahun == null">-</span>
+                                          <span *ngIf="pick.qtyTahun != null">{{pick.qtyTahun}}</span>
+                                        </ng-template>
+                                      </p-column>
+                                      <p-column field="tglBayar" header="{{'frmPegawaiSkHitungPayroll_tableTanggalBayar'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+                                      <p-column field="tglBayarMax" header="{{'frmPegawaiSkHitungPayroll_tableTanggalBayarMax'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+                                      <p-column field="qtyHariSlipGiven" header="{{'frmPegawaiSkHitungPayroll_tableQtyHariSlipGiven'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+                                      <p-column field="tglCutOffAwal" header="{{'frmPeriode_tableTanggalCutOffAwal'| translate | splitCharT}}" [style]="{'width':'150px'}"> </p-column>
+                                      <p-column field="tglCutOffAkhir" header="{{'frmPeriode_tableTanggalCutOffAkhir'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                      <p-column field="statusEnabled" header="{{'frmPeriode_tableStatus'| translate | splitCharT }}" [style]="{'width':'70px'}">
+                                        <ng-template let-col="rowData" pTemplate type="body">
+                                          {{col.statusEnabled | truefalse | translate | splitCharT }}
+                                      </ng-template> 
+                                      </p-column>
+                                      <ng-template let-detail pTemplate="rowexpansion">
+                                        <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                                          <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                            <div class="ui-grid-col-12">
+                                              <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                                <div class="ui-grid-row">
+                                                  <div class="ui-grid-col-2 label">
+                                                    <span style="color:black">{{ 'frmPeriode_optional' | translate | splitCharT }}</span>
+                                                  </div>
+                                                </div>
+                                                <hr>
+                                                <div class="ui-grid-row">
+                                                  <div class="ui-grid label">{{'frmPeriode_tableReportDisplay'| translate | splitCharT }} </div>
+                                                  <div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                  <div class="ui-grid label">{{'frmPeriode_tableKodeExternal' | translate | splitCharT}} </div>
+                                                  <div class="ui-grid-col-4">{{detail.kodeExternal}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                  <div class="ui-grid label">{{'frmPeriode_tableNamaExternal'| translate | splitCharT}} </div>
+                                                  <div class="ui-grid-col-4">{{detail.namaExternal}}</div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </ng-template>
+                                    </p-dataTable>
+                                  </div>
+                                  <div class="ui-g-1 ui-md-offset-11" *ngIf="form.get('kdPeriodeHead').value != null">
+                                    <button pButton label="{{'frmPeriode_ubah'| translate | splitCharT}}" (click)="ubahTanggal()" [disabled]="buttonubah"> </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </p-tabPanel>
+                        
+                        
+                        <p-tabPanel header=" {{'frmPeriode_MapPeriodetoAgama'| translate | splitCharT }}">
+                          <div class="ui-fluid">
+                            <div class="ui-g">
+                              <div class="ui-g-12">
+                                <div class="card card-w-title">
+                                  <h1>{{'frmPeriode_titleMap'| translate | splitCharT}}</h1>
+                                  <form [formGroup]="formMap" (ngSubmit)="onSubmitMap()">
+                                    <div class="ui-g form-group">
+                                      <div class="ui-g-6">
+                                        <div class="ui-g-6 ui-md-8">
+                                          <label for="input">{{'frmPeriode_PeriodeToAgama' | translate | splitCharT }}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!formMap.get('kdPeriodeHead').valid && formMap.get('kdPeriodeHead').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                          </label>
+                                          <p-dropdown (ngModelChange)="clearPanelBawah($event)" filter="filter" class="ui-inputwrapper-filled" [(ngModel)]="kdPeriodeHead"
+                                          formControlName="kdPeriodeHead" [options]="listPeriodeHead" [autoWidth]="false"></p-dropdown>
+                                        </div>
+                                      </div>
+                                      <div class="ui-g-12">
+                                        <p-blockUI [target]="pnl" [blocked]="hasilCek" [baseZIndex]=10 [autoZIndex]="false">
+                                          <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+                                        </p-blockUI>
+                                        <p-fieldset #pnl>
+                                          <div *ngFor="let data of listDataAgama; let i = index" class="ui-g-3">
+                                            <p-checkbox (change)="onChange()" value={{data.id_kode}} label="{{data.namaAgama}}" [(ngModel)]="pilihan" [ngModelOptions]="{standalone: true}" inputId="{{i}}"></p-checkbox>
+                                          </div>
+                                        </p-fieldset>
+                                      </div>
+                                      <div class="ui-g-6 ui-md-10">
+                                        <div class="checkbox_cont">
+                                          <div class="checkbox ">
+                                            <p-checkbox [(ngModel)]="pilihSemua" [ngModelOptions]="{standalone: true}" [disabled]="hasilCek" (click)="selectAll()" label="{{'frmMapPeriodeKeAgama_pilihSemua'| translate | splitCharT}}"
+                                            binary="true"></p-checkbox>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="ui-g-12">
+                                        <form [formGroup]="formMap" (ngSubmit)="onSubmitMap()">
+                                          <div class="ui-g-12 ui-md-8"></div>
+                                          <div class="ui-g-12 ui-md-8"></div>
+                                          <div class="ui-g-12 ui-md-8"></div>
+                                          <div class="ui-g-12 ui-md-2"></div>
+                                          <div class="ui-g-12 ui-md-2">
+                                            <button pButton type="submit" label="{{'frmMapPeriodeKeAgama_simpan'| translate | splitCharT}}" icon="fa-save"></button>
+                                          </div>
+                                        </form>
+                                      </div>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </p-tabPanel>
+                        
+                        
+                        
+                        
+                      </p-tabView>
+                    </div>
+                  </div>
+                </div>
+              </div>

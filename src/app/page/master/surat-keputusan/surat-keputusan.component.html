@@ -1,0 +1,149 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<h1>{{'frmSuratKeputusan_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+					<form [formGroup]="form">
+						<div class="ui-g-12 ui-md-4">
+							<div class="ui-g-12">
+								<label>{{'frmSuratKeputusan_noSk'| translate | splitCharT }}</label>
+								<input pInputText id="noSk" formControlName="noSk" readonly="" />
+							</div>
+							<div class="ui-g-12">
+								<label>{{'frmSuratKeputusan_namaSK'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'frmSuratKeputusan_required'| translate | splitCharT}}</span>
+								</label>
+								<input pInputText id="input" formControlName="namaSk" (keyup)="setNamaDokumen()" />
+							</div>
+							<div class="ui-g-12">
+								<label>{{'frmSuratKeputusan_jenisKeputusan'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!form.get('kdJenisKeputusan').valid && form.get('kdJenisKeputusan').touched" style="color: red"> {{'frmSuratKeputusan_required'| translate | splitCharT}}</span>
+								</label>
+								<p-dropdown [filter]="true" filterBy="label" id="jenisKeputusan" formControlName="kdJenisKeputusan" [options]="listJenisKeputusan"
+								 [autoWidth]="false"></p-dropdown>
+							</div>
+							<div class="ui-g-12">
+								<label>{{'frmSuratKeputusan_tanggalAwalBerlakuSK'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!form.get('tanggalAwalBerlakuSK').valid && form.get('tanggalAwalBerlakuSK').touched" style="color: red"> {{'frmSuratKeputusan_required'| translate | splitCharT}}</span>
+								</label>
+								<app-calender id="tanggalAwalBerlakuSK" formControlName="tanggalAwalBerlakuSK" [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true"
+								 yearRange="1850:2050"  dateFormat="dd M yy" (onSelect)="setMinDate($event)"></app-calender>
+							</div>
+							<div class="ui-g-12">
+								<label>{{'frmSuratKeputusan_tanggalAkhirBerlakuSk'| translate | splitCharT }}</label>
+								<app-calender id="tanggalAkhirBerlakuSk" formControlName="tanggalAkhirBerlakuSk" [showIcon]="true" [monthNavigator]="true"
+								 [yearNavigator]="true" yearRange="1850:2050"  dateFormat="dd M yy" [minDate]="minDate"></app-calender>
+							</div>
+						</div>
+						<div class="ui-g-12 ui-md-4">
+							<div class="ui-g-12">
+								<label>{{'frmSuratKeputusan_kelompokTransaksi'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!form.get('kdKelompokTransaksi').valid && form.get('kdKelompokTransaksi').touched" style="color: red"> {{'frmSuratKeputusan_required'| translate | splitCharT}}</span>
+								</label>
+								<p-dropdown [filter]="true" formControlName="kdKelompokTransaksi" [options]="listKelompokTransaksi"
+								 [autoWidth]="false" (onChange)="getNoSKIntern($event)" ></p-dropdown>
+							</div>
+							<div class="ui-g-12">
+								<label>{{'frmSuratKeputusan_pegawaiTandaTanganSk'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!form.get('pegawai').valid && form.get('pegawai').touched" style="color: red"> {{'frmSuratKeputusan_required'| translate | splitCharT}}</span>
+								</label>
+								<p-dropdown [filter]="true" filterBy="label" id="pegawaiTandaTanganSk" formControlName="pegawai" [options]="pegawai" [autoWidth]="false"></p-dropdown>
+							</div>
+							<div class="ui-g-12">
+								<label>{{'frmSuratKeputusan_ruangan'| translate | splitCharT }}</label>
+								<input pInputText id="ruangan" formControlName="ruangan" disabled="true" />
+							</div>
+							<div class="ui-g-12" *ngIf="valueKelompok == '1' ">
+								<p-fieldset>
+									<div class="ui-g-12 ui-md-12">
+										<p-checkbox binary="true" (onChange)="changeOtomatis($event)" formControlName="otomatis" label=" {{'frmSuratKeputusan_nomorSKOtomatis'| translate | splitCharT}}"></p-checkbox>
+										<span *ngIf="skInternLastCek== true">
+											<br>
+											<label>No SK Intern Terakhir</label>
+											{{skInternLast}}
+										</span>
+									</div>
+									<div class="ui-g-12  ui-md-12">
+										<label>{{'frmSuratKeputusan_noSKIntern'| translate | splitCharT }}</label>
+										<input pInputText id="noSKIntern" formControlName="noSKIntern" />
+									</div>
+								</p-fieldset>
+							</div>
+						</div>
+
+						<div class="ui-g-12 ui-md-4">
+							<div class="ui-g-12">
+								<label>{{'frmSuratKeputusan_namaDokumen'| translate | splitCharT }}</label>
+								<input pInputText id="namaDokumen" formControlName="namaDokumen" />
+							</div>
+							<div class="ui-g-12">
+								<label>{{'frmSuratKeputusan_uploadFile'| translate | splitCharT}}</label>
+								<p-fileUpload mode="basic" name="file" (onUpload)="fileUpload($event)" accept=".pdf,.doc,.docx" (onBeforeSend)="addHeader($event)"
+								 [url]="urlUpload()" maxFileSize="1000000000" chooseLabel="Pilih File" #fubauto auto="true"></p-fileUpload>
+							</div>
+						</div>
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-10"></div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton [disabled]='kunci' type="submit" label="{{'frmSuratKeputusan_btnSimpan'| translate | splitCharT }}" icon="fa-save" (click)="onSubmit()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmSuratKeputusan_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+							</div>
+
+						</div>
+					</form>
+					<div class="ui-g-12">
+						<p-dataTable [value]="daftarHistoriUmk" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [totalRecords]="totalRecords"
+						 (onLazyLoad)="loadPage($event)" [lazy]="true" scrollable="true" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<span style="float: left;padding:0.3em;">{{'frmSuratKeputusan_tableDaftarMasterSuratKeputusan'| translate | splitCharT }}</span>
+								</div>
+							</p-header>
+							<!-- <p-column field="noSk" header="{{'frmSuratKeputusan_tableNoSk'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column> -->
+							<p-column field="noSKIntern" header="{{'frmSuratKeputusan_tableNoSKIntern'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="namaSk" header="{{'frmSuratKeputusan_tableNamaSk'| translate | splitCharT}}" [filter]="true" [style]="{'width':'250px'}">
+								<ng-template pTemplate="filter" let-col>
+									<input type="text" pInputText [(ngModel)]="pencarian" (keyup)="cari()" placeholder="Cari Nama SK">
+								</ng-template>
+							</p-column>
+							<p-column field="tglBerlakuAwal" header="{{'frmSuratKeputusan_tableTanggalAwalBerlakuSK'| translate | splitCharT}}" [style]="{'width':'200px'}">
+								<ng-template pTemplate="body" let-sk="rowData">
+									{{sk.tglBerlakuAwal * 1000 | date:'dd MMM yyyy'}}
+								</ng-template>
+							</p-column>
+							<p-column field="tglBerlakuAkhir" header="{{'frmSuratKeputusan_tableTanggalAkhirBerlakuSk'| translate | splitCharT}}" [style]="{'width':'200px'}">
+								<ng-template pTemplate="body" let-sk="rowData">
+									<div *ngIf="sk.tglBerlakuAkhir !== null">
+										{{sk.tglBerlakuAkhir * 1000 | date:'dd MMM yyyy'}}
+									</div>
+									<div *ngIf="sk.tglBerlakuAkhir == null">
+										-
+									</div>
+								</ng-template>
+							</p-column>
+							<p-column field="namaPegawai" header="{{'frmSuratKeputusan_tablePegawai'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="namaKelompokTransaksi" header="{{'frmSuratKeputusan_tableKelompokTransaksi'| translate | splitCharT}}" [filter]="true"
+							 [style]="{'width':'250px'}">
+								<ng-template pTemplate="filter" let-col>
+									<p-dropdown [filter]="true" filterBy="label" [options]="listKelompokTransaksi" [(ngModel)]="kelompokTransaksi" [style]="{'width':'100%'}"
+									 (onChange)="cariGridKelompokTransaksi()" styleClass="ui-column-filter" appendTo="body"></p-dropdown>
+								</ng-template>
+							</p-column>
+							<p-column field="namaJenisKeputusan" header="{{'frmSuratKeputusan_tableJenisKeputusan'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="pathFile" header="{{'frmSuratKeputusan_tableNamaFile'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

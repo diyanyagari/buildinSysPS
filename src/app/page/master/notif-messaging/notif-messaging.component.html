@@ -1,0 +1,115 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<form [formGroup]="form" (ngSubmit)="onSubmit()">
+					<h1>{{'masterMessaging' | translate | splitCharT }}</h1>
+					<div class="ui-g form-group">
+						<div class="ui-g-12">
+							<div class="ui-g-6">
+								<div class="ui-g-12 ui-md-10" hidden>
+									<input hidden type="text" pTooltip="kode" tooltipPosition="top" placeholder="kode" formControlName="kode" pInputText readonly="true" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'parentMessaging'| translate | splitCharT }}</label>
+									<p-dropdown  filter="filter" filterBy="label" [options]="listNotifMessagingHead" [autoWidth]="false" formControlName="kdNotifMessagingHead"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'objekModulAplikasi'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdObjekModulAplikasi').valid && form.get('kdObjekModulAplikasi').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown  filter="filter" filterBy="label" [options]="listObjekModulAplikasi" [autoWidth]="false" formControlName="kdObjekModulAplikasi"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'namaMessaging'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('namaMessaging').valid && form.get('namaMessaging').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+									</label>
+									<textarea  id="input" type="text" formControlName="namaMessaging" (keyup)="setReportDisplay()" maxlength="150" rows="2" cols="75"></textarea>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'deskripsiDetailMessaging'| translate | splitCharT }}
+									</label>
+									<textarea id="input" type="text" formControlName="deskripsiDetailMessaging" maxlength="300" rows="2" cols="75"></textarea>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<p-checkbox binary="true" label="{{'statusEnabled'| translate | splitCharT}}" formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+								</div>
+							</div>
+							<div class="ui-g-6">
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'keteranganLainnya'| translate | splitCharT }}
+									</label>
+									<textarea id="input" type="text" formControlName="keteranganLainnya"  maxlength="150" rows="2" cols="75"></textarea>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'qtyHariBefore'| translate | splitCharT }}
+									</label>
+									<input id="input" type="number" formControlName="qtyHariBefore" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'qtyHariFreq'| translate | splitCharT }}
+									</label>
+									<input id="input" type="number" formControlName="qtyHariFreq" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'qtyMessaging'| translate | splitCharT }}
+									</label>
+									<input id="input" type="number" formControlName="qtyMessaging" pInputText/>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<div class="ui-g-12">
+					<div class="ui-g-12 ui-md-7"></div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'batal' | translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="submit" label="{{'simpan' | translate | splitCharT }}" icon="fa-save" (click)="onSubmit()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'hapus' | translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'cetak' | translate | splitCharT }}" icon="fa-print"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'export' | translate | splitCharT }}" icon="fa-external-link"></button>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-fluid">
+					<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" (onRowSelect)="onRowSelect($event)" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyRoad)="loadPage($event)" scrollable="true">
+						<p-header>
+							<div class="ui-helper-clearfix">
+								<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+								<input type="text" pInputText size="50" placeholder="{{'pencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+								style="width: 20%;float:right;">
+								<span style="float: left;padding:0.3em;">{{'masterMessaging'| translate | splitCharT}}</span>
+							</div>
+						</p-header>
+						<p-column field="namaMessagingHead" header="{{'parentMessaging'| translate | splitCharT}}"></p-column>
+						<p-column field="namaObjekModulAplikasi" header="{{'Objek Modul Aplikasi'| translate | splitCharT}}"></p-column>
+						<p-column field="namaMessaging" header="{{'Messaging'| translate | splitCharT}}"></p-column>
+						<p-column field="deskripsiDetailMessaging" header="{{'Deskripsi Detail Messaging'| translate | splitCharT}}"></p-column>
+						<p-column field="keteranganLainnya" header="{{'Keterangan Lainnya'| translate | splitCharT}}"></p-column>
+						<p-column field="qtyHariBefore" header="{{'qtyHariBefore'| translate | splitCharT}}"></p-column>
+						<p-column field="qtyHariFreq" header="{{'qtyHariFreq'| translate | splitCharT}}"></p-column>
+						<p-column field="qtyMessaging" header="{{'qtyMessaging'| translate | splitCharT}}"></p-column>
+						<p-column field="statusEnabled" header="{{'statusEnabled'| translate | splitCharT}}">
+							<ng-template let-col="rowData" pTemplate type="body">
+								{{col.statusEnabled | truefalse | translate | splitCharT }}
+							</ng-template> 
+						</p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

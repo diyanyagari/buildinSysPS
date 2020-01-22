@@ -1,0 +1,229 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{ 'frmMasterRuanganUnitKerja_title' | translate | splitCharT  }}</h1>
+				<div class="ui-g form-group">
+					<form [formGroup]="form">
+						<div class="ui-g form-group">
+							<div class="ui-g-8">
+								<div class="ui-g-12 ui-md-11" hidden>
+									<span class="ui-float-label" hidden>
+										<input id="input" hidden type="text" formControlName="kode" pInputText disabled/>
+										<label for="input" hidden> {{'frmMasterRuanganUnitKerja_kodeRuangan'| translate | splitCharT }}</label>
+									</span>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label for="input">{{'frmMasterRuanganUnitKerja_departemen'| translate | splitCharT }}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span *ngIf="!form.get('kdDepartemen').valid && form.get('kdDepartemen').touched" style="color: red">{{'frmMasterRuanganUnitKerja_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="departemen" class="ui-inputwrapper-filled" [options]="listDepartemen" filter="filter" formControlName="kdDepartemen"
+									[autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label for="input">{{'frmMasterRuanganUnitKerja_lokasiKerja'| translate | splitCharT }}								
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdRuanganHead').valid && form.get('kdRuanganHead').touched" style="color: red">{{'frmMasterRuanganUnitKerja_required'| translate | splitCharT}}</span>			  
+									</label>
+									<p-dropdown id="dropdownLokasiKerja" filter="filter" class="ui-inputwrapper-filled" [options]="DetailLokasiKerjaData" formControlName="kdRuanganHead"
+									[autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-4" style="width: 26%;">
+									<label for="input">{{'frmMasterRuanganUnitKerja_namaUnitKerja'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('namaRuangan').valid && form.get('namaRuangan').touched" style="color: red"> {{'frmMasterRuanganUnitKerja_required'| translate | splitCharT}}</span>
+									</label>
+									<input id="input" type="text" formControlName="namaRuangan" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)"
+									 pInputText />
+                </div>
+                <div class="ui-g-12 ui-md-3" style="width: 24%;">
+									<label for="input">{{'frmMasterRuanganUnitKerja_lokasiRuangan'| translate | splitCharT }}
+									</label>
+									<input id="input" type="text" formControlName="lokasiRuangan"pInputText />
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                    <label for="input">{{'frmMasterRuanganUnitKerja_noRuangan'| translate | splitCharT }}</label>
+                    <input id="input" type="text" formControlName="noRuangan" pInputText />
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input">{{'frmMasterRuanganUnitKerja_pegawaiKepala'| translate | splitCharT }}</label>
+                      <p-dropdown id="dropdownPegawaiKepala" filter="filter" class="ui-inputwrapper-filled" [options]="PegawaiKepala" formControlName="kdPegawaiKepala"
+                       [autoWidth]="false"></p-dropdown>
+                  </div>
+								
+							
+
+				<!-- <div class="ui-g-4"> -->
+                <div class="ui-g-12 ui-md-5">
+                    <label for="input">{{'frmMasterRuanganUnitKerja_Alamat'| translate | splitCharT }}</label>
+                    <p-dropdown id="jenisAlamat" class="ui-inputwrapper-filled" [options]="jenisAlamat" filter="filter" formControlName="kdAlamat"
+                     [autoWidth]="false"></p-dropdown>
+                </div>
+                <!-- <div class="ui-g-12 ui-md-11">
+                    <label for="input">{{'Alamat'| translate | splitCharT }}</label>
+                    <p-dropdown id="jenisAlamat" class="ui-inputwrapper-filled" [options]="jenisAlamat" filter="filter" formControlName="kdAlamat"
+                     [autoWidth]="false"></p-dropdown>
+                </div> -->
+				<div class="ui-g-12 ui-md-3">
+					<label for="input">{{'frmMasterRuanganUnitKerja_nomorCounter'| translate | splitCharT }}</label>
+					<input id="input" type="number" formControlName="nomorCounter" pInputText />
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label for="input">{{'frmMasterRuanganUnitKerja_prefixNomorAntrian'| translate | splitCharT }}</label>
+                    <input id="input" type="text" formControlName="prefixNomorAntrian" pInputText />
+                  </div>
+                <div class="ui-g-12 ui-md-1">
+                    <label for="input">{{'frmMasterRuanganUnitKerja_jamBuka'| translate | splitCharT }}      
+                    </label>
+                    <p-inputMask mask="99:99" formControlName="jamBuka"></p-inputMask>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                    <label for="input">{{'frmMasterRuanganUnitKerja_jamTutup'| translate | splitCharT }}      
+                    </label>
+                    <p-inputMask mask="99:99" formControlName="jamTutup"></p-inputMask>
+                </div>
+                <div class="ui-g-12 ui-md-2" style="width: 12%;">
+                    <label for="input">{{'frmMasterRuanganUnitKerja_jumlahPasienMax'| translate | splitCharT }}</label>
+                    <input id="input" type="number" formControlName="jumlahPasienMax" pInputText />
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<label>{{'frmMasterRuanganUnitKerja_byRuangan' | translate | splitCharT }}</label>
+					<br>
+							<p-checkbox binary="true" formControlName="statusRuangan"></p-checkbox>
+							<!-- <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+							<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'frmMasterRuanganUnitKerja_required'| translate | splitCharT}}</span> -->
+				</div>
+				<div class="ui-g-12 ui-md-2" style="margin-left: 15px;">
+				<label>{{'frmMasterRuanganUnitKerja_statusEnabled' | translate | splitCharT }}</label>
+				<br>
+						<p-checkbox binary="true" formControlName="statusEnabled"></p-checkbox>
+						<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+						<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'frmMasterRuanganUnitKerja_required'| translate | splitCharT}}</span>
+					</div>
+					
+                </div>
+
+								<!-- <div class="ui-g-12 ui-md-11">
+									<p-checkbox binary="true" label="{{'statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+								</div> -->
+							<!-- </div> -->
+
+							<div class="ui-g-4">
+								<p-fieldset legend="{{'frmMasterRuanganUnitKerja_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+									<form [formGroup]="form" (ngSubmit)="onSubmit()">
+										<div class="ui-g-12 ui-md-11">
+											<label for="input">{{'frmMasterRuanganUnitKerja_reportDisplay'| translate | splitCharT }}
+												<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">*</span>
+												<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red"> {{'frmMasterRuanganUnitKerja_required'| translate | splitCharT}}</span>
+											</label>
+											<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" (keyup)="setReportDisplay()" pInputText
+											/>
+										</div>
+										<div class="ui-g-12 ui-md-11">
+											<label for="input">{{'frmMasterRuanganUnitKerja_kodeExternal'| translate | splitCharT }}</label>
+											<input type="text" formControlName="kodeExternal" pInputText />
+										</div>
+										<div class="ui-g-12 ui-md-11">
+											<label for="input">{{'frmMasterRuanganUnitKerja_namaExternal'| translate | splitCharT }}</label>
+											<input type="text" formControlName="namaExternal" pInputText />
+										</div>
+									</form>
+								</p-fieldset>
+							</div>
+
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmMasterRuanganUnitKerja_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmMasterRuanganUnitKerja_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmMasterRuanganUnitKerja_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmMasterRuanganUnitKerja_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmMasterRuanganUnitKerja_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<div class="ui-g-12 ui-fluid">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+						 [(selection)]="selected" scrollable="true" (onRowSelect)="onRowSelect($event)" [lazy]="true"
+						 [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50" placeholder="{{'frmMasterRuanganUnitKerja_pencarianNamaUnitKerja'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+									 style="width: 20%;float:right;">
+									<span style="float: left;padding:0.3em;">{{'frmMasterRuanganUnitKerja_daftarMasterUnitKerja'| translate | splitCharT}}</span>
+								</div>
+              </p-header>
+              
+							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+							<p-column field="namaDepartemen" header="{{'frmMasterRuanganUnitKerja_tblDepartemen'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+							<p-column field="namaRuanganHead" header="{{'frmMasterRuanganUnitKerja_tblNamalokasiKerja'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="namaRuangan" header="{{'frmMasterRuanganUnitKerja_tblNamaUnitKerja'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="lokasiRuangan" header="{{'frmMasterRuanganUnitKerja_tblLokasiUnitKerja'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="noRuangan" header="{{'frmMasterRuanganUnitKerja_tblNoUnitKerja'| translate | splitCharT }}" [style]="{'width':'90px'}"></p-column>
+							<p-column field="namaPegawaiKepala" header="{{'frmMasterRuanganUnitKerja_tblPegawaiKepala'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="fullAlamat" header="{{'frmMasterRuanganUnitKerja_tblAlamat'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="noCounter" header="{{'frmMasterRuanganUnitKerja_tblNoCounter'| translate | splitCharT }}" [style]="{'width':'90px'}"></p-column>
+              <p-column field="prefixNoAntrian" header="{{'frmMasterRuanganUnitKerja_tblPrefixNoAntrian'| translate | splitCharT }}" [style]="{'width':'90px'}"></p-column>
+              <p-column field="jamBuka" header="{{'frmMasterRuanganUnitKerja_tblJamBuka'| translate | splitCharT }}" [style]="{'width':'90px'}"></p-column>
+              <p-column field="jamTutup" header="{{'frmMasterRuanganUnitKerja_tblJamTutup'| translate | splitCharT }}" [style]="{'width':'90px'}"></p-column>
+              <p-column field="qtyPasienMax" header="{{'frmMasterRuanganUnitKerja_tblQtyPasienMax'| translate | splitCharT }}" [style]="{'width':'90px'}"></p-column>
+              <p-column field="statusEnabled" header="{{'frmMasterRuanganUnitKerja_tblStatusEnabled'| translate | splitCharT }}" [style]="{'width':'150px'}">
+                  <ng-template let-col="rowData" pTemplate type="body">
+                    {{col.statusEnabled | truefalse | translate | splitCharT }}
+                  </ng-template> 
+			  </p-column>
+			  <p-column field="isAntrianByRuangan" header="{{'frmMasterRuanganUnitKerja_tblStatusRuangan'| translate | splitCharT }}" [style]="{'width':'150px'}">
+				<ng-template let-col="rowData" pTemplate type="body">
+				  {{col.isAntrianByRuangan | truefalse | translate | splitCharT }}
+				</ng-template> 
+			</p-column>
+							<ng-template let-ruangan pTemplate="rowexpansion">
+								<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+										<div class="ui-grid-col-12">
+											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+												<div class="ui-grid-row">
+													<div class="ui-grid-col-2 label">
+														<span style="color:black">{{ 'frmMasterRuanganUnitKerja_optional' | translate | splitCharT }}</span>
+													</div>
+												</div>
+												<hr>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmMasterRuanganUnitKerja_tblReportDisplay'| translate | splitCharT }} </div>
+													<div class="ui-grid-col-4"> {{ruangan.reportDisplay}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmMasterRuanganUnitKerja_tblKodeExternal' | translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{ruangan.kodeExternal}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmMasterRuanganUnitKerja_tblNamaExternal'| translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{ruangan.namaExternal}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

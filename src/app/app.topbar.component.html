@@ -1,0 +1,229 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="topbar clearfix">       
+   <a style="cursor: pointer;" id="menu-button" (click)="app.onMenuButtonClick($event,0)">
+        <span class="fa fa-angle-left"></span>
+    </a>
+    <a class="morpheus-logo-link" href="#">
+        <!-- <img src="assets/layout/images/morpheus-logo-{{app.theme}}.svg" class="morpheus-logo" /> -->
+        <img src="assets/layout/images/logo-bottis.png" class="morpheus-logo" />
+        <span class="morpheus-logo-text">
+            bottis
+        </span>
+    </a>
+    <a id="topbar-menu-button" href="#" (click)="app.onTopbarMenuButtonClick($event)">
+        <i class="fa fa-bars"></i>
+    </a>
+    <ul id="tinggiTopBar" class="topbar-menu fadeInDown" [ngClass]="{'topbar-menu-visible': app.topbarMenuActive}">
+        <li #search class="search-item" [ngClass]="{'active-topmenuitem':app.activeTopbarItem === search}">
+            <span class="md-inputfield">
+                <input type="text" style="color:black !important" pInputText placeholder="{{'Cari' | translate | splitCharT  }}" (keydown.enter)=carilah($event)>
+            </span>
+        </li>
+        <!-- (click)="app.onTopbarSearchItemClick($event)" -->
+        <li #messages [ngClass]="{'active-topmenuitem':app.activeTopbarItem === messages}">
+            <a>
+                <i class="topbar-icon animated swing fa fa-fw fa-envelope-o"></i>
+                <span class="topbar-item-name">{{'Messages' | translate | splitCharT  }}</span>
+            </a>
+            <!-- <a href="#" (click)="app.onTopbarItemClick($event,messages)"> 
+                <i class="topbar-icon animated swing fa fa-fw fa-envelope-o"></i>
+                <span class="topbar-badge">5</span>
+                <span class="topbar-item-name">Messages</span>
+            </a>
+            <ul class="fadeInDown">
+                <li role="menuitem">
+                    <a href="#" class="topbar-message">
+                        <img src="assets/layout/images/profile-image.png" width="35"/>
+                        <span>Give me a call</span>
+                    </a>
+                </li>
+                <li role="menuitem">
+                    <a href="#" class="topbar-message">
+                        <img src="assets/layout/images/profile-image.png" width="35"/>
+                        <span>Sales reports attached</span>
+                    </a>
+                </li>
+                <li role="menuitem">
+                    <a href="#" class="topbar-message">
+                        <img src="assets/layout/images/profile-image.png" width="35"/>
+                        <span>About your invoice</span>
+                    </a>
+                </li>
+                <li role="menuitem">
+                    <a href="#" class="topbar-message">
+                        <img src="assets/layout/images/profile-image.png" width="35"/>
+                        <span>Meeting today at 10pm</span>
+                    </a>
+                </li>
+                <li role="menuitem">
+                    <a href="#" class="topbar-message">
+                        <img src="assets/layout/images/profile-image.png" width="35"/>
+                        <span>Out of office</span>
+                    </a>
+                </li>
+            </ul> -->
+        </li>
+        <li #notifications [ngClass]="{'active-topmenuitem':app.activeTopbarItem === notifications}">
+            <a href="#" (click)="app.onTopbarItemClick($event,notifications)"> 
+                <i class="topbar-icon fa fa-fw fa-dot-circle-o"></i>
+                <span *ngIf="showNotif" class="topbar-badge animated rubberBand">{{ jmlNotif }}</span>
+                <span class="topbar-item-name">{{'Notifications' | translate | splitCharT }}</span>
+            </a>
+            <!-- <a *ngIf="showNotif" href="#" (click)="app.onTopbarItemClick($event,notifications)"> 
+                <i class="topbar-icon fa fa-fw fa-dot-circle-o"></i>                
+                <span class="topbar-item-name">Notifications</span>
+            </a> -->
+            <ul *ngIf="showNotif" class="fadeInDown scrollList">
+                <li role="menuitem" *ngFor="let notif of listNotification; let i = index; trackBy: trackByFn">                    
+                    <a href="#" (click)="checkNotif($event, notif)" >
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12 borderTop borderBot">
+                                <i class="fa fa-fw fa-check-circle-o"></i>{{ notif.title }}
+                            </div>
+                            <div class="ui-g-1 padding5"><i class="fa fa-fw fa-commenting"></i></div>
+                            <div class="ui-g-11 padding5"><span>{{ notif.description }}</span></div>
+                            <div class="ui-g-1 padding5"><i class="fa fa-fw fa-user-circle-o"></i></div>
+                            <div class="ui-g-11 padding5">{{ notif.fromPegawai }}</div>
+                            <div class="ui-g-1 padding5" *ngIf="dariUnitKerjaOke(notif.dariUnitKerja)"><i class="fa fa-fw fa-cube"></i></div>
+                            <div class="ui-g-11 padding5" *ngIf="dariUnitKerjaOke(notif.dariUnitKerja)">{{ notif.dariUnitKerja }}</div>
+                        </div>      
+                        <!-- <div class="borderTop borderBot" style="width: 100%">
+                            <i class="fa fa-fw fa-check-circle-o"></i>{{ notif.title }}
+                        </div>
+                        <div class="padding5" style="width: 100%">
+                            <i class="fa fa-fw fa-commenting"></i><span>{{ notif.description }}</span></div>
+                        <div class="padding5" *ngIf="fromPegawaiOke(notif.fromPegawai)">
+                             <i class="fa fa-fw fa-user-circle-o"></i> {{ notif.fromPegawai }}
+                        </div>
+                        <div class="padding5" *ngIf="dariUnitKerjaOke(notif.dariUnitKerja)">
+                             <i class="fa fa-fw fa-cube"></i> {{ notif.dariUnitKerja }}
+                        </div> -->
+                    </a>    
+                </li>
+            </ul>
+        </li>
+        <li #bahasa [ngClass]="{'active-topmenuitem':app.activeTopbarItem === bahasa}">
+            <a href="#" (click)="app.onTopbarItemClick($event,bahasa)"> 
+                <i class="topbar-icon fa fa-language"></i>
+                <!-- <span class="topbar-badge animated rubberBand"></span> -->
+                <span class="topbar-item-name">{{'Notifications' | translate | splitCharT }}</span>
+            </a>
+            <ul class="fadeInDown">
+                <li role="menuitem" *ngFor="let item of listDropdownBahasa">
+                    <a href="#" (click)="changeLanguage(item.value)">
+                        <!-- <i class="fa flag-icon flag-icon-id"></i> -->
+                        <span>{{item.label}}</span>
+                        <!-- <span class="topbar-submenuitem-badge"></span> -->
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li #profile class="profile-item" [ngClass]="{'active-topmenuitem':app.activeTopbarItem === profile}">
+            <a href="#" (click)="app.onTopbarItemClick($event,profile)" >                            
+                <div class="profile-image">
+                    <img [src]="(imageThumbs | imgsec) | async" pTooltip="{{ namaLogin }}">
+                </div>
+                <span class="profile-text">{{'Profile' | translate | splitCharT }}</span>
+            </a>
+
+            <ul class="fadeInDown">
+                <li role="menuitem">    
+                    <div class="ui-g center" style="margin-bottom: 5px; height: 235px; margin-left: 5px; margin-right: 5px">
+                        <div class=" ui-g-12 overview-chart-top">
+                            <div class="ui-toolbar-group-center" style="padding-top: 1px">
+                                <p style="color: #f39c11; text-transform: uppercase; font-weight: bold;">{{dataProfile.namaLengkap}}</p>
+                            </div>
+                        </div>
+                        <div>    
+                            <div class="ui-g-12" >
+                                <div class="ui-g-4">
+                                    <img [src]="(smbrFoto | imgsec) | async" style="width: 120px; height: 150px; border-radius: 2%" />
+                                </div>
+                                <div class="ui-g-8">
+                                    <div class="ui-g" style="padding-left: 7px; padding-top: 1px;" >
+                                        <div class="ui-g-4" style="color:#f39c11; font-weight: bold;">NIK</div>
+                                        <div class="ui-g-1" style="color:#f39c11; font-weight: bold;">:</div>
+                                        <div class="ui-g-7" style="color:#f39c11; font-weight: bold;">{{dataProfile.pegawai.nIKIntern}}</div>
+
+                                        <div class="ui-g-4" style="color:#f39c11; font-weight: bold;">Departemen</div>
+                                        <div class="ui-g-1" style="color:#f39c11; font-weight: bold;">:</div>
+                                        <div class="ui-g-7" style="color:#f39c11; font-weight: bold;">{{dataProfile.pegawai.namaDepartemen}}</div>
+
+                                        <div class="ui-g-4" style="color:#f39c11; font-weight: bold;">Unit Kerja</div>
+                                        <div class="ui-g-1" style="color:#f39c11; font-weight: bold;">:</div>
+                                        <div class="ui-g-7" style="color:#f39c11; font-weight: bold;">{{dataProfile.pegawai.unitKerja}}</div>
+
+                                        <div class="ui-g-4" style="color:#f39c11; font-weight: bold;">Jabatan</div>
+                                        <div class="ui-g-1" style="color:#f39c11; font-weight: bold;">:</div>
+                                        <div class="ui-g-7" style="color:#f39c11; font-weight: bold;">{{dataProfile.pegawai.namaJabatan}}</div>
+
+                                        <div class="ui-g-4" style="color:#f39c11; font-weight: bold;">Bergabung</div>
+                                        <div class="ui-g-1" style="color:#f39c11; font-weight: bold;">:</div>
+                                        <div class="ui-g-7" style="color:#f39c11; font-weight: bold;">{{dataProfile.pegawai.tglMasuk * 1000 | date: 'dd MMM yyyy'}}</div>
+
+                                        <div class="ui-g-4" style="color:#f39c11; font-weight: bold;">Masa Kerja</div>
+                                        <div class="ui-g-1" style="color:#f39c11; font-weight: bold;">:</div>
+                                        <div class="ui-g-7" style="color:#f39c11; font-weight: bold;">{{dataProfile.masaKerja}}</div>
+                                    </div>
+                                    <!-- <p style="color:#f39c11;line-height: 10px;">NIK        : {{dataProfile.nIKIntern}}</p>
+                                    <p style="color:#f39c11;line-height: 10px;">Departemen : {{dataProfile.namaDepartemen}}</p>
+                                    <p style="color:#f39c11;line-height: 10px;">Unit Kerja : {{dataProfile.unitKerja}}</p>
+                                    <p style="color:#f39c11;line-height: 10px;">Jabatan    : {{dataProfile.namaJabatan}}</p>
+                                    <p style="color:#f39c11;line-height: 10px;">Bergabung  : {{dataProfile.tglMasuk * 1000 | date: 'dd MMM yyyy'}}</p>
+                                    <p style="color:#f39c11;line-height: 10px;">Masa Kerja : {{dataProfile.masaKerja}}</p> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li role="menuitem">
+                    <a href="#/infopegawaiview">
+                        <i class="fa fa-fw fa-user"></i>
+                        <span>{{'Profile Lengkap' | translate | splitCharT }}</span>
+                    </a>
+                </li>
+                <li role="menuitem" *ngIf="lihatSetting">
+                    <a href="#" (click)="showSettings($event)">
+                        <i class="fa fa-fw fa-cog"></i>
+                        <span>{{'Settings' | translate | splitCharT }}</span>
+                    </a>
+                </li>
+                <li role="menuitem">
+                    <a href="#" (click)="logout($event)">
+                        <i class="fa fa-fw fa-sign-out"></i>
+                        <span>{{'Logout' | translate | splitCharT }}</span>
+                    </a>
+                </li>
+            </ul>    
+            
+            <!--<ul class="fadeInDown">
+                <li role="menuitem">
+                    <a href="#">
+                        <i class="fa fa-fw fa-user"></i>
+                        <span>Profile</span>
+                        <span class="topbar-submenuitem-badge">5</span>
+                    </a>
+                </li>
+                <li role="menuitem">
+                    <a href="#">
+                        <i class="fa fa-fw fa-user-secret"></i>
+                        <span>Privacy</span>
+                        <span class="topbar-submenuitem-badge">2</span>
+                    </a>
+                </li>
+                <li role="menuitem" *ngIf="lihatSetting">
+                    <a href="#" (click)="showSettings($event)">
+                        <i class="fa fa-fw fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+                <li role="menuitem">
+                    <a href="#" (click)="logout($event)">
+                        <i class="fa fa-fw fa-sign-out"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>-->
+        </li>
+    </ul>
+</div>

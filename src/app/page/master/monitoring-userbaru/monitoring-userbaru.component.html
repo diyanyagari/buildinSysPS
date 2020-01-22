@@ -1,0 +1,1755 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div *ngIf="!popupPreviewMenu" class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<form [formGroup]="form">
+					<div style="float: right" class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmMonitoringubs_Reset'| translate | splitCharT}}"
+							icon="fa-refresh" (click)="reset()"></button>
+					</div>
+					<div style="float: right" class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmMonitoringubs_Cari'| translate | splitCharT}}"
+							icon="fa-search" (click)="getDataGrid(1, 10, '')"></button>
+					</div>
+					<div style="width:15%;float:right;margin: 3px;margin-right: 4px;margin-top: 7px;font-size: 12px">
+						<app-calender [monthNavigator]="true" showTime="showTime" hourFormat="24" [yearNavigator]="true"
+							yearRange="2000:2030" formControlName="tglAkhir" [showIcon]="true" dateFormat="dd M yy">
+						</app-calender>
+					</div>
+					<div style="width:15%;float:right;margin: 3px;margin-right: 4px;margin-top: 7px;font-size: 12px">
+						<app-calender [monthNavigator]="true" showTime="showTime" hourFormat="24" [yearNavigator]="true"
+							yearRange="2000:2030" formControlName="tglAwal" [showIcon]="true" dateFormat="dd M yy">
+						</app-calender>
+					</div>
+					<div style="width:30%;float:right;margin: 3px;margin-right: 4px;margin-top: 7px;font-size: 12px">
+						<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+						<input type="text" pInputText size="50"
+							placeholder="{{'frmMonitoringubs_pencarian'| translate | splitCharT}}"
+							[(ngModel)]="pencarian" [ngModelOptions]="{standalone: true}"
+							(keyup)="getDataGrid(1, 10, '')" style="width: 60%;float:right;">
+					</div>
+					<div style="width:20%;float:left;margin: 3px;margin-right: 4px;margin-top: 7px;font-size: 12px">
+						<strong><span
+								style="float: left;padding:0.3em;">{{'frmMonitoringUserBaru_tableTitle'| translate | splitCharT}}</span></strong>
+					</div>
+				</form>
+				<div class="ui-g-12 ui-fluid">
+					<p-dataTable [value]="listData" [rows]="5" [paginator]="true" [pageLinks]="3"
+						[rowsPerPageOptions]="[5,10,20]" rowExpandMode="single"
+						(onRowExpand)="expandRow($event, rowIndex)" (onRowSelect)="onRowSelect($event)" [lazy]="true"
+						[loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords"
+						(onLazyLoad)="loadPage($event)" expandableRows="true">
+						<p-header>
+						</p-header>
+						<p-column (click)="getIndexRow(index)" expander="true" styleClass="col-icon"
+							[style]="{'width':'30px'}">
+							<ng-template let-i="rowIndex">
+								<button (click)="getIndexRow(i)"></button>
+							</ng-template>
+						</p-column>
+						<p-column [style]="{'width':'30px'}"
+							header="{{'frmMonitoringUserBaru_No'| translate | splitCharT }}">
+							<ng-template pTemplate="body" let-i="rowIndex">
+								{{i+1}}
+							</ng-template>
+						</p-column>
+						<p-column field="tglDaftar"
+							header="{{'frmMonitoringUserBaru_tglDaftar'| translate | splitCharT }}">
+							<ng-template let-row="rowData" pTemplate="body">
+								{{row.tglDaftar | date:'dd/MM/yyyy HH:mm'}}
+							</ng-template>
+						</p-column>
+						<p-column [style]="{'width':'50px'}" field="foto"
+							header="{{'frmMonitoringUserBaru_Foto'| translate | splitCharT }}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								<img style="border-radius: 50%; height: 40px;
+								max-height: 40px;
+								width: 30px;" [src]="(pick.foto | imgsec) | async" class="img-responsive" />
+							</ng-template>
+						</p-column>
+						<p-column field="namaLengkap"
+							header="{{'frmMonitoringUserBaru_NamaLengkap'| translate | splitCharT }}">
+						</p-column>
+						<p-column [style]="{'text-align':'center', 'width':'50px'}" field="jenisKelamin.jenisKelamin"
+							header="{{'frmMonitoringUserBaru_JK'| translate | splitCharT }}">
+							<ng-template let-row="rowData" pTemplate="body">
+								<span *ngIf="row.jenisKelamin.jenisKelamin == 'Perempuan'">
+									P
+								</span>
+								<span *ngIf="row.jenisKelamin.jenisKelamin == 'Laki Laki'">
+									L
+								</span>
+								<!-- {{row.jenisKelamin.jenisKelamin}} -->
+							</ng-template>
+						</p-column>
+						<p-column field="tglLahir"
+							header="{{'frmMonitoringUserBaru_tglLahir'| translate | splitCharT }}">
+							<ng-template let-row="rowData" pTemplate="body">
+								{{row.tglLahir | date:'dd/MM/yyyy'}}
+							</ng-template>
+						</p-column>
+						<p-column field="jenisIdentitas.jenisDokumen"
+							header="{{'frmMonitoringUserBaru_jenisIdentitas'| translate | splitCharT }}"></p-column>
+						<p-column field="noIdentitas"
+							header="{{'frmMonitoringUserBaru_noIdentitas'| translate | splitCharT }}">
+						</p-column>
+						<p-column field="negara.namaNegara"
+							header="{{'frmMonitoringUserBaru_negara'| translate | splitCharT }}">
+						</p-column>
+						<p-column field="noTelepon"
+							header="{{'frmMonitoringUserBaru_noTelp'| translate | splitCharT }}">
+						</p-column>
+						<p-column [style]="{'width':'200px'}" field="email"
+							header="{{'frmMonitoringUserBaru_email'| translate | splitCharT }}">
+						</p-column>
+						<p-column [style]="{'width':'100px'}" field="jenisAlamat.jenisAlamat"
+							header="{{'frmMonitoringUserBaru_jenisAlamat'| translate | splitCharT }}">
+						</p-column>
+						<p-column [style]="{'width':'200px'}" field="alamatLengkap"
+							header="{{'frmMonitoringUserBaru_alamatLengkap'| translate | splitCharT }}">
+						</p-column>
+						<ng-template let-data pTemplate="rowexpansion" let-ri="rowIndex">
+							<p-dataTable [style]="{'word-wrap':'break-word','margin-bottom':'30px'}"
+								(onLazyLoad)="loadPageLayanan($event)" [value]="listLayanan"
+								[totalRecords]="totalRecordsLayanan" [rows]="5" [paginator]="true" [pageLinks]="3"
+								[lazy]="true" [loading]="loading" loadingIcon="fa-spinner">
+								<p-column field="modulAplikasi"
+									header="{{'frmMonitoringUserBaru_ModulAplikasi'| translate | splitCharT }}">
+								</p-column>
+								<p-column field="jenisProfile"
+									header="{{'frmMonitoringUserBaru_jnsProfile'| translate | splitCharT }}">
+								</p-column>
+								<p-column field="profile"
+									header="{{'frmMonitoringUserBaru_namaProfile'| translate | splitCharT }}">
+								</p-column>
+								<p-column field="namaDomain"
+									header="{{'frmMonitoringUserBaru_namaDomain'| translate | splitCharT }}">
+								</p-column>
+								<p-column field="version"
+									header="{{'frmMonitoringUserBaru_versi'| translate | splitCharT }}">
+								</p-column>
+								<p-column field="edisi"
+									header="{{'frmMonitoringUserBaru_edisi'| translate | splitCharT }}">
+								</p-column>
+								<p-column field="paket"
+									header="{{'frmMonitoringUserBaru_paket'| translate | splitCharT }}">
+								</p-column>
+								<p-column field="tglPesan"
+									header="{{'frmMonitoringUserBaru_tglPesan'| translate | splitCharT }}">
+									<ng-template let-row="rowData" pTemplate="body">
+										{{row.tglPesan | date:'dd/MM/yyyy HH:mm'}}
+									</ng-template>
+								</p-column>
+								<p-column field="statusPembayaran"
+									header="{{'frmMonitoringUserBaru_sttsBayar'| translate | splitCharT }}">
+								</p-column>
+								<p-column field="tglAktif"
+									header="{{'frmMonitoringUserBaru_tglAktif'| translate | splitCharT }}">
+									<ng-template let-row="rowData" pTemplate="body">
+										{{row.tglAktif | date:'dd/MM/yyyy HH:mm'}}
+									</ng-template>
+								</p-column>
+								<p-column field="tglNonAktif"
+									header="{{'frmMonitoringUserBaru_tglnonaktif'| translate | splitCharT }}">
+									<ng-template let-row="rowData" pTemplate="body">
+										{{row.tglNonAktif | date:'dd/MM/yyyy HH:mm'}}
+									</ng-template>
+								</p-column>
+								<p-column field="tglKadaluarsa"
+									header="{{'frmMonitoringUserBaru_tglKadaluarsa'| translate | splitCharT }}">
+									<ng-template let-row="rowData" pTemplate="body">
+										{{row.tglKadaluarsa | date:'dd/MM/yyyy HH:mm'}}
+									</ng-template>
+								</p-column>
+								<p-column field="statusAktif"
+									header="{{'frmMonitoringUserBaru_aktif'| translate | splitCharT }}">
+									<ng-template let-row="rowData" pTemplate="body">
+										{{row.statusAktif.replace("[","").replace("]","")}}
+									</ng-template>
+								</p-column>
+								<p-column field="statusAktif"
+									header="{{'frmMonitoringUserBaru_aksi'| translate | splitCharT }}">
+									<ng-template let-h="rowData" let-ri="rowIndex" pTemplate="body">
+										<div *ngIf="h.statusPembayaran != 'Expired'">
+											<button *ngIf="h.tglAktif===null && h.tglNonAktif===null"
+												style="height: 25px; width: 25px;" pTooltip="Start"
+												tooltipPosition="top" class="ui-button-success" type="button" pButton
+												(click)="startLayanan(h.noRegistrasi, h.noPosting, h.kdModulAplikasi, h.kdVersion, h.kdPaket, h.namaDomain)"
+												icon="fa-play"></button>
+
+											<button *ngIf="h.tglAktif!==null &&h.tglNonAktif!==null"
+												style="height: 25px; width: 25px;" disabled pTooltip="Start"
+												tooltipPosition="top" class="ui-button-success" type="button" pButton
+												(click)="startLayanan(h.noRegistrasi, h.noPosting, h.kdModulAplikasi, h.kdVersion, h.kdPaket, h.namaDomain)"
+												icon="fa-play"></button>
+
+											<button *ngIf="h.tglAktif!==null && h.tglNonAktif===null"
+												style="height: 25px; width: 25px;" pTooltip="Stop" tooltipPosition="top"
+												class="ui-button-danger" type="button" pButton
+												(click)="stopLayanan(h.noRegistrasi, h.noPosting, h.kdModulAplikasi, h.kdVersion, h.kdPaket, h.namaDomain)"
+												icon="fa-stop"></button>
+
+											<button style="height: 25px; width: 25px;" pTooltip="Preview Menu"
+												tooltipPosition="top" class="ui-button-primary" type="button" pButton
+												(click)="myEvent.emit(); popuplistmenu(h.kdProfile, h.kdModulAplikasi, h.kdVersion, h.profile, h.modulAplikasi, h.version)"
+												icon="fa-reorder"></button>
+										</div>
+										<div *ngIf="h.statusPembayaran == 'Expired'">
+											<button *ngIf="h.tglAktif===null && h.tglNonAktif===null"
+												style="height: 25px; width: 25px;" disabled pTooltip="Start"
+												tooltipPosition="top" class="ui-button-success" type="button" pButton
+												(click)="startLayanan(h.noRegistrasi, h.noPosting, h.kdModulAplikasi, h.kdVersion, h.kdPaket, h.namaDomain)"
+												icon="fa-play"></button>
+
+											<button *ngIf="h.tglAktif!==null &&h.tglNonAktif!==null"
+												style="height: 25px; width: 25px;" disabled pTooltip="Start"
+												tooltipPosition="top" class="ui-button-success" type="button" pButton
+												(click)="startLayanan(h.noRegistrasi, h.noPosting, h.kdModulAplikasi, h.kdVersion, h.kdPaket, h.namaDomain)"
+												icon="fa-play"></button>
+
+											<button *ngIf="h.tglAktif!==null && h.tglNonAktif===null"
+												style="height: 25px; width: 25px;" disabled pTooltip="Stop" tooltipPosition="top"
+												class="ui-button-danger" type="button" pButton
+												(click)="stopLayanan(h.noRegistrasi, h.noPosting, h.kdModulAplikasi, h.kdVersion, h.kdPaket, h.namaDomain)"
+												icon="fa-stop"></button>
+
+											<button style="height: 25px; width: 25px;" disabled pTooltip="Preview Menu"
+												tooltipPosition="top" class="ui-button-primary" type="button" pButton
+												(click)="myEvent.emit(); popuplistmenu(h.kdProfile, h.kdModulAplikasi, h.kdVersion, h.profile, h.modulAplikasi, h.version)"
+												icon="fa-reorder"></button>
+										</div>
+									</ng-template>
+								</p-column>
+							</p-dataTable>
+						</ng-template>
+					</p-dataTable>
+					<div style="float: right" class="ui-g-12 ui-md-1">
+						<br>
+						<p-splitButton label="{{'frm_btnExport'| translate | splitCharT}}" icon="fa-external-link"
+							[model]="items"></p-splitButton>
+					</div>
+					<div style="float: right" class="ui-g-12 ui-md-1">
+						<br>
+						<button pButton type="button" label="{{'frmCustomerCare_Cetak'| translate | splitCharT}}"
+							icon="fa-print" (click)="cetak()"></button>
+					</div>
+					<!-- <div style="float: right" class="ui-g-12 ui-md-2">
+						<br>
+						<button pButton (click)="onAdd()" type="button"
+							label="{{'frmCustomerCare_Config'| translate | splitCharT}}" icon="fa-cog"></button>
+					</div> -->
+				</div>
+				<div id="print-section" style="display: none;">
+					<div class="ui-g-12">
+						<h2>{{'frmMonitoringUserBaru_tableTitle'| translate | splitCharT}}</h2>
+					</div>
+					<div class="ui-g-12">
+						<p-dataTable [value]="listData">
+							<p-column [style]="{'width':'30px'}"
+								header="{{'frmCustomerCare_No'| translate | splitCharT }}">
+								<ng-template pTemplate="body" let-i="rowIndex">
+									{{i+1}}
+								</ng-template>
+							</p-column>
+							<p-column field="tglDaftar"
+								header="{{'frmMonitoringUserBaru_tglDaftar'| translate | splitCharT }}">
+								<ng-template let-row="rowData" pTemplate="body">
+									{{row.tglDaftar | date:'dd/MM/yyyy HH:mm'}}
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'50px'}" field="foto"
+								header="{{'frmMonitoringUserBaru_Foto'| translate | splitCharT }}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<img style="border-radius: 50%; height: 40px;
+								max-height: 40px;
+								width: 30px;" [src]="(pick.foto | imgsec) | async" class="img-responsive" />
+								</ng-template>
+							</p-column>
+							<p-column field="namaLengkap"
+								header="{{'frmMonitoringUserBaru_NamaLengkap'| translate | splitCharT }}">
+							</p-column>
+							<p-column field="jenisKelamin.jenisKelamin"
+								header="{{'frmMonitoringUserBaru_JK'| translate | splitCharT }}">
+								<ng-template let-row="rowData" pTemplate="body">
+									<span *ngIf="row.jenisKelamin.jenisKelamin == 'Perempuan'">
+										P
+									</span>
+									<span *ngIf="row.jenisKelamin.jenisKelamin == 'Laki Laki'">
+										L
+									</span>
+									<!-- {{row.jenisKelamin.jenisKelamin}} -->
+								</ng-template>
+							</p-column>
+							<p-column field="tglLahir"
+								header="{{'frmMonitoringUserBaru_tglLahir'| translate | splitCharT }}">
+								<ng-template let-row="rowData" pTemplate="body">
+									{{row.tglLahir | date:'dd/MM/yyyy HH:mm'}}
+								</ng-template>
+							</p-column>
+							<p-column field="jenisIdentitas.jenisDokumen"
+								header="{{'frmMonitoringUserBaru_jenisIdentitas'| translate | splitCharT }}"></p-column>
+							<p-column field="noIdentitas"
+								header="{{'frmMonitoringUserBaru_noIdentitas'| translate | splitCharT }}">
+							</p-column>
+							<p-column field="negara"
+								header="{{'frmMonitoringUserBaru_negara'| translate | splitCharT }}">
+							</p-column>
+							<p-column field="noTelepon"
+								header="{{'frmMonitoringUserBaru_noTelp'| translate | splitCharT }}">
+							</p-column>
+							<p-column field="email" header="{{'frmMonitoringUserBaru_email'| translate | splitCharT }}">
+							</p-column>
+							<p-column field="jenisAlamat.jenisAlamat"
+								header="{{'frmMonitoringUserBaru_jenisAlamat'| translate | splitCharT }}">
+							</p-column>
+							<p-column field="alamatLengkap"
+								header="{{'frmMonitoringUserBaru_alamatLengkap'| translate | splitCharT }}">
+							</p-column>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="popupPreviewMenu" class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<div class="ui-g-12 ui-fluid">
+					<div class="ui-g-12 ui-md-2">
+						<div class="ui-g-12 ui-md-10">
+							<label for="input">
+								{{'frmCustomerCare_popProfile'| translate | splitCharT }}
+							</label>
+							<input id="input" disabled maxlength="150" type="text" [(ngModel)]="sNamaProfile"
+								[ngModelOptions]="{standalone: true}" pInputText />
+						</div>
+						<div class="ui-g-12 ui-md-10">
+							<label for="input">
+								{{'frmCustomerCare_popMdlAplikasi'| translate | splitCharT }}
+							</label>
+							<input id="input" disabled maxlength="150" type="text" [(ngModel)]="sMdlAplikasi"
+								[ngModelOptions]="{standalone: true}" pInputText />
+						</div>
+						<div class="ui-g-12 ui-md-10">
+							<label for="input">
+								{{'frmCustomerCare_popVersion'| translate | splitCharT }}
+							</label>
+							<input id="input" disabled maxlength="150" type="text" [(ngModel)]="sVersion"
+								[ngModelOptions]="{standalone: true}" pInputText />
+						</div>
+					</div>
+					<div class="ui-g-12 ui-md-10">
+						<p-dataTable [value]="listMenu" [editable]="true" rowGroupMode="subheader" groupField="nama"
+							[scrollable]="true" [globalFilter]="gb" expandableRows="true" #dtEn>
+							<p-column styleClass="col-icon" [style]="{'width':'30px', 'text-align': 'left'}">
+								<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+									<button type="button" *ngIf="col.childs.length !== 0"
+										(click)="toggleCoba(col, dtEn)"
+										style="margin-left: 0px;border: none;background: no-repeat;"><i
+											class="fa fa-chevron-circle-right"></i></button>
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'120px'}"
+								header="{{'frmMonitoringUserBaru_popObjModul'| translate | splitCharT }}"
+								field="namaObjekModul">
+							</p-column>
+							<p-column [style]="{'width':'50px', 'text-align':'center'}" [editable]="true"
+								header="{{'frmMonitoringUserBaru_popNoUrut'| translate | splitCharT }}" field="noUrut">
+								<ng-template let-col let-data="rowData" pTemplate="body">
+									{{data.noUrut}}
+								</ng-template>
+								<ng-template let-col let-data="rowData" pTemplate="editor">
+									<p-spinner class="ui-inputwrapper-filled" [min]="1" [(ngModel)]="data[col.field]"
+										appendTo="body"></p-spinner>
+								</ng-template>
+							</p-column>
+
+							<p-column [style]="{'width':'100px', 'text-align':'center'}"
+								header="{{'frmMonitoringUserBaru_popLoginOtomatis'| translate | splitCharT }}"
+								field="loginOtomatis" [style]="{'width':'50px', 'text-align': 'left'}">
+								<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+									<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+										[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}">
+									</p-checkbox>
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'100px', 'text-align':'center'}"
+								header="{{'frmMonitoringUserBaru_popPosisiStrukturMenu'| translate | splitCharT }}"
+								field="posisiStrukturMenu" [editable]="true">
+								<ng-template let-col let-data="rowData" pTemplate="body">
+									<!-- <span *ngIf="data.posisiStrukturMenu!==null">{{data.posisiStrukturMenu}}</span> -->
+									<span *ngIf="data[col.field]==null">--Pilih--</span>
+									<span *ngIf="data[col.field]!=null">{{data.posisiStrukturMenu}}</span>
+								</ng-template>
+								<ng-template let-col let-data="rowData" pTemplate="editor">
+									<p-dropdown id="dropdown" [editable]="false" class="ui-inputwrapper-filled"
+										[options]="listPosisiStrukturMenu" [(ngModel)]="data[col.field]"
+										[autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body">
+									</p-dropdown>
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'100px', 'text-align':'center'}"
+								header="{{'frmMonitoringUserBaru_popPosisiNoUrutS'| translate | splitCharT }}"
+								field="posisiNoUrutStrukturMenu" [editable]="true">
+								<ng-template let-col let-data="rowData" pTemplate="body">
+									<span *ngIf="data[col.field]==null">--Pilih--</span>
+									<span *ngIf="data[col.field]!=null">{{data.posisiNoUrutStrukturMenu}}</span>
+								</ng-template>
+								<ng-template let-col let-data="rowData" pTemplate="editor">
+									<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+										[options]="listPosisiNoUrutStrukturMenu" [(ngModel)]="data[col.field]"
+										[autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body">
+									</p-dropdown>
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'50px', 'text-align':'center'}"
+								header="{{'frmMonitoringUserBaru_popTampilkan'| translate | splitCharT }}"
+								field="tampilkan">
+								<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+									<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+										[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}">
+									</p-checkbox>
+								</ng-template>
+							</p-column>
+							<p-column header="{{'frmMonitoringUserBaru_popStatus'| translate | splitCharT }}"
+								field="statusAktif" [style]="{'width':'50px', 'text-align': 'center'}">
+								<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+									<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+										[ngModelOptions]="{standalone: true}"
+										(onChange)="isParentChecked($event,data,ri)" [style]="{'margin-left':'0px'}">
+									</p-checkbox>
+									<span
+										hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+										: {{data[col.field]}}</span>
+								</ng-template>
+							</p-column>
+
+
+							<ng-template let-data="rowData" let-ri="rowIndex" pTemplate="rowexpansion">
+								<p-dataTable [value]="listMenu[ri].childs" [editable]="true" expandableRows="true"
+									#dtEnAnak>
+
+									<p-column styleClass="col-icon" [style]="{'width':'30px', 'text-align': 'left'}">
+										<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+											<button type="button" *ngIf="col.childs.length !== 0"
+												(click)="toggleCoba(col, dtEnAnak)"
+												style="margin-left: 10px;border: none;background: no-repeat;"><i
+													class="fa fa-chevron-circle-right"></i></button>
+										</ng-template>
+									</p-column>
+									<p-column [style]="{'width':'120px'}" field="namaObjekModul">
+									</p-column>
+									<p-column [style]="{'width':'50px', 'text-align':'center'}" [editable]="true"
+										field="noUrut">
+										<ng-template let-col let-data="rowData" pTemplate="body">
+											{{data.noUrut}}
+										</ng-template>
+										<ng-template let-col let-data="rowData" pTemplate="editor">
+											<p-spinner class="ui-inputwrapper-filled" [min]="1"
+												[(ngModel)]="data[col.field]" appendTo="body"></p-spinner>
+										</ng-template>
+									</p-column>
+									<p-column field="loginOtomatis" [style]="{'width':'100px', 'text-align':'center'}">
+										<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+											<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+												[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}">
+											</p-checkbox>
+										</ng-template>
+									</p-column>
+									<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+										field="posisiStrukturMenu">
+										<!-- <ng-template let-col let-data="rowData" pTemplate="body">
+											{{data.posisiStrukturMenu}}
+										</ng-template>
+										<ng-template let-col let-data="rowData" pTemplate="editor">
+											<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+												[options]="listPosisiStrukturMenu" [(ngModel)]="data[col.field]"
+												[autoWidth]="false" [ngModelOptions]="{standalone: true}"
+												appendTo="body"></p-dropdown>
+										</ng-template> -->
+
+										<ng-template let-col let-data="rowData" pTemplate="body">
+											<span *ngIf="data[col.field]==null">--Pilih--</span>
+											<span *ngIf="data[col.field]!=null">{{data.posisiStrukturMenu}}</span>
+										</ng-template>
+										<ng-template let-col let-data="rowData" pTemplate="editor">
+											<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+												[options]="listPosisiStrukturMenu" [(ngModel)]="data[col.field]"
+												[autoWidth]="false" [ngModelOptions]="{standalone: true}"
+												appendTo="body"></p-dropdown>
+										</ng-template>
+									</p-column>
+									<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+										field="posisiNoUrutStrukturMenu">
+										<ng-template let-col let-data="rowData" pTemplate="body">
+											<span *ngIf="data[col.field]==null">--Pilih--</span>
+											<span *ngIf="data[col.field]!=null">{{data.posisiNoUrutStrukturMenu}}</span>
+										</ng-template>
+										<ng-template let-col let-data="rowData" pTemplate="editor">
+											<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+												[options]="listPosisiNoUrutStrukturMenu" [(ngModel)]="data[col.field]"
+												[autoWidth]="false" [ngModelOptions]="{standalone: true}"
+												appendTo="body">
+											</p-dropdown>
+										</ng-template>
+									</p-column>
+									<p-column [style]="{'width':'50px', 'text-align':'center'}" field="tampilkan">
+										<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+											<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+												[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}">
+											</p-checkbox>
+										</ng-template>
+									</p-column>
+									<p-column field="statusAktif" [style]="{'width':'50px', 'text-align':'center'}">
+										<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+											<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+												[ngModelOptions]="{standalone: true}"
+												(onChange)="isParentChecked($event,data,ri)"
+												[style]="{'margin-left':'0px'}"></p-checkbox>
+											<span
+												hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+												: {{data[col.field]}}</span>
+										</ng-template>
+									</p-column>
+
+
+
+									<ng-template let-dataAnak="rowData" let-riAnak="rowIndex" pTemplate="rowexpansion">
+										<p-dataTable [value]="listMenu[ri].childs[riAnak].childs" [editable]="true"
+											expandableRows="true" #dtEnCucu>
+											<p-column styleClass="col-icon"
+												[style]="{'width':'30px', 'text-align': 'left'}">
+												<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+													<button type="button" *ngIf="col.childs.length !== 0"
+														(click)="toggleCoba(col, dtEnCucu)"
+														style="margin-left: 20px;border: none;background: no-repeat;"><i
+															class="fa fa-chevron-circle-right"></i></button>
+												</ng-template>
+											</p-column>
+											<p-column [style]="{'width':'120px'}" field="namaObjekModul">
+											</p-column>
+											<p-column [style]="{'width':'50px', 'text-align':'center'}"
+												[editable]="true" field="noUrut">
+												<ng-template let-col let-data="rowData" pTemplate="body">
+													{{data.noUrut}}
+												</ng-template>
+												<ng-template let-col let-data="rowData" pTemplate="editor">
+													<p-spinner class="ui-inputwrapper-filled" [min]="1"
+														[(ngModel)]="data[col.field]" appendTo="body"></p-spinner>
+												</ng-template>
+											</p-column>
+											<p-column field="loginOtomatis"
+												[style]="{'width':'100px', 'text-align':'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex"
+													let-data="rowData">
+													<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+														[ngModelOptions]="{standalone: true}"
+														[style]="{'margin-left':'0px'}">
+													</p-checkbox>
+												</ng-template>
+											</p-column>
+											<p-column [style]="{'width':'100px', 'text-align':'center'}"
+												[editable]="true" field="posisiStrukturMenu">
+												<ng-template let-col let-data="rowData" pTemplate="body">
+													<span *ngIf="data[col.field]==null">--Pilih--</span>
+													<span
+														*ngIf="data[col.field]!=null">{{data.posisiStrukturMenu}}</span>
+												</ng-template>
+												<ng-template let-col let-data="rowData" pTemplate="editor">
+													<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+														[options]="listPosisiStrukturMenu" [(ngModel)]="data[col.field]"
+														[autoWidth]="false" [ngModelOptions]="{standalone: true}"
+														appendTo="body">
+													</p-dropdown>
+												</ng-template>
+											</p-column>
+											<p-column [style]="{'width':'100px', 'text-align':'center'}"
+												[editable]="true" field="posisiNoUrutStrukturMenu">
+												<ng-template let-col let-data="rowData" pTemplate="body">
+													<span *ngIf="data[col.field]==null">--Pilih--</span>
+													<span
+														*ngIf="data[col.field]!=null">{{data.posisiNoUrutStrukturMenu}}</span>
+												</ng-template>
+												<ng-template let-col let-data="rowData" pTemplate="editor">
+													<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+														[options]="listPosisiNoUrutStrukturMenu"
+														[(ngModel)]="data[col.field]" [autoWidth]="false"
+														[ngModelOptions]="{standalone: true}" appendTo="body">
+													</p-dropdown>
+												</ng-template>
+											</p-column>
+											<p-column [style]="{'width':'50px', 'text-align':'center'}"
+												field="tampilkan">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex"
+													let-data="rowData">
+													<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+														[ngModelOptions]="{standalone: true}"
+														[style]="{'margin-left':'0px'}">
+													</p-checkbox>
+												</ng-template>
+											</p-column>
+											<p-column field="statusAktif"
+												[style]="{'width':'50px', 'text-align':'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex"
+													let-data="rowData">
+													<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+														[ngModelOptions]="{standalone: true}"
+														(onChange)="isParentChecked($event,data,ri)"
+														[style]="{'margin-left':'0px'}"></p-checkbox>
+													<span
+														hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+														: {{data[col.field]}}</span>
+												</ng-template>
+											</p-column>
+
+
+
+											<ng-template let-dataCucu="rowData" let-riCucu="rowIndex"
+												pTemplate="rowexpansion">
+												<p-dataTable [value]="listMenu[ri].childs[riAnak].childs[riCucu].childs"
+													[editable]="true" expandableRows="true" #dtEnEmpat>
+
+													<p-column styleClass="col-icon"
+														[style]="{'width':'30px', 'text-align': 'left'}">
+														<ng-template let-col="rowData" pTemplate="body"
+															let-i="rowIndex">
+
+															<button type="button" *ngIf="col.childs.length !== 0"
+																(click)="toggleCoba(col, dtEnEmpat)"
+																style="margin-left: 30px;border: none;background: no-repeat;"><i
+																	class="fa fa-chevron-circle-right"></i></button>
+
+														</ng-template>
+													</p-column>
+													<p-column [style]="{'width':'120px'}" field="namaObjekModul">
+													</p-column>
+													<p-column [style]="{'width':'50px', 'text-align':'center'}"
+														[editable]="true" field="noUrut">
+														<ng-template let-col let-data="rowData" pTemplate="body">
+															{{data.noUrut}}
+														</ng-template>
+														<ng-template let-col let-data="rowData" pTemplate="editor">
+															<p-spinner class="ui-inputwrapper-filled" [min]="1"
+																[(ngModel)]="data[col.field]" appendTo="body">
+															</p-spinner>
+														</ng-template>
+													</p-column>
+													<p-column field="loginOtomatis"
+														[style]="{'width':'100px', 'text-align':'center'}">
+														<ng-template let-col pTemplate="body" let-ri="rowIndex"
+															let-data="rowData">
+															<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+																[ngModelOptions]="{standalone: true}"
+																[style]="{'margin-left':'0px'}"></p-checkbox>
+														</ng-template>
+													</p-column>
+													<p-column [style]="{'width':'100px', 'text-align':'center'}"
+														[editable]="true" field="posisiStrukturMenu">
+														<ng-template let-col let-data="rowData" pTemplate="body">
+															<span *ngIf="data[col.field]==null">--Pilih--</span>
+															<span
+																*ngIf="data[col.field]!=null">{{data.posisiStrukturMenu}}</span>
+														</ng-template>
+														<ng-template let-col let-data="rowData" pTemplate="editor">
+															<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+																[options]="listPosisiStrukturMenu"
+																[(ngModel)]="data[col.field]" [autoWidth]="false"
+																[ngModelOptions]="{standalone: true}" appendTo="body">
+															</p-dropdown>
+														</ng-template>
+													</p-column>
+													<p-column [style]="{'width':'100px', 'text-align':'center'}"
+														[editable]="true" field="posisiNoUrutStrukturMenu">
+														<ng-template let-col let-data="rowData" pTemplate="body">
+															<span *ngIf="data[col.field]==null">--Pilih--</span>
+															<span
+																*ngIf="data[col.field]!=null">{{data.posisiNoUrutStrukturMenu}}</span>
+														</ng-template>
+														<ng-template let-col let-data="rowData" pTemplate="editor">
+															<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+																[options]="listPosisiNoUrutStrukturMenu"
+																[(ngModel)]="data[col.field]" [autoWidth]="false"
+																[ngModelOptions]="{standalone: true}" appendTo="body">
+															</p-dropdown>
+														</ng-template>
+													</p-column>
+													<p-column [style]="{'width':'50px', 'text-align':'center'}"
+														field="tampilkan">
+														<ng-template let-col pTemplate="body" let-ri="rowIndex"
+															let-data="rowData">
+															<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+																[ngModelOptions]="{standalone: true}"
+																[style]="{'margin-left':'0px'}"></p-checkbox>
+														</ng-template>
+													</p-column>
+													<p-column field="statusAktif"
+														[style]="{'width':'50px', 'text-align':'center'}">
+														<ng-template let-col pTemplate="body" let-ri="rowIndex"
+															let-data="rowData">
+															<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+																[ngModelOptions]="{standalone: true}"
+																(onChange)="isParentChecked($event,data,ri)"
+																[style]="{'margin-left':'0px'}"></p-checkbox>
+															<span
+																hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+																: {{data[col.field]}}</span>
+														</ng-template>
+													</p-column>
+
+
+
+													<ng-template let-dataEmpat="rowData" let-riEmpat="rowIndex"
+														pTemplate="rowexpansion">
+														<p-dataTable
+															[value]="listMenu[ri].childs[riAnak].childs[riCucu].childs[riEmpat].childs"
+															[editable]="true" #dtEnLima>
+															<p-column styleClass="col-icon"
+																[style]="{'width':'30px', 'text-align': 'left'}">
+																<ng-template let-col="rowData" pTemplate="body"
+																	let-i="rowIndex">
+
+																	<button type="button"
+																		*ngIf="col.childs.length !== 0"
+																		(click)="toggleCoba(col, dtEnLima)"
+																		style="margin-left: 40px;border: none;background: no-repeat;"><i
+																			class="fa fa-chevron-circle-right"></i></button>
+																</ng-template>
+															</p-column>
+															<p-column [style]="{'width':'120px'}"
+																field="namaObjekModul">
+															</p-column>
+															<p-column [style]="{'width':'50px', 'text-align':'center'}"
+																[editable]="true" field="noUrut">
+																<ng-template let-col let-data="rowData"
+																	pTemplate="body">
+																	{{data.noUrut}}
+																</ng-template>
+																<ng-template let-col let-data="rowData"
+																	pTemplate="editor">
+																	<p-spinner class="ui-inputwrapper-filled" [min]="1"
+																		[(ngModel)]="data[col.field]" appendTo="body">
+																	</p-spinner>
+																</ng-template>
+															</p-column>
+															<p-column field="loginOtomatis"
+																[style]="{'width':'100px', 'text-align':'center'}">
+																<ng-template let-col pTemplate="body" let-ri="rowIndex"
+																	let-data="rowData">
+																	<p-checkbox binary="true"
+																		[(ngModel)]="data[col.field]"
+																		[ngModelOptions]="{standalone: true}"
+																		[style]="{'margin-left':'0px'}"></p-checkbox>
+																</ng-template>
+															</p-column>
+															<p-column [style]="{'width':'100px', 'text-align':'center'}"
+																[editable]="true" field="posisiStrukturMenu">
+																<ng-template let-col let-data="rowData"
+																	pTemplate="body">
+																	<span *ngIf="data[col.field]==null">--Pilih--</span>
+																	<span
+																		*ngIf="data[col.field]!=null">{{data.posisiStrukturMenu}}</span>
+																</ng-template>
+																<ng-template let-col let-data="rowData"
+																	pTemplate="editor">
+																	<p-dropdown id="dropdown"
+																		class="ui-inputwrapper-filled"
+																		[options]="listPosisiStrukturMenu"
+																		[(ngModel)]="data[col.field]"
+																		[autoWidth]="false"
+																		[ngModelOptions]="{standalone: true}"
+																		appendTo="body">
+																	</p-dropdown>
+																</ng-template>
+															</p-column>
+															<p-column [style]="{'width':'100px', 'text-align':'center'}"
+																[editable]="true" field="posisiNoUrutStrukturMenu">
+																<ng-template let-col let-data="rowData"
+																	pTemplate="body">
+																	<span *ngIf="data[col.field]==null">--Pilih--</span>
+																	<span
+																		*ngIf="data[col.field]!=null">{{data.posisiNoUrutStrukturMenu}}</span>
+																</ng-template>
+																<ng-template let-col let-data="rowData"
+																	pTemplate="editor">
+																	<p-dropdown id="dropdown"
+																		class="ui-inputwrapper-filled"
+																		[options]="listPosisiNoUrutStrukturMenu"
+																		[(ngModel)]="data[col.field]"
+																		[autoWidth]="false"
+																		[ngModelOptions]="{standalone: true}"
+																		appendTo="body">
+																	</p-dropdown>
+																</ng-template>
+															</p-column>
+															<p-column [style]="{'width':'50px', 'text-align':'center'}"
+																field="tampilkan">
+																<ng-template let-col pTemplate="body" let-ri="rowIndex"
+																	let-data="rowData">
+																	<p-checkbox binary="true"
+																		[(ngModel)]="data[col.field]"
+																		[ngModelOptions]="{standalone: true}"
+																		[style]="{'margin-left':'0px'}"></p-checkbox>
+																</ng-template>
+															</p-column>
+															<p-column field="statusAktif"
+																[style]="{'width':'50px', 'text-align':'center'}">
+																<ng-template let-col pTemplate="body" let-ri="rowIndex"
+																	let-data="rowData">
+																	<p-checkbox binary="true"
+																		[(ngModel)]="data[col.field]"
+																		[ngModelOptions]="{standalone: true}"
+																		(onChange)="isParentChecked($event,data,ri)"
+																		[style]="{'margin-left':'0px'}"></p-checkbox>
+																	<span
+																		hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+																		: {{data[col.field]}}</span>
+																</ng-template>
+															</p-column>
+														</p-dataTable>
+													</ng-template>
+												</p-dataTable>
+											</ng-template>
+										</p-dataTable>
+									</ng-template>
+								</p-dataTable>
+							</ng-template>
+						</p-dataTable>
+					</div>
+					<div class="ui-g-12 ui-md-12">
+						<div class="ui-g-12 ui-md-1 ui-md-offset-9">
+							<button pButton type="button" label="{{'frmCustomerCare_tambah'| translate | splitCharT}}"
+								icon="fa-plus" (click)="onAdd()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1"><button pButton type="button"
+								label="{{'frmCustomerCare_simpan'| translate | splitCharT}}" icon="fa-save"
+								(click)="updatelistmenu()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1"><button pButton type="button"
+								label="{{'frmCustomerCare_batal'| translate | splitCharT}}" icon="fa-refresh"
+								(click)="close1()"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p-dialog header="{{'frmCustomerCare_aktifkan'| translate | splitCharT}}" [(visible)]="popuptgl" [modal]="true"
+	[responsive]="true" [draggable]="false" [style]="{width: '350px', minWidth: '200px'}">
+	<app-calender [monthNavigator]="true" [(ngModel)]="tglAktif" [inline]="true" [yearNavigator]="true"
+		yearRange="2000:2030" [showIcon]="true" dateFormat="dd M yy">
+	</app-calender>
+	<p-footer>
+		<button pButton type="button" label="{{'frmCustomerCare_simpan'| translate | splitCharT}}"
+			(click)="onChangeAktif()"></button>
+	</p-footer>
+</p-dialog>
+
+<p-dialog header="{{'frmCustomerCare_nonAktifkan'| translate | splitCharT}}" [(visible)]="popuptglnonaktif"
+	[modal]="true" [responsive]="true" [draggable]="false" [style]="{width: '350px', minWidth: '200px'}">
+	<app-calender [monthNavigator]="true" [(ngModel)]="tglNonAktif" [inline]="true" [yearNavigator]="true"
+		yearRange="2000:2030" [showIcon]="true" dateFormat="dd M yy">
+	</app-calender>
+	<p-footer>
+		<button pButton type="button" label="{{'frmCustomerCare_simpan'| translate | splitCharT}}"
+			(click)="onChangeNonAktif()"></button>
+	</p-footer>
+</p-dialog>
+
+<!-- <p-dialog header="{{'frmCustomerCare_aktifkan'| translate | splitCharT}}" [(visible)]="popupPreviewMenu" [modal]="true"
+	[responsive]="true" positionTop="5" [draggable]="false" height="auto" width="{{innerWidth}}">
+	<div class="ui-g form-group">
+		<div class="ui-g-12 ui-md-2">
+			<div class="ui-g-12 ui-md-10">
+				<label for="input">
+					{{'frmCustomerCare_popProfile'| translate | splitCharT }}
+				</label>
+				<input id="input" disabled maxlength="150" type="text" [(ngModel)]="sNamaProfile"
+					[ngModelOptions]="{standalone: true}" pInputText />
+			</div>
+			<div class="ui-g-12 ui-md-10">
+				<label for="input">
+					{{'frmCustomerCare_popMdlAplikasi'| translate | splitCharT }}
+				</label>
+				<input id="input" disabled maxlength="150" type="text" [(ngModel)]="sMdlAplikasi"
+					[ngModelOptions]="{standalone: true}" pInputText />
+			</div>
+			<div class="ui-g-12 ui-md-10">
+				<label for="input">
+					{{'frmCustomerCare_popVersion'| translate | splitCharT }}
+				</label>
+				<input id="input" disabled maxlength="150" type="text" [(ngModel)]="sVersion"
+					[ngModelOptions]="{standalone: true}" pInputText />
+			</div>
+		</div>
+		<div class="ui-g-12 ui-md-10">
+			<p-dataTable [value]="listMenu" [editable]="true" rowGroupMode="subheader" groupField="nama"
+				[scrollable]="true" [globalFilter]="gb" expandableRows="true" #dtEn>
+				<p-column styleClass="col-icon" [style]="{'width':'50px', 'text-align': 'left'}">
+					<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+						<button type="button" *ngIf="col.childs.length !== 0" (click)="toggleCoba(col, dtEn)"
+							style="margin-left: 0px;border: none;background: no-repeat;"><i
+								class="fa fa-chevron-circle-right"></i></button>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'120px'}"
+					header="{{'frmMonitoringUserBaru_popObjModul'| translate | splitCharT }}" field="namaObjekModul">
+				</p-column>
+				<p-column [style]="{'width':'50px', 'text-align':'center'}" [editable]="true"
+					header="{{'frmMonitoringUserBaru_popNoUrut'| translate | splitCharT }}" field="noUrut">
+					<ng-template let-col let-data="rowData" pTemplate="body">
+						{{data.noUrut}}
+					</ng-template>
+					<ng-template let-col let-data="rowData" pTemplate="editor">
+						<p-spinner class="ui-inputwrapper-filled" [min]="1" [(ngModel)]="data[col.field]"
+							appendTo="body"></p-spinner>
+					</ng-template>
+				</p-column>
+
+				<p-column [style]="{'width':'100px', 'text-align':'center'}"
+					header="{{'frmMonitoringUserBaru_popLoginOtomatis'| translate | splitCharT }}" field="loginOtomatis"
+					[style]="{'width':'50px', 'text-align': 'left'}">
+					<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+						<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+							[style]="{'margin-left':'0px'}"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'100px', 'text-align':'center'}"
+					header="{{'frmMonitoringUserBaru_popPosisiStrukturMenu'| translate | splitCharT }}"
+					field="posisiStrukturMenu" [editable]="true">
+					<ng-template let-col let-data="rowData" pTemplate="body">
+						{{data.posisiStrukturMenu}}
+					</ng-template>
+					<ng-template let-col let-data="rowData" pTemplate="editor">
+						<p-dropdown id="dropdown" class="ui-inputwrapper-filled" [options]="listPosisiStrukturMenu"
+							[(ngModel)]="data[col.field]" [autoWidth]="false" [ngModelOptions]="{standalone: true}"
+							appendTo="body"></p-dropdown>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'100px', 'text-align':'center'}"
+					header="{{'frmMonitoringUserBaru_popPosisiNoUrutS'| translate | splitCharT }}"
+					field="posisiNoUrutStrukturMenu" [editable]="true">
+					<ng-template let-col let-data="rowData" pTemplate="body">
+						{{data.posisiNoUrutStrukturMenu}}
+					</ng-template>
+					<ng-template let-col let-data="rowData" pTemplate="editor">
+						<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+							[options]="listPosisiNoUrutStrukturMenu" [(ngModel)]="data[col.field]" [autoWidth]="false"
+							[ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'50px', 'text-align':'center'}"
+					header="{{'frmMonitoringUserBaru_popTampilkan'| translate | splitCharT }}" field="tampilkan">
+					<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+						<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+							[style]="{'margin-left':'0px'}"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column header="{{'frmMonitoringUserBaru_popStatus'| translate | splitCharT }}" field="statusAktif"
+					[style]="{'width':'50px', 'text-align': 'center'}">
+					<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+						<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+							(onChange)="isParentChecked($event,data,ri)" [style]="{'margin-left':'0px'}"></p-checkbox>
+						<span hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+							: {{data[col.field]}}</span>
+					</ng-template>
+				</p-column>
+				
+				
+				<ng-template let-data="rowData" let-ri="rowIndex" pTemplate="rowexpansion">
+					<p-dataTable [value]="listMenu[ri].childs" [editable]="true" expandableRows="true" #dtEnAnak>
+
+						<p-column styleClass="col-icon" [style]="{'width':'50px', 'text-align': 'left'}">
+							<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+								<button type="button" *ngIf="col.childs.length !== 0"
+									(click)="toggleCoba(col, dtEnAnak)"
+									style="margin-left: 10px;border: none;background: no-repeat;"><i
+										class="fa fa-chevron-circle-right"></i></button>
+
+							</ng-template>
+						</p-column>
+						<p-column [style]="{'width':'120px'}" field="namaObjekModul">
+						</p-column>
+						<p-column [style]="{'width':'50px', 'text-align':'center'}" [editable]="true" field="noUrut">
+							<ng-template let-col let-data="rowData" pTemplate="body">
+								{{data.noUrut}}
+							</ng-template>
+							<ng-template let-col let-data="rowData" pTemplate="editor">
+								<p-spinner class="ui-inputwrapper-filled" [min]="1" [(ngModel)]="data[col.field]"
+									appendTo="body"></p-spinner>
+							</ng-template>
+						</p-column>
+						<p-column field="loginOtomatis" [style]="{'width':'100px', 'text-align':'center'}">
+							<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+								<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+									[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}"></p-checkbox>
+							</ng-template>
+						</p-column>
+						<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+							field="posisiStrukturMenu">
+							<ng-template let-col let-data="rowData" pTemplate="body">
+								{{data.posisiStrukturMenu}}
+							</ng-template>
+							<ng-template let-col let-data="rowData" pTemplate="editor">
+								<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+									[options]="listPosisiStrukturMenu" [(ngModel)]="data[col.field]" [autoWidth]="false"
+									[ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+							</ng-template>
+						</p-column>
+						<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+							field="posisiNoUrutStrukturMenu">
+							<ng-template let-col let-data="rowData" pTemplate="body">
+								{{data.posisiNoUrutStrukturMenu}}
+							</ng-template>
+							<ng-template let-col let-data="rowData" pTemplate="editor">
+								<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+									[options]="listPosisiNoUrutStrukturMenu" [(ngModel)]="data[col.field]"
+									[autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body">
+								</p-dropdown>
+							</ng-template>
+						</p-column>
+						<p-column [style]="{'width':'50px', 'text-align':'center'}" field="tampilkan">
+							<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+								<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+									[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}"></p-checkbox>
+							</ng-template>
+						</p-column>
+						<p-column field="statusAktif" [style]="{'width':'50px', 'text-align':'center'}">
+							<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+								<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+									[ngModelOptions]="{standalone: true}" (onChange)="isParentChecked($event,data,ri)"
+									[style]="{'margin-left':'0px'}"></p-checkbox>
+								<span hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+									: {{data[col.field]}}</span>
+							</ng-template>
+						</p-column>
+						
+						
+
+						<ng-template let-dataAnak="rowData" let-riAnak="rowIndex" pTemplate="rowexpansion">
+							<p-dataTable [value]="listMenu[ri].childs[riAnak].childs" [editable]="true"
+								expandableRows="true" #dtEnCucu>
+								<p-column styleClass="col-icon" [style]="{'width':'50px', 'text-align': 'left'}">
+									<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+										<button type="button" *ngIf="col.childs.length !== 0"
+											(click)="toggleCoba(col, dtEnCucu)"
+											style="margin-left: 20px;border: none;background: no-repeat;"><i
+												class="fa fa-chevron-circle-right"></i></button>
+									</ng-template>
+								</p-column>
+								<p-column [style]="{'width':'120px'}" field="namaObjekModul">
+								</p-column>
+								<p-column [style]="{'width':'50px', 'text-align':'center'}" [editable]="true"
+									field="noUrut">
+									<ng-template let-col let-data="rowData" pTemplate="body">
+										{{data.noUrut}}
+									</ng-template>
+									<ng-template let-col let-data="rowData" pTemplate="editor">
+										<p-spinner class="ui-inputwrapper-filled" [min]="1"
+											[(ngModel)]="data[col.field]" appendTo="body"></p-spinner>
+									</ng-template>
+								</p-column>
+								<p-column field="loginOtomatis" [style]="{'width':'100px', 'text-align':'center'}">
+									<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+										<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+											[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}">
+										</p-checkbox>
+									</ng-template>
+								</p-column>
+								<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+									field="posisiStrukturMenu">
+									<ng-template let-col let-data="rowData" pTemplate="body">
+										{{data.posisiStrukturMenu}}
+									</ng-template>
+									<ng-template let-col let-data="rowData" pTemplate="editor">
+										<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+											[options]="listPosisiStrukturMenu" [(ngModel)]="data[col.field]"
+											[autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body">
+										</p-dropdown>
+									</ng-template>
+								</p-column>
+								<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+									field="posisiNoUrutStrukturMenu">
+									<ng-template let-col let-data="rowData" pTemplate="body">
+										{{data.posisiNoUrutStrukturMenu}}
+									</ng-template>
+									<ng-template let-col let-data="rowData" pTemplate="editor">
+										<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+											[options]="listPosisiNoUrutStrukturMenu" [(ngModel)]="data[col.field]"
+											[autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body">
+										</p-dropdown>
+									</ng-template>
+								</p-column>
+								<p-column [style]="{'width':'50px', 'text-align':'center'}" field="tampilkan">
+									<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+										<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+											[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}">
+										</p-checkbox>
+									</ng-template>
+								</p-column>
+								<p-column field="statusAktif" [style]="{'width':'50px', 'text-align':'center'}">
+									<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+										<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+											[ngModelOptions]="{standalone: true}"
+											(onChange)="isParentChecked($event,data,ri)"
+											[style]="{'margin-left':'0px'}"></p-checkbox>
+										<span
+											hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+											: {{data[col.field]}}</span>
+									</ng-template>
+								</p-column>
+								
+								
+
+								<ng-template let-dataCucu="rowData" let-riCucu="rowIndex" pTemplate="rowexpansion">
+									<p-dataTable [value]="listMenu[ri].childs[riAnak].childs[riCucu].childs"
+										[editable]="true" expandableRows="true" #dtEnEmpat>
+
+										<p-column styleClass="col-icon"
+											[style]="{'width':'50px', 'text-align': 'left'}">
+											<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+
+												<button type="button" *ngIf="col.childs.length !== 0"
+													(click)="toggleCoba(col, dtEnEmpat)"
+													style="margin-left: 30px;border: none;background: no-repeat;"><i
+														class="fa fa-chevron-circle-right"></i></button>
+
+											</ng-template>
+										</p-column>
+										<p-column [style]="{'width':'120px'}" field="namaObjekModul">
+										</p-column>
+										<p-column [style]="{'width':'50px', 'text-align':'center'}" [editable]="true"
+											field="noUrut">
+											<ng-template let-col let-data="rowData" pTemplate="body">
+												{{data.noUrut}}
+											</ng-template>
+											<ng-template let-col let-data="rowData" pTemplate="editor">
+												<p-spinner class="ui-inputwrapper-filled" [min]="1"
+													[(ngModel)]="data[col.field]" appendTo="body"></p-spinner>
+											</ng-template>
+										</p-column>
+										<p-column field="loginOtomatis"
+											[style]="{'width':'100px', 'text-align':'center'}">
+											<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+												<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+													[ngModelOptions]="{standalone: true}"
+													[style]="{'margin-left':'0px'}"></p-checkbox>
+											</ng-template>
+										</p-column>
+										<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+											field="posisiStrukturMenu">
+											<ng-template let-col let-data="rowData" pTemplate="body">
+												{{data.posisiStrukturMenu}}
+											</ng-template>
+											<ng-template let-col let-data="rowData" pTemplate="editor">
+												<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+													[options]="listPosisiStrukturMenu" [(ngModel)]="data[col.field]"
+													[autoWidth]="false" [ngModelOptions]="{standalone: true}"
+													appendTo="body"></p-dropdown>
+											</ng-template>
+										</p-column>
+										<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+											field="posisiNoUrutStrukturMenu">
+											<ng-template let-col let-data="rowData" pTemplate="body">
+												{{data.posisiNoUrutStrukturMenu}}
+											</ng-template>
+											<ng-template let-col let-data="rowData" pTemplate="editor">
+												<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+													[options]="listPosisiNoUrutStrukturMenu"
+													[(ngModel)]="data[col.field]" [autoWidth]="false"
+													[ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+											</ng-template>
+										</p-column>
+										<p-column [style]="{'width':'50px', 'text-align':'center'}" field="tampilkan">
+											<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+												<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+													[ngModelOptions]="{standalone: true}"
+													[style]="{'margin-left':'0px'}"></p-checkbox>
+											</ng-template>
+										</p-column>
+										<p-column field="statusAktif" [style]="{'width':'50px', 'text-align':'center'}">
+											<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+												<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+													[ngModelOptions]="{standalone: true}"
+													(onChange)="isParentChecked($event,data,ri)"
+													[style]="{'margin-left':'0px'}"></p-checkbox>
+												<span
+													hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+													: {{data[col.field]}}</span>
+											</ng-template>
+										</p-column>
+										
+										
+
+										<ng-template let-dataEmpat="rowData" let-riEmpat="rowIndex"
+											pTemplate="rowexpansion">
+											<p-dataTable
+												[value]="listMenu[ri].childs[riAnak].childs[riCucu].childs[riEmpat].childs"
+												[editable]="true" #dtEnLima>
+												<p-column styleClass="col-icon"
+													[style]="{'width':'50px', 'text-align': 'left'}">
+													<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+
+														<button type="button" *ngIf="col.childs.length !== 0"
+															(click)="toggleCoba(col, dtEnLima)"
+															style="margin-left: 40px;border: none;background: no-repeat;"><i
+																class="fa fa-chevron-circle-right"></i></button>
+													</ng-template>
+												</p-column>
+												<p-column [style]="{'width':'120px'}" field="namaObjekModul">
+												</p-column>
+												<p-column [style]="{'width':'50px', 'text-align':'center'}"
+													[editable]="true" field="noUrut">
+													<ng-template let-col let-data="rowData" pTemplate="body">
+														{{data.noUrut}}
+													</ng-template>
+													<ng-template let-col let-data="rowData" pTemplate="editor">
+														<p-spinner class="ui-inputwrapper-filled" [min]="1"
+															[(ngModel)]="data[col.field]" appendTo="body"></p-spinner>
+													</ng-template>
+												</p-column>
+												<p-column field="loginOtomatis"
+													[style]="{'width':'100px', 'text-align':'center'}">
+													<ng-template let-col pTemplate="body" let-ri="rowIndex"
+														let-data="rowData">
+														<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}"
+															[style]="{'margin-left':'0px'}"></p-checkbox>
+													</ng-template>
+												</p-column>
+												<p-column [style]="{'width':'100px', 'text-align':'center'}"
+													[editable]="true" field="posisiStrukturMenu">
+													<ng-template let-col let-data="rowData" pTemplate="body">
+														{{data.posisiStrukturMenu}}
+													</ng-template>
+													<ng-template let-col let-data="rowData" pTemplate="editor">
+														<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+															[options]="listPosisiStrukturMenu"
+															[(ngModel)]="data[col.field]" [autoWidth]="false"
+															[ngModelOptions]="{standalone: true}" appendTo="body">
+														</p-dropdown>
+													</ng-template>
+												</p-column>
+												<p-column [style]="{'width':'100px', 'text-align':'center'}"
+													[editable]="true" field="posisiNoUrutStrukturMenu">
+													<ng-template let-col let-data="rowData" pTemplate="body">
+														{{data.posisiNoUrutStrukturMenu}}
+													</ng-template>
+													<ng-template let-col let-data="rowData" pTemplate="editor">
+														<p-dropdown id="dropdown" class="ui-inputwrapper-filled"
+															[options]="listPosisiNoUrutStrukturMenu"
+															[(ngModel)]="data[col.field]" [autoWidth]="false"
+															[ngModelOptions]="{standalone: true}" appendTo="body">
+														</p-dropdown>
+													</ng-template>
+												</p-column>
+												<p-column [style]="{'width':'50px', 'text-align':'center'}"
+													field="tampilkan">
+													<ng-template let-col pTemplate="body" let-ri="rowIndex"
+														let-data="rowData">
+														<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}"
+															[style]="{'margin-left':'0px'}"></p-checkbox>
+													</ng-template>
+												</p-column>
+												<p-column field="statusAktif"
+													[style]="{'width':'50px', 'text-align':'center'}">
+													<ng-template let-col pTemplate="body" let-ri="rowIndex"
+														let-data="rowData">
+														<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}"
+															(onChange)="isParentChecked($event,data,ri)"
+															[style]="{'margin-left':'0px'}"></p-checkbox>
+														<span
+															hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+															: {{data[col.field]}}</span>
+													</ng-template>
+												</p-column>
+											</p-dataTable>
+										</ng-template>
+									</p-dataTable>
+								</ng-template>
+							</p-dataTable>
+						</ng-template>
+					</p-dataTable>
+				</ng-template>
+			</p-dataTable>
+		</div>
+	</div>
+	<p-footer>
+		<button pButton type="button" label="{{'frmCustomerCare_tambah'| translate | splitCharT}}" icon="fa-plus"
+			(click)="onAdd()"></button>
+		<button pButton type="button" label="{{'frmCustomerCare_simpan'| translate | splitCharT}}" icon="fa-save"
+			(click)="updatelistmenu()"></button>
+		<button pButton type="button" label="{{'frmCustomerCare_batal'| translate | splitCharT}}" icon="fa-refresh"
+			(click)="popupPreviewMenu=false"></button>
+	</p-footer>
+</p-dialog> -->
+
+
+<p-dialog header="{{'frmCustomerCare_tambahmenu'| translate | splitCharT}}" [(visible)]="popupTambah" [modal]="true"
+	[responsive]="true" [style]="{'max-height':'620px'}" positionTop="5" [draggable]="false" height="auto"
+	width="{{innerWidth}}">
+	<div class="ui-g form-group">
+		<div class="ui-g-12 ui-md-12">
+			<div class="ui-helper-clearfix">
+				<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+				<input type="text" pInputText size="50"
+					placeholder="{{'frmVisi_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarianTambahMenu"
+					(keyup)="cari()" style="width: 20%;float:right;">
+			</div>
+		</div>
+		<div style="overflow-y: scroll; height: 500px;" class="ui-g-12 ui-md-12">
+			<p-dataTable [value]="listTambahMenu" [editable]="true" rowGroupMode="subheader" groupField="nama"
+				[scrollable]="true" [globalFilter]="gb" expandableRows="true" #dtEn>
+				<p-column styleClass="col-icon" [style]="{'width':'20px', 'text-align': 'left'}">
+					<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+						<button type="button" *ngIf="col.childs.length !== 0" (click)="toggleCoba(col, dtEn)"
+							style="margin-left: 0px;border: none;background: no-repeat;"><i
+								class="fa fa-chevron-circle-right"></i></button>
+					</ng-template>
+				</p-column>
+				<p-column field="isChecked" [style]="{'width':'10px', 'text-align': 'left'}">
+					<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+						<!-- <p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+							(onChange)="isParentChecked($event,data,ri)" [style]="{'margin-left':'0px'}"></p-checkbox> -->
+						<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+							[style]="{'margin-left':'0px'}"></p-checkbox>
+						<!-- <span hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+							: {{data[col.field]}}</span> -->
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'120px'}"
+					header="{{'frmMonitoringUserBaru_popObjModul'| translate | splitCharT }}" field="namaObjekModul">
+				</p-column>
+				<p-column [style]="{'width':'50px', 'text-align':'center'}" [editable]="true"
+					header="{{'frmMonitoringUserBaru_popNoUrut'| translate | splitCharT }}" field="noUrut">
+					<ng-template let-col let-data="rowData" pTemplate="body">
+						{{data.noUrut}}
+					</ng-template>
+					<ng-template let-col let-data="rowData" pTemplate="editor">
+						<p-spinner class="ui-inputwrapper-filled" [min]="1" [(ngModel)]="data[col.field]"
+							appendTo="body"></p-spinner>
+					</ng-template>
+				</p-column>
+
+				<p-column [style]="{'width':'100px', 'text-align':'center'}"
+					header="{{'frmMonitoringUserBaru_popLoginOtomatis'| translate | splitCharT }}" field="loginOtomatis"
+					[style]="{'width':'50px', 'text-align': 'left'}">
+					<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+						<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+							[style]="{'margin-left':'0px'}"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'100px', 'text-align':'center'}"
+					header="{{'frmMonitoringUserBaru_popPosisiStrukturMenu'| translate | splitCharT }}"
+					field="posisiStrukturMenu" [editable]="true">
+					<ng-template let-col let-data="rowData" pTemplate="body">
+						<span *ngIf="data[col.field]==null">--Pilih--</span>
+						<span *ngIf="data[col.field]!=null">{{data.posisiStrukturMenu}}</span>
+					</ng-template>
+					<ng-template let-col let-data="rowData" pTemplate="editor">
+						<p-dropdown [style]="{'width':'150px'}" id="dropdown" class="ui-inputwrapper-filled"
+							[options]="listPosisiStrukturMenu" [(ngModel)]="data[col.field]" [autoWidth]="false"
+							[ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'100px', 'text-align':'center'}"
+					header="{{'frmMonitoringUserBaru_popPosisiNoUrutS'| translate | splitCharT }}"
+					field="posisiNoUrutStrukturMenu" [editable]="true">
+					<ng-template let-col let-data="rowData" pTemplate="body">
+						<span *ngIf="data[col.field]==null">--Pilih--</span>
+						<span *ngIf="data[col.field]!=null">{{data.posisiNoUrutStrukturMenu}}</span>
+					</ng-template>
+					<ng-template let-col let-data="rowData" pTemplate="editor">
+						<p-dropdown [style]="{'width':'150px'}" id="dropdown" class="ui-inputwrapper-filled"
+							[options]="listPosisiNoUrutStrukturMenu" [(ngModel)]="data[col.field]" [autoWidth]="false"
+							[ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+					</ng-template>
+				</p-column>
+				<p-column [style]="{'width':'50px', 'text-align':'center'}"
+					header="{{'frmMonitoringUserBaru_popTampilkan'| translate | splitCharT }}" field="tampilkan">
+					<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+						<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+							[style]="{'margin-left':'0px'}"></p-checkbox>
+					</ng-template>
+				</p-column>
+				<p-column header="{{'frmMonitoringUserBaru_popStatus'| translate | splitCharT }}" field="isChecked"
+					[style]="{'width':'50px', 'text-align': 'center'}">
+					<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+						<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+							[style]="{'margin-left':'0px'}"></p-checkbox>
+						<!-- <span hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+							: {{data[col.field]}}</span> -->
+					</ng-template>
+				</p-column>
+
+
+				<ng-template let-data="rowData" let-ri="rowIndex" pTemplate="rowexpansion">
+					<p-dataTable [value]="listMenu[ri].childs" [editable]="true" expandableRows="true" #dtEnAnak>
+
+						<p-column styleClass="col-icon" [style]="{'width':'30px', 'text-align': 'left'}">
+							<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+								<button type="button" *ngIf="col.childs.length !== 0"
+									(click)="toggleCoba(col, dtEnAnak)"
+									style="margin-left: 10px;border: none;background: no-repeat;"><i
+										class="fa fa-chevron-circle-right"></i></button>
+
+							</ng-template>
+						</p-column>
+						<p-column field="isChecked" [style]="{'width':'10px', 'text-align': 'left'}">
+							<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+								<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+									[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}"></p-checkbox>
+							</ng-template>
+						</p-column>
+						<p-column [style]="{'width':'110px'}" field="namaObjekModul">
+						</p-column>
+						<p-column [style]="{'width':'50px', 'text-align':'center'}" [editable]="true" field="noUrut">
+							<ng-template let-col let-data="rowData" pTemplate="body">
+								{{data.noUrut}}
+							</ng-template>
+							<ng-template let-col let-data="rowData" pTemplate="editor">
+								<p-spinner class="ui-inputwrapper-filled" [min]="1" [(ngModel)]="data[col.field]"
+									appendTo="body"></p-spinner>
+							</ng-template>
+						</p-column>
+						<p-column field="loginOtomatis" [style]="{'width':'100px', 'text-align':'center'}">
+							<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+								<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+									[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}"></p-checkbox>
+							</ng-template>
+						</p-column>
+						<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+							field="posisiStrukturMenu">
+							<ng-template let-col let-data="rowData" pTemplate="body">
+								<span *ngIf="data[col.field]==null">--Pilih--</span>
+								<span *ngIf="data[col.field]!=null">{{data.posisiStrukturMenu}}</span>
+							</ng-template>
+							<ng-template let-col let-data="rowData" pTemplate="editor">
+								<p-dropdown [style]="{'width':'150px'}" id="dropdown" class="ui-inputwrapper-filled"
+									[options]="listPosisiStrukturMenu" [(ngModel)]="data[col.field]" [autoWidth]="false"
+									[ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+							</ng-template>
+						</p-column>
+						<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+							field="posisiNoUrutStrukturMenu">
+							<ng-template let-col let-data="rowData" pTemplate="body">
+								<span *ngIf="data[col.field]==null">--Pilih--</span>
+								<span *ngIf="data[col.field]!=null">{{data.posisiNoUrutStrukturMenu}}</span>
+							</ng-template>
+							<ng-template let-col let-data="rowData" pTemplate="editor">
+								<p-dropdown [style]="{'width':'150px'}" id="dropdown" class="ui-inputwrapper-filled"
+									[options]="listPosisiNoUrutStrukturMenu" [(ngModel)]="data[col.field]"
+									[autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body">
+								</p-dropdown>
+							</ng-template>
+						</p-column>
+						<p-column [style]="{'width':'50px', 'text-align':'center'}" field="tampilkan">
+							<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+								<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+									[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}"></p-checkbox>
+							</ng-template>
+						</p-column>
+						<p-column field="statusAktif" [style]="{'width':'50px', 'text-align':'center'}">
+							<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+								<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+									[ngModelOptions]="{standalone: true}" (onChange)="isParentChecked($event,data,ri)"
+									[style]="{'margin-left':'0px'}"></p-checkbox>
+								<span hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+									: {{data[col.field]}}</span>
+							</ng-template>
+						</p-column>
+						<ng-template let-dataAnak="rowData" let-riAnak="rowIndex" pTemplate="rowexpansion">
+							<p-dataTable [value]="listMenu[ri].childs[riAnak].childs" [editable]="true"
+								expandableRows="true" #dtEnCucu>
+								<p-column styleClass="col-icon" [style]="{'width':'50px', 'text-align': 'left'}">
+									<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+										<button type="button" *ngIf="col.childs.length !== 0"
+											(click)="toggleCoba(col, dtEnCucu)"
+											style="margin-left: 20px;border: none;background: no-repeat;"><i
+												class="fa fa-chevron-circle-right"></i></button>
+									</ng-template>
+								</p-column>
+								<p-column field="isChecked" [style]="{'width':'50px', 'text-align': 'left'}">
+									<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+										<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+											[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}">
+										</p-checkbox>
+									</ng-template>
+								</p-column>
+								<p-column [style]="{'width':'120px'}" field="namaObjekModul">
+								</p-column>
+								<p-column [style]="{'width':'50px', 'text-align':'center'}" [editable]="true"
+									field="noUrut">
+									<ng-template let-col let-data="rowData" pTemplate="body">
+										{{data.noUrut}}
+									</ng-template>
+									<ng-template let-col let-data="rowData" pTemplate="editor">
+										<p-spinner class="ui-inputwrapper-filled" [min]="1"
+											[(ngModel)]="data[col.field]" appendTo="body"></p-spinner>
+									</ng-template>
+								</p-column>
+								<p-column field="loginOtomatis" [style]="{'width':'100px', 'text-align':'center'}">
+									<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+										<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+											[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}">
+										</p-checkbox>
+									</ng-template>
+								</p-column>
+								<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+									field="posisiStrukturMenu">
+									<ng-template let-col let-data="rowData" pTemplate="body">
+										<span *ngIf="data[col.field]==null">--Pilih--</span>
+										<span *ngIf="data[col.field]!=null">{{data.posisiStrukturMenu}}</span>
+									</ng-template>
+									<ng-template let-col let-data="rowData" pTemplate="editor">
+										<p-dropdown [style]="{'width':'150px'}" id="dropdown"
+											class="ui-inputwrapper-filled" [options]="listPosisiStrukturMenu"
+											[(ngModel)]="data[col.field]" [autoWidth]="false"
+											[ngModelOptions]="{standalone: true}" appendTo="body">
+										</p-dropdown>
+									</ng-template>
+								</p-column>
+								<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+									field="posisiNoUrutStrukturMenu">
+									<ng-template let-col let-data="rowData" pTemplate="body">
+										<span *ngIf="data[col.field]==null">--Pilih--</span>
+										<span *ngIf="data[col.field]!=null">{{data.posisiNoUrutStrukturMenu}}</span>
+									</ng-template>
+									<ng-template let-col let-data="rowData" pTemplate="editor">
+										<p-dropdown [style]="{'width':'150px'}" id="dropdown"
+											class="ui-inputwrapper-filled" [options]="listPosisiNoUrutStrukturMenu"
+											[(ngModel)]="data[col.field]" [autoWidth]="false"
+											[ngModelOptions]="{standalone: true}" appendTo="body">
+										</p-dropdown>
+									</ng-template>
+								</p-column>
+								<p-column [style]="{'width':'50px', 'text-align':'center'}" field="tampilkan">
+									<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+										<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+											[ngModelOptions]="{standalone: true}" [style]="{'margin-left':'0px'}">
+										</p-checkbox>
+									</ng-template>
+								</p-column>
+								<p-column field="statusAktif" [style]="{'width':'50px', 'text-align':'center'}">
+									<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+										<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+											[ngModelOptions]="{standalone: true}"
+											(onChange)="isParentChecked($event,data,ri)"
+											[style]="{'margin-left':'0px'}"></p-checkbox>
+										<span
+											hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+											: {{data[col.field]}}</span>
+									</ng-template>
+								</p-column>
+
+
+
+								<ng-template let-dataCucu="rowData" let-riCucu="rowIndex" pTemplate="rowexpansion">
+									<p-dataTable [value]="listMenu[ri].childs[riAnak].childs[riCucu].childs"
+										[editable]="true" expandableRows="true" #dtEnEmpat>
+
+										<p-column styleClass="col-icon"
+											[style]="{'width':'50px', 'text-align': 'left'}">
+											<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+
+												<button type="button" *ngIf="col.childs.length !== 0"
+													(click)="toggleCoba(col, dtEnEmpat)"
+													style="margin-left: 30px;border: none;background: no-repeat;"><i
+														class="fa fa-chevron-circle-right"></i></button>
+
+											</ng-template>
+										</p-column>
+										<p-column field="isChecked" [style]="{'width':'50px', 'text-align': 'left'}">
+											<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+												<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+													[ngModelOptions]="{standalone: true}"
+													[style]="{'margin-left':'0px'}"></p-checkbox>
+											</ng-template>
+										</p-column>
+										<p-column [style]="{'width':'120px'}" field="namaObjekModul">
+										</p-column>
+										<p-column [style]="{'width':'50px', 'text-align':'center'}" [editable]="true"
+											field="noUrut">
+											<ng-template let-col let-data="rowData" pTemplate="body">
+												{{data.noUrut}}
+											</ng-template>
+											<ng-template let-col let-data="rowData" pTemplate="editor">
+												<p-spinner class="ui-inputwrapper-filled" [min]="1"
+													[(ngModel)]="data[col.field]" appendTo="body"></p-spinner>
+											</ng-template>
+										</p-column>
+										<p-column field="loginOtomatis"
+											[style]="{'width':'100px', 'text-align':'center'}">
+											<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+												<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+													[ngModelOptions]="{standalone: true}"
+													[style]="{'margin-left':'0px'}"></p-checkbox>
+											</ng-template>
+										</p-column>
+										<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+											field="posisiStrukturMenu">
+											<ng-template let-col let-data="rowData" pTemplate="body">
+												<span *ngIf="data[col.field]==null">--Pilih--</span>
+												<span *ngIf="data[col.field]!=null">{{data.posisiStrukturMenu}}</span>
+											</ng-template>
+											<ng-template let-col let-data="rowData" pTemplate="editor">
+												<p-dropdown [style]="{'width':'150px'}" id="dropdown"
+													class="ui-inputwrapper-filled" [options]="listPosisiStrukturMenu"
+													[(ngModel)]="data[col.field]" [autoWidth]="false"
+													[ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+											</ng-template>
+										</p-column>
+										<p-column [style]="{'width':'100px', 'text-align':'center'}" [editable]="true"
+											field="posisiNoUrutStrukturMenu">
+											<ng-template let-col let-data="rowData" pTemplate="body">
+												<span *ngIf="data[col.field]==null">--Pilih--</span>
+												<span
+													*ngIf="data[col.field]!=null">{{data.posisiNoUrutStrukturMenu}}</span>
+											</ng-template>
+											<ng-template let-col let-data="rowData" pTemplate="editor">
+												<p-dropdown [style]="{'width':'150px'}" id="dropdown"
+													class="ui-inputwrapper-filled"
+													[options]="listPosisiNoUrutStrukturMenu"
+													[(ngModel)]="data[col.field]" [autoWidth]="false"
+													[ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+											</ng-template>
+										</p-column>
+										<p-column [style]="{'width':'50px', 'text-align':'center'}" field="tampilkan">
+											<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+												<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+													[ngModelOptions]="{standalone: true}"
+													[style]="{'margin-left':'0px'}"></p-checkbox>
+											</ng-template>
+										</p-column>
+										<p-column field="statusAktif" [style]="{'width':'50px', 'text-align':'center'}">
+											<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+												<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+													[ngModelOptions]="{standalone: true}"
+													(onChange)="isParentChecked($event,data,ri)"
+													[style]="{'margin-left':'0px'}"></p-checkbox>
+												<span
+													hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+													: {{data[col.field]}}</span>
+											</ng-template>
+										</p-column>
+
+
+
+										<ng-template let-dataEmpat="rowData" let-riEmpat="rowIndex"
+											pTemplate="rowexpansion">
+											<p-dataTable
+												[value]="listMenu[ri].childs[riAnak].childs[riCucu].childs[riEmpat].childs"
+												[editable]="true" #dtEnLima>
+												<p-column styleClass="col-icon"
+													[style]="{'width':'50px', 'text-align': 'left'}">
+													<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+
+														<button type="button" *ngIf="col.childs.length !== 0"
+															(click)="toggleCoba(col, dtEnLima)"
+															style="margin-left: 40px;border: none;background: no-repeat;"><i
+																class="fa fa-chevron-circle-right"></i></button>
+													</ng-template>
+												</p-column>
+												<p-column field="isChecked"
+													[style]="{'width':'50px', 'text-align': 'left'}">
+													<ng-template let-col pTemplate="body" let-ri="rowIndex"
+														let-data="rowData">
+														<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}"
+															[style]="{'margin-left':'0px'}"></p-checkbox>
+													</ng-template>
+												</p-column>
+												<p-column [style]="{'width':'120px'}" field="namaObjekModul">
+												</p-column>
+												<p-column [style]="{'width':'50px', 'text-align':'center'}"
+													[editable]="true" field="noUrut">
+													<ng-template let-col let-data="rowData" pTemplate="body">
+														{{data.noUrut}}
+													</ng-template>
+													<ng-template let-col let-data="rowData" pTemplate="editor">
+														<p-spinner class="ui-inputwrapper-filled" [min]="1"
+															[(ngModel)]="data[col.field]" appendTo="body"></p-spinner>
+													</ng-template>
+												</p-column>
+												<p-column field="loginOtomatis"
+													[style]="{'width':'100px', 'text-align':'center'}">
+													<ng-template let-col pTemplate="body" let-ri="rowIndex"
+														let-data="rowData">
+														<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}"
+															[style]="{'margin-left':'0px'}"></p-checkbox>
+													</ng-template>
+												</p-column>
+												<p-column [style]="{'width':'100px', 'text-align':'center'}"
+													[editable]="true" field="posisiStrukturMenu">
+													<ng-template let-col let-data="rowData" pTemplate="body">
+														<span *ngIf="data[col.field]==null">--Pilih--</span>
+														<span
+															*ngIf="data[col.field]!=null">{{data.posisiStrukturMenu}}</span>
+													</ng-template>
+													<ng-template let-col let-data="rowData" pTemplate="editor">
+														<p-dropdown [style]="{'width':'150px'}" id="dropdown"
+															class="ui-inputwrapper-filled"
+															[options]="listPosisiStrukturMenu"
+															[(ngModel)]="data[col.field]" [autoWidth]="false"
+															[ngModelOptions]="{standalone: true}" appendTo="body">
+														</p-dropdown>
+													</ng-template>
+												</p-column>
+												<p-column [style]="{'width':'100px', 'text-align':'center'}"
+													[editable]="true" field="posisiNoUrutStrukturMenu">
+													<ng-template let-col let-data="rowData" pTemplate="body">
+														<span *ngIf="data[col.field]==null">--Pilih--</span>
+														<span
+															*ngIf="data[col.field]!=null">{{data.posisiNoUrutStrukturMenu}}</span>
+													</ng-template>
+													<ng-template let-col let-data="rowData" pTemplate="editor">
+														<p-dropdown [style]="{'width':'150px'}" id="dropdown"
+															class="ui-inputwrapper-filled"
+															[options]="listPosisiNoUrutStrukturMenu"
+															[(ngModel)]="data[col.field]" [autoWidth]="false"
+															[ngModelOptions]="{standalone: true}" appendTo="body">
+														</p-dropdown>
+													</ng-template>
+												</p-column>
+												<p-column [style]="{'width':'50px', 'text-align':'center'}"
+													field="tampilkan">
+													<ng-template let-col pTemplate="body" let-ri="rowIndex"
+														let-data="rowData">
+														<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}"
+															[style]="{'margin-left':'0px'}"></p-checkbox>
+													</ng-template>
+												</p-column>
+												<p-column field="statusAktif"
+													[style]="{'width':'50px', 'text-align':'center'}">
+													<ng-template let-col pTemplate="body" let-ri="rowIndex"
+														let-data="rowData">
+														<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}"
+															(onChange)="isParentChecked($event,data,ri)"
+															[style]="{'margin-left':'0px'}"></p-checkbox>
+														<span
+															hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+															: {{data[col.field]}}</span>
+													</ng-template>
+												</p-column>
+											</p-dataTable>
+										</ng-template>
+									</p-dataTable>
+								</ng-template>
+							</p-dataTable>
+						</ng-template>
+					</p-dataTable>
+				</ng-template>
+			</p-dataTable>
+		</div>
+	</div>
+	<p-footer>
+		<button pButton type="button" label="{{'frmCustomerCare_simpan'| translate | splitCharT}}" icon="fa-save"
+			(click)="simpanTambahMenu()"></button>
+		<button pButton type="button" label="{{'frmCustomerCare_batal'| translate | splitCharT}}" icon="fa-refresh"
+			(click)="popupTambah=false"></button>
+	</p-footer>
+</p-dialog>

@@ -1,0 +1,31 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmSejarahProfile_title'| translate | splitCharT}}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-12 ui-md-12">
+						<div class="ui-g-12 ui-md-12">
+							<label>{{'frmSejarahProfile_miniTitle' | translate | splitCharT }}</label>
+							<div [innerHTML]="listData.deskripsiDokumen"></div>
+						</div>
+						<div class="ui-g-12 ui-md-12">
+							<label>{{'frmSejarahProfile_secondMiniTitle' | translate | splitCharT }}</label>
+							<p-editor [(ngModel)]="isiSejarah" id="texteditor" [style]="{'height':'320px'}">
+							</p-editor>
+						</div>
+						<div class="ui-g-12 ui-md-10"></div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmSejarahProfile_btnEdit' | translate | splitCharT }}" icon="fa-edit" (click)="edit()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="submit" style="float:right;" label="{{'frmSejarahProfile_btnSimpan'| translate | splitCharT}}"
+								icon="fa-save" (click)="onSubmit()"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

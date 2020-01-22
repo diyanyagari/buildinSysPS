@@ -1,0 +1,27 @@
+<div class="cicing-content activity-feed">
+	<div class="overview-chart-top">
+		<p-toolbar>
+			<div class="ui-toolbar-group-left">
+				<span class="overview-box-name">{{'PERSENTASI ASSET' | translate | splitCharT | splitCharT }}</span>
+			</div>
+			<div class="ui-toolbar-group-right" style="margin-right: 55px">
+				<p-dropdown [options]="listTampilan" [autoWidth]="false" [(ngModel)]="tampilanPersentasiAset"></p-dropdown>
+			</div>
+		</p-toolbar>
+	</div>
+	<div id="dataAset" style="overflow: auto; height: 274px">
+		<p-chart type="bar" [data]="dataBarAset" *ngIf="tampilanPersentasiAset == 2"></p-chart>
+		<p-chart type="polarArea" [data]="dataAset" *ngIf="tampilanPersentasiAset == 4"></p-chart>
+		<p-chart type="line" [data]="dataLineAset" *ngIf="tampilanPersentasiAset == 3"></p-chart>
+		<p-dataTable [value]="aset" [rows]="10" [paginator]="true" [pageLinks]="3" *ngIf="tampilanPersentasiAset == 1">
+			<p-column field="no" header="Nomor" [style]="{'width':'60px'}"></p-column>
+			<p-column field="namaKelompokAset" header="Kelompok Aset" [style]="{'text-align':'left'}">
+				<ng-template let-aset="rowData" pTemplate type="body">
+					<span *ngIf="aset.namaKelompokAset == null">{{'Lainnya' | translate | splitCharT | splitCharT }}</span>
+					<span *ngIf="aset.namaKelompokAset != null">{{aset.namaKelompokAset}}</span>
+				</ng-template>
+			</p-column>
+			<p-column field="totalAset" header="Jumlah" [style]="{'text-align':'left'}"></p-column>
+		</p-dataTable>
+	</div>
+</div>

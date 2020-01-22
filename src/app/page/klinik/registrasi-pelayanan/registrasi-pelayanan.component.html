@@ -1,0 +1,408 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog responsive="true" [closable]=false icon="fa fa-question-circle" width="425" style="left: 35vw;
+        top: 40vh;" #cd>
+          <p-footer>
+            <button type="button" pButton icon="fa-check" label="Ya" (click)="cd.accept()"></button>
+          </p-footer>
+        </p-confirmDialog>
+        <h1>
+          <div class="ui-helper-clearfix">
+          
+            <div style="float:right;margin: 4px;margin-right: 4px;margin-top: 10px;font-size: 12px">
+                <label>{{'frmRegistrasiPelayanan_nomorAntrian' | translate | splitCharT }}</label>
+                <label style="color:red" for="nomorAntrian">{{noAntrian}}</label>
+            </div>
+            
+            <a class="fa fa-angle-left"
+              style="padding:0.2em 0.2em;float:right;margin-top:-7px;display:block;margin-right: 5px;font-size: 2em"
+              (click)="periodeOpen()" id="periodePencarianOpen" title="{{'Pencarian Periode' | translate | splitCharT}}"></a>
+              
+              <div
+              style="border:1px solid #c1c1c1;width:45%;float:right;border-radius: 5px;display:none;margin-right: 5px; margin-top: -4px"
+              id="periodePencarian">
+              <form [formGroup]="form">
+
+                <div style="float:right;font-size:12px;margin-top: 12px;margin-right: 10px">
+                    <button
+                    title="{{'frmRegistrasiPelayanan_editPasienDilayanaiDirumah/Kantor' | translate | splitCharT}}"
+                    (click)="showEdit()" class="btnAktifAntrian"
+                    [disabled]="buttonEdit">
+                    <img style="width: 19px"
+                        src="assets/layout/images/klinik/edit-regular.svg" />
+                  </button>
+                </div>
+                  
+              <div style="float:right;font-size:12px;margin-top: 12px;margin-right: 10px">
+                <p-checkbox [disabled]="disCek" (onChange)="openCek($event)" binary="true" label="{{'frmRegistrasiPelayanan_pasienDilayaniDirumah/Kantor'| translate | splitCharT }}" formControlName="pasienDilayani"></p-checkbox>
+              </div>
+              <div style="float:right;margin: 10px;font-size: 12px">
+
+                  <app-calender  [(ngModel)]="tglDft" (ngModelChange)="clearDropdown($event)" [monthNavigator]="true" [yearNavigator]="true" yearRange="{{rangeTahun}}"
+                     [showIcon]="true" dateFormat="dd M yy" [showTime]="true" [ngModelOptions]="{standalone: true}">
+                  </app-calender>
+                
+
+              </div>
+              <div style="float:right;margin-top: 12px;font-size: 12px">
+                <label>{{'frmRegistrasiPelayanan_tglPendaftaran' | translate | splitCharT }}
+                  <span style="color: red;font-weight: bolder;">*</span>
+                  <!-- <span *ngIf="!form.get('tglDaftar').valid && form.get('tglDaftar').touched"
+                    style="color: red">*</span> -->
+                </label>
+              </div>
+            </form>
+            </div>
+            <a class="fa fa-angle-right"
+              style="padding:0.2em 0.2em;float:right;margin-top:-7px;display:none;font-size: 2em "
+              (click)="periodeClose()" title="{{'Tutup Pencarian Periode' | translate | splitCharT}}" id="periodePencarianClose"></a>
+            <span style="float: left;padding:0.3em;">{{'frmRegistrasiPelayanan_title'| translate | splitCharT }}</span>
+          </div>
+        </h1>
+
+        <form [formGroup]="form">
+          <div class="ui-g form-group">
+            <div class="ui-g-12 ui-g-nopad">
+            <div class="ui-g-12 ui-md-12">
+              <div class="ui-g form-group">
+
+                  <p-dialog header="{{'frmRegistrasiPelayanan_title'| translate | splitCharT }}" [resizable]="false" responsive="true" showEffect="fade" [modal]="true"
+                  [(visible)]="popUpCek" width="650" height="320" (onHide)="tutupPopUp()">
+                  <div class="ui-g-12 ui-g-nopad">
+                      <div class="ui-g-12 ui-md-12">
+                          <div class="ui-g form-group" style="margin-bottom: 60px;">
+                              <div class="ui-g-12 ui-md-2" style="width: 17%">
+                                  <label>{{'frmRegistrasiPelayanan_jenisAlamat' | translate | splitCharT }}
+                                    <span style="color: red;font-weight: bolder;">*</span>
+                                    <span *ngIf="!form.get('kdJenisAlamat').valid && form.get('kdJenisAlamat').touched"
+                                      style="color: red"> {{'frmRegistrasiPelayanan_required'| translate | splitCharT}}</span>
+                                  </label>
+                                  <p-dropdown id="dropdownListJenisAlamat" filter="filter" class="ui-inputwrapper-filled"
+                                    [options]="listJenisAlamat" formControlName="kdJenisAlamat" [autoWidth]="false">
+                                  </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-8" style="width: 73%">
+                                  <label>{{'frmRegistrasiPelayanan_alamatLengkap' | translate | splitCharT }}
+                                      <span style="color: red;font-weight: bolder;">*</span>
+                                      <span *ngIf="!form.get('alamatLengkapDiTempat').valid && form.get('alamatLengkapDiTempat').touched"
+                                        style="color: red"> {{'frmRegistrasiPelayanan_required'| translate | splitCharT}}</span>
+                                  </label>
+                                  <input id="input" type="text" formControlName="alamatLengkapDiTempat" pInputText />
+                                </div>
+                                <div class="ui-g-12 ui-md-2" style="width: 10%">
+                                  <label>{{'frmRegistrasiPelayanan_RT/RW' | translate | splitCharT }}</label>
+                                  <p-inputMask id="input" type="text" formControlName="rtrw" mask="999/999" placeholder="___/___">
+                                  </p-inputMask>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                  <label>{{'frmRegistrasiPelayanan_negara' | translate | splitCharT }}
+                                      <span style="color: red;font-weight: bolder;">*</span>
+                                      <span *ngIf="!form.get('kdNegara').valid && form.get('kdNegara').touched"
+                                        style="color: red"> {{'frmRegistrasiPelayanan_required'| translate | splitCharT}}</span>
+                                  </label>
+                                  <p-dropdown id="dropdownListNegara" filter="filter" class="ui-inputwrapper-filled"
+                                    [options]="listNegara" formControlName="kdNegara" [autoWidth]="false"
+                                    (onChange)="changeNegara($event,'negara')" (keyup)="onKeyUpFilterNegara($event)">
+                                  </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                  <label>{{'frmRegistrasiPelayanan_Provinsi' | translate | splitCharT }}</label>
+                                  <p-dropdown id="dropdownListPropinsi" filter="filter" class="ui-inputwrapper-filled"
+                                    [options]="listPropinsi" formControlName="kdPropinsi" [autoWidth]="false"
+                                    (onChange)="changePropinsi($event,'propinsi')" (keyup)="onKeyUpFilterPropinsi($event)">
+                                  </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                  <label>{{'frmRegistrasiPelayanan_kotaKabupaten' | translate | splitCharT }}</label>
+                                  <p-dropdown id="dropdownListKotaKabupaten" filter="filter" class="ui-inputwrapper-filled"
+                                    [options]="listKotaKabupaten" formControlName="kdKotaKabupaten" [autoWidth]="false"
+                                    (onChange)="changeKotaKabupaten($event,'kotaKabupaten')"
+                                    (keyup)="onKeyUpFilterKotaKabupaten($event)">
+                                  </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                  <label>{{'frmRegistrasiPelayanan_kecamatan' | translate | splitCharT }}</label>
+                                  <p-dropdown id="dropdownListKecamatan" filter="filter" class="ui-inputwrapper-filled"
+                                    [options]="listKecamatan" formControlName="kdKecamatan" [autoWidth]="false"
+                                    (onChange)="changeKecamatan($event,'kecamatan')" (keyup)="onKeyUpFilterKecamatan($event)">
+                                  </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                  <label>{{'frmRegistrasiPelayanan_kelurahan' | translate | splitCharT }}</label>
+                                  <p-dropdown id="dropdownListDesaKelurahan" filter="filter" class="ui-inputwrapper-filled"
+                                    [options]="listDesaKelurahan" formControlName="kdDesaKelurahan" [autoWidth]="false"
+                                    (onChange)="changeDesaKelurahan($event,'desa')" (keyup)="onKeyUpFilterDesaKelurahan($event)">
+                                  </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-2">
+                                  <label>{{'frmRegistrasiPelayanan_kodePos' | translate | splitCharT }}</label>
+                                  <input id="input" type="text" formControlName="kodePos" pInputText readonly />
+                                </div>
+                          </div>
+                          <!-- <p-footer> -->
+                            <div class="ui-g-12 ui-md-12">
+                                <div class="ui-g-12 ui-md-8"></div>
+                                <div class="ui-g-12 ui-md-2">
+                                    <button pButton type="button" (click)="simpanTampung()"
+                                    label="{{'frmRegistrasiPelayanan_btnSimpan'| translate | splitCharT }}" icon="fa-save"
+                                    ></button>
+                                </div>
+                                <div class="ui-g-12 ui-md-2">
+                                    <button pButton type="button" (click)="resetPopUp()"
+                                    label="{{'frmRegistrasiPelayanan_btnBatal'| translate | splitCharT }}" icon="fa-refresh"></button>
+                                </div>
+                            </div>
+                          </div>
+                  </div>
+                  
+                   
+                  <!-- </p-footer> -->
+                  </p-dialog> 
+
+
+              <div class="ui-g-12 ui-md-2" style="width: 9%">
+                <label>{{'frmRegistrasiPelayanan_noRm' | translate | splitCharT }}
+                </label>
+                <input id="input" type="text" formControlName="noCM" pInputText />
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label>{{'frmRegistrasiPelayanan_namaLengkap' | translate | splitCharT }}
+                </label>
+                <input id="input" type="text" formControlName="namaLengkap" pInputText />
+              </div>
+              
+              <!-- <div class="ui-g-12 ui-md-4">
+                <label>{{'frmRegistrasiPelayanan_tglLahir' | translate | splitCharT }}
+                </label>
+                <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="{{rangeTahun}}"
+                  formControlName="tglLahir" [showIcon]="true" dateFormat="dd M yy"
+                  (onSelect)="getBulanTahunHariFromLong($event,'data',0)"></app-calender>
+              </div> -->
+              <div class="ui-g-12 ui-md-1" style="width: 4%;">
+                <label>{{'frmRegistrasiPelayanan_tahun' | translate | splitCharT }}</label>
+                <input id="input" type="text" formControlName="tahun" pInputText
+                   />
+                   <!-- (input)="getTglLahir($event,'tahun','data')" -->
+              </div>
+              <div class="ui-g-12 ui-md-1" style="width: 4%;">
+                <label>{{'frmRegistrasiPelayanan_bulan' | translate | splitCharT }}</label>
+                <input id="input" type="text" formControlName="bulan" pInputText
+                   />
+                   <!-- (input)="getTglLahir($event,'bulan','data')" -->
+              </div>
+              <div class="ui-g-12 ui-md-1" style="width: 3%;">
+                <label>{{'frmRegistrasiPelayanan_hari' | translate | splitCharT }}</label>
+                <input id="input" type="text" formControlName="hari" pInputText
+                  />
+                  <!-- (input)="getTglLahir($event,'hari','data')"  -->
+              </div>
+              <div class="ui-g-12 ui-md-1" style="width: 2%">
+                  <label>{{'frmRegistrasiPelayanan_jenisKelamin' | translate | splitCharT }}</label>
+                  <input id="input" type="text" formControlName="jenisKelamin" pInputText />
+                </div>
+              <div class="ui-g-12 ui-md-2" style="width: 14%;">
+                  <label>{{'frmRegistrasiPelayanan_pendidikanTerakhir' | translate | splitCharT }}
+                  </label>
+                  <input id="input" type="text" formControlName="namaPendidikan" pInputText
+                  />
+                  <!-- <p-dropdown id="dropdownListPendidikan" filter="filter" class="ui-inputwrapper-filled"
+                    [options]="listPendidikan" formControlName="kdPendidikan" [autoWidth]="false">
+                  </p-dropdown> -->
+                </div>
+                <div class="ui-g-12 ui-md-4" style="width: 30%;">
+                  <label>{{'frmRegistrasiPelayanan_pekerjaan' | translate | splitCharT }}
+                  </label>
+                  <input id="input" type="text" formControlName="namaPekerjaan" pInputText
+                  />
+                  <!-- <p-dropdown id="dropdownListPekerjaan" filter="filter" class="ui-inputwrapper-filled"
+                    [options]="listPekerjaan" formControlName="kdPekerjaan" [autoWidth]="false">
+                  </p-dropdown> -->
+                </div>
+                
+                <div class="ui-g-12 ui-md-2" style="width: 12%;margin-right: 3px;">
+                  <label>{{'frmRegistrasiPelayanan_tanggalDaftar' | translate | splitCharT}}</label>
+                  <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="{{rangeTahun}}"
+                    formControlName="tglDaftarPelayanan" [showIcon]="true" dateFormat="dd M yy" [showTime]="true">
+                  </app-calender>
+                </div>
+                <div class="ui-g-12 ui-md-10" style="width: 87%">
+                  <label>{{'frmRegistrasiPelayanan_alamatLengkap' | translate | splitCharT }}
+                  </label>
+                  <input id="input" type="text" formControlName="alamatLengkap" pInputText />
+                </div>
+
+                <div class="ui-g-12 ui-md-2">
+                      <label>{{'frmRegistrasiPelayanan_ruangPelayanan' | translate | splitCharT }}
+                        <span style="color: red;font-weight: bolder;">*</span>
+                        <span *ngIf="!form.get('kdRuangPelayanan').valid && form.get('kdRuangPelayanan').touched"
+                          style="color: red"> {{'frmRegistrasiPelayanan_required'| translate | splitCharT}}</span>
+                      </label>
+                      <p-dropdown filter="filter" class="ui-inputwrapper-filled" (onChange)="getDokter($event)"
+                        [options]="listRuangPelayanan" formControlName="kdRuangPelayanan" [autoWidth]="false">
+                      </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <br>
+                  <p-dropdown [disabled]="dropNonAktifRuangan"  filter="filter" class="ui-inputwrapper-filled"
+                    [options]="listJamRuangan" [(ngModel)]="selectedJamRuangan" formControlName="jamRuangan" [autoWidth]="false">
+                  </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                  <label>{{'frmRegistrasiPelayanan_asalRujukan' | translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('kdAsalRujukan').valid && form.get('kdAsalRujukan').touched"
+                      style="color: red"> {{'frmRegistrasiPelayanan_required'| translate | splitCharT}}</span>
+                  </label>
+                  <p-dropdown filter="filter" class="ui-inputwrapper-filled"
+                    [options]="listAsalRujukan" formControlName="kdAsalRujukan" [autoWidth]="false">
+                  </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                  <label>{{'frmRegistrasiPelayanan_kelompokPasien' | translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('kdKelompokPasien').valid && form.get('kdKelompokPasien').touched"
+                      style="color: red"> {{'frmRegistrasiPelayanan_required'| translate | splitCharT}}</span>
+                  </label>
+                  <p-dropdown filter="filter" class="ui-inputwrapper-filled"
+                    [options]="listKelompokPasien" formControlName="kdKelompokPasien" [autoWidth]="false">
+                  </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-2">
+                    <label>{{'frmRegistrasiPelayanan_dokter' | translate | splitCharT }}
+                      <!-- <span style="color: red;font-weight: bolder;">*</span>
+                      <span *ngIf="!form.get('kdDokter').valid && form.get('kdDokter').touched"
+                        style="color: red"> {{'frmRegistrasiPelayanan_required'| translate | splitCharT}}</span> -->
+                    </label>
+                    <p-dropdown [disabled]="dropNonAktif" filter="filter" class="ui-inputwrapper-filled" (onChange)="getJamDokter($event)"
+                      [options]="listDokter" formControlName="kdDokter" [autoWidth]="false">
+                    </p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <br>
+                  <p-dropdown [disabled]="dropNonAktif"  filter="filter" class="ui-inputwrapper-filled"
+                  [options]="listJamDokter" [(ngModel)]="selectedJamDokter" formControlName="jamDokter" [autoWidth]="false">
+                  </p-dropdown>
+                </div>
+                <!-- <div class="ui-g-12 ui-md-3">
+                    <label>{{'frmRegistrasiPelayanan_jamJadwalRuangan' | translate | splitCharT }}
+                    </label>
+                  
+              </div> -->
+              <!-- <div class="ui-g-12 ui-md-3" >
+                  <label>{{'frmRegistrasiPelayanan_jamJadwalDokter' | translate | splitCharT }}
+                  </label>
+                  
+              </div> -->
+
+                <!-- <div class="ui-g-12 ui-md-12">
+
+                  <p-checkbox (onChange)="openCek($event)" binary="true" label="{{'frmRegistrasiPelayanan_pasienDilayaniDirumah/Kantor'| translate | splitCharT }}" formControlName="pasienDilayani"></p-checkbox>
+                </div>
+
+                <div class="ui-g-12 ui-md-12">
+                    <p-blockUI [target]="pnl1" [blocked]="hasilCek" [baseZIndex]=10 [autoZIndex]="false">
+                        <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+                      </p-blockUI>
+                  <p-fieldset #pnl1 legend="">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-2">
+                        <label>{{'frmRegistrasiPelayanan_jenisAlamat' | translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('kdJenisAlamat').valid && form.get('kdJenisAlamat').touched"
+                            style="color: red"> {{'frmRegistrasiPelayanan_required'| translate | splitCharT}}</span>
+                        </label>
+                        <p-dropdown id="dropdownListJenisAlamat" filter="filter" class="ui-inputwrapper-filled"
+                          [options]="listJenisAlamat" formControlName="kdJenisAlamat" [autoWidth]="false">
+                        </p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-3">
+                        <label>{{'frmRegistrasiPelayanan_alamatLengkap' | translate | splitCharT }}
+                            <span style="color: red;font-weight: bolder;">*</span>
+                            <span *ngIf="!form.get('alamatLengkapDiTempat').valid && form.get('alamatLengkapDiTempat').touched"
+                              style="color: red"> {{'frmRegistrasiPelayanan_required'| translate | splitCharT}}</span>
+                        </label>
+                        <input id="input" type="text" formControlName="alamatLengkapDiTempat" pInputText />
+                      </div>
+                      <div class="ui-g-12 ui-md-1" style="width: 5%">
+                        <label>{{'frmRegistrasiPelayanan_RT/RW' | translate | splitCharT }}</label>
+                        <p-inputMask id="input" type="text" formControlName="rtrw" mask="999/999" placeholder="___/___">
+                        </p-inputMask>
+                      </div>
+                      <div class="ui-g-12 ui-md-3">
+                        <label>{{'frmRegistrasiPelayanan_negara' | translate | splitCharT }}
+                            <span style="color: red;font-weight: bolder;">*</span>
+                            <span *ngIf="!form.get('kdNegara').valid && form.get('kdNegara').touched"
+                              style="color: red"> {{'frmRegistrasiPelayanan_required'| translate | splitCharT}}</span>
+                        </label>
+                        <p-dropdown id="dropdownListNegara" filter="filter" class="ui-inputwrapper-filled"
+                          [options]="listNegara" formControlName="kdNegara" [autoWidth]="false"
+                          (onChange)="changeNegara($event,'negara')" (keyup)="onKeyUpFilterNegara($event)">
+                        </p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-3">
+                        <label>{{'frmRegistrasiPelayanan_Provinsi' | translate | splitCharT }}</label>
+                        <p-dropdown id="dropdownListPropinsi" filter="filter" class="ui-inputwrapper-filled"
+                          [options]="listPropinsi" formControlName="kdPropinsi" [autoWidth]="false"
+                          (onChange)="changePropinsi($event,'propinsi')" (keyup)="onKeyUpFilterPropinsi($event)">
+                        </p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-3">
+                        <label>{{'frmRegistrasiPelayanan_kotaKabupaten' | translate | splitCharT }}</label>
+                        <p-dropdown id="dropdownListKotaKabupaten" filter="filter" class="ui-inputwrapper-filled"
+                          [options]="listKotaKabupaten" formControlName="kdKotaKabupaten" [autoWidth]="false"
+                          (onChange)="changeKotaKabupaten($event,'kotaKabupaten')"
+                          (keyup)="onKeyUpFilterKotaKabupaten($event)">
+                        </p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-3">
+                        <label>{{'frmRegistrasiPelayanan_kecamatan' | translate | splitCharT }}</label>
+                        <p-dropdown id="dropdownListKecamatan" filter="filter" class="ui-inputwrapper-filled"
+                          [options]="listKecamatan" formControlName="kdKecamatan" [autoWidth]="false"
+                          (onChange)="changeKecamatan($event,'kecamatan')" (keyup)="onKeyUpFilterKecamatan($event)">
+                        </p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-3">
+                        <label>{{'frmRegistrasiPelayanan_kelurahan' | translate | splitCharT }}</label>
+                        <p-dropdown id="dropdownListDesaKelurahan" filter="filter" class="ui-inputwrapper-filled"
+                          [options]="listDesaKelurahan" formControlName="kdDesaKelurahan" [autoWidth]="false"
+                          (onChange)="changeDesaKelurahan($event,'desa')" (keyup)="onKeyUpFilterDesaKelurahan($event)">
+                        </p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-1">
+                        <label>{{'frmRegistrasiPelayanan_kodePos' | translate | splitCharT }}</label>
+                        <input id="input" type="text" formControlName="kodePos" pInputText readonly />
+                      </div>
+                    </div>
+                  </p-fieldset>
+                 
+                </div> -->
+                <div class="ui-g-12">
+                  <div class="ui-g-12 ui-md-10"></div>
+                    <div class="ui-g-12 ui-md-1">
+                      <button pButton type="button" (click)="onSubmit()"
+                        label="{{'frmRegistrasiPelayanan_btnSimpan'| translate | splitCharT }}" icon="fa-save"
+                        [disabled]="buttonAktif"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-1">
+                      <button pButton type="button" (click)="reset()"
+                        label="{{'frmRegistrasiPelayanan_btnBatal'| translate | splitCharT }}" icon="fa-refresh"></button>
+                    </div>
+    
+                </div>
+               
+
+
+
+
+              </div>
+            </div>
+          </div>
+          </div>
+        </form>
+       
+      </div>
+    </div>
+  </div>
+</div>

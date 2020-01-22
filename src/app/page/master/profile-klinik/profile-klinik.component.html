@@ -1,0 +1,367 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <p-dialog header="Map" icon="fa fa-question-circle" width="425" [(visible)]="showMap">
+          <agm-map #ogmap style="width:100%; height:320px;" [latitude]="-6.1753924" [longitude]="106.8271528"
+            [scrollwheel]="true" [zoom]="zoom">
+            <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+          </agm-map>
+          <label>{{'Nama Tempat'| translate | splitCharT}}</label>
+          <input placeholder="{{'Lokasi wilayah'| translate | splitCharT}}" id="lokMap" [ngModelOptions]="{standalone: true}"
+            [(ngModel)]="lokasiNama" style="width:100%" />
+          <span>Manual Koordinat</span>
+          <hr />
+          <label>{{'Latitude'| translate | splitCharT}}</label>
+          <input pInputText disabled="true" [ngModelOptions]="{standalone: true}" type="text" [(ngModel)]="latitude" />
+          <label>{{'Longitude'| translate | splitCharT}}</label>
+          <input pInputText disabled="true" [ngModelOptions]="{standalone: true}" type="text" [(ngModel)]="longitude" />
+          <p-footer>
+            <!-- <button hidden="true" type="button" pButton icon="fa-check" (click)="loadMapManual()" label="Manual"></button>   -->
+            <button type="button" pButton icon="fa-check" (click)="simpanPeta()" label="Yes"></button>
+            <button type="button" pButton icon="fa-close" (click)="hideGoogle()" label="No"></button>
+          </p-footer>
+        </p-dialog>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <h1>{{'frmProfil_title'| translate | splitCharT}}</h1>
+          <div class="ui-g form-group">
+            <div class="ui-g-4">
+              <div class="ui-g-12 ui-md-12" hidden>
+                <span class="ui-float-label" hidden>
+                  <input id="input" type="text" hidden formControlName="kode" pInputText />
+                  <label for="input" hidden>{{'kodeProfile'| translate | splitCharT}}</label>
+                </span>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="input">{{'frmProfil_parent'| translate | splitCharT}}</label>
+                <p-dropdown id="dropdownKodeProfileHead" filter="filter" class="ui-inputwrapper-filled"
+                  [options]="listKodeProfileHead" formControlName="kdProfileHead" [autoWidth]="false"></p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="input">{{'frmProfil_nama'| translate | splitCharT}}
+                  <span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('namaLengkap').valid && form.get('namaLengkap').touched" style="color: red">
+                    {{'required'| translate | splitCharT}}</span>
+                </label>
+                <input id="input" type="text" formControlName="namaLengkap" [(ngModel)]="toReport"
+                  (ngModelChange)="valuechange($event)" pInputText />
+              </div>
+              <div class="ui-g-12 ui-md-12" hidden>
+                <span class="ui-float-label" hidden>
+                  <!-- <p-dropdown id="dropdownAlamat" filter="filter" class="ui-inputwrapper-filled" [options]="listAlamat"  formControlName="kdAlamat" [autoWidth]="false"></p-dropdown> -->
+                  <input id="input" type="text" formControlName="kdAlamat" hidden pInputText />
+                  <label for="input" hidden>{{'alamat'| translate | splitCharT}}</label>
+                </span>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="input">{{'frmProfil_jenisProfil'| translate | splitCharT}}
+                  <span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('kdJenisProfile').valid && form.get('kdJenisProfile').touched"
+                    style="color: red"> {{'required'| translate | splitCharT}}</span>
+                </label>
+                <p-dropdown id="dropdownJenisProfile" filter="filter" class="ui-inputwrapper-filled"
+                  [options]="listJenisProfile" formControlName="kdJenisProfile" [autoWidth]="false"></p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="input">{{'frmProfil_pegawaiKepala'| translate | splitCharT}}</label>
+                <p-dropdown id="dropdownPegawaiKepala" filter="filter" class="ui-inputwrapper-filled"
+                  [options]="listPegawaiKepala" formControlName="kdPegawaiKepala" [autoWidth]="false"></p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="input">{{'frmProfil_npwp'| translate | splitCharT}}</label>
+                <input id="input" type="text" formControlName="npwp" pInputText />
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="input">{{'frmProfil_noPkp'| translate | splitCharT}}</label>
+                <input id="input" type="text" formControlName="noPKP" pInputText />
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label>{{'negara'| translate | splitCharT}}
+                  <span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('kdNegara').valid && form.get('kdNegara').touched" style="color: red">
+                    {{'required'| translate | splitCharT}}</span>
+                </label>
+                <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih Negara--"
+                  formControlName="kdNegara" [options]="dropdownNegara" [autoWidth]="false"
+                  (onChange)="ambilMataUang($event)"></p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <label for="input">{{'frmProfil_mataUang'| translate | splitCharT}}</label>
+                <p-dropdown id="dropdownMataUang" filter="filter" class="ui-inputwrapper-filled"
+                  [options]="listMataUang" formControlName="kdMataUang" [autoWidth]="false"></p-dropdown>
+              </div>
+            </div>
+            <div class="ui-g-4">
+              <div class="ui-g-12 ui-md-12">
+                <label for="input">{{'frmProfil_hostname'| translate | splitCharT}}</label>
+                <input id="input" type="text" formControlName="hostname1" (blur)="emailFormatCheck($event)"
+                  (input)="emailFormatCheck($event)" pInputText />
+              </div>
+              <div class="ui-g-12 ui-md-12">
+                <span *ngIf="dataEmailTidakTersedia">
+                  <label style="color: #f21d1d; font-weight: 150;">{{responseEmail}}</label>
+                </span>
+              </div>
+
+              <div class="ui-g-12 ui-md-6">
+                <label for="input">{{'frmProfil_choose'| translate | splitCharT}} Gambar Logo</label>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <label for="input">{{'frmProfil_choose'| translate | splitCharT}}</label>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <p-fileUpload (onUpload)="fileUpload($event,'gambarLogo')" accept="image/*" name="file"
+                  maxFileSize="1000000" (onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()"
+                  withCredentials="true">
+                </p-fileUpload>
+                <input id="input" type="text" formControlName="gambarLogo" [(ngModel)]="namaFoto" disabled pInputText />
+                <input hidden id="input" type="text" formControlName="ambilFoto" (ngModelChange)="fotoUpload($event)"
+                  disabled pInputText />
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <p-fileUpload (onUpload)="fileUpload($event,'kartuPasien')" accept="image/*" name="file"
+                  maxFileSize="1000000" (onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()"
+                  withCredentials="true">
+                </p-fileUpload>
+                <input id="input" type="text" formControlName="backgroundKartuPasien" [(ngModel)]="namaFotoBackground"
+                  disabled pInputText />
+              </div>
+              <!-- <div class="ui-g-12 ui-md-12">&nbsp; </div> -->
+              <div class="ui-g-12 ui-md-6">
+                <img *ngIf="smbrFoto !== null" [src]="smbrFoto" width="150px"
+                  class="img-responsive" />
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <img *ngIf="smbrFotoBackground !== null" [src]="smbrFotoBackground" width="150px"
+                  class="img-responsive" />
+              </div>
+
+              <div class="ui-g-12 ui-md-12">
+                <p-checkbox binary="true" label="{{'frmProfil_status'| translate | splitCharT}}" formControlName="statusEnabled">
+                </p-checkbox>
+                <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                  style="color: red">*</span>
+                <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                  style="color: red">{{'required'| translate | splitCharT}}</span>
+              </div>
+
+            </div>
+            <div class="ui-g-4">
+              <p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-12">
+                      <label for="input">{{'frmProfil_tanggalRegistrasi'| translate | splitCharT}}</label>
+                      <app-calender formControlName="tglRegistrasi" [(ngModel)]="tglRegistrasi" dateFormat="dd M yy"
+                        [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true" yearRange="1850:2050">
+                      </app-calender>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                      <label for="input">{{'frmProfil_luasTanah'| translate | splitCharT}}</label>
+                      <input id="input" type="text" formControlName="luasTanah" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                      <label for="input">{{'frmProfil_luasBangunan'| translate | splitCharT}}</label>
+                      <input id="input" type="text" formControlName="luasBangunan" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                      <label for="input">{{'frmProfil_motto'| translate | splitCharT}}</label>
+                      <input id="input" type="text" formControlName="mottoLast" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                      <label for="input">{{'frmProfil_semboyan'| translate | splitCharT}}</label>
+                      <input id="input" type="text" formControlName="semboyanLast" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                      <label for="input">{{'frmProfil_slogan'| translate | splitCharT}}</label>
+                      <input id="input" type="text" formControlName="sloganLast" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                      <label for="input">{{'frmProfil_tagLine'| translate | splitCharT}}</label>
+                      <input id="input" type="text" formControlName="taglineLast" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                      <label for="input">{{'frmProfil_reportDisplay'| translate | splitCharT}}
+                        <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched"
+                          style="color: red">*</span>
+                        <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched"
+                          style="color: red"> {{'required'| translate | splitCharT}}</span>
+                      </label>
+                      <input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report"
+                        (keyup)="setReportDisplay()" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                      <label for="input">{{'frmProfil_kodeExternal'| translate | splitCharT}}</label>
+                      <input type="text" formControlName="kodeExternal" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                      <label for="input">{{'frmProfil_namaExternal'| translate | splitCharT}}</label>
+                      <input type="text" formControlName="namaExternal" pInputText />
+                    </div>
+                  </div>
+                </form>
+              </p-fieldset>
+            </div>
+
+            <div class="ui-g-12">
+              <p-fieldset legend="">
+                <div class="ui-g form-group">
+                  <div class="ui-g-12">
+                    <p-dataTable #gridAlamat [value]="listDataDetail" [rows]="10" [paginator]="true" [pageLinks]="3"
+                      [rowsPerPageOptions]="[5,10,20]" [editable]="true" scrollable="true" [responsive]="true">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <label style="float:center;">{{'frmProfil_Alamat'| translate | splitCharT}}
+                          </label>
+                          <button type="button" pButton icon="fa-plus" [disabled]="btnAlamat" (click)="tambahAlamat()"
+                            style="float:left; font-size: 13px !important;"></button>
+                        </div>
+                      </p-header>
+                      <p-column field="jenisAlamat" header="{{'frmProfil_detailJenisAlamat'| translate | splitCharT}}"
+                        [editable]="true">
+                        <ng-template let-col let-Alamat="rowData" pTemplate="body">
+                          {{Alamat[col.field].namaJenisAlamat}}
+                        </ng-template>
+                        <ng-template let-col let-Alamat="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="Alamat[col.field]" [ngModelOptions]="{standalone: true}"
+                            [options]="listJenisAlamat" [autoWidth]="false" required="true" appendTo="body"
+                            [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="alamatLengkap" header="{{'frmProfil_detailAlamatLengkap'| translate | splitCharT}}"
+                        [editable]="true"></p-column>
+                      <p-column field="rtrw" header="{{'frmProfil_detailRt/rw'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-Alamat="rowData" pTemplate="body">
+                          {{Alamat[col.field]}}
+                        </ng-template>
+                        <ng-template let-col let-Alamat="rowData" let-indexP="rowIndex" pTemplate="editor">
+                          <p-inputMask id="rtRw" mask="99/99" [(ngModel)]="Alamat[col.field]"
+                            [ngModelOptions]="{standalone: true}" placeholder="00/00"></p-inputMask>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="negara" header="{{'frmProfil_detailNegara'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-Alamat="rowData" pTemplate="body">
+                          {{Alamat[col.field].namaNegara}}
+                        </ng-template>
+                        <ng-template let-col let-Alamat="rowData" let-indexP="rowIndex" pTemplate="editor">
+                          <p-dropdown #negaras [(ngModel)]="Alamat[col.field]"
+                            (onChange)="getProvinsi(Alamat[col.field].kode,indexP)"
+                            [ngModelOptions]="{standalone: true}" [options]="listNegara" [autoWidth]="false"
+                            required="true" (onFocus)="negaras.resetFilter()" appendTo="body" [filter]="true"
+                            filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="propinsi" header="{{'frmProfil_detailPropinsi'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-Alamat="rowData" pTemplate="body">
+                          {{Alamat[col.field].namaPropinsi}}
+                        </ng-template>
+                        <ng-template let-col let-Alamat="rowData" let-indexP="rowIndex" pTemplate="editor">
+                          <p-dropdown #propinsis [(ngModel)]="Alamat[col.field]"
+                            (onChange)="getKota(Alamat[col.field].kdPropinsi,listDataDetail[indexP].negara.kode,indexP)"
+                            [ngModelOptions]="{standalone: true}" (onFocus)="propinsis.resetFilter()"
+                            [options]="listDataDetail[indexP].listProp" [autoWidth]="false" required="true"
+                            appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="kota" header="{{'frmProfil_detailKotaKabupaten'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-Alamat="rowData" pTemplate="body">
+                          {{Alamat[col.field].namaKotaKabupaten}}
+                        </ng-template>
+                        <ng-template let-col let-Alamat="rowData" let-indexP="rowIndex" pTemplate="editor">
+                          <p-dropdown #KotaKabupatens [(ngModel)]="Alamat[col.field]"
+                            (onChange)="getKecamatan(Alamat[col.field].kdKotaKabupaten,listDataDetail[indexP].negara.kode,indexP)"
+                            [ngModelOptions]="{standalone: true}" [options]="listDataDetail[indexP].listKot"
+                            [autoWidth]="false" [style]="{'width':'100%'}" required="true" appendTo="body"
+                            (onFocus)="KotaKabupatens.resetFilter()" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="kecamatan" header="{{'frmProfil_detailKecamatan'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-Alamat="rowData" pTemplate="body">
+                          {{Alamat[col.field].namaKecamatan}}
+                        </ng-template>
+                        <ng-template let-col let-Alamat="rowData" let-indexP="rowIndex" pTemplate="editor">
+                          <p-dropdown #kecamatans [(ngModel)]="Alamat[col.field]"
+                            (onChange)="getKelurahan(Alamat[col.field].kdKecamatan,listDataDetail[indexP].negara.kode,indexP)"
+                            [ngModelOptions]="{standalone: true}" [options]="listDataDetail[indexP].listKec"
+                            [autoWidth]="false" [style]="{'width':'100%'}" (onFocus)="kecamatans.resetFilter()"
+                            required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="kelurahan" header="{{'frmProfil_detailKelurahan'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-Alamat="rowData" pTemplate="body">
+                          {{Alamat[col.field].namaDesaKelurahan}}
+                        </ng-template>
+                        <ng-template let-col let-Alamat="rowData" let-indexP="rowIndex" pTemplate="editor">
+                          <p-dropdown #kelurahans [(ngModel)]="Alamat[col.field]" [ngModelOptions]="{standalone: true}"
+                            [options]="listDataDetail[indexP].listKel" [autoWidth]="false"
+                            (onFocus)="kelurahans.resetFilter()" [style]="{'width':'100%'}" required="true"
+                            appendTo="body" [filter]="true" filterBy="label"
+                            (onChange)="getKodePos(Alamat[col.field].kdDesaKelurahan,listDataDetail[indexP].negara.kode,indexP)">
+                          </p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="kodePos" header="{{'frmProfil_detailkodePos'| translate | splitCharT}}" [editable]="true">
+                      </p-column>
+                      <p-column field="statusAktif"
+                        header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeStatus'| translate | splitCharT}}">
+                        <ng-template pTemplate type="body" let-col let-checked="rowData" let-ri="rowIndex">
+                          <p-checkbox [(ngModel)]="checked[col.field]" [ngModelOptions]="{standalone: true}"
+                            binary="true"></p-checkbox>
+                        </ng-template>
+                      </p-column>
+                      <p-column [style]="{'width':'35px'}" header="{{'Map'| translate | splitCharT}}">
+                        <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                          <!-- <div *ngIf="data.kode != null"> -->
+                          <button pButton type="button" icon="fa-map-marker" (click)="lihatMap(data, i)"></button>
+                          <!-- </div> -->
+                        </ng-template>
+                      </p-column>
+                      <p-column [style]="{'width':'150px'}" field="garisLintangLatitude"
+                        header="{{'Latitude'| translate | splitCharT}}" [editable]="false"></p-column>
+                      <p-column [style]="{'width':'150px'}" field="garisBujurLongitude"
+                        header="{{'Longitude'| translate | splitCharT}}" [editable]="false"></p-column>
+
+
+                      <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                        <ng-template pTemplate="header"></ng-template>
+                        <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                          <div *ngIf="data.kode == null">
+                            <button type="button" pButton icon="fa-trash" (click)="hapusRow(i)"></button>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                    </p-dataTable>
+                  </div>
+                </div>
+              </p-fieldset>
+            </div>
+
+          </div>
+        </form>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-7"></div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" label="{{'batal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" [disabled]="formAktif" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"
+              (click)="onSubmit()"></button>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" disabled label="{{'hapus'| translate | splitCharT}}" icon="fa-trash"
+              (click)="confirmDelete()"></button>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" label="{{'cetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <p-splitButton label="{{'export'| translate | splitCharT}}" icon="fa-external-link" [model]="items"></p-splitButton>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

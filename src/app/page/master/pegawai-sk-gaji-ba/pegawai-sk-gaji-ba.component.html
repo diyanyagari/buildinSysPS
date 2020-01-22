@@ -1,0 +1,90 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1> {{'frmPegawaiSKGajiBa_title'| translate | splitCharT }}</h1>
+        <div class="ui-g form-group">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="ui-g-6">
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'frmPegawaiSKGajiBa_pegawai'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownPegawai" [options]="kodePegawai" formControlName="kdPegawai" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('kdPegawai').valid && form.get('kdPegawai').touched" style="color: red"> {{'frmPegawaiSKGajiBa_pegawai'| translate | splitCharT}} {{'frmPegawaiSKGajiBa_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'frmPegawaiSKGajiBa_noSK'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="kode" pInputText/>
+                <span *ngIf="!form.get('kode').valid && form.get('kode').touched" style="color: red"> {{'frmPegawaiSKGajiBa_kode'| translate | splitCharT}} {{'frmPegawaiSKGajiBa_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'frmPegawaiSKGajiBa_akunBank'| translate | splitCharT }} </label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownAkunBank" [options]="kodeAkunBank" formControlName="kdAkunBank" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('kdAkunBank').valid && form.get('kdAkunBank').touched" style="color: red"> {{'frmPegawaiSKGajiBa_akunBank'| translate | splitCharT}} {{'frmPegawaiSKGajiBa_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'frmPegawaiSKGajiBa_hargaSatuan'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="hargaSatuan" pInputText/>
+                <span *ngIf="!form.get('hargaSatuan').valid && form.get('hargaSatuan').touched" style="color: red"> {{'frmPegawaiSKGajiBa_hargaSatuan'| translate | splitCharT}} {{'frmPegawaiSKGajiBa_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'frmPegawaiSKGajiBa_persenHargaSatuan'| translate | splitCharT }} </label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="persenHargaSatuan" pInputText/>
+                <span *ngIf="!form.get('persenHargaSatuan').valid && form.get('persenHargaSatuan').touched" style="color: red"> {{'frmPegawaiSKGajiBa_persenHargaSatuan'| translate | splitCharT}} {{'frmPegawaiSKGajiBa_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'frmPegawaiSKGajiBa_Nomor Rec'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="noRec" pInputText/>
+                <span *ngIf="!form.get('noRec').valid && form.get('noRec').touched" style="color: red"> {{'frmPegawaiSKGajiBa_noRec'| translate | splitCharT}} {{'frmPegawaiSKGajiBa_isRequired'| translate | splitCharT}}.</span>
+              </div>
+            </div>
+
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="submit" label="{{'frmPegawaiSKGajiBa_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmPegawaiSKGajiBa_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmPegawaiSKGajiBa_btnBatal'| translate | splitCharT }}" icon="fa-close" (click)="reset()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmPegawaiSKGajiBa_btnCetak'| translate | splitCharT }}" icon="fa-print"></button>
+              </div>
+            </div>
+          </form>
+          <div class="ui-g-12">
+            <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none; width: 98%">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" [(ngModel)]="pencarian" (keypress)="cari()" style="width: 20%">
+            </div>
+            <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+              [(selection)]="selected" (onRowSelect)="onRowSelect($event)">
+              <p-header>{{'frmPegawaiSKGajiBa_tableListPegawaiSKGajiBa'| translate | splitCharT }}</p-header>
+              <p-column field="pegawai" header="{{'frmPegawaiSKGajiBa_tablePegawai'| translate | splitCharT }}"></p-column>
+              <p-column field="id.kode" header="{{'frmPegawaiSKGajiBa_tableNoSK'| translate | splitCharT }}"></p-column>
+              <p-column field="namaAkunBank" header="{{'frmPegawaiSKGajiBa_tableAkunBank'| translate | splitCharT }}"></p-column>
+              <p-column field="hargaSatuan" header="{{'frmPegawaiSKGajiBa_tableHargaSatuan'| translate | splitCharT }}"></p-column>
+              <p-column field="persenHargaSatuan" header="{{'frmPegawaiSKGajiBa_tablePersenHargaSatuan'| translate | splitCharT }}"></p-column>
+              <p-column field="noRec" header="{{'frmPegawaiSKGajiBa_tableNoRec'| translate | splitCharT }}"></p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

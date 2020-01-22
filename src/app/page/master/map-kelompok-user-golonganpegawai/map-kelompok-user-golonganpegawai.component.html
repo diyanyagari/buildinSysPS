@@ -1,0 +1,91 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmMasterMapKelompokUserToGolonganPegawai_title'| translate | splitCharT}}</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-6">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-6 ui-md-8">
+                <label for="input">{{'frmMasterMapKelompokUserToGolonganPegawai_kelompokUser'| translate | splitCharT }}
+                  <span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('kdKelompokUser').valid && form.get('kdKelompokUser').touched" style="color: red"> {{'frmMasterMapKelompokUserToGolonganPegawai_required'| translate | splitCharT}}</span>
+                </label>
+                <p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" formControlName="kdKelompokUser" [options]="kelompok"
+                [autoWidth]="false" (ngModelChange)="valuechange($event)"></p-dropdown>
+
+              </div>
+              <div class="ui-g-6 ui-md-8">
+                <label for="input">{{'frmMasterMapKelompokUserToGolonganPegawai_kategoryPegawai'| translate | splitCharT }}
+                  <span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red">{{'frmMasterMapKelompokUserToGolonganPegawai_required'| translate | splitCharT}}</span>
+                  <p-dropdown id="dropdown" (onChange)="fungsiget()" filter="filter" class="ui-inputwrapper-filled" formControlName="kdKategoryPegawai"
+                  [options]="kodeKategoryPegawai" [autoWidth]="false"></p-dropdown>
+
+                </label>
+
+              </div>
+            </form>
+          </div>
+          <div class="ui-g-12">
+            <p-blockUI [target]="pnl" [blocked]="hasilCek" [baseZIndex]=10 [autoZIndex]="false">
+              <i class="fa fa-lock fa-5x" style="position:absolute;top:25%;left:50%"></i>
+            </p-blockUI>
+            <p-fieldset #pnl>
+              <div *ngFor="let data of listData; let i = index" class="ui-g-3">
+                <span *ngIf="data.isVacant === false">                  
+                  <p-checkbox (change)="onChange()" value={{data.kdGolonganPegawai}} label="{{data.namaGolonganPegawai}}" [(ngModel)]="pilihan" inputId="{{i}}" disabled></p-checkbox>
+                </span>
+                <span *ngIf="data.isVacant !== false">                  
+                  <p-checkbox (change)="onChange()" value={{data.kdGolonganPegawai}} label="{{data.namaGolonganPegawai}}" [(ngModel)]="pilihan" inputId="{{i}}"></p-checkbox>
+                </span>
+                
+              </div>
+
+            </p-fieldset>
+          </div>
+          <div class="ui-g-6 ui-md-10">
+            <div class="checkbox_cont">
+              <div class="checkbox ">
+                <p-checkbox [(ngModel)]="pilihSemua" [disabled]="disPilihSemua" (click)="selectAll()" label="Pilih Semua" binary="true"></p-checkbox>
+              </div>
+            </div>
+          </div>
+
+         
+
+          <div class="ui-g-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-2"></div>
+              <div class="ui-g-12 ui-md-2">
+                <button pButton type="submit" label="{{'frmMasterMapKelompokUserToGolonganPegawai_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+              </div>
+            </form>
+          </div>
+          <br>
+          <br>
+
+           <div class="ui-g-12 ui-fluid">
+          <p-dataTable [value]="listGrid" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"  [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalGrid" (onLazyLoad)="loadPageGrid($event)" scrollable="true" expandableRows="true">
+            <p-header>
+              <div class="ui-helper-clearfix">
+                <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                <input type="text" pInputText size="50" placeholder="{{'frmMasterMapKelompokUserToGolonganPegawai_tablePencariankelompokuserkategoripegawai'| translate | splitCharT}}" [(ngModel)]="pencarianGrid" (keyup)="cari()"
+                 style="width: 20%;float:right;">
+                <span style="float: left;padding:0.3em;">{{'frmMasterMapKelompokUserToGolonganPegawai_tableTitle'| translate | splitCharT}}</span>
+              </div>
+            </p-header>
+            <p-column field="namaKelompokUser" header="{{'frmMasterMapKelompokUserToGolonganPegawai_tableKelompokPengguna'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+            <p-column field="namaKategoryPegawai" header="{{'frmMasterMapKelompokUserToGolonganPegawai_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+            <p-column field="golonganPegawai" header="{{'frmMasterMapKelompokUserToGolonganPegawai_tableLevelJabatan'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>         
+          </p-dataTable>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

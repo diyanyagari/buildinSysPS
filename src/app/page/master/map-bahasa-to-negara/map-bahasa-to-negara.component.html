@@ -1,0 +1,71 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>Master {{'frmMapBahasaToNegara_title'| translate | splitCharT}}</h1>
+				<div class="ui-g-12 ui-md-12 ui-lg-2 ui-g-nopad">
+					<form [formGroup]="form" (ngSubmit)="onSubmit()">
+						<div class="ui-g form-group">
+							<div class="ui-g-12 ui-md-12 ui-lg-12">
+								<label>{{'frmMapBahasaToNegara_Bahasa'| translate | splitCharT}}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!form.get('kdBahasa').valid && form.get('kdBahasa').touched"
+										style="color: red"> {{'required'| translate | splitCharT}}</span>
+								</label>
+								<p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+									formControlName="kdBahasa" [options]="listDropdownBahasa" [autoWidth]="false"
+									(onChange)="clearPanelBawah($event)">
+								</p-dropdown>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="ui-g-12">
+					<p-fieldset legend="{{'frmMapBahasaToNegara_Negara' | translate | splitCharT }}">
+						<div class="ui-g-12 ui-md-12">
+							<div class="ui-g-12 ui-md-3 ui-md-offset-9">
+								<div class="ui-inputgroup">
+									<input id="input" type="text" pInputText [(ngModel)]="pencarian"
+										placeholder="{{'frmMapBahasaToNegara_Pencarian'| translate | splitCharT}}"
+										(keyup)="getNegara(pencarian)" />
+									<span class="ui-inputgroup-addon">
+										<i class="fa fa-search"></i>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div *ngFor="let data of listNegara; let i = index" class="ui-g-6 ui-md-4 ui-lg-2">
+							<p-checkbox (change)="onChange()" value={{data.kode}} label="{{data.namaNegara}}"
+								[(ngModel)]="pilihan" inputId="{{i}}" [disabled]="buttonAktif"></p-checkbox>
+						</div>
+					</p-fieldset>
+				</div>
+				<div class="ui-g-6 ui-md-10">
+					<div class="checkbox_cont">
+						<div class="checkbox ">
+							<p-checkbox [(ngModel)]="pilihSemua" (click)="selectAll()" label="Pilih Semua" binary="true"
+								[disabled]="buttonAktif">
+							</p-checkbox>
+						</div>
+					</div>
+				</div>
+				<div class="ui-g-12">
+					<form [formGroup]="form" (ngSubmit)="onSubmit()">
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-10"></div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmMapBahasaToNegara_btnBatal'| translate | splitCharT }}"
+									icon="fa-refresh" (click)="reset()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="submit" label="{{'frmMapBahasaToNegara_btnSimpan'| translate | splitCharT }}"
+									icon="fa-save"></button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

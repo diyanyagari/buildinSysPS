@@ -1,0 +1,667 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+                <h1>{{ 'frmHargaPaketModulAplikasi_title' | translate | splitCharT  }}</h1>
+                <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <p-fieldset legend="">
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+                                        <div class="ui-g-12 ui-md-9">
+                                            <label>{{'frmHargaPaketModulAplikasi_nama'| translate | splitCharT}}
+                                                <span style="color: red;font-weight: bolder;">*</span>
+                                                <span
+                                                    *ngIf="!form.get('namaSuratKeputusan').valid && form.get('namaSuratKeputusan').touched"
+                                                    style="color: red;font-weight: bolder;">
+                                                    {{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                            </label>
+                                            <p-dropdown #filterSK formControlName="namaSuratKeputusan"
+                                                (onChange)="ambilSK($event)" class="ui-inputwrapper-filled"
+                                                [options]="namaSK" [autoWidth]="false" [filter]="true" filterBy="label">
+                                            </p-dropdown>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-3">
+                                            <br>
+                                            <button style="height: 25px; padding-top: 0px" pButton
+                                                (click)="getKelompokTransaksi()" type="button"
+                                                label="{{'frmHargaPaketModulAplikasi_buatSk'| translate | splitCharT }}"></button>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-7" hidden="true">
+                                            <label>{{'frmHargaPaketModulAplikasi_nomorSK'| translate | splitCharT}}
+                                            </label>
+                                            <input id="input" type="text" pInputText formControlName="noSK" disabled />
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1"></div>
+                                    <div class="ui-g-12 ui-md-4" style="margin-left: -80px;">
+                                        <div class="ui-g form-group">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label>{{'frmHargaPaketModulAplikasi_tanggalBerlakuSk'| translate | splitCharT}}
+                                                </label>
+                                            </div>
+                                            <div style="width: 45%" class="ui-g-12 ui-md-4">
+                                                <app-calender dateFormat="dd M yy" formControlName="tglBerlakuAwal"
+                                                    [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+                                                    [showIcon]="true" disabled></app-calender>
+                                            </div>
+                                            <div>
+                                                <label>-</label>
+                                            </div>
+                                            <div style="width: 45%" class="ui-g-12 ui-md-4">
+                                                <app-calender dateFormat="dd M yy" formControlName="tglBerlakuAkhir"
+                                                    [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+                                                    [showIcon]="true" disabled></app-calender>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-3" style="margin-top: 8px;">
+                                        <div class="ui-g-12 ui-md-12">
+                                            <label>{{'frmHargaPaketModulAplikasi_nomorIntern'| translate | splitCharT}}
+                                            </label>
+                                            <input id="input" type="text" pInputText formControlName="noSkIntern"
+                                                disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                            </p-fieldset>
+                            <p-fieldset legend="">
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-12 ui-md-12" style="margin-top: 8px;">
+                                        <div class="ui-g-4">
+                                            <div class="ui-g-12 ui-md-6">
+                                                <label>{{'frmHargaPaketModulAplikasi_kdPaket'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('kdPaket').valid && form.get('kdPaket').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <p-dropdown #filterPaket filter="filter" class="ui-inputwrapper-filled"
+                                                    placeholder="--Pilih--" formControlName="kdPaket"
+                                                    [options]="dropdownpaket" [autoWidth]="false"></p-dropdown>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6">
+                                                <label>{{'frmHargaPaketModulAplikasi_kdEdisi'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('kdEdisi').valid && form.get('kdEdisi').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <p-dropdown #filterEdisi filter="filter" class="ui-inputwrapper-filled"
+                                                    placeholder="--Pilih--" formControlName="kdEdisi"
+                                                    [options]="dropdownedisi" [autoWidth]="false"></p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-6">
+                                            <div class="ui-g-12 ui-md-6">
+                                                <label>{{'frmHargaPaketModulAplikasi_kdModulAplikasi'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <p-dropdown #filterMdlAplikasi filter="filter" class="ui-inputwrapper-filled"
+                                                    placeholder="--Pilih--" formControlName="kdModulAplikasi"
+                                                    [options]="dropdownmodulAplikasi" [autoWidth]="false"></p-dropdown>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6">
+                                                <label>{{'frmHargaPaketModulAplikasi_kdKelompokKlien'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('kdKelompokKlien').valid && form.get('kdKelompokKlien').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <p-dropdown #filterKelompokKlien filter="filter" class="ui-inputwrapper-filled"
+                                                    placeholder="--Pilih--" formControlName="kdKelompokKlien"
+                                                    [options]="dropdownkelompokKlien" [autoWidth]="false"></p-dropdown>
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-2">
+                                            <div class="ui-g-12 ui-md-12">
+                                                <label>{{'frmHargaPaketModulAplikasi_kdVersion'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('kdVersion').valid && form.get('kdVersion').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <p-dropdown #filterVersion filter="filter" class="ui-inputwrapper-filled"
+                                                    placeholder="--Pilih--" formControlName="kdVersion"
+                                                    [options]="dropdownversion" [autoWidth]="false"></p-dropdown>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p-fieldset>
+                            <p-fieldset legend="">
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-12 ui-md-12" style="margin-top: 8px;">
+                                        <!-- <div style="padding: 0px" class="ui-g-9"> -->
+                                        <div style="padding: 0px" class="ui-g-12">
+                                            <div class="ui-g-12 ui-md-2">
+                                                <label>{{'frmHargaPaketModulAplikasi_kdMataUang'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span class="alert-small"
+                                                        *ngIf="!form.get('kdMataUang').valid && form.get('kdMataUang').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <p-dropdown #filterMataUang filter="filter" class="ui-inputwrapper-filled"
+                                                    placeholder="--Pilih--" formControlName="kdMataUang"
+                                                    [options]="dropdownmataUang" [autoWidth]="false"></p-dropdown>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-2">
+                                                <label>{{'frmHargaPaketModulAplikasi_hargaNetto'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span class="alert-small"
+                                                        *ngIf="!form.get('hargaNetto').valid && form.get('hargaNetto').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <!-- <input id="input" type="number" formControlName="hargaNetto"
+                                                    [(ngModel)]="hargaNetto" pInputText /> -->
+                                                <p-spinner id="input" [min]="0" type="text" formControlName="hargaNetto"
+                                                    [(ngModel)]="hargaNetto"></p-spinner>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-2">
+                                                <label>{{'frmHargaPaketModulAplikasi_hargaSatuan'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('hargaSatuan').valid && form.get('hargaSatuan').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <p-spinner id="input" [min]="0" type="text"
+                                                    formControlName="hargaSatuan" [(ngModel)]="hargaSatuan">
+                                                </p-spinner>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-1">
+                                                <label>{{'frmHargaPaketModulAplikasi_persenDiscount'| translate | splitCharT }}
+                                                </label>
+                                                <p-spinner [disabled]="!persenHarga" (keyup)="persenDiscountMinMax()"
+                                                    id="input" [min]="0" [max]="100" type="text"
+                                                    formControlName="persenDiscount" [(ngModel)]="persenDiscount">
+                                                </p-spinner>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-1">
+                                                <label>{{'frmHargaPaketModulAplikasi_hargaDiscount'| translate | splitCharT }}
+                                                </label>
+                                                <!-- <input id="input" type="number" formControlName="hargaDiscount"
+                                                    [(ngModel)]="hargaDiscount" pInputText /> -->
+                                                <p-spinner [disabled]="!diskonHarga" (keyup)="hargaDiscountMinMax()"
+                                                    id="input" [min]="0" [max]="hargaSatuan" type="text"
+                                                    formControlName="hargaDiscount" [(ngModel)]="hargaDiscount">
+                                                </p-spinner>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-2">
+                                                <label>{{'frmHargaPaketModulAplikasi_factorRate'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('factorRate').valid && form.get('factorRate').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <input id="input" type="number" formControlName="factorRate"
+                                                    [(ngModel)]="factorRate" pInputText />
+                                            </div>
+                                            
+                                            <div class="ui-g-12 ui-md-2">
+                                                <!-- <div style="padding: 0px;" class="ui-g-12 ui-md-12"> -->
+                                                <br>
+                                                <p-checkbox [style]="{'font-size':'5px'}"
+                                                    label="{{'frmHargaPaketModulAplikasi_hideharga'| translate | splitCharT }}"
+                                                    binary="true" (onChange)="hargasensor()" [(ngModel)]="enMessage"
+                                                    formControlName="isHargaSatuanHide">
+                                                </p-checkbox>
+                                                <!-- </div> -->
+                                            </div>
+                                        </div>
+                                        <div style="padding: 0px" class="ui-g-12">
+                                            <div class="ui-g-12 ui-md-2">
+                                                <label>{{'frmHargaPaketModulAplikasi_qtyProdukMin'| translate | splitCharT }}
+                                                </label>
+                                                <!-- <input id="input" type="number" min="0" formControlName="qtyProdukMin"
+                                                    [(ngModel)]="qtyProdukMin" pInputText /> -->
+                                                <p-spinner id="input" [min]="0" type="text"
+                                                    formControlName="qtyProdukMin" [(ngModel)]="qtyProdukMin">
+                                                </p-spinner>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-2">
+                                                <label>{{'frmHargaPaketModulAplikasi_qtyProdukMax'| translate | splitCharT }}
+                                                </label>
+                                                <!-- <input id="input" type="number" formControlName="qtyProdukMax"
+                                                    [(ngModel)]="qtyProdukMax" pInputText /> -->
+                                                <p-spinner id="input" [min]="0" type="text"
+                                                    formControlName="qtyProdukMax" [(ngModel)]="qtyProdukMax">
+                                                </p-spinner>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-2">
+                                                <label>{{'frmHargaPaketModulAplikasi_operatorFactorRate'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span class="alert-small"
+                                                        *ngIf="!form.get('operatorFactorRate').valid && form.get('operatorFactorRate').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <p-dropdown #filterOp  filter="filter" class="ui-inputwrapper-filled"
+                                                    placeholder="--Pilih--" formControlName="operatorFactorRate"
+                                                    [options]="listOperatorFactorRate" [(ngModel)]="operatorFactorRate"
+                                                    [autoWidth]="false">
+                                                </p-dropdown>
+
+                                            </div>
+                                            <div class="ui-g-12 ui-md-2">
+                                                <label>{{'frmHargaPaketModulAplikasi_qtyUserMin'| translate | splitCharT }}
+                                                </label>
+                                                <!-- <input id="input" type="number" formControlName="qtyUserMin"
+                                                    [(ngModel)]="qtyUserMin" pInputText /> -->
+                                                <p-spinner id="input" [min]="0" type="text" formControlName="qtyUserMin"
+                                                    [(ngModel)]="qtyUserMin">
+                                                </p-spinner>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-2">
+                                                <label>{{'frmHargaPaketModulAplikasi_qtyUserMax'| translate | splitCharT }}
+                                                </label>
+                                                <!-- <input id="input" type="number" formControlName="qtyUserMax"
+                                                    [(ngModel)]="qtyUserMax" pInputText /> -->
+                                                <p-spinner id="input" [min]="0" type="text" formControlName="qtyUserMax"
+                                                    [(ngModel)]="qtyUserMax">
+                                                </p-spinner>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-2">
+                                                <label>{{'frmHargaPaketModulAplikasi_messageharga'| translate | splitCharT }}
+                                                </label>
+                                                <textarea [rows]="1" maxlength="250" [cols]="30" pInputTextarea
+                                                    autoResize="autoResize"
+                                                    formControlName="messageHargaSatuanHide"></textarea>
+                                            </div>
+                                        </div>
+                                        <div style="padding: 0px" class="ui-g-12">
+                                            <p-checkbox binary="true"
+                                                label="{{'frmHargaPaketModulAplikasi_status'| translate | splitCharT }}"
+                                                formControlName="statusEnabled"></p-checkbox>
+                                            <span
+                                                *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                                                style="color: red"> *</span>
+                                            <span
+                                                *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                                                style="color: red">
+                                                {{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                        </div>
+                                        <!-- </div> -->
+                                        <!-- <div style="padding: 0px" class="ui-g-3">
+                                            <div style="padding: 0px" class="ui-g-6">
+                                                <div class="ui-g-12 ui-md-12">
+                                                    <label>{{'frmHargaPaketModulAplikasi_hargaSatuan'| translate | splitCharT }}
+                                                        <span style="color: red;font-weight: bolder;">*</span>
+                                                        <span
+                                                            *ngIf="!form.get('hargaSatuan').valid && form.get('hargaSatuan').touched"
+                                                            style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                    </label>
+                                                    <input [disabled]="true" id="input" type="number"
+                                                        formControlName="hargaSatuan" [(ngModel)]="hargaSatuan"
+                                                        pInputText />
+
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6">
+                                                <div style="padding: 0px; padding-top: 5px" class="ui-g-12 ui-md-12">
+                                                    <br>
+                                                    <p-checkbox [style]="{'font-size':'5px'}"
+                                                        label="{{'frmHargaPaketModulAplikasi_hideharga'| translate | splitCharT }}"
+                                                        binary="true" (onChange)="hargasensor()" [(ngModel)]="enMessage"
+                                                        formControlName="isHargaSatuanHide">
+                                                    </p-checkbox>
+                                                </div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-12">
+                                                <div class="ui-g-12 ui-md-12">
+                                                    <label>{{'frmHargaPaketModulAplikasi_messageharga'| translate | splitCharT }}
+                                                    </label>
+                                                    <textarea [rows]="1" maxlength="250" [cols]="30" pInputTextarea
+                                                        autoResize="autoResize"
+                                                        formControlName="messageHargaSatuanHide"></textarea>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <div class="ui-g-12 ui-md-7"></div>
+                                        <div class="ui-g-12 ui-md-1">
+                                            <button pButton type="button"
+                                                label="{{'frmHargaPaketModulAplikasi_btnBatal'| translate | splitCharT}}"
+                                                icon="fa-refresh" (click)="reset()"></button>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-1">
+                                            <button pButton type="submit"
+                                                label="{{'frmHargaPaketModulAplikasi_btnSimpan'| translate | splitCharT}}"
+                                                icon="fa-save"></button>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-1">
+                                            <button pButton type="button"
+                                                label="{{'frmHargaPaketModulAplikasi_btnHapus'| translate | splitCharT}}"
+                                                icon="fa-trash" (click)="confirmDelete()"></button>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-1">
+                                            <button pButton type="button"
+                                                label="{{'frmHargaPaketModulAplikasi_btnCetak'| translate | splitCharT}}"
+                                                icon="fa-print" (click)="cetak()"></button>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-1">
+                                            <p-splitButton
+                                                label="{{'frmHargaPaketModulAplikasi_btnExport'| translate | splitCharT }}"
+                                                icon="fa-external-link" [model]="items"></p-splitButton>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p-fieldset>
+
+                            <!-- <p-fieldset legend="">
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-12 ui-md-12" style="margin-top: 8px;">
+                                        <div class="ui-g-4">
+                                            <div class="ui-g-12 ui-md-4">
+                                                <label>{{'frmHargaPaketModulAplikasi_kdMataUang'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('kdMataUang').valid && form.get('kdMataUang').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <p-dropdown filter="filter" class="ui-inputwrapper-filled"
+                                                    placeholder="--Pilih--" formControlName="kdMataUang"
+                                                    [options]="dropdownmataUang" [autoWidth]="false"></p-dropdown>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-4">
+                                                <label>{{'frmHargaPaketModulAplikasi_persenDiscount'| translate | splitCharT }}
+                                                </label>
+                                                <input id="input" type="number" formControlName="persenDiscount"
+                                                    [(ngModel)]="persenDiscount" pInputText />
+                                            </div>
+                                            <div class="ui-g-12 ui-md-4">
+                                                <label>{{'frmHargaPaketModulAplikasi_factorRate'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('factorRate').valid && form.get('factorRate').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <input id="input" type="number" formControlName="factorRate"
+                                                    [(ngModel)]="factorRate" pInputText />
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-4">
+                                            <div class="ui-g-12 ui-md-4">
+                                                <label>{{'frmHargaPaketModulAplikasi_hargaNetto'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('hargaNetto').valid && form.get('hargaNetto').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <input id="input" type="number" formControlName="hargaNetto"
+                                                    [(ngModel)]="hargaNetto" pInputText />
+                                            </div>
+
+                                            <div class="ui-g-12 ui-md-4">
+                                                <label>{{'frmHargaPaketModulAplikasi_hargaDiscount'| translate | splitCharT }}
+                                                </label>
+                                                <input id="input" type="number" formControlName="hargaDiscount"
+                                                    [(ngModel)]="hargaDiscount" pInputText />
+                                            </div>
+                                            <div class="ui-g-12 ui-md-4">
+                                                <label>{{'frmHargaPaketModulAplikasi_hargaDiscount'| translate | splitCharT }}
+                                                </label>
+                                                <input id="input" type="number" formControlName="hargaDiscount"
+                                                    [(ngModel)]="hargaDiscount" pInputText />
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-4">
+                                            <div class="ui-g-12 ui-md-6">
+                                                <label>{{'frmHargaPaketModulAplikasi_hargaSatuan'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('hargaSatuan').valid && form.get('hargaSatuan').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <input [disabled]="true" id="input" type="number"
+                                                    formControlName="hargaSatuan" [(ngModel)]="hargaSatuan"
+                                                    pInputText />
+
+                                            </div>
+                                            <br>
+                                            <p-checkbox
+                                                label="{{'frmHargaPaketModulAplikasi_hideharga'| translate | splitCharT }}"
+                                                binary="true" (onChange)="hargasensor()" [(ngModel)]="enMessage"
+                                                formControlName="isHargaSatuanHide">
+                                            </p-checkbox>
+                                        </div>
+                                        <div class="ui-g-4">
+                                            <div class="ui-g-12 ui-md-10">
+                                                <label>{{'frmHargaPaketModulAplikasi_factorRate'| translate | splitCharT }}
+                                                    <span style="color: red;font-weight: bolder;">*</span>
+                                                    <span
+                                                        *ngIf="!form.get('factorRate').valid && form.get('factorRate').touched"
+                                                        style="color: red">{{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                                </label>
+                                                <input id="input" type="number" formControlName="factorRate"
+                                                    [(ngModel)]="factorRate" pInputText />
+                                            </div>
+                                            <div class="ui-g-12 ui-md-5">
+                                                <label>{{'frmHargaPaketModulAplikasi_qtyUserMin'| translate | splitCharT }}
+                                                </label>
+                                                <input id="input" type="number" formControlName="qtyUserMin"
+                                                    [(ngModel)]="qtyUserMin" pInputText />
+                                            </div>
+                                            <div class="ui-g-12 ui-md-5">
+                                                <label>{{'frmHargaPaketModulAplikasi_qtyProdukMin'| translate | splitCharT }}
+                                                </label>
+                                                <input id="input" type="number" formControlName="qtyProdukMin"
+                                                    [(ngModel)]="qtyProdukMin" pInputText />
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-4">
+                                            <div class="ui-g-12 ui-md-5">
+                                                <label>{{'frmHargaPaketModulAplikasi_qtyUserMax'| translate | splitCharT }}
+                                                </label>
+                                                <input id="input" type="number" formControlName="qtyUserMax"
+                                                    [(ngModel)]="qtyUserMax" pInputText />
+                                            </div>
+                                            <div class="ui-g-12 ui-md-5">
+                                                <label>{{'frmHargaPaketModulAplikasi_qtyProdukMax'| translate | splitCharT }}
+                                                </label>
+                                                <input id="input" type="number" formControlName="qtyProdukMax"
+                                                    [(ngModel)]="qtyProdukMax" pInputText />
+                                            </div>
+                                        </div>
+
+                                        <div class="ui-g-4">
+                                            <div class="ui-g-12 ui-md-10">
+                                                <label>{{'frmHargaPaketModulAplikasi_messageharga'| translate | splitCharT }}
+                                                </label>
+                                                <textarea [rows]="1" maxlength="250" [cols]="30" pInputTextarea
+                                                    autoResize="autoResize"
+                                                    formControlName="messageHargaSatuanHide"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-4">
+                                            <p-checkbox binary="true"
+                                                label="{{'frmHargaPaketModulAplikasi_status'| translate | splitCharT }}"
+                                                formControlName="statusEnabled"></p-checkbox>
+                                            <span
+                                                *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                                                style="color: red"> *</span>
+                                            <span
+                                                *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                                                style="color: red">
+                                                {{'frmHargaPaketModulAplikasi_required'| translate | splitCharT}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <div class="ui-g-12 ui-md-7"></div>
+                                        <div class="ui-g-12 ui-md-1">
+                                            <button pButton type="button"
+                                                label="{{'frmHargaPaketModulAplikasi_btnBatal'| translate | splitCharT}}"
+                                                icon="fa-refresh" (click)="reset()"></button>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-1">
+                                            <button pButton type="submit"
+                                                label="{{'frmHargaPaketModulAplikasi_btnSimpan'| translate | splitCharT}}"
+                                                icon="fa-save"></button>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-1">
+                                            <button pButton type="button"
+                                                label="{{'frmHargaPaketModulAplikasi_btnHapus'| translate | splitCharT}}"
+                                                icon="fa-trash" (click)="confirmDelete()"></button>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-1">
+                                            <button pButton type="button"
+                                                label="{{'frmHargaPaketModulAplikasi_btnCetak'| translate | splitCharT}}"
+                                                icon="fa-print" (click)="cetak()"></button>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-1">
+                                            <p-splitButton
+                                                label="{{'frmHargaPaketModulAplikasi_btnExport'| translate | splitCharT }}"
+                                                icon="fa-external-link" [model]="items"></p-splitButton>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p-fieldset> -->
+                        </form>
+                    </div>
+                    <div class="ui-g-12">
+                        <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+                            [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected"
+                            (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading"
+                            loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)"
+                            expandableRows="true">
+                            <p-header>
+                                <div class="ui-helper-clearfix">
+                                    <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                    <input type="text" pInputText size="50"
+                                        placeholder="{{'frmHargaPaketModulAplikasi_Pencarian'| translate | splitCharT}}"
+                                        [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+                                    <span
+                                        style="float: left;padding:0.3em;">{{'frmHargaPaketModulAplikasi_DaftarHargaPaketModulAplikasiTitle'| translate | splitCharT }}</span>
+                                </div>
+                            </p-header>
+                            <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+                            <p-column field="namaPaket"
+                                header="{{'frmHargaPaketModulAplikasi_tblKdPaket'| translate | splitCharT}}"></p-column>
+                            <p-column field="namaModulAplikasi"
+                                header="{{'frmHargaPaketModulAplikasi_tblKdModulAplikasi'| translate | splitCharT}}">
+                            </p-column>
+                            <p-column field="namaVersion"
+                                header="{{'frmHargaPaketModulAplikasi_tblNamaVersion'| translate | splitCharT}}">
+                            </p-column>
+                            <p-column field="namaEdisi"
+                                header="{{'frmHargaPaketModulAplikasi_tblNamaEdisi'| translate | splitCharT}}">
+                            </p-column>
+                            <p-column field="namaKelompokKlien"
+                                header="{{'frmHargaPaketModulAplikasi_tblKdKelompokKlien'| translate | splitCharT}}">
+                            </p-column>
+                            <p-column field="namaSK"
+                                header="{{'frmHargaPaketModulAplikasi_tblNoSK'| translate | splitCharT}}"></p-column>
+                            <p-column field="hargaNetto"
+                                header="{{'frmHargaPaketModulAplikasi_tblHargaNetto'| translate | splitCharT}}">
+                            </p-column>
+                            <p-column field="hargaSatuan"
+                                header="{{'frmHargaPaketModulAplikasi_tblHargaSatuan'| translate | splitCharT}}">
+                            </p-column>
+                            <!--  <p-column field="persenDiscount" header="{{'frmpersenDiscount'| translate | splitCharT}}"></p-column>
+                            <p-column field="hargaDiscount" header="{{'frmhargaDiscount'| translate | splitCharT}}"></p-column>
+                            <p-column field="factorRate" header="{{'frmfactorRate'| translate | splitCharT}}"></p-column>
+                            <p-column field="operatorFactorRate" header="{{'frmoperatorFactorRate'| translate | splitCharT}}"></p-column>
+                            <p-column field="qtyUserMin" header="{{'frmqtyUserMin'| translate | splitCharT}}"></p-column>
+                            <p-column field="qtyUserMax" header="{{'frmqtyUserMax'| translate | splitCharT}}"></p-column>
+                            <p-column field="qtyProdukMin" header="{{'frmqtyProdukMin'| translate | splitCharT}}"></p-column>
+                            <p-column field="qtyProdukMax" header="{{'frmqtyProdukMax'| translate | splitCharT}}"></p-column> -->
+                            <p-column field="namaMataUang"
+                                header="{{'frmHargaPaketModulAplikasi_tblKdMataUang'| translate | splitCharT}}">
+                            </p-column>
+                            <p-column field="statusEnabled"
+                                header="{{'frmHargaPaketModulAplikasi_tblTableStatus'| translate | splitCharT }}">
+                                <ng-template let-col="rowData" pTemplate type="body">
+                                    {{col.statusEnabled | truefalse | translate | splitCharT }}
+                                </ng-template>
+                            </p-column>
+                            <ng-template let-details pTemplate="rowexpansion">
+                                <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                        <div class="ui-grid-col-12">
+                                            <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid-col-2 label">
+                                                        <span
+                                                            style="color:black">{{ 'frmHargaPaketModulAplikasi_tblOptional' | translate | splitCharT }}</span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">
+                                                        {{'frmHargaPaketModulAplikasi_tblPersenDiscount'| translate | splitCharT }}
+                                                    </div>
+                                                    <div class="ui-grid-col-4"> {{details.persenDiscount}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">
+                                                        {{'frmHargaPaketModulAplikasi_tblHargaDiscount'| translate | splitCharT }}
+                                                    </div>
+                                                    <div class="ui-grid-col-4"> {{details.hargaDiscount}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">
+                                                        {{'frmHargaPaketModulAplikasi_tblFactorRate'| translate | splitCharT }}
+                                                    </div>
+                                                    <div class="ui-grid-col-4"> {{details.factorRate}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">
+                                                        {{'frmHargaPaketModulAplikasi_tblOperatorFactorRate'| translate | splitCharT }}
+                                                    </div>
+                                                    <div class="ui-grid-col-4"> {{details.operatorFactorRate}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">
+                                                        {{'frmHargaPaketModulAplikasi_tblQtyUserMin'| translate | splitCharT }}
+                                                    </div>
+                                                    <div class="ui-grid-col-4"> {{details.qtyUserMin}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">
+                                                        {{'frmHargaPaketModulAplikasi_tblQtyUserMax'| translate | splitCharT }}
+                                                    </div>
+                                                    <div class="ui-grid-col-4"> {{details.qtyUserMax}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">
+                                                        {{'frmHargaPaketModulAplikasi_tblQtyProdukMin'| translate | splitCharT }}
+                                                    </div>
+                                                    <div class="ui-grid-col-4"> {{details.qtyProdukMin}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">
+                                                        {{'frmHargaPaketModulAplikasi_tblQtyProdukMax'| translate | splitCharT }}
+                                                    </div>
+                                                    <div class="ui-grid-col-4"> {{details.qtyProdukMax}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">
+                                                        {{'frmHargaPaketModulAplikasi_message'| translate | splitCharT }}
+                                                    </div>
+                                                    <div class="ui-grid-col-4"> {{details.messageHargaSatuanHide}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">
+                                                        {{'frmHargaPaketModulAplikasi_statusharga'| translate | splitCharT }}
+                                                    </div>
+                                                    <div *ngIf="details.isHargaSatuanHide == 1" class="ui-grid-col-4">
+                                                        true</div>
+                                                    <div *ngIf="details.isHargaSatuanHide == 0" class="ui-grid-col-4">
+                                                        false</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dataTable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+    <div class="header-title">
+        <div class="container">
+            <div class="header-item action">
+                <img src="../../../../assets/layout/images/kiosk/home.svg"
+                    [routerLink]="['/kiosk']" alt="home">
+            </div>
+            <div class="header-item">
+                <img
+                    src="../../../../assets/layout/images/kiosk/icon-informasi.png"
+                    alt="icon">
+                <h2>Informasi</h2>
+            </div>
+            <div class="header-item action">
+                <img src="../../../../assets/layout/images/kiosk/power-button.svg" alt="logout" (click)="logout($event)">
+            </div>
+        </div>
+        <div class="container-grid">
+            <div class="main-content">
+                <div>
+                    <img
+                        src="../../../../assets/layout/images/kiosk/informasi-profil.png"
+                        [routerLink]="['/kiosk/informasi/profile']">
+                    <a href="#" class="underlined"
+                        [routerLink]="['/kiosk/informasi/profile']">Profile</a>
+                </div>
+                <div>
+                    <img
+                        src="../../../../assets/layout/images/kiosk/informasi-pelayanan.png" [routerLink]="['/kiosk/informasi/pelayanan']">
+                    <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/pelayanan']">Pelayanan</a>
+                </div>
+                <div>
+                    <img
+                        src="../../../../assets/layout/images/kiosk/informasi-kamar-perawatan.png" [routerLink]="['/kiosk/informasi/kamar-perawatan']">
+                    <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/kamar-perawatan']">Kamar Perawatan</a>
+                </div>
+                <div>
+                    <img
+                        src="../../../../assets/layout/images/kiosk/informasi-event.png" [routerLink]="['/kiosk/informasi/promosi-kegiatan']">
+                    <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/promosi-kegiatan']">Promosi & Kegiatan</a>
+                </div>
+                <div>
+                    <img
+                        src="../../../../assets/layout/images/kiosk/informasi-bantuan.png" [routerLink]="['/kiosk/informasi/pusat-bantuan']">
+                    <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/pusat-bantuan']">Pusat Bantuan</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="informasi-action">
+        <hr>
+        <div class="container">
+            <h1 style="color: white; text-align: center;margin: 0;font-size: 30px;color: whitesmoke;">
+                Subscribe untuk mendapatkan informasi terbaru di email anda
+            </h1>
+            <input type="text" class="input input-big"
+                placeholder="Masukkan alamat email untuk subscribe">
+            <button class="btn-subscribe">Subscribe</button>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,29 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+    <nav class="navbar">
+        <img src="../../../../assets/layout/images/kiosk/power-button.svg" (click)="logout($event)">
+        <!-- <i class="fa fa-power-off"></i> -->
+    </nav>
+    <main>
+        <div class="container-dashboard">
+            <div class="item">
+                <img (click)="logout()" style="width: 90vh;margin-left: 50px;position:fixed;bottom:0%"
+                    src="../../../../assets/layout/images/kiosk/landing-page-dokter.png">
+            </div>
+            <div class="item center">
+                <img class="image-dokter"
+                    src="../../../assets/layout/images/kiosk/logo-bottis.svg"
+                    style="width: 60%;">
+                <!-- <h2>HUMAS RUMAH SAKIT SEJAHTERA</h2> -->
+                <h2>{{dataLogin}}</h2>
+                <div id="buttonCenter">
+                    <button class="button button-xl" routerLink="/kiosk/antrian">{{'frmKiosK_Antrian' | translate | splitCharT }}</button>
+                    <button class="button button-xl button-red">{{'frmKiosK_DenahRumahSakit' | translate | splitCharT }}</button>
+                    <button class="button button-xl button-blue"
+                        routerLink="/kiosk/informasi">{{'frmKiosK_Informasi' | translate | splitCharT }}</button>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+</div>

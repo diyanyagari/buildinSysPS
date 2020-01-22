@@ -1,0 +1,62 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="card card-w-title">
+          <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+          <h1>{{'frmMapTitleStatusPerkawinan_title'| translate | splitCharT}}</h1>
+          <div class="ui-g form-group">
+            <div class="ui-g-6">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="ui-g-6 ui-md-8">
+                  <label for="input">{{'frmMapTitleStatusPerkawinan_titleDrop' | translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('kdTitle').valid && form.get('kdTitle').touched" style="color: red">
+                      {{'frmMapTitleStatusPerkawinan_required'| translate | splitCharT}}</span>
+                  </label>
+                  <p-dropdown id="dropdown" (ngModelChange)="clearPanelBawah($event)" filter="filter" [options]="dropTitle"
+                    [(ngModel)]="mapStatusPerkawinan" formControlName="kdTitle" class="ui-inputwrapper-filled" [autoWidth]="false">
+                  </p-dropdown>
+                </div>
+              </form>
+            </div>
+            <div class="ui-g-12">
+              <p-blockUI [target]="pnl" [blocked]="hasilCek" [baseZIndex]=10 [autoZIndex]="false">
+                <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+              </p-blockUI>
+              <p-fieldset #pnl legend="{{'frmMapTitleStatusPerkawinan_gridTitle' | translate | splitCharT }}">
+                <div class="ui-g-6"></div>
+                <div class="ui-g-6">
+                  <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                  <input type="text" pInputText size="50" placeholder="{{'frmMapTitleStatusPerkawinan_gridPencarian' | translate | splitCharT }}" style="width: 40%;float:right;"
+                    (keyup)="applyFilter($event.target.value)">
+                </div>
+                <div *ngFor="let data of listData; let i = index" class="ui-g-3">
+                  <p-checkbox (change)="onChange()" value={{data.kode}} label="{{data.namaStatus}}" [(ngModel)]="pilihan"
+                    inputId="{{i}}"></p-checkbox>
+                </div>
+              </p-fieldset>
+            </div>
+            <div class="ui-g-6 ui-md-10">
+              <div class="checkbox_cont">
+                <div class="checkbox ">
+                  <p-checkbox [(ngModel)]="pilihSemua" [disabled]="hasilCek" (click)="selectAll()" label="{{'frmMapTitleStatusPerkawinan_pilihSemua' | translate | splitCharT }}"
+                    binary="true"></p-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-2"></div>
+                <div class="ui-g-12 ui-md-2">
+                  <button pButton type="submit" label="{{'frmMapTitleStatusPerkawinan_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,451 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+      <div class="ui-g-12">
+          <div class="card card-w-title">
+              <h1>
+                  <div class="ui-helper-clearfix">
+                      <div style="float:right;display:block;width: 4%;height: 32px;">
+                          <p-splitButton icon="fa-print" [model]="items"></p-splitButton>
+                      </div>
+                      <button style="float:right;display:block;" pButton type="button"
+                          title="{{'frmMonitoringPasienRuanganDokter_HapusPencarian' | translate | splitCharT }}" icon="fa-refresh"
+                          (click)="clearPencarian()" [disabled]="buttonAktif"></button>
+
+                      <!-- <a class="fa fa-angle-left"
+                          style="padding:0.2em 0.2em;float:right;margin-top:-7px;display:block;margin-right: 5px;font-size: 2em"
+                          (click)="periodeOpen()" id="periodePencarianOpen"
+                          title="{{'frmMonitoringPasienRuanganDokter_PencarianPeriode' | translate | splitCharT}}"></a> display:none;-->
+                      <div style="border:1px solid #c1c1c1;width:28%;float:right;border-radius: 5px;margin-right: 5px; margin-top: -4px"
+                          id="periodePencarian">
+                          <div style="width:8%;float:right;margin: 3px;margin-right: 10px">
+                              <button tyle="width: 100%" pButton type="button" icon="fa-search" (click)="cari()"
+                                  [disabled]="buttonAktif"></button>
+                          </div>
+
+                          <div style="width:39%;float:right;margin: 3px;margin-top: 7px;font-size: 12px">
+                              <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="{{rangeTahun}}"
+                                  [(ngModel)]="tanggalAkhir" [showIcon]="true" dateFormat="dd M yy"
+                                  placeholder="{{'frmMonitoringPasienRuanganDokter_PeriodeAkhir'| translate | splitCharT }}" [showTime]="true"
+                                  (onSelect)="setTglPencarian($event,'akhir')"></app-calender>
+                          </div>
+                          <div style="width:2%;float:right;text-align: center;margin: 3px;margin-top: 6px">
+                              <label>-</label>
+                          </div>
+                          <div
+                              style="width:39%;float:right;margin: 3px;margin-right: 4px;margin-top: 7px;font-size: 12px">
+                              <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="{{rangeTahun}}"
+                                  [(ngModel)]="tanggalAwal" [showIcon]="true" dateFormat="dd M yy"
+                                  placeholder="{{'frmMonitoringPasienRuanganDokter_PeriodeAwal'| translate | splitCharT }}" [showTime]="true"
+                                  (onSelect)="setTglPencarian($event,'awal')"></app-calender>
+                          </div>
+                      </div>
+                      <!-- <a class="fa fa-angle-right"
+                          style="padding:0.2em 0.2em;float:right;margin-top:-7px;display:none;font-size: 2em "
+                          (click)="periodeClose()" title="{{'frmMonitoringPasienRuanganDokter_TutupPencarianPeriode' | translate | splitCharT}}"
+                          id="periodePencarianClose"></a> -->
+                      <span
+                          style="float: left;padding:0.3em;">{{'frmMonitoringPasienRuanganDokter_DaftarMonitoringPasienRuanganDokter'| translate | splitCharT }}</span>
+                  </div>
+
+              </h1>
+
+              <p-overlayPanel #op [style]="{'text-align': 'center'}">
+                  <img [src]="(foto | imgsec) | async" style="width: 15vw !important;" />
+              </p-overlayPanel>
+              <p-blockUI [target]="pnl" [blocked]="blockedPanel">
+                  <i style="position:absolute;top:25%;left:50%">
+                      <h2>{{hotkeyLabel}}</h2>
+                  </i>
+              </p-blockUI>
+
+              <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-12 ui-lg-12 ui-g-nopad">
+                      <div class="ui-g-12 ui-md-12 ui-lg-12" style="border:1px solid #c1c1c1;height:69vh;max-height:69vh;overflow-y: scroll;">
+                          <p-dataTable #pnl [value]="listMonitoring" scrollable="true" (onSort)="sortingData($event)"
+                              [rows]="50" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20,50]"
+                              [sortField]="sortF" [sortOrder]="sortO" [rowStyleClass]="getSelected"
+                              [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" [lazy]="true" #dt
+                              appendTo="body" scrollHeight="53vh" selectionMode="single" [(selection)]="selected"
+                              (onRowSelect)="onRowSelect($event)" frozenWidth="799px" unfrozenWidth="{{widthScreen}}">
+                              <p-header>
+                                  <div class="ui-helper-clearfix" style="background: gray;text-align: left">
+                                      <h4 style="color: white;margin: 3px;font-size: 1vw;">
+                                          {{'frmMonitoringPasienRuanganDokter_DaftarPasien'| translate | splitCharT}}
+                                          {{namaPoliRuangan}}</h4>
+                                  </div>
+                              </p-header>
+
+                              <p-headerColumnGroup frozen="true">
+                                  <p-row>
+                                      <p-column field="number" header="{{'frmMonitoringPasienRuanganDokter_No' | translate | splitCharT }}"
+                                          [style]="{'width':'30px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}">
+                                      </p-column>
+                                      <p-column field="tglMasuk" header="{{'frmMonitoringPasienRuanganDokter_TanggalMasuk' | translate | splitCharT }}"
+                                          [style]="{'width':'100px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}">
+                                      </p-column>
+                                      <p-column field="noRegistrasi" header="{{'frmMonitoringPasienRuanganDokter_NoRegistrasi' | translate | splitCharT }}"
+                                          [style]="{'width':'103px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                          [filter]="true" [sortable]="true">
+                                          <ng-template pTemplate="filter" let-col>
+                                              <input id="input" type="text" [style]="{'width':'100%'}"
+                                                  [(ngModel)]="noRegFilter" (ngModelChange)="filterData($event,'noReg')"
+                                                  placeholder="{{'frmMonitoringPasienRuanganDokter_Cari'| translate | splitCharT }}"
+                                                  pInputText />
+                                          </ng-template>
+                                      </p-column>
+                                      <p-column field="noCM" header="{{'frmMonitoringPasienRuanganDokter_NoRM' | translate | splitCharT }}"
+                                          [style]="{'width':'90px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                          [filter]="true" [sortable]="true">
+                                          <ng-template pTemplate="filter" let-col>
+                                              <input id="input" type="text" [style]="{'width':'100%'}"
+                                                  [(ngModel)]="noCMFilter" (ngModelChange)="filterData($event,'noCm')"
+                                                  placeholder="{{'frmMonitoringPasienRuanganDokter_Cari'| translate | splitCharT }}"
+                                                  pInputText />
+                                          </ng-template>
+                                      </p-column>
+                                      <p-column field="namaLengkap"
+                                          header="{{'frmMonitoringPasienRuanganDokter_NamaPasien' | translate | splitCharT }}"
+                                          [style]="{'width':'150px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                          [sortable]="true" [filter]="true">
+                                          <ng-template pTemplate="filter" let-col>
+                                              <input id="input" type="text" [style]="{'width':'100%'}"
+                                                  [(ngModel)]="namaPasienLFilter"
+                                                  (ngModelChange)="filterData($event,'namaPasien')"
+                                                  placeholder="{{'frmMonitoringPasienRuanganDokter_Cari'| translate | splitCharT }}"
+                                                  pInputText />
+                                          </ng-template>
+                                      </p-column>
+                                      <p-column field="kodeExternalJenisKelamin"
+                                          header="{{'frmMonitoringPasienRuanganDokter_JK' | translate | splitCharT }}"
+                                          [style]="{'width':'50px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                          [sortable]="true" [filter]="true">
+                                          <ng-template pTemplate="filter" let-col>
+                                              <p-multiSelect [options]="listJenisKelamin"
+                                                  [style]="{'width':'100%', 'text-align':'left'}"
+                                                  [(ngModel)]="jenisKelaminFilter" multiple="multiple"
+                                                  checkbox="checkbox" filter="filter" optionLabel="label"
+                                                  (onChange)="filterData(jenisKelaminFilter,'jk')" appendTo="body">
+                                              </p-multiSelect>
+                                          </ng-template>
+                                      </p-column>
+                                      <p-column field="tglLahir"
+                                            header="{{'frmMonitoringPasienRuanganDokter_TanggalLahir' | translate | splitCharT }}"
+                                            [style]="{'width':'80px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                            [sortable]="true" [filter]="true">
+                                            <ng-template pTemplate="filter" let-col let-dataUmur="rowData" let-i="rowIndex">
+                                                <app-calender [monthNavigator]="true" [yearNavigator]="true"
+                                                    yearRange="{{rangeTahun}}" [showIcon]="false" dateFormat="dd/mm/yy"
+                                                    [(ngModel)]="tglLahirFilter"
+                                                    (ngModelChange)="filterData($event,'tglLahir')"
+                                                    placeholder="{{'frmMonitoringPasien_Cari'| translate | splitCharT }}"
+                                                     appendTo="body"></app-calender>
+                                            </ng-template>
+                                            <!-- <ng-template pTemplate="body" let-monitoring="rowData" let-i="rowIndex">
+                                                <span>{{monitoring.umurTh}} th {{monitoring.umurBln}} bln {{monitoring.umurHr}}
+                                                    hr</span>
+                                            </ng-template> title="{{this.listMonitoring[i].umurTh}} th {{this.listMonitoring[i].umurBln}} bln {{this.listMonitoring[i].umurHr}} hr" -->
+                                        </p-column>
+                                      <p-column field="kasusPenyakit"
+                                          header="{{'frmMonitoringPasienRuanganDokter_KasusPenyakit' | translate | splitCharT }}"
+                                          [style]="{'width':'153px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                          [sortable]="true" [filter]="true">
+                                          <ng-template pTemplate="filter" let-col>
+                                              <p-multiSelect [options]="listKasusPenyakit"
+                                                  [style]="{'width':'100%', 'text-align':'left'}"
+                                                  [(ngModel)]="kasusPenyakitFilter" multiple="multiple"
+                                                  checkbox="checkbox" filter="filter" optionLabel="label"
+                                                  (onChange)="filterData(kasusPenyakitFilter,'ksp')" appendTo="body">
+                                              </p-multiSelect>
+                                          </ng-template>
+                                      </p-column>
+                                  </p-row>
+                              </p-headerColumnGroup>
+
+                              <p-headerColumnGroup>
+                                <p-row>
+                                    <p-column field="kelas"
+                                          header="{{'frmMonitoringPasienRuanganDokter_Kelas' | translate | splitCharT }}"
+                                          [style]="{'width':'100px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                          [sortable]="true" [filter]="true">
+                                          <ng-template pTemplate="filter" let-col>
+                                              <p-multiSelect [options]="listKelas"
+                                                  [style]="{'width':'100%', 'text-align':'left'}"
+                                                  [(ngModel)]="kelasFilter" multiple="multiple"
+                                                  checkbox="checkbox" filter="filter" optionLabel="label"
+                                                  (onChange)="filterData(kelasFilter,'kl')" appendTo="body">
+                                              </p-multiSelect>
+                                          </ng-template>
+                                      </p-column>
+                                      <p-column field="noKamar"
+                                          header="{{'frmMonitoringPasienRuanganDokter_noKamar' | translate | splitCharT }}"
+                                          [style]="{'width':'170px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                          [sortable]="true" [filter]="true">
+                                          <ng-template pTemplate="filter" let-col>
+                                              <p-multiSelect [options]="listKamar"
+                                                  [style]="{'width':'100%', 'text-align':'left'}"
+                                                  [(ngModel)]="kamarFilter" multiple="multiple"
+                                                  checkbox="checkbox" filter="filter" optionLabel="label"
+                                                  (onChange)="filterData(kamarFilter,'kamar')" appendTo="body">
+                                              </p-multiSelect>
+                                          </ng-template>
+                                      </p-column>
+                                      <!-- <p-column field="noBed"
+                                          header="{{'frmMonitoringPasienRuanganDokter_noBed' | translate | splitCharT }}"
+                                          [style]="{'width':'100px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                          [sortable]="true" [filter]="true">
+                                          <ng-template pTemplate="filter" let-col>
+                                              <p-multiSelect [options]="listBed"
+                                                  [style]="{'width':'100%', 'text-align':'left'}"
+                                                  [(ngModel)]="bedFilter" multiple="multiple"
+                                                  checkbox="checkbox" filter="filter" optionLabel="label"
+                                                  (onChange)="filterData(bedFilter,'bed')" appendTo="body">
+                                              </p-multiSelect>
+                                          </ng-template>
+                                      </p-column> -->
+                                      <p-column field="dokter"
+                                          header="{{'frmMonitoringPasienRuanganDokter_DokterPenanggungJawab' | translate | splitCharT }}"
+                                          [style]="{'width':'170px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                          [sortable]="true" [filter]="true">
+                                          <ng-template pTemplate="filter" let-col>
+                                              <p-multiSelect [options]="listDokter"
+                                                  [style]="{'width':'100%', 'text-align':'left'}"
+                                                  [(ngModel)]="dokterFilter" multiple="multiple"
+                                                  checkbox="checkbox" filter="filter" optionLabel="label"
+                                                  (onChange)="filterData(dokterFilter,'dr')" appendTo="body">
+                                              </p-multiSelect>
+                                          </ng-template>
+                                      </p-column>
+                                      <p-column field="statusPasien"
+                                      header="{{'frmMonitoringPasienRuanganDokter_statusPasien' | translate | splitCharT }}"
+                                      [style]="{'width':'105px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                      [sortable]="true" [filter]="true">
+                                      <ng-template pTemplate="filter" let-col>
+                                          <p-multiSelect [options]="listStatusPasien"
+                                              [style]="{'width':'100%', 'text-align':'left'}"
+                                              [(ngModel)]="statusPasienFilter" multiple="multiple"
+                                              checkbox="checkbox" filter="filter" optionLabel="label"
+                                              (onChange)="filterData(statusPasienFilter,'statusPasien')" appendTo="body">
+                                          </p-multiSelect>
+                                      </ng-template>
+                                  </p-column> 
+                                      <p-column field="jenisPasien"
+                                          header="{{'frmMonitoringPasienRuanganDokter_jenisPasien' | translate | splitCharT }}"
+                                          [style]="{'width':'100px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                          [sortable]="true" [filter]="true">
+                                          <ng-template pTemplate="filter" let-col>
+                                              <p-multiSelect [options]="listJenisPasien"
+                                                  [style]="{'width':'100%', 'text-align':'left'}"
+                                                  [(ngModel)]="jenisPasienFilter" multiple="multiple"
+                                                  checkbox="checkbox" filter="filter" optionLabel="label"
+                                                  (onChange)="filterData(jenisPasienFilter,'jpa')" appendTo="body">
+                                              </p-multiSelect>
+                                          </ng-template>
+                                      </p-column>
+                                   <p-column field="alamatLengkap"
+                                      header="{{'frmMonitoringPasienRuanganDokter_Alamat' | translate | splitCharT }}"
+                                      [style]="{'width':'390px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                      [sortable]="true" [filter]="true">
+                                      <ng-template pTemplate="filter" let-col>
+                                          <input id="input" type="text" [style]="{'width':'100%'}"
+                                              [(ngModel)]="alamatLengkapFilter"
+                                              (ngModelChange)="filterData($event,'alamatLengkap')" pInputText
+                                              placeholder="{{'frmMonitoringPasienRuanganDokter_Cari'| translate | splitCharT }}" />
+                                      </ng-template>
+                                  </p-column>
+                                  <p-column field="tglKeluar" header="{{'frmMonitoringPasienRuanganDokter_TanggalKeluar' | translate | splitCharT }}"
+                                    [style]="{'width':'110px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}">
+                                  </p-column>
+                                  <p-column field="statusKeluar"
+                                          header="{{'frmMonitoringPasienRuanganDokter_statusKeluar' | translate | splitCharT }}"
+                                          [style]="{'width':'105px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                          [sortable]="true" [filter]="true">
+                                          <ng-template pTemplate="filter" let-col>
+                                              <p-multiSelect [options]="listStatusKeluar"
+                                                  [style]="{'width':'100%', 'text-align':'left'}"
+                                                  [(ngModel)]="statusKeluarFilter" multiple="multiple"
+                                                  checkbox="checkbox" filter="filter" optionLabel="label"
+                                                  (onChange)="filterData(statusKeluarFilter,'statusKeluar')" appendTo="body">
+                                              </p-multiSelect>
+                                          </ng-template>
+                                </p-column>
+                                <p-column field="kondisiPasien"
+                                      header="{{'frmMonitoringPasienRuanganDokter_kondisiPasien' | translate | splitCharT }}"
+                                      [style]="{'width':'110px', 'height':'63px', 'max-height':'50px', 'text-align':'center'}"
+                                      [sortable]="true" [filter]="true">
+                                      <ng-template pTemplate="filter" let-col>
+                                          <p-multiSelect [options]="listKondisiPasien"
+                                              [style]="{'width':'100%', 'text-align':'left'}"
+                                              [(ngModel)]="kondisiPasienFilter" multiple="multiple"
+                                              checkbox="checkbox" filter="filter" optionLabel="label"
+                                              (onChange)="filterData(kondisiPasienFilter,'kondisi')" appendTo="body">
+                                          </p-multiSelect>
+                                      </ng-template>
+                                  </p-column> 
+                                </p-row>
+                              </p-headerColumnGroup>
+
+                              <p-column field="number"
+                                  [style]="{'width':'30px' , 'height':'63px','text-align':'left', 'max-height':'32px', 'overflow-y':'-webkit-paged-x','white-space':'nowrap','overflow':'hidden','text-overflow': 'ellipsis'}"
+                                  [sortable]="true" frozen="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData" let-i="rowIndex">
+                                      <span>{{i+1}}</span>
+                                  </ng-template>
+                              </p-column>
+                              <p-column field="tglMasuk"
+                                  [style]="{'width':'100px','height':'63px','text-align':'center'}"
+                                  [sortable]="true" frozen="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData" let-i="rowIndex">
+                                      <span>
+                                        {{monitoring.tglMasuk  * 1000 | date:'dd/MM/yyyy - HH:mm:ss'}}
+                                      </span>
+                                  </ng-template>
+                              </p-column>
+                              <p-column field="noRegistrasi"
+                                  [style]="{'text-align':'left','width':'103px' , 'height':'63px', 'max-height':'32px', 'overflow-y':'-webkit-paged-x','white-space':'nowrap','overflow':'hidden','text-overflow': 'ellipsis'}"
+                                  [sortable]="true" frozen="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span title="{{monitoring.noRegistrasi}}">{{monitoring.noRegistrasi}}</span>
+                                  </ng-template>
+                              </p-column>
+                              <p-column field="noCM"
+                                  [style]="{'text-align':'left','width':'90px', 'height':'63px', 'max-height':'32px', 'overflow-y':'-webkit-paged-x','white-space':'nowrap','overflow':'hidden','text-overflow': 'ellipsis'}"
+                                  [sortable]="true" frozen="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span title="{{monitoring.noCM}}">{{monitoring.noCM}}</span>
+                                  </ng-template>
+                              </p-column>
+                              <p-column field="namaLengkap"
+                                  [style]="{'text-align':'left','width':'150px','white-space':'nowrap','overflow':'hidden','text-overflow': 'ellipsis'}"
+                                  [sortable]="true" frozen="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span title="{{monitoring.namaLengkap}}">{{monitoring.namaLengkap}}</span>
+                                  </ng-template>
+                              </p-column>
+                              <p-column field="kodeExternalJenisKelamin"
+                                  [style]="{'width':'50px', 'text-align':'center'}" [sortable]="true" frozen="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span
+                                          title="{{monitoring.kodeExternalJenisKelamin}}">{{monitoring.kodeExternalJenisKelamin}}</span>
+                                  </ng-template>
+                              </p-column>
+                              <p-column field="tglLahir"
+                                [style]="{'width':'80px', 'text-align':'center','white-space':'nowrap','overflow':'hidden','text-overflow': 'ellipsis'}"
+                                [sortable]="true" frozen="true">
+                                <ng-template pTemplate="body" let-monitoring="rowData">
+
+                                    <span
+                                        title="Umur: {{monitoring.umurTh}} th {{monitoring.umurBln}} bln {{monitoring.umurHr}} hr">{{monitoring.tglLahir  * 1000 | date:'dd/MM/yyyy'}}</span>
+                                </ng-template>
+                              </p-column>
+                              <p-column field="kasusPenyakit"
+                                [style]="{'width':'153px', 'text-align':'left'}" [sortable]="true" frozen="true">
+                                <ng-template pTemplate="body" let-monitoring="rowData">
+                                    <span
+                                        title="{{monitoring.kasusPenyakit}}">{{monitoring.kasusPenyakit}}</span>
+                                </ng-template>
+                              </p-column>
+                              <p-column field="kelas"
+                                  [style]="{'width':'100px', 'text-align':'left','height':'63px'}" [sortable]="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span
+                                          title="{{monitoring.kelas}}">{{monitoring.kelas}}</span>
+                                  </ng-template>
+                              </p-column>
+                              <p-column field="noKamar"
+                                  [style]="{'width':'170px', 'text-align':'left'}" [sortable]="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span
+                                          title="{{monitoring.noKamar}}">{{monitoring.noKamar}}-{{monitoring.noBed}}</span>
+                                  </ng-template>
+                              </p-column>
+                              <!-- <p-column field="noBed"
+                                  [style]="{'width':'100px', 'text-align':'left'}" [sortable]="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span
+                                          title="{{monitoring.noBed}}">{{monitoring.noBed}}</span>
+                                  </ng-template>
+                              </p-column> -->
+                              <p-column field="dokter"
+                                  [style]="{'width':'170px', 'text-align':'left'}" [sortable]="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span
+                                          title="{{monitoring.dokter}}">{{monitoring.dokter}}</span>
+                                  </ng-template>
+                              </p-column>
+                              <p-column field="statusPasien"
+                                  [style]="{'width':'105px', 'text-align':'left'}" [sortable]="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span
+                                          title="{{monitoring.statusPasien}}">{{monitoring.statusPasien}}</span>
+                                  </ng-template>
+                              </p-column>
+                              <p-column field="jenisPasien"
+                                  [style]="{'width':'100px', 'text-align':'left'}" [sortable]="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span
+                                          title="{{monitoring.jenisPasien}}">{{monitoring.jenisPasien}}</span>
+                                  </ng-template>
+                              </p-column>
+                              <p-column field="alamatLengkap"
+                                    [style]="{'width':'390px','overflow-y':'-webkit-paged-x'}"
+                                    [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span [matTooltip]='monitoring.tooltipAlamat' tooltipPosition="bottom">
+                                            {{monitoring.alamatLengkap}}
+                                        </span>
+                                    </ng-template>
+                                </p-column>
+                            <p-column field="tglKeluar"
+                                [style]="{'width':'110px','height':'63px','text-align':'center'}"
+                                [sortable]="true">
+                                <ng-template pTemplate="body" let-monitoring="rowData" let-i="rowIndex">
+                                    <span>
+                                      {{monitoring.tglKeluar  * 1000 | date:'dd/MM/yyyy - HH:mm:ss'}}
+                                    </span>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="statusKeluar"
+                                  [style]="{'width':'105px', 'text-align':'left'}" [sortable]="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span
+                                          title="{{monitoring.statusKeluar}}">{{monitoring.statusKeluar}}</span>
+                                  </ng-template>
+                              </p-column>
+                              <p-column field="kondisiPasien"
+                                  [style]="{'width':'110px', 'text-align':'left'}" [sortable]="true">
+                                  <ng-template pTemplate="body" let-monitoring="rowData">
+                                      <span
+                                        title="{{monitoring.kondisiPasien}}">{{monitoring.kondisiPasien}}</span>
+                                  </ng-template>
+                              </p-column>
+                          </p-dataTable>
+                      </div>
+                  </div>
+                  <div class="ui-g-12 ui-md-12 ui-lg-12">
+                      <div class="ui-g-12 ui-md-1">
+                          <button pButton type="button" (click)="detailPasien()"
+                          label="{{'frmMonitoringPasienRuanganDokter_btnDetailPasien'| translate | splitCharT }}" ></button>
+                      </div>
+                      <div class="ui-g-12 ui-md-1">
+                          <button pButton type="button" (click)="batalPeriksa()"
+                          label="{{'frmMonitoringPasienRuanganDokter_btnBatalPeriksa'| translate | splitCharT }}" ></button>
+                      </div>
+                      <!-- <div class="ui-g-12 ui-md-7" style="width:59%"></div> -->
+                      <div class="ui-g-12 ui-md-2 ui-md-offset-7" style="width: 130px;">
+                          <button pButton type="button" (click)="pelayananPasien()"
+                          label="{{'frmMonitoringPasienRuanganDokter_btnPelayananPasien'| translate | splitCharT }}" ></button>
+                      </div>
+                      <div class="ui-g-12 ui-md-2" style="width: 172px;">
+                          <button pButton type="button" (click)="keluarKamar()"
+                          label="{{'frmMonitoringPasienRuanganDokter_btnKeluarKamar'| translate | splitCharT }}" ></button>
+                      </div>
+                  </div>
+
+
+              </div>
+
+
+          </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,528 @@
+<style type="text/css">
+	.clear {
+		display: table;
+		content: '';
+		clear: both;
+	}
+</style>
+
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmProfileConfigSS_title' | translate | splitCharT }}</h1>
+				<form [formGroup]="formNew">
+					<div class="ui-g-12 ui-md-6">
+						<div class="ui-g-12 ui-md-12">
+							<div class="ui-g-12 ui-md-6">
+								<label for="input">{{'frmProfileConfigSS_profile' | translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!formNew.get('kdProfile').valid && formNew.get('kdProfile').touched"
+										style="color: red">
+										{{'frmProfileConfigSS_required'| translate | splitCharT}}</span>
+								</label>
+								<p-dropdown id="dropdown" (ngModelChange)="unlockAll($event)" filter="filter"
+									class="ui-inputwrapper-filled" formControlName="kdProfile" [options]="listProfile"
+									[(ngModel)]="kdProfile" [autoWidth]="false">
+								</p-dropdown>
+							</div>
+						</div>
+						<p-blockUI [target]="pnl" [blocked]="blockFromProfile" [baseZIndex]=10 [autoZIndex]="false">
+							<i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+						</p-blockUI>
+						<p-blockUI [target]="pnl2" [blocked]="blockFromProfile" [baseZIndex]=10 [autoZIndex]="false">
+							<i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+						</p-blockUI>
+						<div class="ui-g-12 form-group">
+							<div class="ui-g-12 ui-md-6">
+								<p-dataTable #pnl (onRowClick)="clickData($event)" [value]="listDataModul" [rows]="5"
+									[paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+									[(selection)]="selectedModul" [headerCheckboxToggleAllPages]="true"
+									scrollable="true" (onRowSelect)="onRowSelectModul($event)">
+									<p-header>
+										<div class="ui-helper-clearfix">
+											<span
+												style="float: left;padding:0.3em;">{{'frmProfileConfigSS_mdlAplikasi'| translate | splitCharT }}</span>
+										</div>
+									</p-header>
+									<p-column field="statusEnabled" [style]="{'width':'38px', 'text-align': 'center'}">
+										<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+											<p-checkbox (onChange)="getChecklistMdlAplikasi(data[col.field], data, ri)"
+												binary="true" [(ngModel)]="data[col.field]"
+												[ngModelOptions]="{standalone: true}"></p-checkbox>
+										</ng-template>
+									</p-column>
+									<p-column field="nomor" header="{{'frmProfileConfigSS_nmrMdlAplikasi' | translate | splitCharT }}"
+										[style]="{'width':'58px'}">
+										<ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="body">
+											{{i + 1}}
+										</ng-template>
+									</p-column>
+									<p-column field="kode" header="{{'frmProfileConfigSS_kodeMdlAplikasi'| translate | splitCharT }}"
+										hidden="true">
+									</p-column>
+									<p-column field="namaModulAplikasi"
+										header="{{'frmProfileConfigSS_namaMdlAplikasi'| translate | splitCharT }}">
+									</p-column>
+								</p-dataTable>
+							</div>
+							<div class="ui-g-12 ui-md-6">
+								<!-- ==========UNIT KERJA=================== -->
+								<p-dataTable #dtEn #pnl2 expandableRows="true" [value]="listDataLokasi" [rows]="5"
+									[paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+									[(selection)]="selectedUnit" [headerCheckboxToggleAllPages]="true"
+									scrollable="true">
+									<p-header>
+										<div class="ui-helper-clearfix">
+											<span
+												style="float: left;padding:0.3em;">{{'frmProfileConfigSS_unitKerja'| translate | splitCharT }}</span>
+										</div>
+									</p-header>
+									<p-column styleClass="col-icon" [style]="{'width':'50px'}">
+										<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+											<button pButton type="button" icon="fa fa-chevron-circle-right"
+												*ngIf="col.length !== 0" (click)="toggleCoba(col, dtEn)"></button>
+										</ng-template>
+									</p-column>
+									<p-column field="statusEnabled" [style]="{'width':'38px', 'text-align': 'center'}">
+										<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+											<p-checkbox (onChange)="isParentChecked($event, data, ra, ri)" binary="true"
+												[(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}">
+											</p-checkbox>
+											<!-- <span hidden>statusEnabled : {{data[col.field]}}</span> -->
+										</ng-template>
+									</p-column>
+									<p-column field="nomor" header="{{'frmProfileConfigSS_nmrUnitKerja' | translate | splitCharT }}"
+										[style]="{'width':'58px'}">
+										<ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="body">
+											{{i + 1}}
+										</ng-template>
+									</p-column>
+									<p-column field="kdRuangan"
+										header="{{'frmProfileConfigSS_kodeUnitKerja'| translate | splitCharT }}" hidden="true">
+									</p-column>
+									<p-column field="namaRuangan"
+										header="{{'frmProfileConfigSS_namaUnitKerja'| translate | splitCharT }}"></p-column>
+									<!-- anak -->
+									<ng-template let-data="rowData" let-ra="rowIndex" pTemplate="rowexpansion">
+										<p-dataTable [value]="listDataLokasi[ra].Ruangan" [editable]="true" expandableRows="true"
+											#dtEnAnak>
+											<p-column field="statusEnabled"
+												[style]="{'width':'38px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex"
+													let-data="rowData">
+													<p-checkbox binary="true"
+														(onChange)="getChecklistUnitKerja(data[col.field], data, ri,ra)"
+														[(ngModel)]="data[col.field]"
+														[ngModelOptions]="{standalone: true}">
+													</p-checkbox>
+												</ng-template>
+											</p-column>
+											<p-column field="kdRuangan"
+												header="{{'frmProfileConfigSS_kdRuangan'| translate | splitCharT }}" hidden="true">
+											</p-column>
+											<p-column field="namaRuangan"
+												header="{{'frmProfileConfigSS_namaRuangan'| translate | splitCharT }}">
+											</p-column>
+										</p-dataTable>
+									</ng-template>
+								</p-dataTable>
+							</div>
+						</div>
+					</div>
+					<div class="ui-g-12 ui-md-4">
+						<p-fieldset legend="{{'frmProfileConfigSS_periode' | translate | splitCharT }}">
+							<div class="ui-g form-group">
+								<div class="ui-g-12 ui-md-1"></div>
+								<div class="ui-g-12 ui-md-5">
+									<app-calender [monthNavigator]="true" dateFormat="dd M yy" [yearNavigator]="true"
+										yearRange="2000:2030" formControlName="tglBerlakuAwal" [showIcon]="true"
+										[showTime]="true" [(ngModel)]="tanggalBerAwal" hourFormat="24">
+									</app-calender>
+								</div>
+								<div>
+									<label>-</label>
+								</div>
+								<div class="ui-g-12 ui-md-5">
+									<app-calender [monthNavigator]="true" dateFormat="dd M yy" [yearNavigator]="true"
+										yearRange="2000:2030" formControlName="tglBerlakuAkhir" [showIcon]="true"
+										appendTo="body" dateFormat="dd M yy" [showTime]="true" [(ngModel)]="tanggalBerAkhir" hourFormat="24"></app-calender>
+								</div>
+							</div>
+						</p-fieldset>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<label for="input">{{'frmProfileConfigSS_durasi' | translate | splitCharT }}</label>
+						<div class="ui-inputgroup">
+							<input formControlName="durasiLiveDetik" style="width:40%" id="input" type="text"
+								pInputText />
+							<span style="align-items: center" class="ui-inputgroup-addon">{{'frmProfileConfigSS_detik' | translate | splitCharT }}</span>
+						</div>
+					</div>
+					<!-- <div class="ui-g-12">
+						<p-fieldset legend="{{'frmProfileConfigSS_konfigurasiSistem' | translate | splitCharT }}">
+
+						</p-fieldset>
+					</div>
+					<div class="ui-g-12">
+						<p-fieldset legend="{{'frmProfileConfigSS_konfSistem' | translate | splitCharT }}">
+
+						</p-fieldset>
+					</div>
+					<div class="ui-g-12">
+						<p-fieldset legend="{{'frmProfileConfigSS_konfigurasiMetaTag' | translate | splitCharT }}">
+
+						</p-fieldset>
+					</div> -->
+					<div class="ui-g-12 ui-md-12">
+
+						<p-fieldset [style]="{'width':'auto'}"
+							legend="{{'frmProfileConfigSS_konfigurasiSS' | translate | splitCharT }}" [toggleable]="true"
+							[collapsed]="true">
+							<form [formGroup]="formSlide">
+								<div class="ui-g-12 ui-md-6" style="width: 40.5vw;">
+									<div class="table-top-panel">
+										<div class="ui-g-12 ui-md-1">
+											<i class="fa fa-search" style="padding:0.5em 0.5em;float: right;"></i>
+										</div>
+										<div class="ui-g-12 ui-md-6">
+											<input formControlName="pencariannamadokumen" [(ngModel)]="pencarian"
+												(keyup)="cariDataDokumenKeyup()" type="text" pInputText size="50"
+												placeholder="{{'frmProfileConfigSS_pencarianDokumen'| translate | splitCharT }}">
+										</div>
+										<div class="ui-g-12 ui-md-5">
+										</div>
+										<div hidden class="ui-g-12 ui-md-6">
+											<p-dropdown formControlName="kdJenisDokumen"
+												[options]="dropdownJenisDokumen"
+												(ngModelChange)="cariDataDokumenDropdown($event)"
+												[(ngModel)]="kdJenisDokumenSearch" [autoWidth]="false">
+											</p-dropdown>
+										</div>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-6" style="width: 40.5vw;">
+									<div class="table-top-panel">
+										<div class="ui-g form-group">
+											<div class="ui-g-12 ui-md-3">
+												<app-calender formControlName="tglAwal" dateFormat="dd M yy"
+													[showIcon]="true" monthNavigator="true" yearNavigator="true"
+													yearRange="1850:2050">
+												</app-calender>
+											</div>
+											<div>
+												<label>-</label>
+											</div>
+											<div class="ui-g-12 ui-md-3">
+												<app-calender formControlName="tglAkhir" dateFormat="dd M yy"
+													[showIcon]="true" monthNavigator="true" yearNavigator="true"
+													yearRange="1850:2050">
+												</app-calender>
+											</div>
+											<div class="ui-g-12 ui-md-1"></div>
+											<div class="ui-g-12 ui-md-2">
+												<button pButton type="button" (click)="cariDokumen()"
+													label="{{'frmProfileConfigSS_btnCari'| translate | splitCharT }}"
+													icon="fa-search"></button>
+											</div>
+											<div class="ui-g-12 ui-md-2">
+												<button pButton type="button" (click)="resetPencarian()"
+													label="{{'frmProfileConfigSS_resetCari'| translate | splitCharT }}"
+													icon="fa-close"></button>
+											</div>
+											<div class="ui-g-12 ui-md-1"></div>
+										</div>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-6" style="width: 40.5vw;">
+									<p-blockUI [target]="slide" [blocked]="hasilCek" [baseZIndex]=10
+										[autoZIndex]="false">
+										<i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+									</p-blockUI>
+									<p-dataTable #slide [value]="listDataDokumen" [rows]="10" [paginator]="true"
+										[pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+										scrollable="true" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
+										[lazy]="true" [loading]="Loading" loadingIcon="fa-spinner"
+										[totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)">
+										<p-column header="{{'frmProfileConfigSS_tableNo' | translate | splitCharT }}"
+											[style]="{'width':'58px'}">
+											<ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="body">
+												{{i + 1}}
+											</ng-template>
+										</p-column>
+										<p-column field="namaJenisDokumen" [style]="{'width':'150px'}"
+											header="{{'frmProfileConfigSS_tableJenisDok'| translate | splitCharT}}">
+										</p-column>
+										<p-column field="namaDokumen" [style]="{'width':'150px'}"
+											header="{{'frmProfileConfigSS_tableNamaDok'| translate | splitCharT}}"></p-column>
+										<p-column field="fileSSImagePathFile" [style]="{'width':'150px'}"
+											header="{{'frmProfileConfigSS_tableGambarDok'| translate | splitCharT}}">
+											<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+												<img style="border-radius: 50%;" *ngIf="data.urlImg !== '-'"
+													[src]="(data.urlImg | imgsec) | async" width="50%" height="auto"
+													class="img-responsive" />
+											</ng-template>
+										</p-column>
+										<p-column field="tglAwal" [style]="{'width':'150px'}"
+											header="{{'frmProfileConfigSS_tableTglAwal' | translate | splitCharT }}">
+											<ng-template let-pick="rowData" pTemplate type="body">
+												<span
+													*ngIf="pick.tglAwal > null">{{pick.tglAwal * 1000 | date: 'dd/MM/yyyy'}}</span>
+											</ng-template>
+										</p-column>
+										<p-column field="tglAkhir" [style]="{'width':'150px'}"
+											header="{{'frmProfileConfigSS_tableTglAkhir' | translate | splitCharT }}">
+											<ng-template let-pick="rowData" pTemplate type="body">
+												<span
+													*ngIf="pick.tglAkhir > null">{{pick.tglAkhir * 1000 | date: 'dd/MM/yyyy'}}</span>
+											</ng-template>
+										</p-column>
+									</p-dataTable>
+								</div>
+								<div class="ui-g-12 ui-md-6" style="width: 40.5vw;">
+									<div class="ui-g-12 ui-md-4">
+										<label
+											class="label-web-profile">{{'frmProfileConfigSS_pickImage'| translate | splitCharT }}</label>
+										<p-fileUpload #fubauto mode="basic" (onUpload)="fileUpload1($event)"
+											accept="video/*,image/*" name="file" maxFileSize="90000000"
+											(onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()"
+											auto="true" chooseLabel="{{'frmProfileConfigSS_browse' | translate | splitCharT }}"
+											withCredentials="true" [disabled]="!isValid3">
+										</p-fileUpload>
+										<input id="pathFileFolderEvent" type="text"
+											formControlName="pathFileFolderEvent" [(ngModel)]="namaFoto1" disabled
+											pInputText />
+										<img *ngIf="paramThumbnailImage !== null" [src]="smbrFoto1"
+											height="175px" class="img-responsive" />
+										<video id="playVideo" *ngIf="paramThumbnailVideo !== null" width="320"
+											height="240" controls>
+											<source id="sourceVideo" [src]="smbrFoto1" type="video/mp4">
+												{{'frmProfileConfigSS_browserNotSupported' | translate | splitCharT }}
+										</video>
+									</div>
+									<div class="ui-g-12 ui-md-1"></div>
+									<div class="ui-g-12 ui-md-2">
+										<label class="label-web-profile">{{'frmProfileConfigSS_noUrut' | translate | splitCharT }}</label>
+										<p-spinner formControlName="noUrutSS" [min]="1" size="10"></p-spinner>
+									</div>
+									<div class="ui-g-12 ui-md-1"></div>
+									<div class="ui-g-12 ui-md-4">
+										<br>
+										<button pButton type="button"
+											label="{{'frmProfileConfigSS_tambahSlide'| translate | splitCharT}}" icon="fa-plus"
+											(click)="tambahSlide()" [attr.disabled]="!isValid ? true : null"></button>
+									</div>
+									<div class="ui-g-12 ui-md-12">
+										<p-carousel [value]="slide_show" numVisible="1" responsive="true">
+											<ng-template let-data pTemplate="item" let-i="rowIndex">
+												<div class="ui-grid ui-grid-responsive">
+													<div class="ui-grid-row">
+														<span>{{data.kode.noUrut}}</span>
+													</div>
+													<div class="ui-grid-row">
+														<div class="ui-grid-col-12">
+															<img *ngIf="data.format == 'image'"
+																[src]="(data.urlImg | imgsec) | async" width="300">
+															<video *ngIf="data.format == 'video'" width="300" controls>
+																<source [src]="data.urlImg" type="video/mp4">
+																	{{'frmProfileConfigSS_browserNotSupported' | translate | splitCharT }}
+															</video>
+														</div>
+													</div>
+													<div class="ui-grid-row">
+														<div class="ui-grid-col-12"></div>
+													</div>
+													<div class="ui-grid-row">
+														<div class="ui-grid-col-12">
+															<button type="button" pButton icon="fa-trash"
+																(click)="hapusSlide(data)"></button>
+														</div>
+													</div>
+												</div>
+											</ng-template>
+										</p-carousel>
+									</div>
+								</div>
+							</form>
+						</p-fieldset>
+					</div>
+					<div style="float: right" class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmProfileConfigSS_batal'| translate | splitCharT}}" icon="fa-refresh"
+							(click)="reset()"></button>
+					</div>
+					<div style="float: right" class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmProfileConfigSS_simpan'| translate | splitCharT}}" icon="fa-save"
+							(click)="simpanUser()"></button>
+					</div>
+				</form>
+				<!-- GRID BAWAH -->
+				<div class="ui-g-12 ui-md-12">
+					<form [formGroup]="formPencarian">
+						<div class="ui-g-5">
+							<span
+								style="float: left;padding:0.3em; font-size: 12pt"><strong>{{'frmProfileConfigSS_title'| translate | splitCharT}}</strong></span>
+						</div>
+						<div class="ui-g form-group">
+							<div style="padding: auto;" class="ui-g-1"></div>
+							<div style="padding: auto;" class="ui-g-3">
+								<app-calender formControlName="tglAwalPencarian" [monthNavigator]="true"
+									dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true">
+								</app-calender>
+							</div>
+							<div>
+								<label>-</label>
+							</div>
+							<div style="padding: auto" class="ui-g-3">
+								<app-calender formControlName="tglAkhirPencarian" id="calendar1"
+									[style]="{'padding-right':'10%'}" [monthNavigator]="true" dateFormat="dd M yy"
+									[yearNavigator]="true" yearRange="2000:2030" [showIcon]="true">
+								</app-calender>
+							</div>
+							<div style="padding: auto" class="ui-g-2">
+								<button pButton type="submit" label="{{'frmProfileConfigSS_btnCari'| translate | splitCharT}}"
+									icon="fa-search" (click)="cariGrid()"></button>
+							</div>
+							<div style="padding: auto;float:right" class="ui-g-2">
+								<button pButton type="submit" label="{{'frmProfileConfigSS_resetCari'| translate | splitCharT}}"
+									icon="fa-refresh" (click)="resetCariGrid()"></button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="ui-g-12 ui-md-12">
+					<p-dataTable [value]="listSlideShow" [rows]="10" [paginator]="true" [pageLinks]="3"
+						[rowsPerPageOptions]="[5,10,20]" selectionMode="single" scrollable="true"
+						[(selection)]="selected" [lazy]="true" [loading]="Loading" loadingIcon="fa-spinner"
+						[totalRecords]="listSlideShowRecord" (onLazyLoad)="loadPageListSS($event)"
+						expandableRows="true">
+						<p-header>
+						</p-header>
+						<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+						<p-column field="nomor" scrollable="true" header="{{'frmProfileConfigSS_gridNo' | translate | splitCharT }}"
+							[style]="{'width':'40px'}">
+							<ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="body">
+								{{i + 1}}
+							</ng-template>
+						</p-column>
+						<p-column field="noPostingSS" [style]="{'width':'150px'}"
+							header="{{'frmProfileConfigSS_gridNoPostingSS'| translate | splitCharT}}">
+						</p-column>
+						<p-column field="namaProfile" [style]="{'width':'150px'}"
+							header="{{'frmProfileConfigSS_gridNamaProfile'| translate | splitCharT}}">
+						</p-column>
+						<p-column field="namaModulAplikasi" [style]="{'width':'150px'}"
+							header="{{'frmProfileConfigSS_gridMdlAplikasi'| translate | splitCharT}}"></p-column>
+						<p-column field="ruangan" [style]="{'width':'100px'}"
+							header="{{'frmProfileConfigSS_gridUnitKerja'| translate | splitCharT}}">
+						</p-column>
+						<p-column field="tglAwal" [style]="{'width':'150px','text-align':'center'}"
+							header="{{'frmProfileConfigSS_gridTglAwal' | translate | splitCharT }}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								<span *ngIf="pick.tglAwal > null">{{pick.tglAwal * 1000 | date: 'dd/MM/yyyy'}}</span>
+							</ng-template>
+						</p-column>
+						<p-column field="tglAkhir" [style]="{'width':'150px','text-align':'center'}"
+							header="{{'frmProfileConfigSS_gridTglAkhir' | translate | splitCharT }}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								<span *ngIf="pick.tglAkhir > null">{{pick.tglAkhir * 1000 | date: 'dd/MM/yyyy'}}</span>
+							</ng-template>
+						</p-column>
+						<!-- frmProfileConfigSS_gridFileSSDefault -->
+						<p-column field="fileSSImageVideoPathFile" [style]="{'width':'150px','text-align':'center'}"
+							header="{{'frmProfileConfigSS_gridFileSSDefault' | translate | splitCharT }}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								<span *ngIf="pick.noHistori !== null">{{pick.fileSSImageVideoPathFile}}</span>
+							</ng-template>
+						</p-column>
+						<p-column field="durasiLiveDetik" [style]="{'width':'150px','text-align':'center'}"
+							header="{{'frmProfileConfigSS_gridDurasi' | translate | splitCharT }}">
+						</p-column>
+						<ng-template let-slideshow let-ri="rowIndex" pTemplate="rowexpansion">
+							<p-dataTable [rows]="10" scrollable="true" [value]="listSlideShow[ri].slideshow"
+								loadingIcon="fa-spinner">
+								<p-column field="noHistori" [style]="{'width':'150px'}"
+									header="{{'frmProfileConfigSS_gridNoHistori'| translate | splitCharT}}">
+								</p-column>
+								<p-column field="namaDokumen" [style]="{'width':'150px'}"
+									header="{{'frmProfileConfigSS_gridJudulDokumen'| translate | splitCharT}}">
+									<ng-template let-pick="rowData" pTemplate type="body">
+										<span *ngIf="pick.noHistori !== null">{{pick.namaDokumen}}</span>
+									</ng-template>
+								</p-column>
+								<p-column field="noUrut" [style]="{'width':'150px'}"
+									header="{{'frmProfileConfigSS_gridNoUrut'| translate | splitCharT}}">
+								</p-column>
+								<p-column [style]="{'width':'150px'}"
+									header="{{'frmProfileConfigSS_gridPath'| translate | splitCharT}}">
+									<ng-template let-pick="rowData" pTemplate type="body">
+										<div *ngIf="pick.noHistori !== null">
+											<img *ngIf="pick.fileSSImageVideo == 'image'"
+												[src]="(pick.filePathDokumen | imgsec) | async" width="50%"
+												height="auto" class="img-responsive">
+											<video *ngIf="pick.fileSSImageVideo == 'video'" width="50%" height="auto"
+												autoplay>
+												<source [src]="pick.filePathDokumen" type="video/mp4">
+													{{'frmProfileConfigSS_browserNotSupported' | translate | splitCharT }}
+											</video>
+										</div>
+										<div *ngIf="pick.noHistori == null">
+											<img *ngIf="pick.fileSSImageVideo == 'image'"
+												[src]="(pick.fileSSImageVideoPathFile | imgsec) | async" width="50%"
+												height="auto" class="img-responsive">
+											<video *ngIf="pick.fileSSImageVideo == 'video'" width="50%" height="auto"
+												autoplay>
+												<source [src]="pick.fileSSImageVideoPathFile" type="video/mp4">
+													{{'frmProfileConfigSS_browserNotSupported' | translate | splitCharT }}
+											</video>
+										</div>
+									</ng-template>
+
+									<!-- <ng-template *ngIf="pick.noHistori == null" let-pick="rowData" pTemplate
+										type="body">
+										<img *ngIf="pick.fileSSImageVideo == 'image'"
+											[src]="(pick.fileSSImageVideoPathFile | imgsec) | async" width="50%"
+											height="auto" class="img-responsive">
+										<video *ngIf="pick.fileSSImageVideo == 'video'" width="50%" height="auto"
+											autoplay>
+											<source [src]="pick.fileSSImageVideoPathFile" type="video/mp4">
+											Browser not supported
+										</video>
+									</ng-template> -->
+								</p-column>
+							</p-dataTable>
+						</ng-template>
+
+						<!-- <p-column field="noHistori" [style]="{'width':'150px'}"
+							header="{{'frmProfileConfigSS_gridNoHistori' | translate | splitCharT }}">
+						</p-column>
+						<p-column field="namaDokumen" [style]="{'width':'150px'}"
+							header="{{'frmProfileConfigSS_gridJudulDokumen' | translate | splitCharT }}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								<span *ngIf="pick.noHistori !== null">{{pick.namaDokumen}}</span>
+							</ng-template>
+						</p-column>
+						<p-column field="kode.noUrut" [style]="{'width':'150px','text-align':'center'}"
+							header="{{'frmProfileConfigSS_gridNoUrut' | translate | splitCharT }}">
+						</p-column>
+						<p-column field="fileSSImageVideoPathFile" [style]="{'width':'150px'}"
+							header="{{'frmProfileConfigSS_gridPath' | translate | splitCharT }}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								<img *ngIf="pick.fileSSImageVideo == 'image'"
+									[src]="(pick.fileSSImageVideoPathFile | imgsec) | async" width="50%" height="auto"
+									class="img-responsive">
+								<video *ngIf="pick.fileSSImageVideo == 'video'" width="50%" height="auto" autoplay>
+									<source [src]="pick.fileSSImageVideoPathFile" type="video/mp4">
+									Browser not supported
+								</video>
+							</ng-template>
+						</p-column> -->
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- FilePathDokumen
+NamaDokumen -->

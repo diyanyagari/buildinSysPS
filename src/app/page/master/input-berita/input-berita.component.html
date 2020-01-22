@@ -1,0 +1,180 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmInputBerita_title'| translate | splitCharT}}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-12">
+						<form [formGroup]="form">
+							<div class="ui-g form-group">
+								<div style="padding: 0px" class="ui-g-12 ui-md-6">
+									<div class="ui-g-12 ui-md-12">
+										<label for="input">{{'frmInputBerita_jnsDokumen'| translate | splitCharT}}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span
+												*ngIf="!form.get('kdJenisDokumen').valid && form.get('kdJenisDokumen').touched"
+												style="color: red">
+												{{'frmInputBerita_required'| translate | splitCharT}}</span>
+										</label>
+										<p-dropdown [disabled]="!jenisDokumenParam" id="dropdown"
+											formControlName="kdJenisDokumen" (onChange)="onChange($event)"
+											filter="filter" class="ui-inputwrapper-filled" [options]="jenisDokumen"
+											[autoWidth]="false">
+										</p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-12">
+										<label for="input">{{'frmInputBerita_namaDokumen'| translate | splitCharT}}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span *ngIf="!form.get('kdDokumen').valid && form.get('kdDokumen').touched"
+												style="color: rgb(122, 80, 80)">
+												{{'frmInputBerita_required'| translate | splitCharT}}</span>
+										</label>
+										<p-dropdown [disabled]="!namaDokumenParam" id="dropdown"
+											formControlName="kdDokumen" filter="filter" class="ui-inputwrapper-filled"
+											[options]="namaDokumen" [autoWidth]="false">
+										</p-dropdown>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<p-fieldset [style]="{'height':'13vh'}"
+										legend="{{'frmInputBerita_periode'| translate | splitCharT}}">
+										<div class="ui-g form-group">
+											<div class="ui-g-12 ui-md-1"></div>
+											<div class="ui-g-12 ui-md-5">
+												<app-calender formControlName="tglAwal" [monthNavigator]="true"
+													dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+													[showIcon]="true" hourFormat="24" [showTime]="true">
+												</app-calender>
+											</div>
+											<div>
+												<label>-</label>
+											</div>
+											<div class="ui-g-12 ui-md-5">
+												<app-calender formControlName="tglAkhir" [monthNavigator]="true"
+													dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+													[showIcon]="true" appendTo="body" hourFormat="24"
+													dateFormat="dd M yy" [showTime]="true">
+												</app-calender>
+											</div>
+										</div>
+									</p-fieldset>
+								</div>
+								<div class="ui-g-12">
+									<div class="ui-g-12 ui-md-1 ui-md-offset-7">
+										<button pButton type="button" label="{{'frmInputBerita_btnBatal'| translate | splitCharT}}" icon="fa-refresh"
+											(click)="reset()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="submit" label="{{'frmInputBerita_btnSimpan'| translate | splitCharT}}" icon="fa-save"
+											(click)="onSubmit()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" [disabled]="formAktif"
+											label="{{'frmInputBerita_btnHapus'| translate | splitCharT}}" icon="fa-trash"
+											(click)="confirmDelete()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmInputBerita_btnCetak'| translate | splitCharT}}" icon="fa-print"
+											(click)="cetak()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<p-splitButton label="{{'frmInputBerita_btnExport'| translate | splitCharT }}" icon="fa-external-link"
+											[model]="items"></p-splitButton>
+									</div>
+								</div>
+							</div>
+						</form>
+
+					</div>
+					<div class="ui-g-12">
+						<span
+							style="float: left;padding:0.3em; font-size: 11pt"><strong>{{'frmInputBerita_tableTitle'| translate | splitCharT}}</strong></span>
+					</div>
+					<div class="ui-g-12">
+						<div style="padding: auto" class="ui-g-12 ui-md-4">
+							<input type="text" pInputText size="50"
+								placeholder="{{'frmInputBerita_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+								(keyup)="cari()">
+						</div>
+						<form [formGroup]="formPencarian">
+							<div class="ui-g form-group">
+								<div style="padding: auto;" class="ui-g-0 ui-md-1"></div>
+								<div style="padding: auto;" class="ui-g-12 ui-md-3">
+									<app-calender formControlName="tglAwal" [monthNavigator]="true" dateFormat="dd M yy"
+										[yearNavigator]="true" yearRange="2000:2030" [showIcon]="true">
+									</app-calender>
+								</div>
+								<div>
+									<label>-</label>
+								</div>
+								<div style="padding: auto" class="ui-g-12 ui-md-3">
+									<app-calender id="calendar1" [style]="{'padding-right':'10%'}"
+										formControlName="tglAkhir" [monthNavigator]="true" dateFormat="dd M yy"
+										[yearNavigator]="true" yearRange="2000:2030" [showIcon]="true">
+									</app-calender>
+								</div>
+								<div style="padding: auto" class="ui-g-12 ui-md-2">
+									<button id="buttonCari" pButton type="submit"
+										label="{{'frmInputBerita_tableBtnCari'| translate | splitCharT}}" icon="fa-search"
+										(click)="buttonCari()"></button>
+								</div>
+								<div style="padding: auto;float:right" class="ui-g-12 ui-md-2">
+									<button id="buttonReset" pButton type="submit"
+										label="{{'frmInputBerita_tableBtnReset'| translate | splitCharT}}" icon="fa-refresh"
+										(click)="resetCari()"></button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="ui-g-12">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+							[rowsPerPageOptions]="[5,10,20]" selectionMode="single" scrollable="true"
+							[(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true"
+							[loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords"
+							(onLazyLoad)="loadPage($event)">
+							<p-header></p-header>
+							<p-column header="{{'frmInputBerita_tableNo'| translate | splitCharT}}" styleClass="col-icon"
+								[style]="{'width':'50px'}">
+								<ng-template pTemplate="body" let-i="rowIndex">
+									{{i+1}}
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'170px', 'text-align': 'center'}"
+								header="{{'frmInputBerita_tablePeriode'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.tglAwal > null">{{pick.tglAwal * 1000 | date: 'dd/MM/yyyy'}}</span>
+									<span *ngIf="pick.tglAwal > null">{{pick.tglAwal * 1000 | date: 'hh:mm'}}</span>
+									<span *ngIf="pick.tglAkhir > null && pick.tglAwal > null"> &nbsp; - &nbsp; </span>
+									<span
+										*ngIf="pick.tglAkhir > null">{{pick.tglAkhir * 1000 | date: 'dd/MM/yyyy'}}</span>
+									<span *ngIf="pick.tglAkhir > null">{{pick.tglAkhir * 1000 | date: 'hh:mm'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'150px', 'text-align': 'center'}"
+								header="{{'frmInputBerita_tableTglHistori'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.tglHistori > null">{{pick.tglHistori * 1000 | date: 'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="namaJenisDokumen" [style]="{'width':'150px'}"
+								header="{{'frmInputBerita_tableJenisDokumen'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="namaJudulDokumen" [style]="{'width':'150px'}"
+								header="{{'frmInputBerita_tableNamaDokumen'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="statusEnabled" [style]="{'width':'150px'}"
+								header="{{'frmInputBerita_tableStatus'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template>
+							</p-column>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

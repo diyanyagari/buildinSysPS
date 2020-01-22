@@ -1,0 +1,75 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <h1>Form Object Modul Aplikasi Relasi</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-6">
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Objek Modul Aplikasi</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-dropdown id="dropdownObMoAp" [options]="listObMoAp" [(ngModel)]="obMoAp" [autoWidth]="false"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Objek Modul Aplikasi Relasi</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-dropdown id="dropdownObMoApRe" [options]="listObMoApRe" [(ngModel)]="obMoApRe" [autoWidth]="false"></p-dropdown>
+            </div>
+           
+            
+          </div>
+          <div class="ui-g-6">
+            
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Jenis Relasi Objek</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" [(ngModel)]="jenisRelasiObjek" pInputText/>
+            </div>
+             <div class="ui-g-12 ui-md-4">
+              <label for="input">Nomor Rec</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" [(ngModel)]="nomorRec" pInputText/>
+            </div>
+            
+            <div class="ui-g-12 ui-md-4">
+               </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-checkbox name="cbAktif" value="" label="Aktif" [(ngModel)]="kdaktif"></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g-12 ui-md-4"></div>
+            <div class="ui-g-12 ui-md-2">
+              <button pButton type="button" label="SIMPAN" icon="fa-save"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <button pButton type="submit" label="HAPUS" icon="fa-close"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <button pButton type="submit" label="BATAL" icon="fa-close"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <button pButton type="submit" label="TUTUP" icon="fa-close"></button>
+            </div>
+          </div>
+     
+          <div class="ui-g-12">
+            <p-dataTable [value]="dataObjekMoApRe" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+             <p-header>DATA OBJECT MODUL APLIKASI RELASI</p-header>
+              <p-column field="objekModulAplikasi" header="OBJEK MODUL APLIKASI"></p-column>
+              <p-column field="objekModulAplikasiRelasi" header="OBJEK MODUL APLIKASI RELASI"></p-column>
+              <p-column field="jenisRelasiObjek" header="JENIS RELASI OBJEK"></p-column>
+              <p-column field="nomorRec" header="NOMOR REC"></p-column>
+            </p-dataTable>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

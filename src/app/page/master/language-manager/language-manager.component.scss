@@ -1,0 +1,16 @@
+// .fa-caret-right:before {
+//     content:"\f067" !important;
+// }
+
+// .fa-caret-down:before {
+//     content:"\f068" !important;
+// }
+
+::ng-deep .fa-caret-right::before {
+    content: "\f055";
+    color: green;
+  }
+  
+  ::ng-deep .fa-caret-down::before {
+    content: "\f056";
+  }

@@ -1,0 +1,22 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<div class="ui-g form-group">
+					<div class="ui-g-12">
+						<p-dataTable [value]="dataHistoriModulAplikasi" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+							<p-header>Data History Login Modul Aplikasi</p-header>
+							<p-column field="historyLogin" header="History Login"></p-column>
+							<p-column field="namaModulAplikasi" header="Nama Modul Aplikasi"></p-column>
+							<p-column field="user" header="User"></p-column>
+							<p-column field="ruanganUser" header="Ruangan User"></p-column>
+							<p-column field="namaHost" header="Nama Host"></p-column>
+							<p-column field="tanggalLogin" header="Tanggal Login"></p-column>
+							<p-column field="tanggalLogout" header="Tanggal Logout"></p-column>
+            </p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

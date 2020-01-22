@@ -1,0 +1,290 @@
+.ngx-dnd-container {
+    // background-color: rgba(247, 239, 239, 0.986) !important;
+    // border: 2px solid rgb(100, 99, 99) !important;
+    margin: 10px;
+    padding: 10px;
+    color: rgb(12, 12, 12) !important;
+}
+
+.ngx-dnd-container.gu-empty {
+    border: 1px dotted white !important;
+    text-align: center;
+}
+.ngx-dnd-container.gu-empty::before {
+    content: 'No Record';
+    color: unset;
+}
+
+.ngx-dnd-container:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.ngx-dnd-container .ex-moved {
+    background-color: #e74c3c;
+}
+
+.ngx-dnd-container .ex-over {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.ngx-dnd-container .handle {
+    padding: 0 5px;
+    margin-right: 5px;
+    background-color: rgba(0, 0, 0, 0.4);
+    cursor: move;
+}
+
+.no-select {
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Chrome/Safari/Opera */
+    -khtml-user-select: none;
+    /* Konqueror */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* IE/Edge */
+    user-select: none;
+    /* non-prefixed version, currently
+                                    not supported by any browser */
+}
+
+.ngx-dnd-item {
+    margin: 10px;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: opacity 0.4s ease-in-out;
+    border: 1px solid rgb(112, 117, 119);
+    display: block;
+}
+
+.ngx-dnd-item:not(.has-handle):not(.move-disabled),
+.ngx-dnd-item.has-handle [ngxdraghandle],
+.ngx-dnd-item.has-handle [ngxDragHandle] {
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+.ngx-dnd-item .ngx-dnd-content {
+    user-select: none;
+}
+
+.ngx-dnd-item:hover {
+    // border: none;
+    // box-shadow: rgba(168, 168, 168, 0.527)
+}
+
+.gu-mirror {
+    position: fixed !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+}
+
+.gu-hide {
+    display: none !important;
+}
+
+.gu-unselectable {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+}
+
+.gu-transit {
+    opacity: 0.2;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+    filter: alpha(opacity=20);
+}
+
+.overdrive-strategy {
+    width: auto;
+    height: auto; //overflow-y: scroll !important;
+}
+
+.overdrive-strategy .ngx-dnd-container {
+    background-color: rgb(255, 255, 255) !important;
+    border: 1px solid #eaeaea !important;
+    width: auto;
+    max-height: 349px;
+    overflow: auto;
+    margin: 0px;
+    padding: 0px;
+}
+
+.overdrive-strategy .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item {
+    width: auto;
+    height: auto;
+    margin: 0px;
+    padding: 1px;
+    color: black;
+    border-color: #eaeaea;
+    background-color: rgb(255, 255, 255);
+}
+
+.overdrive-strategy .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item .ngx-dnd-content {}
+
+.overdrive-perspective {
+    // height: 400px;
+    //overflow-y: scroll !important;
+}
+
+.overdrive-perspective .ngx-dnd-container {
+    background-color: rgb(255, 255, 255);
+    border: none;
+    margin: 0px;
+    padding: 3px 5px; // padding-top:3px;
+    // padding-bottom:3px;
+    height: auto;
+    overflow: auto;
+} // css untuk box parent / perspective
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled {
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 0px;
+    // box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+}
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:hover{
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(1) {
+    border: none; 
+    background-color: #39b8de;
+    //background-color: rgb(150, 162, 221);
+    color: white;
+
+}
+
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(2) {
+    border: none; // background-color: rgb(251, 120, 120);
+    // background: #73C8A9;
+    background-color: #cc9bf7;
+    //background-color:#60516d;
+    color: white;
+}
+
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(3) {
+    border: none; 
+    background-color: #3fe472;
+    //background-color: rgb(28, 216, 210);
+    color: white;
+}
+
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(4) {
+    border: none; // background-color: rgb(114, 114, 251);
+    background-color: #ff0000;
+    //background-color: rgb(131, 96, 195);
+    
+    color: white;
+}
+
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled .ngx-dnd-container {
+    overflow: auto;
+    height: 60px;
+}
+
+.overdrive-perspective .ngx-dnd-container .gu-empty {
+    overflow: auto;
+}
+
+.overdrive-perspective .ngx-dnd-container {
+    width: auto;
+} // event on hover
+// .overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(1):hover {
+//   border: none;
+//   box-shadow: rgba(93, 93, 93, 0.933);
+//   // transition: ;
+// }
+// .overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(2):hover {
+//   border: none;
+//   box-shadow: rgba(93, 93, 93, 0.933);
+//   // transition: ;
+// }
+// .overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(3):hover {
+//   border: none;
+//   box-shadow: rgba(93, 93, 93, 0.933);
+//   // transition: ;
+// }
+// .overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(4):hover {
+//   border: none;
+//   box-shadow: rgba(93, 93, 93, 0.933);
+//   // transition: ;
+// }
+.overdrive-perspective .ngx-dnd-item .ngx-dnd-item {
+    width: 150px;
+    height: 36px;
+    float: left;
+    margin: 5px;
+    padding: 1px;
+}
+
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(1) .ngx-dnd-container .ngx-dnd-item {
+    // border-color:rgb(219, 219, 129);
+    border: none;
+    // old color
+    background-color: #39b8de;
+    //background-color: rgb(93, 108, 184);
+    color: white;
+}
+
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(2) .ngx-dnd-container .ngx-dnd-item {
+    border: none;
+    background-color: #cc9bf7;
+    //background-color: #60516d;
+    color: white;
+}
+
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(3) .ngx-dnd-container .ngx-dnd-item {
+    
+    border: none;
+    // old color
+    background-color: #3fe472;
+    //background-color: rgb(28, 216, 210);
+    color: white;
+}
+
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled:nth-of-type(4) .ngx-dnd-container .ngx-dnd-item {
+    border: none;
+    // old color
+    background-color: #ff0000;
+    //background-color: rgb(131, 96, 195);
+    color: white;
+}
+.overdrive-perspective .ngx-dnd-container .ngx-dnd-item.ngx-dnd-item.move-disabled .ngx-dnd-container .ngx-dnd-item{
+    -webkit-box-shadow:0 0 10px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow:0 0 10px rgba(0, 0, 0, 0.5);
+	box-shadow:0 0 10px rgba(0, 0, 0, 0.5); 
+}
+
+.overdrive-perspective .ngx-dnd-container {
+    // max-height: 846px;
+    // overflow-y: scroll;
+}
+
+.overdrive-perspective .ngx-dnd-item .ngx-dnd-item .ngx-dnd-container {
+    // max-height: 846px;
+    // overflow-y: scroll;
+}
+
+.treeStyle {
+    height: auto; //overflow-y: scroll;
+}
+
+#visi {}
+
+.overdrive-perspective .ngx-dnd-item .ngx-dnd-item .ngx-dnd-content {
+    width: 153px;
+    height: 38px;
+    margin: 0;
+    padding: 2px;
+}
+

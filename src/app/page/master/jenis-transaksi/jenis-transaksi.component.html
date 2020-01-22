@@ -1,0 +1,216 @@
+
+<div class="ui-fluid" >
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmJenisTransaksi_title'| translate | splitCharT}}</h1>
+        <div class="ui-g form-group">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="ui-g-4">
+              <div class="ui-g-12 ui-md-10" hidden>
+                <span class="ui-float-label" hidden>
+                  <input id="input" type="text" hidden formControlName="kode" pInputText disabled />
+                  <label for="input" hidden>{{'frmJenisTransaksi_kode'| translate | splitCharT }}</label>
+                </span>
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_nama'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('namaJenisTransaksi').valid && form.get('namaJenisTransaksi').touched" style="color: red"> {{'frmJenisTransaksi_required'| translate | splitCharT}}</span></label>
+                <input id="input" type="text" formControlName="namaJenisTransaksi" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)"
+                  pInputText />
+              
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_metodeHargaNetto'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('metodeHargaNetto').valid && form.get('metodeHargaNetto').touched" style="color: red"> {{'frmJenisTransaksi_required'| translate | splitCharT}}</span></label>
+                <input id="input" type="number" formControlName="metodeHargaNetto" pInputText />
+               
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_metodeStokHargaNetto'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('metodeStokHargaNetto').valid && form.get('metodeStokHargaNetto').touched" style="color: red"> {{'frmJenisTransaksi_required'| translate | splitCharT}}</span></label>
+                <input id="input" type="number" formControlName="metodeStokHargaNetto" pInputText />
+                
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_metodeAmbilHargaNetto'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('metodeAmbilHargaNetto').valid && form.get('metodeAmbilHargaNetto').touched" style="color: red"> {{'frmJenisTransaksi_required'| translate | splitCharT}}</span></label>
+                <input id="input" type="number" formControlName="metodeAmbilHargaNetto" pInputText/>
+                
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_sistemHargaNetto'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('sistemHargaNetto').valid && form.get('sistemHargaNetto').touched" style="color: red"> {{'frmJenisTransaksi_required'| translate | splitCharT}}</span></label>
+                <input id="input" type="number" formControlName="sistemHargaNetto" pInputText/>
+              
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_jenisPersenCito'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('jenisPersenCito').valid && form.get('jenisPersenCito').touched" style="color: red"> {{'frmJenisTransaksi_required'| translate | splitCharT}}</span></label>
+                <input id="input" type="number" formControlName="jenisPersenCito" pInputText />
+                
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_produkCito'| translate | splitCharT }}</label>
+                <p-dropdown id="input" filter="filter" class="ui-inputwrapper-filled" formControlName="kdProdukCito" [options]="listProdukCito"
+                  [autoWidth]="false"></p-dropdown>
+              </div>
+
+            </div>
+
+            <div class="ui-g-4">
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_produkRetur'| translate | splitCharT }}</label>
+                <p-dropdown id="input" filter="filter" class="ui-inputwrapper-filled" formControlName="kdProdukRetur" [options]="listProdukRetur"
+                  [autoWidth]="false"></p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_kelasDefault'| translate | splitCharT }}</label>
+                <p-dropdown id="input" filter="filter" class="ui-inputwrapper-filled" formControlName="kdKelasDefault" [options]="listKelasDefault"
+                  [autoWidth]="false"></p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_produkDeposit'| translate | splitCharT }}</label>
+                <p-dropdown id="input" filter="filter" class="ui-inputwrapper-filled" formControlName="kdProdukDeposit" [options]="listProdukDeposit"
+                  [autoWidth]="false"></p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_tanggalBerlakuTarif'| translate | splitCharT }}</label>
+                <app-calender formControlName="tglBerlakuTarif" dateformDataPasanganat="dd M yy" [showIcon]="true" [monthNavigator]="true"
+                  [yearNavigator]="true" yearRange="1850:2050"></app-calender>
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_kelompokPelayanan'| translate | splitCharT }}</label>
+                <p-dropdown id="input" filter="filter" class="ui-inputwrapper-filled" formControlName="kdKelompokPelayanan" [options]="listKelompokPelayanan"
+                  [autoWidth]="false"></p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-10">
+                <label for="input">{{'frmJenisTransaksi_sistemDiscount'| translate | splitCharT }}</label>
+                <input id="input" type="number" formControlName="sistemDiscount" pInputText />
+              </div>
+              <!-- <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'statusEnabled'| translate | splitCharT }}</label>
+                </div> -->
+              <div class="ui-g-12 ui-md-10">
+                <p-checkbox binary="true" label="{{'frmJenisTransaksi_statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+                                    <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'frmJenisTransaksi_required'| translate | splitCharT}}</span>
+              </div>
+            </div>
+
+
+            <div class="ui-g-4">
+              <p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                  <div class="ui-g-12 ui-md-10">
+                    <label for="input">{{'frmJenisTransaksi_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span>
+                                            <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'frmJenisTransaksi_required'| translate | splitCharT}}</span></label>
+                    <input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+                   
+                  </div>
+                  <div class="ui-g-12 ui-md-10">
+                    <label for="input">{{'frmJenisTransaksi_kodeEksternal'| translate | splitCharT }}</label>
+                    <input id="input" type="text" formControlName="kodeExternal" pInputText/>
+                  </div>
+                  <div class="ui-g-12 ui-md-10">
+                    <label for="input">{{'frmJenisTransaksi_namaEksternal'| translate | splitCharT }}</label>
+                    <input id="input" type="text" formControlName="namaExternal" pInputText/>
+                  </div>
+                </form>
+              </p-fieldset>
+            </div>
+
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-7"></div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmJenisTransaksi_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="submit" label="{{'frmJenisTransaksi_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmJenisTransaksi_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmJenisTransaksi_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <p-splitButton label="{{'frmJenisTransaksi_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+
+              </div>
+            </div>
+          </form>
+
+          <div class="ui-g-12">
+            <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+              [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loadingJenisPajak" loadingIcon="fa-spinner"
+              [totalRecords]="totalRecords" scrollable="true" resizableColumns="true" (onLazyLoad)="loadPage($event)" expandableRows="true">
+              <p-header>
+                <div class="ui-helper-clearfix">
+                  <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                  <input type="text" pInputText size="50" placeholder="{{'frmJenisTransaksi_pencarianNamaJenisTransaksi'| translate | splitCharT}}" [(ngModel)]="pencarian"
+                    (keypress)="cari()" style="width: 20%;float:right;">
+                  <span style="float: left;padding:0.3em;">{{'frmJenisTransaksi_title'| translate | splitCharT}}</span>
+                </div>
+              </p-header>
+              <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+              <p-column field="namaJenisTransaksi" header="{{'frmJenisTransaksi_tblNamaJenisTransaksi'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="metodeHargaNetto" header="{{'frmJenisTransaksi_tblMetodeHargaNetto'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="metodeStokHargaNetto" header="{{'frmJenisTransaksi_tblMetodeStokHargaNetto'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="metodeAmbilHargaNetto" header="{{'frmJenisTransaksi_tblMetodeAmbilHargaNetto'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="sistemHargaNetto" header="{{'frmJenisTransaksi_tblSistemHargaNetto'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="jenisPersenCito" header="{{'frmJenisTransaksi_tblJenisPersenCito'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="namaProdukCito" header="{{'frmJenisTransaksi_tblProdukCito'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="namaProdukRetur" header="{{'frmJenisTransaksi_tblProdukRetur'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="namaKelasDefault" header="{{'frmJenisTransaksi_tblKelasDefault'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="namaProdukDeposit" header="{{'frmJenisTransaksi_tblProdukDeposit'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="tglBerlakuTarif" header="{{'frmJenisTransaksi_tblTanggalBerlakuTarif'| translate | splitCharT }}" [style]="{'width':'200px'}">
+                <ng-template let-pick="rowData" pTemplate type="body">
+                  <span *ngIf="pick.tglBerlakuTarif > null">{{pick.tglBerlakuTarif * 1000 | date: 'dd/MM/yyyy'}}</span>
+                  <!-- <span *ngIf="pick.tglBerdiri == null"></span> -->
+                  <!-- <span *ngIf="pick.tglBerdiri == 0">-</span> -->
+                </ng-template>
+              </p-column>
+              <p-column field="namaKelompokPelayanan" header="{{'frmJenisTransaksi_tblKelompokPelayanan'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="sistemDiscount" header="{{'frmJenisTransaksi_btlSistemDiscount'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="statusEnabled" header="{{'frmJenisTransaksi_tblStatusEnabled'| translate | splitCharT }}" [style]="{'width':'150px'}">
+                <ng-template let-col="rowData" pTemplate type="body">
+                  {{col.statusEnabled | truefalse | translate | splitCharT }}
+              </ng-template> 
+              </p-column>
+              <ng-template let-detail pTemplate="rowexpansion">
+                <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                  <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                    <div class="ui-grid-col-12">
+                      <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                        <div class="ui-grid-row">
+                          <div class="ui-grid-col-2 label">
+                            <span style="color:black">{{ 'frmJenisTransaksi_optional' | translate | splitCharT }}</span>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="ui-grid-row">
+                          <div class="ui-grid label">{{'frmJenisTransaksi_tblReportDisplay'| translate | splitCharT }} </div>
+                          <div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+                        </div>
+                        <div class="ui-grid-row">
+                          <div class="ui-grid label">{{'frmJenisTransaksi_tblKodeExternal' | translate | splitCharT}} </div>
+                          <div class="ui-grid-col-4">{{detail.kodeExternal}}</div>
+                        </div>
+                        <div class="ui-grid-row">
+                          <div class="ui-grid label">{{'frmJenisTransaksi_tblNamaExternal'| translate | splitCharT}} </div>
+                          <div class="ui-grid-col-4">{{detail.namaExternal}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,206 @@
+<div class="ui-fluid" *ngIf="laporan">
+		<div class="ui-g">
+			<div class="ui-g-12">
+				<div class="card card-w-title">
+					<h1>{{'reportMasterObjekPajak' | translate | splitCharT}}</h1>
+					<div class="ui-g">
+						<div class="ui-g-12">
+							<div id="report-pdf-objek-pajak" style="height: 450px;">{{'silahkanTunggu'| translate | splitCharT}}</div>
+						</div>
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-8"></div>
+							<div class="ui-g-12 ui-md-4">
+								<button pButton type="button" label="Tutup" icon="fa-close" (click)="tutupLaporan()"></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<div class="ui-fluid" *ngIf="!laporan">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmObjekPajak_title'| translate | splitCharT}}</h1>
+				<div class="ui-g form-group">
+					<form [formGroup]="form" (ngSubmit)="onSubmit()">
+						<div class="ui-g-4">
+							<div class="ui-g-12 ui-md-10" hidden>
+								<span class="ui-float-label" hidden>
+									<input id="input" hidden type="text" formControlName="kode" pInputText disabled/>
+									<label for="input" hidden> {{'kode'| translate | splitCharT }}</label>
+								</span>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="pajak">{{'frmObjekPajak_pajak'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('kdPajak').valid && form.get('kdPajak').touched" style="color: red"> {{'required'| translate | splitCharT}}</span></label>
+
+								<p-dropdown id="pajak" class="ui-inputwrapper-filled" formControlName="kdPajak" [options]="listPajak" [autoWidth]="false"
+								 class="ui-inputwrapper-filled" [filter]="true" filterBy="label"></p-dropdown>
+
+
+								
+							</div>
+							<div class="ui-g-12 ui-md-10">
+
+								<label for="namaObjekPajak">{{'frmObjekPajak_nama'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('namaObjekPajak').valid && form.get('namaObjekPajak').touched" style="color: red"> {{'required'| translate | splitCharT}}</span></label>
+								<input id="input" type="text" formControlName="namaObjekPajak" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)"
+								 pInputText/>
+
+
+							
+							</div>
+							<div class="ui-g-12 ui-md-10">
+
+								<label for="produk">{{'frmObjekPajak_produk'| translate | splitCharT }}</label>
+								<p-dropdown id="produk" class="ui-inputwrapper-filled" formControlName="kdProduk" [options]="listProduk" [autoWidth]="false"
+								 class="ui-inputwrapper-filled" [filter]="true" filterBy="label"></p-dropdown>
+
+
+							</div>
+
+						</div>
+
+						<div class="ui-g-4">
+							<div class="ui-g-12 ui-md-10">
+
+								<label for="komponeHarga">{{'frmObjekPajak_komponenHarga'| translate | splitCharT }}</label>
+								<p-dropdown id="komponenHarga" class="ui-inputwrapper-filled" formControlName="kdKomponenHarga" [options]="listKomponenHarga"
+								 [autoWidth]="false" class="ui-inputwrapper-filled" [filter]="true" filterBy="label"></p-dropdown>
+
+
+							</div>
+
+							<div class="ui-g-12 ui-md-10">
+
+								<label for="deskripsi">{{'frmObjekPajak_deskripsi'| translate | splitCharT }}</label>
+								<textarea [rows]="2" [cols]="30" formControlName="deskripsi" pInputTextarea autoResize="autoResize" class="ui-inputwrapper-filled"></textarea>
+								<!-- <input id="deskripsi" type="text" formControlName="deskripsi" pInputText/> -->
+
+
+							</div>
+
+							<div class="ui-g-12 ui-md-10">
+								<p-checkbox binary="true" label="{{'frmObjekPajak_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+								 <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+                                    <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+							</div>
+						</div>
+
+						<div class="ui-g-4">
+							<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+								<form [formGroup]="form" (ngSubmit)="onSubmit()">
+									<div class="ui-g-12 ui-md-10">
+
+										<label for="input">{{'frmObjekPajak_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span>
+                                            <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'required'| translate | splitCharT}}</span></label>
+										<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+
+
+										
+									</div>
+									<div class="ui-g-12 ui-md-10">
+
+										<label for="input">{{'frmObjekPajak_kodeExternal'| translate | splitCharT }}</label>
+										<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+
+
+										<!-- <span *ngIf="!form.get('kodeExternal').valid && form.get('kodeExternal').touched" style="color: red"> {{'kodeEksternal'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+									</div>
+									<div class="ui-g-12 ui-md-10">
+
+										<label for="input">{{'frmObjekPajak_namaExternal'| translate | splitCharT }}</label>
+										<input id="input" type="text" formControlName="namaExternal" pInputText/>
+
+
+										<!-- <span *ngIf="!form.get('namaExternal').valid && form.get('namaExternal').touched" style="color: red"> {{'namaEksternal'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+									</div>
+								</form>
+							</p-fieldset>
+						</div>
+
+
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-7"></div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmObjekPajak_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="submit" label="{{'frmObjekPajak_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmObjekPajak_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmObjekPajak_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<p-splitButton label="{{'frmObjekPajak_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+
+							</div>
+						</div>
+
+					</form>
+				</div>
+				<div class="ui-g-12 ui-fluid">
+
+					<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+					 scrollable="true" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" expandableRows="true">
+
+						<p-header>
+							<div class="ui-helper-clearfix">
+								<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+								<input type="text" pInputText size="50" placeholder="{{'frmObjekPajak_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+								 (keyup)="cari()" style="width: 20%;float:right;">
+								<span style="float: left;padding:0.3em;">{{'frmObjekPajak_tableTitle'| translate | splitCharT }}</span>
+							</div>
+						</p-header>
+						<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+						<p-column field="namaPajak" header="{{'frmObjekPajak_tablePajak'| translate | splitCharT }}"></p-column>
+						<p-column field="namaObjekPajak" header="{{'frmObjekPajak_tableNama'| translate | splitCharT }}"></p-column>
+						<p-column field="deskripsi" header="{{'frmObjekPajak_tableDeskripsi'| translate | splitCharT }}"></p-column>
+						<p-column field="namaProduk" header="{{'frmObjekPajak_tableProduk'| translate | splitCharT }}"></p-column>
+						<p-column field="namaKompnenHarga" header="{{'frmObjekPajak_tableKomponenHarga'| translate | splitCharT }}"></p-column>
+						<p-column field="statusEnabled" header="{{'frmObjekPajak_tableStatus'| translate | splitCharT }}">
+							<ng-template let-col="rowData" pTemplate type="body">
+								{{col.statusEnabled | truefalse | translate | splitCharT }}
+							</ng-template> 
+						</p-column>
+						<ng-template let-detail pTemplate="rowexpansion">
+							<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+								<div class="ui-grid ui-grid-responsive ui-grid-pad">
+									<div class="ui-grid-col-12">
+										<div class="ui-grid ui-grid-responsive ui-grid-pad">
+											<div class="ui-grid-row">
+												<div class="ui-grid-col-2 label">
+													<span style="color:black">{{ 'frmObjekPajak_optional' | translate | splitCharT }}</span>
+												</div>
+											</div>
+											<hr>
+											<div class="ui-grid-row">
+												<div class="ui-grid label">{{'frmObjekPajak_tableReportDisplay'| translate | splitCharT }} </div>
+												<div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+											</div>
+											<div class="ui-grid-row">
+												<div class="ui-grid label">{{'frmObjekPajak_tableKodeExternal' | translate | splitCharT}} </div>
+												<div class="ui-grid-col-4">{{detail.kodeExternal}}</div>
+											</div>
+											<div class="ui-grid-row">
+												<div class="ui-grid label">{{'frmObjekPajak_tableNamaExternal'| translate | splitCharT}} </div>
+												<div class="ui-grid-col-4">{{detail.namaExternal}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

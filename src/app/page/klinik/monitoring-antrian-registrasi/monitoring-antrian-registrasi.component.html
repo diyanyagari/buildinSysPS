@@ -1,0 +1,471 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <p-dialog header="{{'frmMonitoringAntrianRegistrasi_Dibatalkan' | translate | splitCharT }}" [(visible)]="batalDialog"
+                    modal="modal" width="300" [responsive]="true">
+                    <form [formGroup]="formBatal">
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12">
+                                <div class="ui-g-12 ui-md-12">
+                                    <label>{{'frmMonitoringAntrianRegistrasi_NomorUrut'| translate | splitCharT}}</label>
+                                    <input id="input" type="text" formControlName="noUrut" pInputText />
+                                </div>
+                                <div class="ui-g-12 ui-md-12">
+                                    <label>{{'frmMonitoringAntrianRegistrasi_Keterangan'| translate | splitCharT }}</label>
+                                    <textarea formControlName="keterangan" rows="5" cols="30" pInputTextarea
+                                        autoResize="autoResize"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <p-footer>
+                        <button type="button" pButton icon="fa-close" (click)="submitBatal()"
+                            label="{{'frmMonitoringAntrianRegistrasi_Proses' | translate | splitCharT }}"></button>
+                    </p-footer>
+                </p-dialog>
+
+                <p-dialog header="{{'frmMonitoringAntrianRegistrasi_AktifkanAntrian' | translate | splitCharT }}"
+                    [(visible)]="antrianAktifDialog" modal="modal" width="{{widthScreen}}" [responsive]="true">
+                    <form [formGroup]="formAktifAntrian">
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12">
+                                <div class="ui-g-12 ui-md-12">
+                                    <label>{{'frmMonitoringAntrianRegistrasi_NomorAntrianTerlewat'| translate | splitCharT}}</label>
+                                    <input id="input" type="text" formControlName="noAntrian" pInputText />
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label>{{'frmMonitoringAntrianRegistrasi_NomorAntrianSekarang'| translate | splitCharT}}</label>
+                                    <input id="input" type="text" formControlName="noAntrianNow" pInputText />
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label>{{'frmMonitoringAntrianRegistrasi_NomorAntrianSelanjutnya'| translate | splitCharT}}</label>
+                                    <input id="input" type="text" formControlName="noAntrianNext" pInputText />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <p-footer>
+                        <button type="button" pButton icon="fa-close" (click)="submitAktif()"
+                            label="{{'frmMonitoringAntrianRegistrasi_Proses' | translate | splitCharT }}"></button>
+                    </p-footer>
+                </p-dialog>
+
+                <h1>
+                    <!-- <span pTooltip="tooltip message" tooltipPosition="top" tooltipStyleClass="alert-tooltip">tes</span> -->
+                    <div class="ui-helper-clearfix">
+                        <p-inputSwitch onLabel="Online" offLabel="Off" [(ngModel)]="statusLoket" (onChange)="handleChange($event)">
+                        </p-inputSwitch>
+                        <button title="{{'frmMonitoringAntrianRegistrasi_Cetak' | translate | splitCharT}}"
+                            style="float:right;display:block;width: 3%;height: 32px;" type="button" (click)="cetak()"
+                            class="btnCetak" [disabled]="buttonAktif">
+                            <img style="width: 17px;margin-top: 3px" src="assets/layout/images/klinik/icon-cetak.png" />
+                        </button>
+                        <button style="float:right;display:block;width: 3%" pButton type="button"
+                            title="{{'frmMonitoringAntrianRegistrasi_HapusPencarian' | translate | splitCharT}}" icon="fa-refresh"
+                            (click)="clearPencarian()" [disabled]="buttonAktif"></button>
+
+                        <a class="fa fa-angle-left"
+                            style="padding:0.2em 0.2em;float:right;margin-top:-7px;display:block;margin-right: 5px;font-size: 2em"
+                            (click)="periodeOpen()" id="periodePencarianOpen"
+                            title="{{'frmMonitoringAntrianRegistrasi_PencarianPeriode' | translate | splitCharT}}"></a>
+                        <div style="border:1px solid #c1c1c1;width:28%;float:right;border-radius: 5px;display:none;margin-right: 5px; margin-top: -4px"
+                            id="periodePencarian">
+                            <div style="width:8%;float:right;margin: 3px;margin-right: 10px">
+                                <button tyle="width: 100%" pButton type="button" icon="fa-search" (click)="cari()"
+                                    [disabled]="buttonAktif"></button>
+                            </div>
+
+                            <div style="width:39%;float:right;margin: 3px;margin-top: 7px;font-size: 12px">
+                                <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+                                    [(ngModel)]="tanggalAkhir" [showIcon]="true" dateFormat="dd M yy"
+                                    placeholder="{{'frmMonitoringAntrianRegistrasi_PeriodeAkhir'| translate | splitCharT }}"
+                                    [showTime]="true"></app-calender>
+                            </div>
+                            <div style="width:2%;float:right;text-align: center;margin: 3px;margin-top: 6px">
+                                <label>-</label>
+                            </div>
+                            <div
+                                style="width:39%;float:right;margin: 3px;margin-right: 4px;margin-top: 7px;font-size: 12px">
+                                <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+                                    [(ngModel)]="tanggalAwal" [showIcon]="true" dateFormat="dd M yy"
+                                    placeholder="{{'frmMonitoringAntrianRegistrasi_PeriodeAwal'| translate | splitCharT }}"
+                                    [showTime]="true"></app-calender>
+                            </div>
+                        </div>
+                        <a class="fa fa-angle-right"
+                            style="padding:0.2em 0.2em;float:right;margin-top:-7px;display:none;font-size: 2em "
+                            (click)="periodeClose()"
+                            title="{{'frmMonitoringAntrianRegistrasi_TutupPencarianPeriode' | translate | splitCharT}}"
+                            id="periodePencarianClose"></a>
+                        <span
+                            style="float: left;padding:0.3em;">{{'frmMonitoringAntrianRegistrasi_MonitoringAntrianRegistrasi'| translate | splitCharT }}</span>
+                    </div>
+
+                </h1>
+
+
+                <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-12 ui-lg-12 ui-g-nopad">
+                        <div class="ui-g-12 ui-md-12 ui-lg-12"
+                            style="border:1px solid #c1c1c1;height:75vh;max-height:75vh;overflow-y: scroll;">
+                            <p-dataTable [value]="listMonitoring" scrollable="true" frozenWidth="790px"
+                                unfrozenWidth="{{widthScreen}}" (onSort)="sortingData($event)" [rows]="50"
+                                [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20,50]"
+                                [sortField]="sortF" [sortOrder]="sortO" [rowStyleClass]="getSelected"
+                                [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" [lazy]="true" #dt
+                                appendTo="body" scrollHeight="57vh">
+                                <p-header>
+                                    <div class="ui-helper-clearfix">
+
+                                        <button
+                                            title="{{'frmMonitoringAntrianRegistrasi_PanggilUlang' | translate | splitCharT}}{{timer}} "
+                                            style="float:right;display:block;width: 3%;height: 32px; margin-right: 2px "
+                                            type="button" (click)="panggilUlang()" class="btnCetak"
+                                            [disabled]="buttonAktifPanggilUlang">
+                                            <img style="width: 24px"
+                                                src="assets/layout/images/klinik/icon-panggil-ulang.png" />
+                                        </button>
+
+                                        <div
+                                            style="border:1px solid #c1c1c1;width:auto;float:right;border-radius: 5px;margin-right: 5px;height: 30px;text-align: center;vertical-align: middle;line-height: 30px;">
+                                            <span
+                                                style="margin-right: 2px;margin-left: 2px">{{antrianSekarang.noAntrianNow}}</span>
+                                        </div>
+                                        <button title="{{'frmMonitoringAntrianRegistrasi_Panggil' | translate | splitCharT}}"
+                                            style="float:right;display:block;width: 3%;height: 32px; margin-right: 2px "
+                                            type="button" (click)="panggilNext()" class="btnCetak"
+                                            [disabled]="buttonAktif">
+                                            <img style="width: 17px;margin-top: 3px"
+                                                src="assets/layout/images/klinik/icon-panggil.png" />
+                                        </button>
+                                        <div
+                                            style="border:1px solid #c1c1c1;width:auto;float:right;border-radius: 5px;margin-right: 5px;height: 30px;text-align: center;vertical-align: middle;line-height: 30px;">
+                                            <span
+                                                style="margin-right: 2px;margin-left: 2px">{{antrianNext.noUrutPanggilan}}</span>
+                                        </div>
+                                    </div>
+                                </p-header>
+                                <p-headerColumnGroup frozen="true">
+                                    <p-row>
+                                        <p-column field="number"
+                                            header="{{'frmMonitoringAntrianRegistrasi_No' | translate | splitCharT }}"
+                                            [style]="{'width':'50px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}">
+                                        </p-column>
+                                        <p-column field="noAntrian"
+                                            header="{{'frmMonitoringAntrianRegistrasi_NoAntrian' | translate | splitCharT }}"
+                                            [style]="{'width':'90px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}"
+                                            [filter]="true" [sortable]="true">
+                                            <ng-template pTemplate="filter" let-col>
+                                                <input id="input" type="text" [style]="{'width':'100%'}"
+                                                    [(ngModel)]="noAntrianFilter"
+                                                    (ngModelChange)="filterData($event,'noAntrian')"
+                                                    placeholder="{{'frmMonitoringAntrianRegistrasi_Cari'| translate | splitCharT }}"
+                                                    pInputText />
+                                            </ng-template>
+                                        </p-column>
+                                        <p-column field="tglPelayananAwal" header="{{'frmMonitoringAntrianRegistrasi_TglPelayanan' | translate | splitCharT }}"
+                                        [style]="{'width':'110px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}"
+                                        frozen="true" [sortable]="true" [filter]="false">
+
+                                        </p-column>
+                                        <p-column hidden="true" field="noCM"
+                                            header="{{'frmMonitoringAntrianRegistrasi_NoCM' | translate | splitCharT }}"
+                                            [style]="{'width':'130px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}"
+                                            [sortable]="true" [filter]="true">
+                                            <ng-template pTemplate="filter" let-col>
+                                                <input id="input" type="text" [style]="{'width':'100%'}"
+                                                    [(ngModel)]="noCMFilter" (ngModelChange)="filterData($event,'noCm')"
+                                                    pInputText
+                                                    placeholder="{{'frmMonitoringAntrianRegistrasi_Cari'| translate | splitCharT }}" />
+                                            </ng-template>
+                                        </p-column>
+                                        <p-column field="namaPasien"
+                                            header="{{'frmMonitoringAntrianRegistrasi_NamaPasien' | translate | splitCharT }}"
+                                            [style]="{'width':'150px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}"
+                                            frozen="true" [sortable]="true" [filter]="true">
+                                            <ng-template pTemplate="filter" let-col>
+                                                <input id="input" type="text" [style]="{'width':'100%'}"
+                                                    [(ngModel)]="namaPasienFilter"
+                                                    (ngModelChange)="filterData($event,'namaPasien')"
+                                                    placeholder="{{'frmMonitoringAntrianRegistrasi_Cari'| translate | splitCharT }}"
+                                                    pInputText />
+                                            </ng-template>
+                                        </p-column>
+                                        <p-column field="kodeExternalJenisKelamin"
+                                            header="{{'frmMonitoringAntrianRegistrasi_JK' | translate | splitCharT }}"
+                                            [style]="{'width':'50px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}"
+                                            frozen="true" [sortable]="true" [filter]="true">
+                                            <ng-template pTemplate="filter" let-col>
+                                                <p-multiSelect [options]="listJenisKelamin"
+                                                    [style]="{'width':'100%', 'text-align':'left'}"
+                                                    [(ngModel)]="jenisKelaminFilter" multiple="multiple"
+                                                    checkbox="checkbox" filter="filter" optionLabel="label"
+                                                    (onChange)="filterData(jenisKelaminFilter,'jk')" appendTo="body">
+                                                </p-multiSelect>
+                                            </ng-template>
+                                        </p-column>
+                                        <p-column field="tglLahir"
+                                            header="{{'frmMonitoringAntrianRegistrasi_TanggalLahir' | translate | splitCharT }}"
+                                            [style]="{'width':'80px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}"
+                                            frozen="true" [sortable]="true" [filter]="true">
+                                            <ng-template pTemplate="filter" let-col>
+                                                <app-calender [monthNavigator]="true" [yearNavigator]="true"
+                                                    yearRange="1945:2017" [showIcon]="false" dateFormat="dd/mm/yy"
+                                                    [(ngModel)]="tglLahirFilter"
+                                                    (ngModelChange)="filterData($event,'tglLahir')"
+                                                    placeholder="{{'frmMonitoringAntrianRegistrasi_Cari'| translate | splitCharT }}"
+                                                    appendTo="body"></app-calender>
+                                            </ng-template>
+                                        </p-column>
+                                        <p-column field="statusAntrian"
+                                            header="{{'frmMonitoringAntrianRegistrasi_StatusAntrian' | translate | splitCharT }}"
+                                            [style]="{'width':'120px', 'height':'50px', 'max-height':'50px','overflow':'hidden', 'text-align':'center'}"
+                                            filterMatchMode="equals" [sortable]="true" [filter]="true">
+                                            <ng-template pTemplate="filter" let-col>
+                                                <p-multiSelect [options]="listStatusAntrian"
+                                                    [style]="{'width':'100%', 'text-align':'left'}"
+                                                    [(ngModel)]="statusAntrianFilter" multiple="multiple"
+                                                    checkbox="checkbox" filter="filter" optionLabel="label"
+                                                    (onChange)="filterData(statusAntrianFilter,'statusAntrian')"
+                                                    appendTo="body">
+                                                </p-multiSelect>
+                                            </ng-template>
+                                        </p-column>
+                                        <p-column header="{{'frmMonitoringAntrianRegistrasi_Aksi' | translate | splitCharT }}"
+                                            [style]="{'width':'120px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}">
+                                        </p-column>
+                                    </p-row>
+                                </p-headerColumnGroup>
+                                <p-headerColumnGroup>
+                                    <p-row>
+                                        <p-column field="namaKelompokKlien"
+                                            header="{{'frmMonitoringAntrianRegistrasi_JenisPasien' | translate | splitCharT }}"
+                                            [style]="{'width':'120px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}"
+                                            filterMatchMode="equals" [sortable]="true" [filter]="true">
+                                            <ng-template pTemplate="filter" let-col>
+                                                <p-multiSelect [options]="listKelompokPasien"
+                                                    [style]="{'width':'100%', 'text-align':'left'}"
+                                                    [(ngModel)]="kelompokPasienFilter" multiple="multiple"
+                                                    checkbox="checkbox" filter="filter" optionLabel="label"
+                                                    (onChange)="filterData(kelompokPasienFilter,'kelompokPasien')"
+                                                    appendTo="body">
+                                                </p-multiSelect>
+                                            </ng-template>
+                                        </p-column>
+                                        <p-column field="namaRuanganTujuan"
+                                            header="{{'frmMonitoringAntrianRegistrasi_RuanganTujuan' | translate | splitCharT }}"
+                                            [style]="{'width':'120px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}"
+                                            [sortable]="true" [filter]="true">
+                                            <ng-template pTemplate="filter" let-col>
+                                                <p-multiSelect [options]="listRuanganTujuan"
+                                                    [style]="{'width':'100%', 'text-align':'left'}"
+                                                    [(ngModel)]="namaRuanganTujuanFilter" multiple="multiple"
+                                                    checkbox="checkbox" filter="filter" optionLabel="label"
+                                                    (onChange)="filterData(namaRuanganTujuanFilter,'ruanganTujuan')"
+                                                    appendTo="body">
+                                                </p-multiSelect>
+                                            </ng-template>
+                                        </p-column>
+                                        <p-column field="namaDokter"
+                                            header="{{'frmMonitoringAntrianRegistrasi_Dokter' | translate | splitCharT }}"
+                                            [style]="{'width':'150px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}"
+                                            [sortable]="true" [filter]="true">
+                                            <ng-template pTemplate="filter" let-col>
+                                                <p-multiSelect [options]="listDokter"
+                                                    [style]="{'width':'100%', 'text-align':'left'}"
+                                                    [(ngModel)]="namaDokterFilter" multiple="multiple"
+                                                    checkbox="checkbox" filter="filter" optionLabel="label"
+                                                    (onChange)="filterData(namaDokterFilter,'namaDokter')"
+                                                    appendTo="body">
+                                                </p-multiSelect>
+                                            </ng-template>
+                                        </p-column>
+                                        <p-column field="statusPasien"
+                                            header="{{'frmMonitoringAntrianRegistrasi_StatusPasien' | translate | splitCharT }}"
+                                            [style]="{'width':'110px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}"
+                                            [sortable]="true" [filter]="true">
+                                            <ng-template pTemplate="filter" let-col>
+                                                <p-multiSelect [options]="listSta5%tusPasien"
+                                                    [style]="{'width':'100%', 'text-align':'left'}"
+                                                    [(ngModel)]="statusPasienFilter" multiple="multiple"
+                                                    checkbox="checkbox" filter="filter" optionLabel="label"
+                                                    (onChange)="filterData(statusPasienFilter,'statusPasien')"
+                                                    appendTo="body">
+                                                </p-multiSelect>
+                                            </ng-template>
+                                        </p-column>
+                                        <p-column field="alamatLengkap"
+                                            header="{{'frmMonitoringAntrianRegistrasi_Alamat' | translate | splitCharT }}"
+                                            [style]="{'width':'300px', 'height':'50px', 'max-height':'50px', 'text-align':'center'}"
+                                            [sortable]="true" [filter]="true">
+                                            <ng-template pTemplate="filter" let-col>
+                                                <input id="input" type="text" [style]="{'width':'100%'}"
+                                                    [(ngModel)]="alamatLengkapFilter"
+                                                    (ngModelChange)="filterData($event,'alamatLengkap')" pInputText
+                                                    placeholder="{{'frmMonitoringAntrianRegistrasi_Cari'| translate | splitCharT }}" />
+                                            </ng-template>
+                                        </p-column>
+                                    </p-row>
+                                </p-headerColumnGroup>
+                                <p-column field="number"
+                                    [style]="{'width':'50px' , 'height':'39px','text-align':'center', 'max-height':'39px', 'overflow-y':'-webkit-paged-x'}"
+                                    frozen="true" [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData" let-i="rowIndex">
+                                        <span *ngIf="monitoring.noRetur !== '-' " style="color: #808080">{{i+1}}</span>
+                                        <span *ngIf="monitoring.noRetur == '-' ">{{i+1}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="noAntrian"
+                                    [style]="{'width':'90px' , 'height':'39px', 'max-height':'39px', 'overflow-y':'-webkit-paged-x'}"
+                                    frozen="true" [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span *ngIf="monitoring.noRetur !== '-' "
+                                            style="color: #808080">{{monitoring.noAntrian}}</span>
+                                        <span *ngIf="monitoring.noRetur == '-' ">{{monitoring.noAntrian}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="tglPelayananAwal" [style]="{'width':'110px', 'text-align':'center'}"
+                                    frozen="true" [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <!-- <span style="color: #808080"
+                                            *ngIf="monitoring.noRetur !== '-' && monitoring.tglPelayananAwal == '-'">-</span>
+                                        <span *ngIf="monitoring.noRetur == '-' && monitoring.tglPelayananAwal == '-'">-</span>
+                                        <span *ngIf="monitoring.noRetur !== '-' && monitoring.tglPelayananAwal !== '-' "
+                                            style="color: #808080">{{monitoring.tglPelayananAwal  * 1000 | date:'dd MMM yyyy - HH:mm:ss'}}</span> -->
+                                        <span>{{monitoring.tglPelayananAwal  * 1000 | date:'dd/MM/yyyy   HH:mm:ss'}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column hidden="true" field="noCM" [style]="{'width':'130px'}" [sortable]="true" frozen="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span *ngIf="monitoring.noRetur !== '-' "
+                                            style="color: #808080">{{monitoring.noCM}}</span>
+                                        <span *ngIf="monitoring.noRetur == '-' ">{{monitoring.noCM}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="namaPasien" [style]="{'width':'150px'}" frozen="true"
+                                    [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span *ngIf="monitoring.noRetur !== '-' "
+                                            style="color: #808080">{{monitoring.namaPasien}}</span>
+                                        <span *ngIf="monitoring.noRetur == '-' ">{{monitoring.namaPasien}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="kodeExternalJenisKelamin"
+                                    [style]="{'width':'50px', 'text-align':'center'}" frozen="true" [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span *ngIf="monitoring.noRetur !== '-' "
+                                            style="color: #808080">{{monitoring.kodeExternalJenisKelamin}}</span>
+                                        <span
+                                            *ngIf="monitoring.noRetur == '-' ">{{monitoring.kodeExternalJenisKelamin}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="tglLahir" [style]="{'width':'80px', 'text-align':'center'}"
+                                    frozen="true" [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span style="color: #808080"
+                                            *ngIf="monitoring.noRetur !== '-' && monitoring.tglLahir == '-'">-</span>
+                                        <span *ngIf="monitoring.noRetur == '-' && monitoring.tglLahir == '-'">-</span>
+                                        <span *ngIf="monitoring.noRetur !== '-' && monitoring.tglLahir !== '-' "
+                                            style="color: #808080">{{monitoring.tglLahir  * 1000 | date:'dd/MM/yyyy'}}</span>
+                                        <span
+                                            *ngIf="monitoring.noRetur == '-' && monitoring.tglLahir !== '-'  ">{{monitoring.tglLahir  * 1000 | date:'dd/MM/yyyy'}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="statusAntrian" [style]="{'width':'120px', 'text-align':'center'}"
+                                    frozen="true" [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span *ngIf="monitoring.noRetur !== '-' "
+                                            style="color: #808080">{{monitoring.statusAntrian}}</span>
+                                        <span *ngIf="monitoring.noRetur == '-' ">{{monitoring.statusAntrian}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column [style]="{'width':'120px', 'text-align':'center'}" frozen="true">
+                                    <ng-template let-monitoring="rowData" pTemplate="body">
+                                        <td>
+                                            <button title="{{'frmMonitoringAntrianRegistrasi_Panggil' | translate | splitCharT}}"
+                                                *ngIf="monitoring.noRetur == '-' " type="button"
+                                                (click)="panggilRow(monitoring)" class="btnPanggil"
+                                                [disabled]="buttonAktifPanggilRow">
+                                                <img style="width: 17px"
+                                                    src="assets/layout/images/klinik/icon-panggil.png" />
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button title="{{'frmMonitoringAntrianRegistrasi_Register' | translate | splitCharT}}"
+                                                *ngIf="monitoring.noRetur == '-' " type="button"
+                                                (click)="register(monitoring)" class="btnRegister"
+                                                [disabled]="buttonAktif" (click)="register(monitoring)">
+                                                <img style="width: 17px"
+                                                    src="assets/layout/images/klinik/icon-registrasi.png" />
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button title="{{'frmMonitoringAntrianRegistrasi_Batal' | translate | splitCharT}}"
+                                                *ngIf="monitoring.noRetur == '-' " type="button"
+                                                (click)="batal(monitoring)" class="btnBatal" [disabled]="buttonAktif">
+                                                <img style="width: 17px"
+                                                    src="assets/layout/images/klinik/icon-batal.png" />
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                title="{{'frmMonitoringAntrianRegistrasi_AktifkanUlangNoAntrian' | translate | splitCharT}}"
+                                                *ngIf="monitoring.noRetur == '-' " type="button"
+                                                (click)="manualAktif(monitoring)" class="btnAktifAntrian"
+                                                [disabled]="buttonAktif">
+                                                <img style="width: 19px"
+                                                    src="assets/layout/images/klinik/edit-regular.svg" />
+                                            </button>
+                                        </td>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="namaKelompokKlien"
+                                    [style]="{'width':'120px', 'height':'39px', 'max-height':'39px', 'overflow-y':'-webkit-paged-x'}"
+                                    [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span *ngIf="monitoring.noRetur !== '-' "
+                                            style="color: #808080">{{monitoring.namaKelompokKlien}}</span>
+                                        <span
+                                            *ngIf="monitoring.noRetur == '-' ">{{monitoring.namaKelompokKlien}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="namaRuanganTujuan" [style]="{'width':'120px'}" [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span *ngIf="monitoring.noRetur !== '-' "
+                                            style="color: #808080">{{monitoring.namaRuanganTujuan}}</span>
+                                        <span
+                                            *ngIf="monitoring.noRetur == '-' ">{{monitoring.namaRuanganTujuan}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="namaDokter" [style]="{'width':'150px'}" [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span *ngIf="monitoring.noRetur !== '-' "
+                                            style="color: #808080">{{monitoring.namaDokter}}</span>
+                                        <span *ngIf="monitoring.noRetur == '-' ">{{monitoring.namaDokter}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="statusPasien" [style]="{'width':'110px'}" [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span *ngIf="monitoring.noRetur !== '-' "
+                                            style="color: #808080">{{monitoring.statusPasien}}</span>
+                                        <span *ngIf="monitoring.noRetur == '-' ">{{monitoring.statusPasien}}</span>
+                                    </ng-template>
+                                </p-column>
+                                <p-column field="alamatLengkap"
+                                    [style]="{'width':'400px','overflow-y':'-webkit-paged-x'}"
+                                    [sortable]="true">
+                                    <ng-template pTemplate="body" let-monitoring="rowData">
+                                        <span *ngIf="monitoring.noRetur !== '-' "
+                                            style="color: #808080" [matTooltip]='monitoring.tooltipAlamat' tooltipPosition="bottom">{{monitoring.alamatLengkap}}</span>
+                                        <span *ngIf="monitoring.noRetur == '-' " [matTooltip]='monitoring.tooltipAlamat' tooltipPosition="bottom">{{monitoring.alamatLengkap}}</span>
+                                    </ng-template>
+                                </p-column>
+                            </p-dataTable>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

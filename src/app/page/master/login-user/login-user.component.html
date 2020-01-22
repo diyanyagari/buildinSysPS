@@ -1,0 +1,317 @@
+<style type="text/css">
+  .clear {
+    display: table;
+    content: '';
+    clear: both;
+  }
+
+</style>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <h1>{{'frmMasterUserLogin_title' | translate | splitCharT }}</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <div class="ui-g-12 ui-lg-12">
+
+              <p-dataTable [value]="listData" [rows]="5" [paginator]="true" selectionMode="single" [(selection)]="selected"
+                (onRowSelect)="onRowSelect($event)" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)"
+                [lazy]="true">
+                <p-header>
+                  <div class="ui-helper-clearfix">
+                    <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                    <input type="text" pInputText size="50" placeholder="{{'frmMasterUserLogin_pencarianNamaPegawai'| translate | splitCharT}}"
+                      [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+                    <span style="float: left;padding:0.3em;">{{'frmMasterUserLogin_loginUser'| translate | splitCharT }}</span>
+                  </div>
+                </p-header>
+                <p-column field="NIK" header="{{'frmMasterUserLogin_tblNikIntern'| translate | splitCharT }}"></p-column>
+                <p-column field="namaLengkap" header="{{'frmMasterUserLogin_tblNamaLengkap'| translate | splitCharT }}"></p-column>
+                <p-column hidden="true" field="namaJenisKelamin" header="{{'frmMasterUserLogin_tblJenisKelamin'| translate | splitCharT }}"></p-column>
+                <p-column hidden="true" field="posisi" header="{{'frmMasterUserLogin_tblPosisi'| translate | splitCharT }}"></p-column>
+                <p-column field="jabatan" header="{{'frmMasterUserLogin_tblJabatan'| translate | splitCharT }}"></p-column>
+                <p-column field="unitKerja" header="{{'frmMasterUserLogin_tblUnitKerja'| translate | splitCharT }}"></p-column>
+              </p-dataTable>
+            </div>
+            <div class="ui-g-6 ui-sm-12">
+              <form [formGroup]="formUser">
+                <p-fieldset legend="{{'frmMasterUserLogin_dataLoginPegawai'| translate | splitCharT }}">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-lg-6">
+                      <div class="ui-g-12">
+
+                        <label>{{'frmMasterUserLogin_namaUserMobile'| translate | splitCharT }}</label>
+                        <input OnlyNumber="true" [maxlength]="15" type="text" pInputText formControlName="namaUserMobile"
+                          (input)="cekUser()" placeholder="0812xxx">
+
+
+                        <div *ngIf="dataTersedia">
+                          <label style="color: #4ed857;font-weight: 700;">{{responseMobile}}</label>
+                        </div>
+                        <div *ngIf="dataTidakTersedia">
+                          <label style="color: #ff7454; font-weight: 700;">{{responseMobile}}</label>
+                        </div>
+                      </div>
+                      <!-- <div class="ui-g-2 ui-sm-12" style="margin: 18px 0px 0px">
+									<button type="button" pButton label="{{'Cek' | translate | splitCharT }}" (click)="cekUser()"></button>
+								</div> -->
+                      <div class="ui-g-12">
+
+                        <label>{{'frmMasterUserLogin_namaUserEmail'| translate | splitCharT }}</label>
+                        <input type="text" pInputText formControlName="namaUserEmail" (input)="cekUserEmail()"
+                          placeholder="nama@email.com">
+
+
+                        <div *ngIf="dataEmailTersedia">
+                          <label style="color: #4ed857;font-weight: 700;">{{responseEmail}}</label>
+                        </div>
+                        <div *ngIf="dataEmailTidakTersedia">
+                          <label style="color: #ff7454; font-weight: 700;">{{responseEmail}}</label>
+                        </div>
+                      </div>
+                      <!-- <div class="ui-g-2 ui-sm-12" style="margin: 18px 0px 0px">
+									<button type="button" pButton label="{{'Cek' | translate | splitCharT }}" (click)="cekUserEmail()"></button>
+								</div> -->
+                      <div class="ui-g-12">
+
+                        <label>{{'frmMasterUserLogin_kataSandi'| translate | splitCharT }}</label>
+                        <input type="password" pInputText formControlName="kataSandi" (focus)="getPassword()" (blur)="lostPassword()">
+
+
+                      </div>
+                      <div class="ui-g-12">
+
+                        <label>{{'frmMasterUserLogin_hintKataSandi'| translate | splitCharT }}</label>
+                        <input type="text" pInputText formControlName="hintKataSandi">
+
+
+                      </div>
+                    </div>
+                    <div class="ui-g-12 ui-lg-6">
+                      <div class="ui-g-12 ui-sm-12">
+
+                        <label>{{'frmMasterUserLogin_tanggal'| translate | splitCharT }}</label>
+                        <app-calender [showIcon]="true" dateFormat="dd M yy" formControlName="tglSekarang"></app-calender>
+
+
+                      </div>
+                      <div class="ui-g-12 ui-sm-12">
+                        <!-- <label for="kelompokUser">{{'kelompokUser'| translate | splitCharT }}
+											<span *ngIf="!formUser.get('kdKelompok').valid && formUser.get('kdKelompok').touched" style="color: red;font-weight: bolder;">*</span>																																												
+										</label> -->
+                        <label>{{'frmMasterUserLogin_kelompokUser'| translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!formUser.get('kdKelompok').valid && formUser.get('kdKelompok').touched" style="color: red">
+                            {{'frmMasterUserLogin_required'| translate | splitCharT}}</span>
+                        </label>
+                        <p-dropdown id="kelompokUser" filter="filter" class="ui-inputwrapper-filled" [options]="kelompokUser"
+                          [autoWidth]="false" placeholder="{{'frmMasterUserLogin_pilihKelompokUser'| translate | splitCharT}}" formControlName="kdKelompok"></p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </p-fieldset>
+              </form>
+              <!-- <p-fieldset legend="Data Pegawai" [toggleable]="true" collapsed="false">											
+							<form [formGroup]="form">
+							<div class="ui-g-6 ui-sm-12">								
+								<div class="ui-g-12 ui-sm-12">
+									<div class="ui-g-12" *ngIf="dataPhoto" style="text-align: center;">
+										<img [src]="(smbrFoto | imgsec) | async" style="width: 150px" />
+									</div>
+								</div>	
+							</div>
+							</form>
+							<div class="ui-g-6 ui-sm-12">	
+								<form [formGroup]="form">									
+								<div class="ui-g-12 ui-sm-12">
+									<span class="ui-float-label">
+										<input type="text" pInputText formControlName="namaLengkap">
+										<label for="namaLengkap">{{'namaLengkap'| translate | splitCharT }}</label>
+									</span>
+								</div>
+								<div class="ui-g-12 ui-sm-12">
+									<span class="ui-float-label">
+										<app-calender [showIcon]="true" dateFormat="dd/mm/yy" formControlName="tanggalLahir"></app-calender>
+										<label for="tanggalLahir">{{'tanggalLahir'| translate | splitCharT }}</label>
+									</span>
+								</div>
+								<div class="ui-g-12 ui-sm-12">
+									<span class="ui-float-label">
+										<input type="text" pInputText formControlName="jenisKelamin">
+										<label for="jenisKelamin">{{'jenisKelamin'| translate | splitCharT }}</label>
+									</span>
+								</div>
+								</form>							
+								<form [formGroup]="formPegawai">
+									<div class="ui-g-12 ui-sm-12">
+										<span class="ui-float-label">
+											<input type="text" pInputText formControlName="noID" disabled>
+											<label for="noID">{{'noID'| translate | splitCharT }}</label>
+										</span>
+									</div>
+								</form>
+							</div>
+							<form [formGroup]="formPegawai">									
+								<div class="ui-g-12 ui-sm-12">
+									<label for="alamatLengkap" class="ui-inputwrapper-filled">{{'alamatLengkap'| translate | splitCharT }}</label>
+									<textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize" formControlName="alamatLengkap" disabled></textarea>
+								</div>
+							</form>	
+						</p-fieldset> -->
+            </div>
+            <div class="ui-g-12 ui-lg-6">
+              <p-fieldset legend="{{'frmMasterUserLogin_mapLoginToProfile'| translate | splitCharT }}">
+                <div class="ui-g form-group">
+                  <div class="ui-g-6">
+                    <!-- <label for="modulAplikasi">Modul Aplikasi</label> -->
+                    <!-- <div class="ui-g-12">
+									<p-checkbox [(ngModel)]="pilihSemua" [disabled]="hasilCek" (click)="selectAll()" label="Pilih Semua" binary="true"></p-checkbox>
+								</div>
+								<div *ngFor="let data of listDataModul; let i = index" class="ui-g-12">
+									<p-checkbox (change)="onChange()" value={{data.kode}} label="{{data.namaModulAplikasi}}" [(ngModel)]="pilihan" inputId="{{i}}"></p-checkbox>
+								</div> -->
+                    <!-- <div class="ui-g-1"></div> -->
+                    <p-dataTable (onRowClick)="clickData($event)" [value]="listDataModul" [rows]="5" [paginator]="true"
+                      [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [(selection)]="selectedModul"
+                      [headerCheckboxToggleAllPages]="true" scrollable="true" (onRowSelect)="onRowSelectModul($event)">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <span style="float: left;padding:0.3em;">{{'frmMasterUserLogin_modulAplikasi'| translate | splitCharT }}</span>
+                        </div>
+                      </p-header>
+                      <!-- <p-column [style]="{'width':'38px','text-align':'center'}" selectionMode="multiple"></p-column> -->
+                      <p-column field="statusEnabled" [style]="{'width':'38px', 'text-align': 'center'}">
+                        <ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+                          <p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+                          <!-- <span hidden>statusEnabled : {{data[col.field]}}</span> -->
+                        </ng-template>
+                      </p-column>
+                      <p-column field="nomor" header="{{'frmMasterUserLogin_tblNomor'| translate | splitCharT}}" [style]="{'width':'58px'}">
+                        <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="body">
+                          {{i + 1}}
+                        </ng-template>
+                      </p-column>
+                      <p-column field="kode" header="{{'frmMasterUserLogin_tblKdModulAplikasi'| translate | splitCharT }}" hidden="true"></p-column>
+                      <p-column field="namaModulAplikasi" header="{{'frmMasterUserLogin_tblModulAplikasi'| translate | splitCharT }}"></p-column>
+                    </p-dataTable>
+                  </div>
+                  <div class="ui-g-6">
+                    <!-- <label for="modulAplikasi">Unit Kerja</label> -->
+                    <!-- <div class="ui-g-12">
+									<p-checkbox [(ngModel)]="pilihSemuaRuangan" [disabled]="hasilCek" (click)="selectAllRuangan()" label="Pilih Semua" binary="true"></p-checkbox>
+								</div>
+								<div *ngFor="let data of listDataRuangan; let i = index" class="ui-g-12">
+									<p-checkbox (change)="onChange()" value={{data.kdRuangan}} label="{{data.namaRuangan}}" [(ngModel)]="pilihanRuangan" inputId="{{i}}"></p-checkbox>
+								</div> -->
+                    <!-- <div>
+									<label>{{'lokasiKerja'| translate | splitCharT }}</label>
+									<input type="text" pInputText [(ngModel)]="lokasiKerjaNg" disabled>
+                </div> -->
+                
+                <!-- ini unit kerja -->
+                    <p-dataTable #dtEn expandableRows="true" [value]="listDataRuangan" [rows]="5" [paginator]="true"
+                      [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [(selection)]="selectedUnit"
+                      [headerCheckboxToggleAllPages]="true" scrollable="true">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <span style="float: left;padding:0.3em;">{{'frmMasterUserLogin_unitKerja'| translate | splitCharT }}</span>
+                        </div>
+                      </p-header>
+                      <!-- <p-column  expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column> -->
+                      <!-- <p-column [style]="{'width':'38px','text-align':'center'}" selectionMode="multiple"></p-column> -->
+                      <p-column styleClass="col-icon" [style]="{'width':'50px'}">
+                        <ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+                          <button pButton type="button" icon="fa fa-chevron-circle-right" *ngIf="col.child.length !== 0"
+                            (click)="toggleCoba(col, dtEn)"></button>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="statusEnabled" [style]="{'width':'38px', 'text-align': 'center'}">
+                        <ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+                          <p-checkbox (onChange)="isParentChecked($event,data,ri)" binary="true" [(ngModel)]="data[col.field]"
+                            [ngModelOptions]="{standalone: true}"></p-checkbox>
+                          <!-- <span hidden>statusEnabled : {{data[col.field]}}</span> -->
+                        </ng-template>
+                      </p-column>
+                      <p-column field="nomor" header="{{'frmMasterUserLogin_tblNomor'| translate | splitCharT}}" [style]="{'width':'58px'}">
+                        <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="body">
+                          {{i + 1}}
+                        </ng-template>
+                      </p-column>
+                      <p-column field="kdRuangan" header="{{'frmMasterUserLogin_tblKdRuangan'| translate | splitCharT }}" hidden="true"></p-column>
+                      <p-column field="namaRuangan" header="{{'frmMasterUserLogin_tblNamaUnitKerja'| translate | splitCharT }}"></p-column>
+                      <!-- anak -->
+                      <ng-template let-data="rowData" let-ri="rowIndex" pTemplate="rowexpansion">
+                        <p-dataTable [value]="listDataRuangan[ri].child" [editable]="true" expandableRows="true"
+                          #dtEnAnak>
+                          <!-- <p-column styleClass="col-icon" [style]="{'width':'50px'}">
+												<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+													<button pButton type="button" icon="fa fa-chevron-circle-right"  *ngIf="col.child.length !== 0" (click)="toggleCoba(col, dtEnAnak)"></button>
+												</ng-template>
+											</p-column> -->
+                          <p-column field="statusEnabled" [style]="{'width':'38px', 'text-align': 'center'}">
+                            <ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+                              <p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+                              <!-- <span hidden>statusEnabled : {{data[col.field]}}</span> -->
+                            </ng-template>
+                          </p-column>
+                          <p-column field="kdRuangan" header="{{'frmMasterUserLogin_tblKdRuangan'| translate | splitCharT }}" hidden="true"></p-column>
+                          <p-column field="namaRuangan" header="{{'frmMasterUserLogin_tblNamaRuangan'| translate | splitCharT }}"></p-column>
+                        </p-dataTable>
+                      </ng-template>
+                    </p-dataTable>
+                  </div>
+                  
+                  <div class="ui-g-12">
+
+                    <!-- <div class="ui-g-5"> -->
+
+                    <!-- <p-tree [value]="dataModulAplikasi" 
+											selectionMode="checkbox"
+											[(selection)]="selectedFiles2" 
+											(onNodeSelect)="nodeSelect($event)"></p-tree> -->
+                    <!-- </div> -->
+
+                    <!-- <div class="ui-g-1" style="text-align: center;">
+									<div class="ui-g-6">											
+									<div class="ui-g-6">
+										<button type="button" pButton icon="fa-angle-right" (click)="pilihModulAplikasi()"></button>	
+									</div>
+									<div class="ui-g-6">
+										<button type="button" pButton icon="fa-angle-left" (click)="pilihAplikasi()"></button>	
+									</div>ed
+									</div>							
+								</div>
+
+								<div class="ui-g-5">
+									<label for="modulAplikasi">Modul Aplikasi</label>
+									<p-tree [value]="dataAplikasi" selectionMode="checkbox" [(selection)]="selectedFiles3"></p-tree>
+								</div>
+								<div class="ui-g-1" style="text-align: center;">
+									<button type="button" pButton icon="fa-close" (click)="batalPilih()"></button>
+								</div>
+								<div class="clear"></div> -->
+                  </div>
+                </div>
+              </p-fieldset>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g-6"></div>
+            <div class="ui-g-2">
+              <!-- <button type="button" pButton label="{{'simpan' | translate | splitCharT }}" (click)="simpan()"></button> -->
+              <button type="button" pButton label="{{'frmMasterUserLogin_btnSimpan' | translate | splitCharT }}" (click)="simpanUser()"></button>
+            </div>
+            <div class="ui-g-2">
+              <button type="button" pButton label="{{'frmMasterUserLogin_btnHapus' | translate | splitCharT }}" (click)="confirmDelete()"></button>
+            </div>
+            <div class="ui-g-2">
+              <button type="button" pButton label="{{'frmMasterUserLogin_btnBatal' | translate | splitCharT }}" (click)="batalUser()"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,248 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmHistoriTujuan_title'| translate | splitCharT}}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-12">
+						<form [formGroup]="form">
+							<div class="ui-g form-group">
+								<div class="ui-g-12">
+									<div class="ui-g-12 ui-md-8">
+										<p-dataTable scrollable="true" [value]="listTujuan" [editable]="true" [rows]="5"
+											[paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+											<p-header>
+												<div class="ui-helper-clearfix">
+													<button pButton type="button" icon="fa-plus"
+														(click)="tambahTujuan()" style="float:left;"></button>
+												</div>
+											</p-header>
+											<p-column [style]="{'width':'25px'}" field="noUrut"
+												header="{{'frmHistoriTujuan_no'| translate | splitCharT}}" [editable]="true">
+												<ng-template let-col let-data="rowData" let-i="rowIndex"
+													pTemplate="body">
+													<span>
+														{{data.noUrut}}
+													</span>
+												</ng-template>
+												<ng-template let-col let-data="rowData" let-i="rowIndex"
+													pTemplate="editor">
+													<div>
+														<input [disabled]="!disNoUrut" type="text" pInputText
+															[(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}" [maxlength]="2"
+															appendTo="body" (input)="ruleNoUrut(data)" />
+													</div>
+												</ng-template>
+											</p-column>
+											<p-column [style]="{'width':'170px'}" field="tujuanProfile"
+												header="{{'frmHistoriTujuan_tujuan'| translate | splitCharT}}" [editable]="true">
+												<ng-template let-col let-data="rowData" let-i="rowIndex"
+													pTemplate="body">
+													{{ data.tujuanProfile }}
+												</ng-template>
+												<ng-template let-col let-data="rowData" let-i="rowIndex"
+													pTemplate="editor">
+													<div>
+														<input type="text" pInputText [(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}" appendTo="body"
+															placeholder=" " [maxlength]="300" />
+													</div>
+												</ng-template>
+											</p-column>
+											<p-column [style]="{'width':'160px'}" field="keteranganLainnya"
+												header="{{'frmHistoriTujuan_keterangan'| translate | splitCharT}}" [editable]="true">
+												<ng-template let-col let-data="rowData" let-i="rowIndex"
+													pTemplate="body">
+													{{ data.keteranganLainnya }}
+												</ng-template>
+												<ng-template let-col let-data="rowData" let-i="rowIndex"
+													pTemplate="editor">
+													<div>
+														<input type="text" pInputText [(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}" appendTo="body"
+															placeholder=" " [maxlength]="150" />
+													</div>
+												</ng-template>
+											</p-column>
+											<p-column [style]="{'width':'50px','align-items':'center'}"
+												field="statusEnabled" header="{{'frmHistoriTujuan_status'| translate | splitCharT}}">
+												<ng-template let-col let-data="rowData" let-i="rowIndex"
+													pTemplate="body">
+													<p-toggleButton onLabel="Aktif" offLabel="Tidak Aktif"
+														(click)="toggleTujuan(i,data.statusEnabled)"
+														[(ngModel)]="data[col.field]"
+														[ngModelOptions]="{standalone: true}">
+													</p-toggleButton>
+												</ng-template>
+											</p-column>
+											<p-column [style]="{'width':'30px'}" styleClass="col-button"
+												[style]="{'width': '50px'}">
+												<ng-template pTemplate="header">
+												</ng-template>
+												<ng-template pTemplate type="body" let-col let-dokumen="rowData"
+													let-ri="rowIndex">
+													<button *ngIf="trashButton" type="button" pButton
+														(click)="hapusTujuan(ri)" icon="fa-trash"></button>
+												</ng-template>
+											</p-column>
+										</p-dataTable>
+									</div>
+									<div style="padding-top: 0px" class="ui-g-12 ui-md-4">
+										<p-fieldset legend="{{'frmHistoriTujuan_periode' | translate | splitCharT }}">
+											<div style="padding-left: 0px" class="ui-g-12 ui-md-5">
+												<app-calender formControlName="tglAwal" [monthNavigator]="true"
+													dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+													[showIcon]="true" appendTo="body" dateFormat="dd M yy">
+												</app-calender>
+											</div>
+											<div style="padding-left: 3vh;" class="ui-g-12 ui-md-2">{{'frmHistoriTujuan_s/d' | translate | splitCharT }}</div>
+											<div style="padding-left: 0px" class="ui-g-12 ui-md-5">
+												<app-calender formControlName="tglAkhir" [monthNavigator]="true"
+													dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+													[showIcon]="true" appendTo="body" dateFormat="dd M yy">
+												</app-calender>
+											</div>
+										</p-fieldset>
+									</div>
+								</div>
+							</div>
+
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmHistoriTujuan_btnBatal'| translate | splitCharT}}" icon="fa-refresh"
+										(click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmHistoriTujuan_btnSimpan'| translate | splitCharT}}" icon="fa-save"
+										(click)="onSubmit()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmHistoriTujuan_btnHapus'| translate | splitCharT}}" icon="fa-trash"
+										(click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmHistoriTujuan_btnCetak'| translate | splitCharT}}" icon="fa-print"
+										(click)="cetak()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmHistoriTujuan_btnExport'| translate | splitCharT }}" icon="fa-external-link"
+										[model]="items">
+									</p-splitButton>
+								</div>
+							</div>
+
+						</form>
+					</div>
+					<div class="ui-g-12">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+							[rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected"
+							(onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="Loading"
+							loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)"
+							expandableRows="true" scrollable="true">
+							<p-header>
+								<!-- <div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50"
+										placeholder="{{'frmKelompokUmur_tablePencarian'| translate | splitCharT}}"
+										[(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+									<span
+										style="float: left;padding:0.3em;">{{'frmHistoriTujuan_tableTitle'| translate | splitCharT}}</span>
+								</div> -->
+								<div class="ui-helper-clearfix">
+									<div class="ui-g form-group">
+										<div style="border-bottom:1px solid grey" class="ui-g-12 ui-md-12">
+											<span
+												style="font-size:17px;float: left;padding:0.3em;">{{'frmHistoriTujuan_tableTitle'| translate | splitCharT}}</span>
+										</div>
+										<div style="padding-top: 0.9vh" class="ui-g-12 ui-md-6">
+											<i class="fa fa-search" style="padding:0.5em 0.5em;float:left"></i>
+											<input type="text" pInputText size="50"
+												placeholder="{{'frmHistoriTujuan_tablePencarian'| translate | splitCharT}}"
+												[(ngModel)]="pencarian" [ngModelOptions]="{standalone: true}"
+												(keyup)="cari()" style="height: 3.7vh;width: 90%;float:left;">
+										</div>
+										<div class="ui-g-12 ui-md-6">
+											<div style="padding-top: 0.8vh" class="ui-g-12 ui-md-3">
+												<app-calender [(ngModel)]="cariTglAwal" [monthNavigator]="true"
+													dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+													[showIcon]="true" appendTo="body" dateFormat="dd M yy"
+													placeholder="Cari Tgl Akhir">
+												</app-calender>
+											</div>
+											<div style="padding-top: 1.1vh;padding-left: 4vh" class="ui-g-12 ui-md-1">
+												<label>{{'frmHistoriTujuan_s/d'| translate | splitCharT}}</label>
+											</div>
+											<div style="padding-top: 0.8vh" class="ui-g-12 ui-md-3">
+												<app-calender [(ngModel)]="cariTglAkhir" [monthNavigator]="true"
+													dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+													[showIcon]="true" appendTo="body" dateFormat="dd M yy"
+													placeholder="Cari Tgl Akhir">
+												</app-calender>
+											</div>
+											<div style="padding: 1px" class="ui-g-12 ui-md-1"></div>
+											<div class="ui-g-12 ui-md-2">
+												<button pButton type="button"
+													label="{{'frmHistoriTujuan_tableBtnCari'| translate | splitCharT}}"
+													icon="fa-search" (click)="cariTgl()"></button>
+											</div>
+											<div class="ui-g-12 ui-md-2">
+												<button pButton type="button"
+													label="{{'frmHistoriTujuan_tableBtnReset'| translate | splitCharT}}"
+													icon="fa fa-close" (click)="resetCari()"></button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</p-header>
+							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column>
+							<p-column [style]="{'width':'50px'}" header="{{'frmHistoriTujuan_tableNo'| translate | splitCharT}}">
+								<ng-template pTemplate="body" let-i="rowIndex">
+									{{i+1}}
+								</ng-template>
+							</p-column>
+							<p-column field="tglAwal" header="{{'frmHistoriTujuan_tableTglAwal'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span *ngIf="pick.tglAwal > null">{{pick.tglAwal * 1000 | date:
+												'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="tglAkhir" header="{{'frmHistoriTujuan_tableTglAkhir'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span *ngIf="pick.tglAkhir > null">{{pick.tglAkhir * 1000 | date:
+														'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="statusEnabled" header="{{'frmHistoriTujuan_tableStatus'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template>
+							</p-column>
+							<ng-template let-detail pTemplate="rowexpansion" let-ri="rowIndex">
+								<p-dataTable [value]="listData[ri].child" scrollable="true">
+									<p-column [style]="{'width':'13px'}">
+									</p-column>
+									<p-column field="noUrut" [style]="{'width':'10px'}"
+										header="{{'frmHistoriTujuan_tableChildNo'| translate | splitCharT}}">
+									</p-column>
+									<p-column field="tujuanProfile" [style]="{'width':'100px'}"
+										header="{{'frmHistoriTujuan_tableChildTujuan'| translate | splitCharT}}"></p-column>
+									<p-column field="tujuanProfile" [style]="{'width':'150px'}"
+										header="{{'frmHistoriTujuan_tableChildKeterangan'| translate | splitCharT}}"></p-column>
+									<p-column field="statusEnabled" [style]="{'width':'100px'}"
+										header="{{'frmHistoriTujuan_tableChildStatus'| translate | splitCharT }}">
+										<ng-template let-col="rowData" pTemplate type="body">
+											{{col.statusEnabled | truefalse | translate | splitCharT }}
+										</ng-template>
+									</p-column>
+								</p-dataTable>
+							</ng-template>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

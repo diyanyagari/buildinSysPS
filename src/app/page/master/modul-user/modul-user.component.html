@@ -1,0 +1,222 @@
+<h3 class="first">{{'daftarMonitoringProfile'| translate | splitCharT}}</h3>
+<p-tabView>
+<p-tabPanel header="{{'modulToObjek'| translate | splitCharT }}"> 
+  <div class="ui-fluid">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="card card-w-title">
+          <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+          <h1> {{'modulToObjekModulAplikasi'| translate | splitCharT}}</h1>
+          <div class="ui-g form-group">
+            <div class="ui-g-6">
+              <form [formGroup]="formModulToObjek" (ngSubmit)="onSubmitModulToObjek()">
+                <div class="ui-g-6 ui-md-8">
+                  <span class="ui-float-label">
+						      		<p-dropdown id="dropdown" (ngModelChange)="clearPanelBawahTab1($event)" filter="filter" class="ui-inputwrapper-filled" formControlName="kdModulAplikasi" [options]="kodeModul" [autoWidth]="false"></p-dropdown>
+						      		<label for="input">{{'modulAplikasi' | translate | splitCharT }}</label>
+                      </span>
+                   <span *ngIf="!formModulToObjek.get('kdModulAplikasi').valid && formModulToObjek.get('kdModulAplikasi').touched" style="color: red"> {{'modulAplikasi'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> 
+                </div>
+              </form>
+            </div>
+            <div class="ui-g-12">
+              <p-blockUI [target]="tab1" [blocked]="hasilCek1" [baseZIndex]=10 [autoZIndex]="false">
+                <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+              </p-blockUI>
+              <p-fieldset #tab1>
+                <div *ngFor="let data of listData1; let i = index" class="ui-g-3">
+                  <p-checkbox (change)="onChange()" value={{data.kdObjekModulAplikasi}} label="{{data.namaObjekModulAplikasi}}" [(ngModel)]="pilihantab1" inputId="{{i}}"></p-checkbox>
+                </div>
+              </p-fieldset>
+            </div>
+            <div class="ui-g-6 ui-md-10">
+              <div class="checkbox_cont">
+                <div class="checkbox ">
+                  <p-checkbox [(ngModel)]="pilihSemua1"  [disabled]="hasilCek1" (click)="selectAll1()" label="Pilih Semua" binary="true"></p-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <form [formGroup]="formModulToObjek" (ngSubmit)="onSubmitModulToObjek()">
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-2"></div>
+                <div class="ui-g-12 ui-md-2">
+                  <button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-tabPanel>
+
+
+ <p-tabPanel header="{{'kelompokUserToObjek'| translate | splitCharT }}"> 
+  <div class="ui-fluid">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="card card-w-title">
+          <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+          <h1>{{'kelompokUserToObjekModulAplikasi'| translate | splitCharT}}</h1>
+          <div class="ui-g form-group">
+            <div class="ui-g-6">
+              <form [formGroup]="formKelompokUserToObjek" (ngSubmit)="onSubmitKelompokUserToObjek()">
+                <div class="ui-g-6 ui-md-8">
+                  <span class="ui-float-label">
+						      		<p-dropdown id="dropdown" (ngModelChange)="clearPanelBawahTab2($event)" filter="filter" class="ui-inputwrapper-filled" formControlName="kdKelompokUser" [options]="kodeKelompokUser" [autoWidth]="false"></p-dropdown>
+						      		<label for="input">{{'kelompokUser' | translate | splitCharT }}</label>
+                      </span>
+                  <span *ngIf="!formKelompokUserToObjek.get('kdKelompokUser').valid && formKelompokUserToObjek.get('kdKelompokUser').touched" style="color: red"> {{'kelompokUser'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                </div>
+              </form>
+            </div>
+            <div class="ui-g-12">
+              <p-blockUI [target]="tab2" [blocked]="hasilCek2" [baseZIndex]=10 [autoZIndex]="false">
+                <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+              </p-blockUI>
+              <p-fieldset #tab2>
+                <div *ngFor="let data of listData2; let i = index" class="ui-g-3">
+                  <p-checkbox (change)="onChange()" value={{data.kdObjekModulAplikasi}} label="{{data.namaObjekModulAplikasi}}" [(ngModel)]="pilihantab2" inputId="{{i}}"></p-checkbox>
+                </div>
+              </p-fieldset>
+            </div>
+            <div class="ui-g-6 ui-md-10">
+              <div class="checkbox_cont">
+                <div class="checkbox ">
+                  <p-checkbox [(ngModel)]="pilihSemua2" [disabled]="hasilCek2" (click)="selectAll2()" label="Pilih Semua" binary="true"></p-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <form [formGroup]="formKelompokUserToObjek" (ngSubmit)="onSubmitKelompokUserToObjek()">
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-2"></div>
+                <div class="ui-g-12 ui-md-2">
+                  <button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-tabPanel> 
+
+
+ <p-tabPanel header="{{'departemenToObjek'| translate | splitCharT }}"> 
+  <div class="ui-fluid">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="card card-w-title">
+          <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+          <h1>{{'departemenToObjekModulAplikasi'| translate | splitCharT}}</h1>
+          <div class="ui-g form-group">
+            <div class="ui-g-6">
+              <form [formGroup]="formDepartemenToObjek" (ngSubmit)="onSubmitDepartemenToObjek()">
+                <div class="ui-g-6 ui-md-8">
+                  <span class="ui-float-label">
+						      		<p-dropdown id="dropdown" (ngModelChange)="clearPanelBawahTab3($event)" filter="filter" class="ui-inputwrapper-filled" formControlName="kdDepartemen" [options]="kodeDepartemen" [autoWidth]="false"></p-dropdown>
+						      		<label for="input">{{'departemen' | translate | splitCharT }}</label>
+                      </span>
+                  <span *ngIf="!formDepartemenToObjek.get('kdDepartemen').valid && formDepartemenToObjek.get('kdDepartemen').touched" style="color: red"> {{'departemen'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                </div>
+              </form>
+            </div>
+            <div class="ui-g-12">
+              <p-blockUI [target]="tab3" [blocked]="hasilCek3" [baseZIndex]=10 [autoZIndex]="false">
+                <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+              </p-blockUI>
+              <p-fieldset #tab3>
+                <div *ngFor="let data of listData3; let i = index" class="ui-g-3">
+                  <p-checkbox (change)="onChange()" value={{data.kdObjekModulAplikasi}} label="{{data.namaObjekModulAplikasi}}" [(ngModel)]="pilihantab3" inputId="{{i}}"></p-checkbox>
+                </div>
+              </p-fieldset>
+            </div>
+            <div class="ui-g-6 ui-md-10">
+              <div class="checkbox_cont">
+                <div class="checkbox ">
+                  <p-checkbox [(ngModel)]="pilihSemua3" [disabled]="hasilCek3" (click)="selectAll3()" label="Pilih Semua" binary="true"></p-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <form [formGroup]="formDepartemenToObjek" (ngSubmit)="onSubmitDepartemenToObjek()">
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-2"></div>
+                <div class="ui-g-12 ui-md-2">
+                  <button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-tabPanel> 
+
+
+<p-tabPanel header="{{'kelompokTransaksiToRuangan'| translate | splitCharT }}">
+  <div class="ui-fluid">
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <div class="card card-w-title">
+          <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+          <h1> {{'kelompokTransaksiToRuangan'| translate | splitCharT}}</h1>
+          <div class="ui-g form-group">
+            <div class="ui-g-6">
+              <form [formGroup]="formKelompokTransaksiToRuangan" (ngSubmit)="onSubmitKelompokTransaksiToRuangan()">
+                <div class="ui-g-6 ui-md-8">
+                  <span class="ui-float-label">
+						      		<p-dropdown id="dropdown" (ngModelChange)="clearPanelBawahTab4($event)" filter="filter" class="ui-inputwrapper-filled" formControlName="kdKelompokTransaksi" [options]="kodeKelompok" [autoWidth]="false"></p-dropdown>
+						      		<label for="input">{{'kelompokTransaksi' | translate | splitCharT }}</label>
+                      </span>
+                   <span *ngIf="!formKelompokTransaksiToRuangan.get('kdKelompokTransaksi').valid && formKelompokTransaksiToRuangan.get('kdKelompokTransaksi').touched" style="color: red"> {{'kelompokTransaksi'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> 
+                </div>
+              </form>
+            </div>
+            <div class="ui-g-12">
+              <p-blockUI [target]="tab4" [blocked]="hasilCek4" [baseZIndex]=10 [autoZIndex]="false">
+                <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+              </p-blockUI>
+              <p-fieldset #tab4>
+                <div *ngFor="let data of listData4; let i = index" class="ui-g-3">
+                  <p-checkbox (change)="onChange()" value={{data.id_kode}} label="{{data.namaRuangan}}" [(ngModel)]="pilihantab4" inputId="{{i}}"></p-checkbox>
+                </div>
+              </p-fieldset>
+            </div>
+            <div class="ui-g-6 ui-md-10">
+              <div class="checkbox_cont">
+                <div class="checkbox ">
+                  <p-checkbox [(ngModel)]="pilihSemua4" [disabled]="hasilCek4" (click)="selectAll4()" label="Pilih Semua" binary="true"></p-checkbox>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <form [formGroup]="formKelompokTransaksiToRuangan" (ngSubmit)="onSubmitKelompokTransaksiToRuangan()">
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-2"></div>
+                <div class="ui-g-12 ui-md-2">
+                  <button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-tabPanel>
+
+</p-tabView>

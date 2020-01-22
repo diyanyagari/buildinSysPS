@@ -1,0 +1,222 @@
+
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmJadwalDokter_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">	
+
+					<div class="ui-g-12">
+						<!-- <p-fieldset> -->
+							<!-- <div class="ui-g-12"> -->
+								<div class="ui-g-12 ui-md-2" style="width: 10%;margin-top:5px">
+									<label>{{'frmJadwalDokter_tglAwal'|translate | splitCharT}}<span style="color: red;font-weight: bolder;">*</span></label>
+									<app-calender [disabled]="disableInput" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAwal" [showIcon]="true"
+									dateFormat="dd M yy"></app-calender>
+								</div>
+								<div class="ui-g-12 ui-md-1" style="width:0%;margin-right: 2px;margin-top: 7px;">
+									<br/>
+									<label>-</label>
+								</div>
+								<div class="ui-g-12 ui-md-2" style="width: 10%;margin-top:5px">
+									<label>{{'frmJadwalDokter_Akhir'|translate | splitCharT}}<span style="color: red;font-weight: bolder;">*</span></label>
+									<app-calender [disabled]="disableInput" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAkhir" [showIcon]="true"
+									dateFormat="dd M yy"></app-calender>
+								</div>
+								<form [formGroup]="form">
+									<!-- <p-fieldset> -->
+							
+									<div class="ui-g-12 ui-md-3" style="width: 21%;">
+										<label for="input">{{'frmJadwalDokter_departemen'|translate | splitCharT}}</label>
+										<p-dropdown [disabled]="disableInput" id="dropdown" (onChange)="getRuangan(form.get('kdDepartemen').value)" filter="filter" [options]="listDepartemen"
+											   formControlName="kdDepartemen" class="ui-inputwrapper-filled" [autoWidth]="false" resetFilterOnHide="true">
+										</p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-2">
+										<label for="input">{{'frmJadwalDokter_ruangan'|translate | splitCharT}}</label>
+										<p-dropdown [disabled]="disableInput" #db id="dropdown" filter="filter" [options]="listRuangan" (onChange)="clearJenisPegawai(form.get('kdRuangan').value)"
+											  formControlName="kdRuangan" class="ui-inputwrapper-filled" [autoWidth]="false" resetFilterOnHide="true">
+										</p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-2">
+										<label for="input">{{'frmJadwalDokter_jenisPegawai'|translate | splitCharT}}</label>
+										<p-dropdown [disabled]="disableInput" id="dropdown" filter="filter" [options]="listJenisPegawai" (onChange)="getPegawaiBawah(form.get('kdJenisPegawai').value)"
+											formControlName="kdJenisPegawai" class="ui-inputwrapper-filled" [autoWidth]="false" resetFilterOnHide="true">
+										</p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-3">
+										<label for="input">{{'frmJadwalDokter_dokter'|translate | splitCharT}}</label>
+										<p-dropdown [disabled]="disableInput" id="dropdown" filter="filter" [options]="listDokter" (onChange)="getJadwal()"
+											formControlName="kdDokter" class="ui-inputwrapper-filled" [autoWidth]="false" resetFilterOnHide="true">
+										</p-dropdown>
+									</div>
+								
+									<!-- </p-fieldset>			 -->
+								</form>			
+							<!-- </div>											 -->
+						<!-- </p-fieldset> -->
+					</div>
+
+					<!-- <div class="ui-g-12">
+						
+					</div> -->
+
+					<div class="ui-g-12">
+						<!-- <p-blockUI [target]="pnl2" [blocked]="blockJadwal" [baseZIndex]=10 [autoZIndex]="false">
+				            <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+				        </p-blockUI> -->
+						<div class="ui-g-12 ui-md-12" >
+							<p-dataTable [value]="dataInputJadwal" [rows]="10" [rowsPerPageOptions]="[5,10,20]" [paginator]="true" [pageLinks]="3" [editable]="true">
+								
+								<p-header>
+									<div class="ui-helper-clearfix">
+										<button pButton [disabled]="buttonAktif" type="button" icon="fa-plus" (click)="tambahJadwalBaru()" style="float:left;"></button>
+									</div>
+								</p-header>
+								<p-column field="nomor" header="{{'frmJadwalDokter_tableNo'| translate | splitCharT }}" [style]="{'width':'40px'}">
+									<ng-template pTemplate="body" let-i="rowIndex">
+										{{i+1}}
+									</ng-template>
+								</p-column>
+								<!-- <p-column [editable]="true" field="dokter" header="{{'frmJadwalDokter_tableNamaDokter'| translate | splitCharT}}" [style]="{'width':'200px'}">
+									<ng-template let-col let-dokter="rowData" pTemplate="body">
+										{{dokter[col.field].namaLengkap}}
+									</ng-template>
+									<ng-template let-col let-dokter="rowData" pTemplate="editor">
+										<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listDokter" [(ngModel)]="dokter[col.field]"
+										 [autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+									</ng-template>
+								</p-column> -->
+								<p-column [editable]="true" field="hari" header="{{'frmJadwalDokter_tableHari'| translate | splitCharT}}" [style]="{'width':'80px'}">
+									<ng-template let-col let-hari="rowData" pTemplate="body">
+										{{hari[col.field].namaHari}}
+									</ng-template>
+									<ng-template let-col let-hari="rowData" pTemplate="editor">
+										<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listHari" [(ngModel)]="hari[col.field]"
+										 [autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+									</ng-template>
+								</p-column>
+								<!-- <p-column [editable]="true" field="ruangan" header="{{'frmJadwalDokter_tableRuangan'| translate | splitCharT}}" [style]="{'width':'100px'}">
+									<ng-template let-col let-ruangan="rowData" pTemplate="body">
+										{{ruangan[col.field].namaRuangan}}
+									</ng-template>
+									<ng-template let-col let-ruangan="rowData" pTemplate="editor">
+										<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listRuanganTambah" [(ngModel)]="ruangan[col.field]"
+										 [autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+									</ng-template>
+								</p-column> -->
+								<p-column [editable]="true" field="kamar" header="{{'frmJadwalDokter_tableNoKamar'| translate | splitCharT}}" [style]="{'width':'80px'}">
+									<ng-template let-col let-kamar="rowData" pTemplate="body">
+										{{kamar[col.field].naNoFasilitasDetail}}
+									</ng-template>
+									<ng-template let-col let-kamar="rowData" pTemplate="editor">
+										<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listNoKamar" [(ngModel)]="kamar[col.field]"
+										 [autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+									</ng-template>
+								</p-column>
+								<p-column [editable]="true" field="jamAwal" header="{{'frmJadwalDokter_tableJamAwal'| translate | splitCharT}}" [style]="{'width':'70px'}">
+									<ng-template let-col let-i="rowIndex" let-awal="rowData" pTemplate="editor">
+										<p-inputMask (onBlur)="cekJamKamarHari('jamAwal',awal,i)" mask="99:99" [(ngModel)]="awal[col.field]" ></p-inputMask>
+									</ng-template>
+								</p-column>
+								<p-column [editable]="true" field="jamAkhir" header="{{'frmJadwalDokter_tableJamAkhir'| translate | splitCharT}}" [style]="{'width':'70px'}">
+									<ng-template let-col let-akhir="rowData" let-i="rowIndex" pTemplate="editor">
+										<p-inputMask (onBlur)="cekJamKamarHari('jamAkhir',akhir,i)" mask="99:99" [(ngModel)]="akhir[col.field]" ></p-inputMask>
+									</ng-template>
+								</p-column>
+
+								<p-column field="qtyPasienMax" header="{{'frmJadwalDokter_tableQtyPasienMax'| translate | splitCharT}}" [style]="{'width':'80px'}">
+									<!-- <ng-template let-colo let-data="rowData" let-ri="rowIndex" pTemplate="body">
+										<p-spinner [ngModelOptions]="{standalone: true}" id="input" [min]="0" [(ngModel)]="data[colo.field]" ></p-spinner>								
+										<input id="input" type="number" [(ngModel)]="data[colo.field]" pInputText/>
+									</ng-template> -->
+									<ng-template let-col let-qty="rowData" pTemplate="body">
+										<p-spinner [(ngModel)]="qty[col.field]" [min]="0"></p-spinner>
+									</ng-template>
+								</p-column>
+								<p-column [editable]="true" field="statusAbsen" header="{{'frmJadwalDokter_tableNamaStatusAbsen'| translate | splitCharT}}" [style]="{'width':'100px'}">
+									<ng-template let-col let-status="rowData" pTemplate="body">
+										{{status[col.field].namaStatus}}
+									</ng-template>
+									<ng-template let-col let-status="rowData" pTemplate="editor">
+										<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listStatusAbsen" [(ngModel)]="status[col.field]"
+										 [autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+									</ng-template>
+								</p-column>
+								<p-column styleClass="col-button" [style]="{'width':'40px'}">
+									<ng-template pTemplate="header"></ng-template>
+									<ng-template pTemplate type="body" let-col let-kpi="rowData" let-ri="rowIndex">
+										<button type="button" pButton (click)="hapusDataJadwal(ri)" icon="fa-trash"></button>
+									</ng-template>
+								</p-column>
+
+							</p-dataTable>
+						</div>
+					</div>		
+
+					<div class="ui-g-12">
+						<form [formGroup]="form">
+							<div class="ui-g-12 ui-md-10"></div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmJadwalDokter_btnSimpan'| translate | splitCharT}}" (click)="onSubmit()" icon="fa-save"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmJadwalDokter_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+							</div>
+						</form>
+					</div>	
+					<div class="ui-g-12 ui-md-12">
+							<p-dataTable [value]="listDataJadwalDokter" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+                            [(selection)]="selectedDataDokter" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="Loading" loadingIcon="fa-spinner"
+							[totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" >
+								
+								<p-header>
+									<div class="ui-helper-clearfix">
+										<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+										<input type="text" pInputText size="50" placeholder="{{'frmJadwalDokter_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+											style="width: 20%;float:right;">
+										
+										<div style="width: 9%;float:right;margin-right:25px">
+											
+											<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalfilter" [showIcon]="true"
+											dateFormat="dd M yy" (onSelect)="filterTgl($event)"></app-calender>
+										</div>
+										<label style="font-size:12px;float:right;margin-right: -6px;
+										margin-top: 4px;">{{'frmJadwalDokter_cariByTgl'| translate | splitCharT}}</label>
+										
+										<span style="float: left;padding:0.3em;">{{'frmJadwalDokter_tableDaftarJadwalPraktekDokter'| translate | splitCharT}}</span>
+									</div>
+								</p-header>
+								<p-column field="nomor" header="{{'frmJadwalDokter_tableNo'| translate | splitCharT }}" [style]="{'width':'35px'}">
+									<ng-template pTemplate="body" let-i="rowIndex">
+										{{i+1}}
+									</ng-template>
+								</p-column>
+								<p-column field="periodeAwal" header="{{'frmJadwalDokter_tablePeriodeAwal'| translate | splitCharT }}" [style]="{'width':'70px'}">
+									<ng-template let-tglAwal="rowData" pTemplate type="body">
+										{{tglAwal.periodeAwal * 1000 | date: 'dd/MM/yyyy'}}
+									</ng-template>
+								</p-column>
+								<p-column field="periodeAkhir" header="{{'frmJadwalDokter_tablePeriodeAkhir'| translate | splitCharT }}" [style]="{'width':'70px'}">
+									<ng-template let-tglAkhir="rowData" pTemplate type="body">
+										{{tglAkhir.periodeAkhir * 1000 | date: 'dd/MM/yyyy'}}
+									</ng-template>
+								</p-column>
+								<p-column field="namaLengkap" header="{{'frmJadwalDokter_tableNamaDokter'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+								<p-column field="namaHari" header="{{'frmJadwalDokter_tableHari'| translate | splitCharT }}" [style]="{'width':'45px'}"></p-column>
+								<p-column field="namaRuangan" header="{{'frmJadwalDokter_tableRuangan'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+								<p-column field="namaKamar" header="{{'frmJadwalDokter_tableNoKamar'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+								<p-column field="jamAwal" header="{{'frmJadwalDokter_tableJamAwal'| translate | splitCharT }}" [style]="{'width':'50px'}"></p-column>
+								<p-column field="jamAkhir" header="{{'frmJadwalDokter_tableJamAkhir'| translate | splitCharT }}" [style]="{'width':'50px'}"></p-column>
+								<p-column field="qtyPasienMax" header="{{'frmJadwalDokter_tableQtyPasienMax'| translate | splitCharT }}" [style]="{'width':'30px'}"></p-column>
+								<p-column field="namaStatus" header="{{'frmJadwalDokter_tableNamaStatusAbsen'| translate | splitCharT }}" [style]="{'width':'90px'}"></p-column>
+
+							</p-dataTable>
+					</div>	
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

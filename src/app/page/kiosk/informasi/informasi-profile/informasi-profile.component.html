@@ -1,0 +1,112 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item action">
+        <img src="../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img
+          src="../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <h2>Informasi - Profile</h2>
+      </div>
+      <div class="header-item action">
+        <img
+          src="../../../../assets/layout/images/kiosk/power-button.svg"
+          alt="logout" (click)="logout($event)">
+      </div>
+    </div>
+    <div class="container-grid">
+      <div class="main-content">
+        <div>
+          <img
+            src="../../../../../assets/layout/images/kiosk/profil-visi-misi.png"
+            [routerLink]="['/kiosk/informasi/profile/visi-misi']">
+          <a href="#" class="underlined"
+            [routerLink]="['/kiosk/informasi/profile/visi-misi']">Visi & Misi</a>
+        </div>
+        <div>
+          <img
+            src="../../../../../assets/layout/images/kiosk/profil-tujuan.png"
+            [routerLink]="['/kiosk/informasi/profile/tujuan']">
+          <a href="#" class="underlined"
+            [routerLink]="['/kiosk/informasi/profile/tujuan']">Tujuan</a>
+        </div>
+        <div>
+          <img
+            src="../../../../../assets/layout/images/kiosk/profil-sejarah.png"
+            [routerLink]="['/kiosk/informasi/profile/sejarah']">
+          <a href="#" class="underlined"
+            [routerLink]="['/kiosk/informasi/profile/sejarah']">Sejarah</a>
+        </div>
+        <div>
+          <img
+            src="../../../../../assets/layout/images/kiosk/profil-struktur-organisasi.png"
+            [routerLink]="['/kiosk/informasi/profile/strukur-oraganisasi']">
+          <a href="#" class="underlined"
+            [routerLink]="['/kiosk/informasi/profile/strukur-oraganisasi']">Struktur
+            Organisasi</a>
+        </div>
+        <div>
+          <img
+            src="../../../../../assets/layout/images/kiosk/profil-direksi.png"
+            [routerLink]="['/kiosk/informasi/profile/direksi']">
+          <a href="#" class="underlined"
+            [routerLink]="['/kiosk/informasi/profile/direksi']">Direksi</a>
+        </div>
+        <div>
+          <img
+            src="../../../../../assets/layout/images/kiosk/profil-slogan.png"
+            [routerLink]="['/kiosk/informasi/profile/slogan']">
+          <a href="#" class="underlined"
+            [routerLink]="['/kiosk/informasi/profile/slogan']">Slogan/Tagline/Motto/Semboyan</a>
+        </div>
+        <div>
+          <img
+            src="../../../../../assets/layout/images/kiosk/profil-event-gallery.png"
+            [routerLink]="['/kiosk/informasi/profile/event']">
+          <a href="#" class="underlined"
+            [routerLink]="['/kiosk/informasi/profile/event']">Event & Gallery</a>
+        </div>
+        <div>
+          <img
+            src="../../../../../assets/layout/images/kiosk/profil-rekanan.png"
+            [routerLink]="['/kiosk/informasi/profile/rekanan']">
+          <a href="#" class="underlined"
+            [routerLink]="['/kiosk/informasi/profile/rekanan']">Rekanan /
+            Partners</a>
+        </div>
+        <div>
+          <img
+            src="../../../../../assets/layout/images/kiosk/profil-prestasi.png"
+            [routerLink]="['/kiosk/informasi/profile/award']">
+          <a href="#" class="underlined"
+            [routerLink]="['/kiosk/informasi/profile/award']">Prestasi & Award</a>
+        </div>
+        <div>
+          <img
+            src="../../../../../assets/layout/images/kiosk/profil-alamat.png"
+            [routerLink]="['/kiosk/informasi/profile/contact-address']">
+          <a href="#" class="underlined"
+            [routerLink]="['/kiosk/informasi/profile/contact-address']">Alamat /
+            Kontak / Map</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="informasi-action">
+    <hr>
+    <div class="container">
+      <!-- <h1 style="color: white; text-align: center">
+        Subscribe untuk mendapatkan informasi terbaru di email anda
+      </h1> -->
+      <!-- <input type="text" class="input input-big" placeholder="Masukkan alamat email untuk subscribe"> -->
+      <button class="btn-subscribe" [routerLink]="['/kiosk/informasi']">Kembali</button>
+    </div>
+
+  </div>
+</div>
+<!-- </div> -->

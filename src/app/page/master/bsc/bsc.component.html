@@ -1,0 +1,278 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmBSC_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<p-dialog header="{{'frmKPI_inputKPI'| translate | splitCharT }}" [resizable]="false" responsive="true" showEffect="fade" [modal]="true"
+					 [(visible)]="popUpKPI" width="1024">
+						<div class="ui-g form-group" style="margin-bottom: 5px;">
+							<div class="ui-g-12">
+								<div class-="ui-g-12">
+									<p-breadcrumb [model]="itemPath"></p-breadcrumb>
+								</div>
+
+								<p-dataTable [value]="dataInputKPI" [rows]="5" [paginator]="true" [pageLinks]="3" [editable]="true">
+									<p-header>
+										<div class="ui-helper-clearfix">
+											<button pButton type="button" icon="fa-plus" (click)="tambahKPI()" style="float:left;"></button>
+										</div>
+									</p-header>
+									<p-column field="nomor" header="{{'No'| translate | splitCharT }}" [style]="{'width':'40px'}">
+										<ng-template pTemplate="body" let-i="rowIndex">
+											{{i+1}}
+										</ng-template>
+									</p-column>
+
+									<!-- nama KPI -->
+									<p-column [editable]="true" field="kpi" header="{{'frmKPI_tableNamaKPI'| translate | splitCharT}}" [style]="{'width':'130px'}">
+										<ng-template let-col let-kpi="rowData" pTemplate="body">
+											{{kpi[col.field].namaKPI}}
+										</ng-template>
+										<ng-template let-col let-kpi="rowData" pTemplate="editor">
+											<!-- [options]="listKPI"  -->
+											<!-- data dummy listDataDummiesDdlKPI -->
+											<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listKPI" [(ngModel)]="kpi[col.field]" [autoWidth]="false"
+											 (onBlur)="getTipeDataObject(kpi)" [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+										</ng-template>
+									</p-column>
+
+									<!-- asal data -->
+									<p-column [editable]="true" field="asal" header="{{'frmKPI_tableAsalData'| translate | splitCharT}}" [style]="{'width':'130px'}">
+										<ng-template let-col let-asal="rowData" pTemplate="body">
+											{{asal[col.field].namaAsal}}
+										</ng-template>
+										<ng-template let-col let-asal="rowData" pTemplate="editor">
+											<!-- [options]="listDdlAsalData"  -->
+											<!-- data dummy listDataDummiesDdlAsalData -->
+											<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listDdlAsalData" [(ngModel)]="asal[col.field]" [autoWidth]="false"
+											 [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+										</ng-template>
+									</p-column>
+
+									<!-- bobot -->
+									<p-column [editable]="true" field="bobot" header="{{'frmKPI_tableBobot'| translate | splitCharT}}" [style]="{'width':'100px'}">
+										<ng-template let-col let-data="rowData" pTemplate="body">
+											{{data.bobot}}
+											<!-- <span *ngIf="data.bobot == null">
+												Input Bobot KPI
+											</span>
+											<span *ngIf="data.bobot != null">
+												{{data.bobot}}
+											</span> -->
+										</ng-template>
+										<ng-template let-col let-data="rowData" pTemplate="editor">
+											<input type="text" pInputText [(ngModel)]="data[col.field]" onfocus="this.value=''" (keydown)="isNumber2($event)" [ngModelOptions]="{standalone: true}"
+											 appendTo="body" placeholder="Input Bobot KPI" />
+										</ng-template>
+									</p-column>
+
+									<!-- satuan hasil -->
+									<p-column [editable]="false" field="satuan" header="{{'frmKPI_tableSatuanHasil'| translate | splitCharT}}" [style]="{'width':'70px'}">
+										<ng-template let-col let-data="rowData" pTemplate="body">
+											{{data.kpi.namaSatuanHasil}}
+										</ng-template>
+									</p-column>
+
+									<!-- type data -->
+									<p-column [editable]="false" field="tipe" header="{{'frmKPI_tableTypeData'| translate | splitCharT}}" [style]="{'width':'100px'}">
+										<ng-template let-col let-data="rowData" pTemplate="body">
+											{{data.kpi.namaTypeDataObjek}}
+										</ng-template>
+									</p-column>
+
+									<!-- target -->
+									<p-column [editable]="true" field="target" header="{{'frmKPI_tableTarget'| translate | splitCharT}}" [style]="{'width':'100px'}">
+										<ng-template let-col let-data="rowData" pTemplate="body">
+											{{data[col.field]}}
+										</ng-template>
+										<ng-template let-col let-data="rowData" pTemplate="editor">
+											<input type="text" pInputText [(ngModel)]="data[col.field]" onfocus="this.value=''" (keydown)="isNumber($event)" [ngModelOptions]="{standalone: true}"
+											 appendTo="body" placeholder="Input Target KPI"/>
+										</ng-template>
+									</p-column>
+
+									<!-- Periode Data -->
+									<p-column [editable]="true" field="periode" header="{{'frmMonitoringKPI_tablePeriodeData'| translate | splitCharT}}" [style]="{'width':'130px'}">
+										<ng-template let-col let-periode="rowData" pTemplate="body">
+											{{periode[col.field].namaPeriode}}
+										</ng-template>
+										<ng-template let-col let-periode="rowData" pTemplate="editor">
+											<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listDdlPeriodeData" [(ngModel)]="periode[col.field]"
+											 [autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+										</ng-template>
+									</p-column>
+
+
+									<!-- Metode Perhitungan -->
+									<p-column [editable]="false" field="namaMetodeHitung" header="{{'frmKPI_tableMetodePerhitungan'| translate | splitCharT}}" [style]="{'width':'100px'}">
+										<ng-template let-col let-data="rowData" pTemplate="body">
+											{{data.kpi.namaMetodeHitung}}
+										</ng-template>
+									</p-column>
+
+									<!-- action -->
+									<p-column styleClass="col-button" [style]="{'width':'50px'}">
+										<ng-template pTemplate="header"></ng-template>
+										<ng-template pTemplate type="body" let-col let-kpi="rowData" let-ri="rowIndex">
+											<button type="button" pButton (click)="hapusKpi(ri)" icon="fa-trash"></button>
+										</ng-template>
+									</p-column>
+								</p-dataTable>
+
+							</div>
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-10"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmKpi_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="batalInputKPI()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+										<!-- [disabled]="isDisableButtonSimpanKPI"  -->
+									<button pButton type="button" [disabled]='disKPISimpan' label="{{'frmKpi_btnSimpan'| translate | splitCharT}}" icon="fa-save"(click)="simpanInputKPI()"></button>
+								</div>
+							</div>
+						</div>
+					</p-dialog>
+					<p-dialog header="{{'frmBSC_titleStrategi'| translate | splitCharT }}" [resizable]="false" responsive="true" showEffect="fade" [modal]="true"
+					 [(visible)]="popUpStrategyMaster" width="1024" (onHide)="close()">
+						<div class="ui-g form-group">
+							<div class="ui-g-12">
+								<form [formGroup]="form" (ngSubmit)="onSubmit()">
+									<div class="ui-g-6">
+										<div class="ui-g-12 ui-md-10">
+											<label for="input">{{'frmStrategi_parent'| translate | splitCharT }}</label>
+											<p-dropdown filter="filter" class="ui-inputwrapper-filled" [options]="kdStrategyHead" [autoWidth]="false" formControlName="kdStrategyHead"></p-dropdown>
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<label for="input">{{'frmStrategi_nama'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!form.get('namaStrategy').valid && form.get('namaStrategy').touched" style="color: red"> {{'required'| translate | splitCharT}}</span></label>
+											<input id="input" type="text" formControlName="namaStrategy" (keyup)="setReportDisplay()" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<label for="input">{{'frmStrategi_noUrut'| translate | splitCharT }}</label>
+											<input type="text" formControlName="noUrut" pInputText />
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<p-checkbox binary="true" label="{{'frmStrategi_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+											<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+											<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+										</div>
+									</div>
+									<div class="ui-g-6">
+										<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+											<form [formGroup]="form" (ngSubmit)="onSubmit()">
+												<div class="ui-g-12 ui-md-10">
+													<label for="input">{{'frmStrategi_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span>
+														<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'required'| translate | splitCharT}}</span></label>
+													<input id="input" type="text" (keyup)="setReportDisplay()" formControlName="reportDisplay" (keyup)="setReportDisplay()" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-10">
+													<label for="input">{{'frmStrategi_kodeExternal'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-10">
+													<label for="input">{{'frmStrategi_namaExternal'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="namaExternal" pInputText/>
+												</div>
+											</form>
+										</p-fieldset>
+									</div>
+								</form>
+							</div>
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-10"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmKpi_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="batal()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmKpi_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+								</div>
+							</div>
+						</div>
+					</p-dialog>
+
+					<div class="ui-g-12 ui-md-3">
+
+						<div>
+							<label>{{'frmBSC_periode'| translate | splitCharT}}</label>
+							<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" [options]="listPeriodeHead" [autoWidth]="false"
+							 (onChange)="getKode($event)" [(ngModel)]="kodeHeadPeriode"></p-dropdown>
+						</div>
+						<div>
+							<p-dataTable [value]="listPeriode" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							 [(selection)]="selected" scrollable="true" (onRowSelect)="pilihPeriode($event)">
+								<p-column field="nomorUrut" header="{{'frmBSC_no'| translate | splitCharT}}" [style]="{'width':'50px','text-align': 'center'}">
+									<ng-template pTemplate="body" let-i="rowIndex">
+										{{i+1}}
+									</ng-template>
+								</p-column>
+
+								<p-column field="namaPeriode" header="{{'frmBSC_namaPeriode'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+
+							</p-dataTable>
+						</div>
+						<div class="treeStyle">
+							<label>{{'Departemen'| translate | splitCharT }}</label>
+							<p-tree [value]="departemenTree" selectionMode="single" [(selection)]="selectedFile" (onNodeSelect)="nodeSelect($event)"
+							 (onNodeUnselect)="nodeUnselect($event)">
+							</p-tree>
+						</div>
+
+					</div>
+
+					<div class="ui-g-12 ui-md-7">
+						<!-- <div class="ngx-dnd-container overdrive-test" ngxDroppable>
+                    <div *ngFor="let item of strategyAll">
+                      <div class="ngx-dnd-item" ngxDraggable="['tes']">{{item.label}}</div>
+                    </div>
+                  </div> -->
+						<!-- <label>tes</label>-->
+						<!-- <div id="visi">
+                  <label>{{this.Visi}}</label> 
+                </div> -->
+						<!-- ganti [model]='perspective' -->
+						<!-- data dummy dataDummyPerspective -->
+						<div class="overdrive-perspective">
+							<ngx-dnd-container class="ngx" [model]='perspective' [moves]="false" dropZone="nested-oneway-target" (click)="klikStrategy($event.target)"
+							 (drop)="onDrop($event)">
+							</ngx-dnd-container>
+						</div>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<!-- <div class="ngx-dnd-container overdrive-test" ngxDroppable="tes">
+                <div *ngFor="let item of strategyAll">
+                  <div class="ngx-dnd-item" ngxDraggable>{{item.label}}</div>
+                </div>
+              </div> -->
+						<!-- <div class="ui-g-12"> -->
+						<!-- <div class="ui-g-12 ui-md-2">
+                    <label>{{'Departemen'| translate | splitCharT }}</label>
+                </div> -->
+						<!-- <div class="ui-g-12 ui-md-2 ui-md-offset-10"> -->
+						<button pButton type="button" label="Tambah Strategy" icon="fa-plus" (click)="tambahStrategyMaster()"></button>
+						<!-- </div>
+			  </div> -->
+						<!-- ganti [model]='strategyAll'-->
+						<!-- data dummy dataDummyStrategy -->
+						<div class="overdrive-strategy">
+							<ngx-dnd-container [model]='strategyAll' [dropZones]="['nested-oneway-target']" [copy]="true"></ngx-dnd-container>
+						</div>
+					</div>
+
+					<div class="ui-g-12"></div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" [disabled]='this.onOffSimpan' label="Simpan" icon="fa-save" (click)="simpanM()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" [disabled]='this.onOffUpdate' label="Update" icon="fa-pencil-square-o" (click)="updateM()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="Refresh" icon="fa-refresh" (click)="refreshData()"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- <input type="text" OnlyNumber="true" > -->

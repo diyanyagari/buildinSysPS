@@ -1,0 +1,190 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+          <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+          <h1>{{'frmSettingFilterDataRegistrasi_title'| translate | splitCharT}}</h1>
+          <p-tabView (onChange)="onTabChange($event)" [activeIndex]="tabIndex">
+
+              <p-tabPanel header="{{'frmMapRuanganLoginToRuanganPelayanan_title'| translate | splitCharT}}">
+                  <div class="ui-g form-group">
+                      <div class="ui-g-6">
+                          <form [formGroup]="formRuanganPelayanan" (ngSubmit)="onSubmitPelayanan()">
+                            <div class="ui-g-6 ui-md-8">
+                              <label for="input">{{'frmMapRuanganLoginToRuanganPelayanan_ruangan'| translate | splitCharT}}
+                                <span style="color: red;font-weight: bolder;">*</span>
+                                <span *ngIf="!formRuanganPelayanan.get('kdUnitKerja').valid && formRuanganPelayanan.get('kdUnitKerja').touched" style="color: red">
+                                  {{'required'| translate | splitCharT}}</span>
+                              </label>
+                              <p-dropdown id="dropdown" (ngModelChange)="clearPanelBawahPelayanan($event)" filter="filter" [options]="kdRuanganUnit"
+                                [(ngModel)]="kdUnitKerja" formControlName="kdUnitKerja" class="ui-inputwrapper-filled" [autoWidth]="false" resetFilterOnHide="true">
+                              </p-dropdown>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="ui-g-12">
+                            <div class="ui-g-12">
+                              <p-blockUI [target]="pnl1" [blocked]="hasilCek" [baseZIndex]=10 [autoZIndex]="false">
+                                <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+                              </p-blockUI>
+                              <p-fieldset #pnl1 legend="{{'frmMapRuanganLoginToRuanganPelayanan_ruanganPelayanan'|translate|splitCharT}}">
+                                <div class="ui-g-6">
+                                  <p-checkbox [(ngModel)]="pilihSemuaRuangan" (click)="selectAllRuanganPelayanan()" label="{{'frmMapRuanganLoginToRuanganPelayanan_pilihSemua'|translate|splitCharT}}"
+                                    binary="true"></p-checkbox>
+                                </div>
+                                <div class="ui-g-6">
+                                  <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                  <input type="text" [(ngModel)]="pencarianPelayanan" pInputText size="50" placeholder="{{'frmMapRuanganLoginToRuanganPelayanan_pencarianRuangan'|translate|splitCharT}}" style="width: 35%;float:right;" (keyup)="filterRuanganPelayanan($event.target.value)">
+                                </div>
+                                <hr size="3px">
+                                <div *ngFor="let data of listDataRuangan; let i = index" class="ui-g-3">
+                                  <p-checkbox value={{data.kdRuangan}} label="{{data.namaRuangan}}" [(ngModel)]="pilihanRuanganPelayanan"
+                                    inputId="{{i}}"></p-checkbox>
+                                </div>
+                              </p-fieldset>
+                            </div>
+                          </div>
+                          <div class="ui-g-6 ui-md-10">
+                              <div class="checkbox_cont">
+                              </div>
+                            </div>
+                            <div class="ui-g-12">
+                              <form [formGroup]="formRuanganPelayanan" (ngSubmit)="onSubmitPelayanan()">
+                                <div class="ui-g-12 ui-md-8"></div>
+                                <div class="ui-g-12 ui-md-8"></div>
+                                <div class="ui-g-12 ui-md-8"></div>
+                                <div class="ui-g-12 ui-md-2">
+                                    <button pButton type="submit" label="{{'frmMapRuanganLoginToRuanganPelayanan_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+                                  </div>
+                                <div class="ui-g-12 ui-md-2">
+                                    <button pButton type="button" label="{{'frmMapRuanganLoginToRuanganPelayanan_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="resetPelayanan()"></button>
+                                </div>
+                                
+                              </form>
+                            </div>
+                  </div>
+
+              </p-tabPanel>
+
+              <p-tabPanel header="{{'frmMapKelompokTransaksiToRuangan_title'| translate | splitCharT}}">
+                  <form [formGroup]="formKelompokTransaksi" (ngSubmit)="onSubmitKelompokTransaksi()">
+                      <h1>{{'frmMapKelompokTransaksiToRuangan_title'| translate | splitCharT}}</h1>
+                      <div class="ui-g form-group">
+                        <div class="ui-g-6">
+                          <div class="ui-g-6 ui-md-8">
+                            <label for="input">{{'frmMapKelompokTransaksiToRuangan_kelompokTransaksi'| translate | splitCharT }}
+                              <span style="color: red;font-weight: bolder;">*</span>
+                              <span *ngIf="!formKelompokTransaksi.get('kdKelompokTransaksi').valid && formKelompokTransaksi.get('kdKelompokTransaksi').touched" style="color: red"> {{'frmMapKelompokTransaksiToRuangan_required'| translate | splitCharT}}</span>
+                            </label>
+                            <p-dropdown id="dropdown" (ngModelChange)="clearPanelBawahKelompokTransaksi($event)" filter="filter" class="ui-inputwrapper-filled" [(ngModel)]="kdKelompokTransaksi"
+                              formControlName="kdKelompokTransaksi" [options]="kodeKelompok" [autoWidth]="false"></p-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <div class="ui-g-6">
+                        <p-blockUI [target]="pnl" [blocked]="hasilCek2" [baseZIndex]=10 [autoZIndex]="false">
+                          <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+                        </p-blockUI>
+                        <p-fieldset #pnl>
+                            <p-dataTable #da [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [(selection)]="selectedSatuan" [rows]="10" [editable]="true" 
+                            [headerCheckboxToggleAllPages]="true" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
+                            >
+                            <p-header>
+                                <div class="ui-helper-clearfix">
+                                    <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                    <input type="text" pInputText size="50" placeholder="{{'frmMapKelompokTransaksiToRuangan_pencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+                                     style="width: 30%;float:right;">
+                                </div>
+                            </p-header>
+                            <p-column field="isCheck" [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                            <p-column field="namaRuangan" header="{{'frmMapKelompokTransaksiToRuangan_namaRuangan'| translate | splitCharT }}" [editable]="false"></p-column>
+                            <p-column field="avgServiceMenit" header="{{'frmMapKelompokTransaksiToRuangan_averageService'| translate | splitCharT }}" >
+                                <ng-template let-col let-komponen="rowData" pTemplate="body">
+                                    <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                                  </ng-template>
+                            </p-column>
+                          </p-dataTable>
+                        </p-fieldset>
+                      </div>
+                      <div class="ui-g-6" style="padding-top: 361px;">
+                          <form [formGroup]="formKelompokTransaksi" (ngSubmit)="onSubmitKelompokTransaksi()">
+                            <div class="ui-g-12 ui-md-2">
+                              <button pButton type="button" label="{{'frmMapKelompokTransaksiToRuangan_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmitKelompokTransaksi()"></button>
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <button pButton type="button" label="{{'frmMapKelompokTransaksiToRuangan_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="resetKelompokTransaksi()"></button>
+                            </div>
+                          </form>
+                        </div>
+              </p-tabPanel>
+              <p-tabPanel header="{{'frmMapRuanganLoginToKelompokKlien_title'| translate | splitCharT}}">
+                  <div class="ui-g form-group">
+                      <div class="ui-g-6">
+                          <form [formGroup]="formRuanganLogin" (ngSubmit)="onSubmitKlien()">
+                            <div class="ui-g-6 ui-md-8">
+                              <label for="input">{{'frmMapRuanganLoginToKelompokKlien_ruangan'| translate | splitCharT}}
+                                <span style="color: red;font-weight: bolder;">*</span>
+                                <span *ngIf="!formRuanganLogin.get('kdUnitKerjaLogin').valid && formRuanganLogin.get('kdUnitKerjaLogin').touched" style="color: red">
+                                  {{'required'| translate | splitCharT}}</span>
+                              </label>
+                              <p-dropdown id="dropdown" (ngModelChange)="clearPanelBawahKlien($event)" filter="filter" [options]="kdRuanganUnitKerjaLogin"
+                                [(ngModel)]="kdUnitKerjaLogin" formControlName="kdUnitKerjaLogin" class="ui-inputwrapper-filled" [autoWidth]="false" resetFilterOnHide="true">
+                              </p-dropdown>
+                            </div>
+                          </form>
+                        </div>
+                        <div class="ui-g-12">
+                            <div class="ui-g-12">
+                              <p-blockUI [target]="pnl2" [blocked]="hasilCek3" [baseZIndex]=10 [autoZIndex]="false">
+                                <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+                              </p-blockUI>
+                              <p-fieldset #pnl2 legend="{{'frmMapRuanganLoginToKelompokKlien_ruanganLogin'|translate|splitCharT}}">
+                                <div class="ui-g-6">
+                                  <p-checkbox [(ngModel)]="pilihSemuaRuanganLogin" (click)="selectAllRuanganLogin()" label="{{'frmMapRuanganLoginToKelompokKlien_pilihSemua'|translate|splitCharT}}"
+                                    binary="true"></p-checkbox>
+                                </div>
+                                <div class="ui-g-6">
+                                  <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                  <input type="text" [(ngModel)]="pencarianKlien" pInputText size="50" placeholder="{{'frmMapRuanganLoginToKelompokKlien_pencarianRuangan'|translate|splitCharT}}" style="width: 35%;float:right;" (keyup)="filterRuanganLogin($event.target.value)">
+                                </div>
+                                <hr size="3px">
+                                <div *ngFor="let data of listDataRuanganLogin; let i = index" class="ui-g-3">
+                                  <p-checkbox value={{data.kode.kode}} label="{{data.namaKelompokKlien}}" [(ngModel)]="pilihanRuanganLogin"
+                                    inputId="{{i}}"></p-checkbox>
+                                </div>
+                              </p-fieldset>
+                            </div>
+                        </div>
+                        <div class="ui-g-6 ui-md-10">
+                            <div class="checkbox_cont">
+                            </div>
+                          </div>
+                          <div class="ui-g-12">
+                            <form [formGroup]="formRuanganLogin" (ngSubmit)="onSubmitKlien()">
+                              <div class="ui-g-12 ui-md-8"></div>
+                              <div class="ui-g-12 ui-md-8"></div>
+                              <div class="ui-g-12 ui-md-8"></div>
+                              <div class="ui-g-12 ui-md-2">
+                                  <button pButton type="submit" label="{{'frmMapRuanganLoginToKelompokKlien_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+                                </div>
+                              <div class="ui-g-12 ui-md-2">
+                                  <button pButton type="button" label="{{'frmMapRuanganLoginToKelompokKlien_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="resetLogin()"></button>
+                              </div>
+                              
+                            </form>
+                          </div>
+
+
+                  </div>
+              </p-tabPanel>
+
+              
+          </p-tabView>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,453 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<form [formGroup]="form" (ngSubmit)="onSubmit()">
+					<h1>{{'frmStrukturNomor_title'| translate | splitCharT }}</h1>
+					<div class="ui-g form-group">
+						<div class="ui-g-4">
+							<div class="ui-g-12 ui-md-10" hidden>
+								<span class="ui-float-label" hidden>
+									<input id="input" hidden type="text" formControlName="kode" pInputText disabled />
+									<label for="input" hidden> {{'kodeStrukturNomor'| translate | splitCharT }}</label>
+								</span>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'frmStrukturNomor_parent'| translate | splitCharT }}</label>
+								<p-dropdown id="dropdownStrukturNomorHead" filter="filter"
+									class="ui-inputwrapper-filled" [options]="listStrukturNomorHead"
+									formControlName="kdStrukturNomorHead" [autoWidth]="false"></p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'frmStrukturNomor_nama'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span
+										*ngIf="!form.get('namaStrukturNomor').valid && form.get('namaStrukturNomor').touched"
+										style="color: red">
+										{{'required'| translate | splitCharT}}</span>
+								</label>
+								<input id="input" type="text" formControlName="namaStrukturNomor" [(ngModel)]="toReport"
+									(ngModelChange)="valuechange($event)" pInputText />
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'frmStrukturNomor_deskripsi'| translate | splitCharT }}</label>
+								<!-- <input id="input" type="text" formControlName="deskripsiDetail" pInputText placeholder="{{'deskripsiDetail'| translate | splitCharT }}" pTooltip="{{'deskripsiDetail'| translate | splitCharT }}" tooltipPosition="top"/> -->
+								<textarea formControlName="deskripsiDetail" rows="5" cols="30" pInputTextarea
+									autoResize="autoResize"></textarea>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'frmStrukturNomor_qtyDigit'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!form.get('qtyDigitNomor').valid && form.get('qtyDigitNomor').touched"
+										style="color: red">
+										{{'required'| translate | splitCharT}}</span>
+								</label>
+								<input id="input" type="text" formControlName="qtyDigitNomor"
+									[(ngModel)]="qtyDigitNomor" pInputText />
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'frmStrukturNomor_tipeDataObjek'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!form.get('formatNomor').valid && form.get('formatNomor').touched"
+										style="color: red">
+										{{'required'| translate | splitCharT}}</span>
+								</label>
+								<p-dropdown id="dropdownTipeDataObjek" filter="filter" class="ui-inputwrapper-filled"
+									[options]="listTipeDataObjek" formControlName="kdTipeDataObjek" [autoWidth]="false">
+								</p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'frmStrukturNomor_format'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!form.get('formatNomor').valid && form.get('formatNomor').touched"
+										style="color: red">
+										{{'required'| translate | splitCharT}}</span>
+								</label>
+								<input id="input" type="text" formControlName="formatNomor" [(ngModel)]="formatNomor"
+									pInputText readonly="true" disabled />
+							</div>
+						</div>
+						<div class="ui-g-4">
+							<div class="ui-g-12 ui-md-10">
+								<p-checkbox binary="true" *ngIf="isAutoIncrements == true"
+									label="{{'Kenaikan Otomatis'| translate | splitCharT}}" formControlName="isAutoIncrement"
+									[(ngModel)]="isAutoIncrements"></p-checkbox>
+								<p-checkbox binary="true" *ngIf="isAutoIncrements == false"
+									label="{{'Manual'| translate | splitCharT}}" formControlName="isAutoIncrement"
+									[(ngModel)]="isAutoIncrements"></p-checkbox>
+								<span *ngIf="!form.get('isAutoIncrement').valid && form.get('isAutoIncrement').touched"
+									style="color: red">*</span>
+							</div>
+
+							<div class="ui-g-12 ui-md-10">
+								<p-checkbox binary="true" *ngIf="isDefaults == true" label="{{'Default'| translate | splitCharT}}"
+									formControlName="isDefault" [(ngModel)]="isDefaults"></p-checkbox>
+									<p-checkbox binary="true" *ngIf="isDefaults == false" label="{{'Tidak Default'| translate | splitCharT}}"
+									formControlName="isDefault" [(ngModel)]="isDefaults"></p-checkbox>
+								<span *ngIf="!form.get('isDefault').valid && form.get('isDefault').touched"
+									style="color: red">*</span>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<p-checkbox binary="true" *ngIf="isQtyNomorPastRecallByPasss == true"
+									label="{{'Bebas Panggil Nomor Antrian'| translate | splitCharT}}"
+									formControlName="isQtyNomorPastRecallByPass" [(ngModel)]="isQtyNomorPastRecallByPasss"></p-checkbox>
+									<p-checkbox binary="true" *ngIf="isQtyNomorPastRecallByPasss == false"
+									label="{{'Sesuai Urutan Nomor Antrian'| translate | splitCharT}}"
+									formControlName="isQtyNomorPastRecallByPass" [(ngModel)]="isQtyNomorPastRecallByPasss"></p-checkbox>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<p-checkbox binary="true" *ngIf="isPanggilanByPasss == true" label="{{'Panggil Antrian Dapat Dilewati'| translate | splitCharT}}"
+									formControlName="isPanggilanByPass" [(ngModel)]="isPanggilanByPasss"></p-checkbox> 
+									<p-checkbox binary="true" *ngIf="isPanggilanByPasss == false" label="{{'Panggil Antrian Tidak Boleh Dilewati'| translate | splitCharT}}"
+									formControlName="isPanggilanByPass" [(ngModel)]="isPanggilanByPasss"></p-checkbox>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'frmStrukturNomor_qtyPanggilan'| translate | splitCharT }}</label>
+								<input id="input" type="text" formControlName="qtyPanggilan" [(ngModel)]="qtyPanggilan"
+									pInputText />
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'frmStrukturNomor_durasiPanggilanMenit'| translate | splitCharT }}
+								</label>
+								<input id="input" type="text" formControlName="durasiPanggilanMenit"
+									[(ngModel)]="durasiPanggilanMenit" pInputText />
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'frmStrukturNomor_qtyNomorPastRecall'| translate | splitCharT }}</label>
+								<input id="input" type="text" formControlName="qtyNomorPastRecall"
+									[(ngModel)]="qtyNomorPastRecall" pInputText />
+							</div>
+
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'frmStrukturNomor_keterangan'| translate | splitCharT }}</label>
+								<textarea formControlName="keteranganLainnya" rows="5" cols="30" pInputTextarea
+									autoResize="autoResize"></textarea>
+								<!-- <input id="input" type="text" formControlName="keteranganLainnya" pInputText placeholder="{{'keteranganLainnya'| translate | splitCharT }}" pTooltip="{{'keteranganLainnya'| translate | splitCharT }}" tooltipPosition="top"/> -->
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<p-checkbox binary="true" label="{{'frmStrukturNomor_status'| translate | splitCharT }}"
+									formControlName="statusEnabled"></p-checkbox>
+								<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+									style="color: red">*</span>
+								<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+									style="color: red">{{'required'| translate | splitCharT}}</span>
+							</div>
+
+						</div>
+
+						<div class="ui-g-4">
+							<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+								<form [formGroup]="form" (ngSubmit)="onSubmit()">
+									<div class="ui-g-12 ui-md-10">
+
+										<label>{{'frmStrukturNomor_reportDisplay' | translate | splitCharT }}
+											<span
+												*ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched"
+												style="color: red">*</span>
+											<span
+												*ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched"
+												style="color: red">
+												{{'required'| translate | splitCharT}}</span>
+										</label>
+										<input id="input" type="text" formControlName="reportDisplay"
+											[(ngModel)]="report" pInputText />
+
+
+									</div>
+								</form>
+							</p-fieldset>
+						</div>
+					</div>
+				</form>
+				<div class="ui-g-12">
+					<p-fieldset legend="{{'frmStrukturNomor_detail'| translate | splitCharT }}">
+						<div class="ui-g form-group">
+							<div class="ui-g-12">
+								<!-- <p-toolbar>
+									<div class="ui-toolbar-group-left">
+										<button pButton type="button" label="Tambah" icon="fa-plus" (click)="tambahDetail()"></button>
+									</div>
+								</p-toolbar> -->
+								<p-dataTable [value]="listDataDetail" [rows]="10" [paginator]="true" [pageLinks]="3"
+									[rowsPerPageOptions]="[5,10,20]" [editable]="true" scrollable="true"
+									[responsive]="true">
+									<p-header>
+										<div class="ui-helper-clearfix">
+											<button type="button" pButton icon="fa-plus" (click)="tambahDetail()"
+												style="float:left; font-size: 13px !important;"></button>
+										</div>
+									</p-header>
+									<p-column field="levelTingkat"
+										header="{{'frmStrukturNomor_detailLevelTingkat'| translate | splitCharT}}" [editable]="false">
+										<ng-template let-col let-detail="rowData" pTemplate="body">
+											{{detail.levelTingkat.namaLevelTingkat}}
+										</ng-template>
+									</p-column>
+									<p-column field="qtyDigitKode"
+										header="{{'frmStrukturNomor_detailQtyDigit'| translate | splitCharT}}"
+										footer="{{calculateTotal()}}" [editable]="true">
+										<ng-template let-col let-detail="rowData" pTemplate="body">
+											{{detail[col.field]}}
+										</ng-template>
+										<ng-template let-col let-detail="rowData" pTemplate="editor" let-ri="rowIndex">
+											<input type="text" [(ngModel)]="detail[col.field]"
+												[maxlength]="detail.qtyDigitKode" (input)="cekDigitKode(ri)" pInputText>
+										</ng-template>
+									</p-column>
+									<p-column field="formatKode"
+										header="{{'frmStrukturNomor_detailFormatKode'| translate | splitCharT}}" [editable]="true">
+										<ng-template let-col let-detail="rowData" pTemplate="body">
+											{{detail[col.field].nama}}
+										</ng-template>
+										<ng-template let-col let-detail="rowData" pTemplate="editor">
+											<p-dropdown [(ngModel)]="detail[col.field]" [options]="listFormatKode"
+												[autoWidth]="false" [style]="{'width':'100%'}" required="true"
+												appendTo="body" [filter]="true" filterBy="label"
+												(onChange)="cekListFormatKode()"></p-dropdown>
+										</ng-template>
+									</p-column>
+									<p-column field="kodeUrutAwal"
+										header="{{'frmStrukturNomor_detailKodeUrutAwal'| translate | splitCharT}}" [editable]="true">
+										<ng-template let-col let-detail="rowData" pTemplate="body">
+											{{detail[col.field]}}
+										</ng-template>
+										<ng-template let-col let-detail="rowData" pTemplate="editor" let-ri="rowIndex">
+											<input *ngIf="detail.qtyDigitKode != null" type="text"
+												[(ngModel)]="detail[col.field]" [maxlength]="detail.qtyDigitKode"
+												(input)="setInputDetail('kodeUrutAwal',ri,detail.formatKode.value,detail[col.field])"
+												pInputText>
+										</ng-template>
+									</p-column>
+									<p-column field="kodeUrutAkhir"
+										header="{{'frmStrukturNomor_detailKodeUrutAkhir'| translate | splitCharT}}" [editable]="true">
+										<ng-template let-col let-detail="rowData" pTemplate="body">
+											{{detail[col.field]}}
+										</ng-template>
+										<ng-template let-col let-detail="rowData" pTemplate="editor" let-ri="rowIndex">
+											<input *ngIf="detail.qtyDigitKode != null" type="text"
+												[(ngModel)]="detail[col.field]" [maxlength]="detail.qtyDigitKode"
+												(input)="setInputDetail('kodeUrutAkhir',ri,detail.formatKode.value,detail[col.field])"
+												pInputText>
+										</ng-template>
+									</p-column>
+
+									<p-column field="status" header="{{'frmStrukturNomor_detailStatusReset'| translate | splitCharT}}"
+										[editable]="true">
+										<ng-template let-col let-detail="rowData" pTemplate="body">
+											{{detail[col.field].nama}}
+										</ng-template>
+										<ng-template let-col let-detail="rowData" pTemplate="editor">
+											<p-dropdown [(ngModel)]="detail[col.field]" [options]="listStatusResetFix"
+												[autoWidth]="false" [style]="{'width':'100%'}" required="true"
+												appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+										</ng-template>
+									</p-column>
+									<p-column field="kenaikan" header="{{'frmStrukturNomor_kenaikan'| translate | splitCharT}}"
+										[style]="{'width':'50px'}">
+										<ng-template pTemplate type="body" let-col let-checked="rowData"
+											let-ri="rowIndex">
+											<p-checkbox [(ngModel)]="checked[col.field]" binary="true"></p-checkbox>
+										</ng-template>
+									</p-column>
+									<p-column field="statusDefault"
+										header="{{'frmStrukturNomor_statusDefault'| translate | splitCharT}}"
+										[style]="{'width':'50px'}">
+										<ng-template pTemplate type="body" let-col let-checked="rowData"
+											let-ri="rowIndex">
+											<p-checkbox [(ngModel)]="checked[col.field]" binary="true"></p-checkbox>
+										</ng-template>
+									</p-column>
+									<p-column styleClass="col-button" [style]="{'width': '50px'}">
+										<ng-template pTemplate="header"></ng-template>
+										<ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+											<div *ngIf="data.kdStrukturNomor == null">
+												<button type="button" pButton icon="fa-trash"
+													(click)="hapusRow(i)"></button>
+											</div>
+										</ng-template>
+									</p-column>
+								</p-dataTable>
+							</div>
+						</div>
+					</p-fieldset>
+					<!-- 
+								<p-fieldset legend="Detail" [toggleable]="true" [collapsed]="false">
+									<form [formGroup]="form" (ngSubmit)="onSubmit()">
+										<div class="ui-g-12 ui-md-10">
+											<span class="ui-float-label">
+												<p-dropdown id="dropdownLevel" filter="filter" class="ui-inputwrapper-filled" [options]="listLevel" formControlName="kdLevelTingkat"
+												 [autoWidth]="false" pTooltip="{{'levelTingkat'| translate | splitCharT }}" tooltipPosition="top"></p-dropdown>
+											</span>
+											<span *ngIf="!form.get('kdLevelTingkat').valid && form.get('kdLevelTingkat').touched" style="color: red"> {{'levelTingkat'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<span class="ui-float-label">
+												<input id="input" type="number" formControlName="qtyDigitKode" pInputText placeholder="{{'qtyDigitKode'| translate | splitCharT }}" pTooltip="{{'qtyDigitKode'| translate | splitCharT }}"
+												 tooltipPosition="top" />
+											</span>
+											<span *ngIf="!form.get('qtyDigitKode').valid && form.get('qtyDigitKode').touched" style="color: red"> {{'qtyDigitKode'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<span class="ui-float-label">
+												<input id="input" type="number" formControlName="kodeUrutAwal" pInputText placeholder="{{'kodeUrutAwal'| translate | splitCharT }}" pTooltip="{{'kodeUrutAwal'| translate | splitCharT }}"
+												 tooltipPosition="top" />
+											</span>
+											<span *ngIf="!form.get('kodeUrutAwal').valid && form.get('kodeUrutAwal').touched" style="color: red"> {{'kodeUrutAwal'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<span class="ui-float-label">
+												<input id="input" type="number" formControlName="kodeUrutAkhir" pInputText placeholder="{{'kodeUrutAkhir'| translate | splitCharT }}" pTooltip="{{'kodeUrutAkhir'| translate | splitCharT }}"
+												 tooltipPosition="top" />
+											</span>
+											<span *ngIf="!form.get('kodeUrutAkhir').valid && form.get('kodeUrutAkhir').touched" style="color: red"> {{'kodeUrutAkhir'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<span class="ui-float-label">
+												<input id="input" type="number" formControlName="formatKode" pInputText placeholder="{{'formatKode'| translate | splitCharT }}" pTooltip="{{'formatKode'| translate | splitCharT }}"
+												 tooltipPosition="top" />
+											</span>
+											<span *ngIf="!form.get('formatKode').valid && form.get('formatKode').touched" style="color: red"> {{'formatKode'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<span class="ui-float-label">
+												<p-dropdown id="dropdownLevel" filter="filter" class="ui-inputwrapper-filled" [options]="listStatusReset" formControlName="statusResetNomor"
+												 [autoWidth]="false" pTooltip="{{'statusResetNomor'| translate | splitCharT }}" tooltipPosition="top"></p-dropdown>
+											</span>
+										</div>
+	
+									</form>
+								</p-fieldset> -->
+				</div>
+
+				<div class="ui-g-12">
+					<form [formGroup]="form" (ngSubmit)="onSubmit()">
+						<div class="ui-g-12 ui-md-7"></div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmStrukturNomor_btnBatal'| translate | splitCharT}}"
+								icon="fa-refresh" (click)="reset()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="submit" label="{{'frmStrukturNomor_btnSimpan'| translate | splitCharT}}"
+								icon="fa-save"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmStrukturNomor_btnHapus'| translate | splitCharT}}"
+								icon="fa-trash" (click)="confirmDelete()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmStrukturNomor_btnCetak'| translate | splitCharT}}"
+								icon="fa-print" (click)="cetak()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<p-splitButton label="{{'frmStrukturNomor_btnExport'| translate | splitCharT }}" icon="fa-external-link"
+								[model]="items"></p-splitButton>
+
+						</div>
+					</form>
+				</div>
+
+
+
+				<div class="ui-g-12">
+					<div class="ui-g form-group">
+						<div class="ui-g-12">
+
+							<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+								[rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected"
+								scrollable="true" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading"
+								loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)"
+								expandableRows="true">
+								<p-header>
+									<div class="ui-helper-clearfix">
+										<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+										<input type="text" pInputText size="50"
+											placeholder="{{'frmStrukturNomor_tablePencarian'| translate | splitCharT}}"
+											[(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+										<span
+											style="float: left;padding:0.3em;">{{'frmStrukturNomor_tableTitle'| translate | splitCharT}}</span>
+									</div>
+								</p-header>
+								<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+								<p-column field="namaStrukturNomorHead"
+									header="{{'frmStrukturNomor_tableParent'| translate | splitCharT }}" [style]="{'width':'200px'}">
+								</p-column>
+								<p-column field="namaStrukturNomor" header="{{'frmStrukturNomor_tableNama'| translate | splitCharT }}"
+									[style]="{'width':'200px'}"></p-column>
+								<p-column field="deskripsiDetail"
+									header="{{'frmStrukturNomor_tableDeskripsi'| translate | splitCharT }}"
+									[style]="{'width':'200px'}"></p-column>
+								<!-- <p-column field="isDefault" header="{{'isDefault'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column> -->
+								<p-column field="qtyDigitNomor" header="{{'frmStrukturNomor_tableQtyDigit'| translate | splitCharT }}"
+									[style]="{'width':'200px'}"></p-column>
+								<p-column field="formatNomor" header="{{'frmStrukturNomor_tableFormat'| translate | splitCharT }}"
+									[style]="{'width':'200px'}"></p-column>
+								<!-- <p-column field="isAutoIncrement" header="{{'isAutoIncrement'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column> -->
+								<p-column field="keteranganLainnya"
+									header="{{'frmStrukturNomor_tableKeterangan'| translate | splitCharT }}"
+									[style]="{'width':'200px'}"></p-column>
+								<p-column field="namaTypeDataObjek"
+									header="{{'frmStrukturNomor_tableNamaTypeDataObjek'| translate | splitCharT }}"
+									[style]="{'width':'200px'}"></p-column>
+								<p-column field="isQtyNomorPastRecallByPass"
+									header="{{'frmStrukturNomor_qtyNomorPastRecall'| translate | splitCharT }}"
+									[style]="{'width':'200px'}">
+								</p-column>
+								<p-column field="qtyPanggilan" header="{{'frmStrukturNomor_qtyPanggilan'| translate | splitCharT }}"
+									[style]="{'width':'200px'}"></p-column>
+								<p-column field="durasiPanggilanMenit"
+									header="{{'frmStrukturNomor_durasiPanggilanMenit'| translate | splitCharT }}"
+									[style]="{'width':'200px'}"></p-column>
+								<p-column field="qtyNomorPastRecall"
+									header="{{'frmStrukturNomor_qtyNomorPastRecall'| translate | splitCharT }}"
+									[style]="{'width':'200px'}"></p-column>
+								<!-- <p-column field="namaLevelTingkat" header="{{'levelTingkat'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+								<p-column field="qtyDigitKode" header="{{'qtyDigitKode'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+								<p-column field="kodeUrutAwal" header="{{'kodeUrutAwal'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+								<p-column field="kodeUrutAkhir" header="{{'kodeUrutAkhir'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+								<p-column field="formatKode" header=" {{'formatKode'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+								<p-column field="statusResetNomor" header=" {{'statusResetNomor'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column> -->
+								<p-column field="statusEnabled" header="{{'frmStrukturNomor_tableStatus'| translate | splitCharT }}"
+									[style]="{'width':'200px'}">
+									<ng-template let-col="rowData" pTemplate type="body">
+										{{col.statusEnabled | truefalse | translate | splitCharT }}
+									</ng-template>
+								</p-column>
+								<ng-template let-struktur pTemplate="rowexpansion">
+									<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+										<div class="ui-grid ui-grid-responsive ui-grid-pad">
+											<div class="ui-grid-col-12">
+												<div class="ui-grid ui-grid-responsive ui-grid-pad">
+													<div class="ui-grid-row">
+														<div class="ui-grid-col-2 label">
+															<span
+																style="color:black">{{ 'frmStrukturNomor_optional' | translate | splitCharT }}</span>
+														</div>
+													</div>
+													<hr>
+													<div class="ui-grid-row">
+														<div class="ui-grid label">
+															{{'frmStrukturNomor_tableReportDisplay'| translate | splitCharT }}</div>
+														<div class="ui-grid-col-4"> {{struktur.reportDisplay}}</div>
+													</div>
+													<!-- <div class="ui-grid-row">
+														<div class="ui-grid label">{{'kodeExternal :'| translate | splitCharT }}</div>
+														<div class="ui-grid-col-4">{{struktur.kodeExternal}}</div>
+													</div>
+													<div class="ui-grid-row">
+														<div class="ui-grid label">{{'namaExternal :'| translate | splitCharT }}</div>
+														<div class="ui-grid-col-4">{{struktur.namaExternal}}</div>
+													</div> -->
+												</div>
+											</div>
+										</div>
+									</div>
+								</ng-template>
+							</p-dataTable>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

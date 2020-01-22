@@ -1,0 +1,902 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmMapObjekModultoKelompokUser_title'| translate | splitCharT }}</h1>
+				<!-- <h1>GA ADA APA APA LOH</h1> -->
+				<div class="ui-g form-group">
+					<form [formGroup]="form" (ngSubmit)="onSubmit()">
+						<div class="ui-g form-group">
+							
+							<div class="ui-g-4">
+
+								<!-- <div class="ui-g-6 ui-md-11">
+									<label for="input">{{'frmMapObjekModultoKelompokUser_ObjekModul'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdObjekModulAplikasi').valid && form.get('kdObjekModulAplikasi').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" [(ngModel)]="kdObjekModulAplikasi" formControlName="kdObjekModulAplikasi"
+									 [options]="listObjek" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-6 ui-md-11">
+									<label for="input">{{'frmMapObjekModultoKelompokUser_kelompokUser'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdKelompokUser').valid && form.get('kdKelompokUser').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" (ngModelChange)="valueHakAkses($event)" [(ngModel)]="kdKelompokUser"
+									 formControlName="kdKelompokUser" [options]="listKelompok" [autoWidth]="false"></p-dropdown>
+									</div> -->
+
+										<div class="ui-g-6 ui-md-6">
+											<label>{{'frmMapObjekModultoKelompokUser__ModulAplikasi'|translate|splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched"
+													style="color: red"> {{'frmMapObjekModultoKelompokUser_required'|translate}}</span>
+											</label>
+											<p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+												formControlName="kdModulAplikasi" [options]="listDropdownModulAplikasi" [autoWidth]="false">
+											</p-dropdown>
+										</div>
+
+										<div class="ui-g-6 ui-md-6" style="margin-bottom: 10px;">
+											<label>{{'frmMapObjekModultoKelompokUser__Version'|translate|splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<!-- <span *ngIf="!form.get('kdVersion').valid && form.get('kdVersion').touched"
+													style="color: red"> {{'required'|translate}}</span> -->
+											</label>
+											<div class="ui-g-12 ui-md-12"
+                        style="border: 1px solid #cfcfcf; width: 100%;height: 24px;background: #ffffff;padding: 0em;">
+                        <div class="ui-g-12 ui-md-10" (click)="openDropdown()" style="cursor: pointer;
+                        overflow: hidden;
+                        height: 23px;
+                        white-space: nowrap;
+						padding-top: 2px;
+                        text-overflow: ellipsis;" *ngIf="selectedVersion != null">
+                          <label>{{selectedVersion}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-10" (click)="openDropdown()" style="cursor: pointer;
+                        overflow: hidden;
+                        height: 23px;
+                        white-space: nowrap;
+						padding-top: 2px;
+                        text-overflow: ellipsis;" *ngIf="selectedVersion == null">
+                          <label>{{'frmMapObjekModultoKelompokUser_pilihVersion' | translate | splitCharT }}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-2" style="text-align: right" style="cursor: pointer;padding-top: 2px;"
+                          (click)="openDropdown()">
+                          <span class="ui-clickable fa fa-fw fa-caret-down" ng-reflect-klass="ui-clickable"
+                            ng-reflect-ng-class="fa fa-fw fa-caret-down"></span>
+                        </div>
+                        <div class="ui-g-12 ui-md-12"
+                          style="z-index: 1;border:1px solid #cfcfcf; width: 14vw;background: #ffffff;display: none;position: relative; margin: 1.368px 1.4px 1.4px -1px;max-height: 20vh;overflow-y: scroll;"
+                          id="dropdownTree" appendTo="body">
+                          <p-tree [style]="{'border':'0px','background': '#ffffff'}" [value]="listVersion"
+                            selectionMode="single" [(selection)]="selectedFilesVersion" (onNodeSelect)="nodeSelect($event)"
+                            (onNodeUnselect)="nodeUnselect($event)">
+                          </p-tree>
+                        </div>
+                      </div>
+											<!-- <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+												formControlName="kdVersion" [options]="listDropdownVersion" [autoWidth]="false">
+											</p-dropdown> -->
+										</div>
+
+								
+								<p-fieldset legend="{{'frmMapObjekModultoKelompokUser_kelompokUser'| translate | splitCharT}}">
+									<div class="ui-g-6 ui-md-12">
+										<p-dataTable [value]="listKelompok" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,20]"
+										 selectionMode="single" [(selection)]="selectedKelompokUser" scrollable="true" (onRowSelect)="pilihObjekModul($event)">
+											<p-column field="nomorUrut" header="{{'frmMapObjekModultoKelompokUser_tableNomor'| translate | splitCharT}}" [editable]="false"
+											 [style]="{'width':'50px'}"></p-column>
+											<p-column field="namaKelompokUser" header="{{'frmMapObjekModultoKelompokUser_tableKelompokUser'| translate | splitCharT}}"
+											 [editable]="false" [style]="{'width':'250px'}"></p-column>
+										</p-dataTable>
+									</div>
+								</p-fieldset>
+							</div>
+
+							<div class="ui-g-8">
+								<p-fieldset legend="{{'frmMapObjekModultoKelompokUser_ObjekModul'| translate | splitCharT}}">
+
+									<div class="ui-g-6 ui-md-12" hidden="true">
+										<p-dataTable [value]="listData" rowGroupMode="subheader" groupField="nama" [rows]="10" [paginator]="true"
+										 [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [scrollable]="true" [totalRecords]="totalRecords"
+										 (onLazyLoad)="loadPage($event)" [globalFilter]="gb">
+											<p-header>
+												<div class="ui-helper-clearfix">
+													<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+													<input type="text" pInputText size="50" placeholder="{{'frmMapObjekModultoKelompokUser_Pencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+													 #gb style="width: 20%;float:right;" [ngModelOptions]="{standalone: true}">
+												</div>
+											</p-header>
+											<p-headerColumnGroup>
+												<p-row>
+													<p-column rowspan="2" [style]="{'width':'30px'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_tableObjekModul'| translate | splitCharT }}" rowspan="2" [style]="{'width':'200px'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_hakAkses'| translate | splitCharT }}" colspan="6" [style]="{'width':'300px', 'text-align': 'center'}"></p-column>
+												</p-row>
+												<p-row>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_btnCetak'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_btnTampil'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_btnTambah'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_btnUbah'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_btnHapus'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_pilihSemua'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+												</p-row>
+											</p-headerColumnGroup>
+											<ng-template pTemplate="rowgroupheader" let-rowData>
+												<span style="color: rgba(143, 143, 143, 0.925)">{{rowData['nama']}}</span>
+											</ng-template>
+											<p-column field="cek" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template pTemplate="body" let-data="rowData" let-col>
+													<p-checkbox binary="true" (onChange)="changeCheckbox($event)" [ngModel]="data.kode !== null"
+													 [ngModelOptions]="{standalone: true}"></p-checkbox>
+												</ng-template>
+											</p-column>
+											<p-column field="statusEnabled" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+													<span hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }} : {{data[col.field]}}</span>
+												</ng-template>
+											</p-column>
+											<p-column field="kdModulAplikasi" [hidden]="true"></p-column>
+											<p-column field="kode" [hidden]="true"></p-column>
+											<p-column field="namaObjekModulAplikasi" [editable]="false" [style]="{'width':'180px'}"></p-column>
+											<p-column field="bcetak" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<span *ngIf="data.statusEnabled">
+														<p-checkbox binary="true" (onChange)="changeCheckbox($event,ri,0)" [(ngModel)]="data[col.field]"
+														 [ngModelOptions]="{standalone: true}"></p-checkbox>
+													</span>
+													<span *ngIf="!data.statusEnabled"> - </span>
+													<span hidden>{{'frmMapObjekModultoKelompokUser_cetak'| translate | splitCharT }} : {{data[col.field]}}</span>
+												</ng-template>
+											</p-column>
+											<p-column field="btampil" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<span *ngIf="data.statusEnabled==true">
+														<p-checkbox binary="true" (onChange)="changeCheckbox($event,ri,1)" [(ngModel)]="data[col.field]"
+														 [ngModelOptions]="{standalone: true}"></p-checkbox>
+													</span>
+													<span *ngIf="!data.statusEnabled"> - </span>
+													<span hidden>{{'frmMapObjekModultoKelompokUser_tampil'| translate | splitCharT }} : {{data[col.field]}}</span>
+												</ng-template>
+											</p-column>
+											<p-column field="bsimpan" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<span *ngIf="data.statusEnabled">
+														<p-checkbox binary="true" (onChange)="changeCheckbox($event,ri,2)" [(ngModel)]="data[col.field]"
+														 [ngModelOptions]="{standalone: true}"></p-checkbox>
+													</span>
+													<span *ngIf="!data.statusEnabled"> - </span>
+													<span hidden>{{'frmMapObjekModultoKelompokUser_simpan'| translate | splitCharT }} : {{data[col.field]}}</span>
+												</ng-template>
+											</p-column>
+											<p-column field="bubah" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<span *ngIf="data.statusEnabled">
+														<p-checkbox binary="true" (onChange)="changeCheckbox($event,ri,3)" [(ngModel)]="data[col.field]"
+														 [ngModelOptions]="{standalone: true}"></p-checkbox>
+													</span>
+													<span *ngIf="!data.statusEnabled"> - </span>
+													<span hidden>{{'frmMapObjekModultoKelompokUser_ubah'| translate | splitCharT }} : {{data[col.field]}}</span>
+												</ng-template>
+											</p-column>
+											<p-column field="bhapus" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<span *ngIf="data.statusEnabled">
+														<p-checkbox binary="true" (onChange)="changeCheckbox($event,ri,4)" [(ngModel)]="data[col.field]"
+														 [ngModelOptions]="{standalone: true}"></p-checkbox>
+													</span>
+													<span *ngIf="!data.statusEnabled"> - </span>
+													<span hidden>{{'frmMapObjekModultoKelompokUser_hapus'| translate | splitCharT }} : {{data[col.field]}}</span>
+												</ng-template>
+											</p-column>
+											<p-column field="cek" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<span *ngIf="data.statusEnabled">
+														<p-checkbox binary="true" (onChange)="changeAll($event,ri)" [(ngModel)]="data[col.field]"
+														 [ngModelOptions]="{standalone: true}"></p-checkbox>
+													</span>
+													<span *ngIf="!data.statusEnabled"> - </span>
+													<span hidden>{{'frmMapObjekModultoKelompokUser_cek'| translate | splitCharT }} : {{data[col.field]}}</span>
+												</ng-template>
+											</p-column>
+										</p-dataTable>
+									</div>
+
+
+
+									<div class="ui-g-6 ui-md-12">
+										<!-- parent -->
+										<div class="treeD">
+										<p-dataTable [value]="listDataTesting" rowGroupMode="subheader" groupField="nama" [rows]="20" [paginator]="true"
+										 [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [scrollable]="true" [totalRecords]="totalRecords"
+										 (onLazyLoad)="loadPage($event)" [globalFilter]="gb" expandableRows="true" #dtEn>
+											<p-headerColumnGroup>
+												<p-row>
+													<p-column rowspan="2" [style]="{'width':'30px'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_tableObjekModul'| translate | splitCharT }}" rowspan="2" [style]="{'width':'250px'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_hakAkses'| translate | splitCharT }}" colspan="6" [style]="{'width':'350px', 'text-align': 'center'}"></p-column>
+												</p-row>
+												<p-row>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_btnCetak'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_btnTampil'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_btnTambah'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_btnUbah'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_btnHapus'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+													<p-column header="{{'frmMapObjekModultoKelompokUser_pilihSemua'| translate | splitCharT }}" [style]="{'width':'50px', 'text-align': 'center'}"></p-column>
+													<!-- <p-column header="isParent" [style]="{'width':'50px', 'text-align': 'center'}"></p-column> -->
+												</p-row>
+											</p-headerColumnGroup>
+											<ng-template pTemplate="rowgroupheader" let-rowData>
+												<span style="color: rgba(143, 143, 143, 0.925)">{{rowData['nama']}}</span>
+											</ng-template>
+
+											<!-- <span> -->
+											<!-- <p-column [style]="{'width':'50px'}" [expander]="!kdObjekModulAplikasiHead==null"> -->
+											<!-- <ng-template let-data="rowData" let-i="rowIndex">
+												<span *ngIf="kdObjekModulAplikasiHead[i] !== null">
+													<p-column [style]="{'width':'50px'}" [expander]="true"></p-column>
+												</span>
+												<span *ngIf="kdObjekModulAplikasiHead[i] == null">
+													<p-column [style]="{'width':'50px'}" ></p-column>
+												</span>												
+											</ng-template> -->
+											<!-- </p-column> -->
+											<!-- </span> -->
+
+											<p-column styleClass="col-icon" [style]="{'width':'50px', 'text-align': 'left'}">
+												<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+													<button type="button" *ngIf="col.children.length !== 0" (click)="toggleCoba(col, dtEn)" style="margin-left: 0px;border: none;background: no-repeat;"><i
+														 class="fa fa-chevron-circle-right"></i></button>
+												</ng-template>
+											</p-column>
+											<p-column field="statusEnabled" [style]="{'width':'50px', 'text-align': 'left'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" (onChange)="isParentChecked($event,data,ri)"
+													 [style]="{'margin-left':'0px'}"></p-checkbox>
+													<span hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }} : {{data[col.field]}}</span>
+												</ng-template>
+											</p-column>
+											<p-column field="kdModulAplikasi" [hidden]="true"></p-column>
+											<p-column field="kode" [hidden]="true"></p-column>
+											<p-column field="namaObjekModulAplikasi" [editable]="false" [style]="{'width':'200px'}"></p-column>
+											<p-column field="bcetak" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<!-- <span *ngIf="!data.isParent"> -->
+													<span *ngIf="data.children.length ==0">
+														<span *ngIf="data.statusEnabled">
+															<p-checkbox binary="true" (onChange)="changeCheckbox2($event,ri,0)" [(ngModel)]="data[col.field]"
+															 [ngModelOptions]="{standalone: true}"></p-checkbox>
+														</span>
+														<span *ngIf="!data.statusEnabled"> - </span>
+														<span hidden>{{'frmMapObjekModultoKelompokUser_cetak'| translate | splitCharT }} : {{data[col.field]}}</span>
+													</span>
+												</ng-template>
+											</p-column>
+											<p-column field="btampil" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<!-- <span *ngIf="!data.isParent"> -->
+													<span *ngIf="data.children.length ==0">
+														<span *ngIf="data.statusEnabled==true">
+															<p-checkbox binary="true" (onChange)="changeCheckbox2($event,ri,1)" [(ngModel)]="data[col.field]"
+															 [ngModelOptions]="{standalone: true}"></p-checkbox>
+														</span>
+														<span *ngIf="!data.statusEnabled"> - </span>
+														<span hidden>{{'frmMapObjekModultoKelompokUser_tampil'| translate | splitCharT }} : {{data[col.field]}}</span>
+													</span>
+												</ng-template>
+											</p-column>
+											<p-column field="bsimpan" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<!-- <span *ngIf="!data.isParent"> -->
+													<span *ngIf="data.children.length ==0">
+														<span *ngIf="data.statusEnabled">
+															<p-checkbox binary="true" (onChange)="changeCheckbox2($event,ri,2)" [(ngModel)]="data[col.field]"
+															 [ngModelOptions]="{standalone: true}"></p-checkbox>
+														</span>
+														<span *ngIf="!data.statusEnabled"> - </span>
+														<span hidden>{{'frmMapObjekModultoKelompokUser_simpan'| translate | splitCharT }} : {{data[col.field]}}</span>
+													</span>
+												</ng-template>
+											</p-column>
+											<p-column field="bubah" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<!-- <span *ngIf="!data.isParent"> -->
+													<span *ngIf="data.children.length ==0">
+														<span *ngIf="data.statusEnabled">
+															<p-checkbox binary="true" (onChange)="changeCheckbox2($event,ri,3)" [(ngModel)]="data[col.field]"
+															 [ngModelOptions]="{standalone: true}"></p-checkbox>
+														</span>
+														<span *ngIf="!data.statusEnabled"> - </span>
+														<span hidden>{{'frmMapObjekModultoKelompokUser_ubah'| translate | splitCharT }} : {{data[col.field]}}</span>
+													</span>
+												</ng-template>
+											</p-column>
+											<p-column field="bhapus" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<!-- <span *ngIf="!data.isParent"> -->
+													<span *ngIf="data.children.length ==0">
+														<span *ngIf="data.statusEnabled">
+															<p-checkbox binary="true" (onChange)="changeCheckbox2($event,ri,4)" [(ngModel)]="data[col.field]"
+															 [ngModelOptions]="{standalone: true}"></p-checkbox>
+														</span>
+														<span *ngIf="!data.statusEnabled"> - </span>
+														<span hidden>{{'frmMapObjekModultoKelompokUser_hapus'| translate | splitCharT }} : {{data[col.field]}}</span>
+													</span>
+												</ng-template>
+											</p-column>
+											<p-column field="cek" [style]="{'width':'50px', 'text-align': 'center'}">
+												<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+													<!-- <span *ngIf="!data.isParent"> -->
+													<span *ngIf="data.children.length ==0">
+														<span *ngIf="data.statusEnabled">
+															<p-checkbox binary="true" (onChange)="changeAll2($event,ri)" [(ngModel)]="data[col.field]"
+															 [ngModelOptions]="{standalone: true}"></p-checkbox>
+														</span>
+														<span *ngIf="!data.statusEnabled"> - </span>
+														<span hidden>{{'frmMapObjekModultoKelompokUser_cek'| translate | splitCharT }} : {{data[col.field]}}</span>
+													</span>
+												</ng-template>
+											</p-column>
+											<!-- <p-column field="isParent" [style]="{'width':'50px', 'text-align': 'center'}" hidden="true">
+											<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+												<span *ngIf="data.isParent == true">
+													yaaaaaaaaaa
+												</span>
+												<span *ngIf="!data.statusEnabled"> - </span>
+
+											</ng-template>
+										</p-column> -->
+
+
+											<!-- anak -->
+											<ng-template let-data="rowData" let-ri="rowIndex" pTemplate="rowexpansion">
+												<p-dataTable [value]="listDataTesting[ri].children" [editable]="true" expandableRows="true" #dtEnAnak>
+
+													<p-column styleClass="col-icon" [style]="{'width':'50px', 'text-align': 'left'}">
+														<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+															<button type="button" *ngIf="col.children.length !== 0" (click)="toggleCoba(col, dtEnAnak)" style="margin-left: 10px;border: none;background: no-repeat;"><i
+																 class="fa fa-chevron-circle-right"></i></button>
+
+														</ng-template>
+													</p-column>
+													<!-- <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column> -->
+													<p-column field="statusEnabled" [style]="{'width':'50px', 'text-align': 'left'}">
+														<ng-template let-col pTemplate="body" let-riAnak="rowIndex" let-data="rowData">
+															<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" (onChange)="isParentChecked($event,data,ri)"
+															 [style]="{'margin-left':'15px'}"></p-checkbox>
+															<span hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }} : {{data[col.field]}}</span>
+														</ng-template>
+													</p-column>
+													<p-column field="kdModulAplikasi" [hidden]="true"></p-column>
+													<p-column field="kode" [hidden]="true"></p-column>
+													<p-column field="namaObjekModulAplikasi" [editable]="false" [style]="{'width':'200px'}"></p-column>
+													<p-column field="bcetak" [style]="{'width':'50px', 'text-align': 'center'}">
+														<ng-template let-col pTemplate="body" let-riAnak="rowIndex" let-data="rowData">
+															<!-- <span *ngIf="!data.isParent"> -->
+															<span *ngIf="data.children.length ==0">
+																<span *ngIf="data.statusEnabled">
+																	<p-checkbox binary="true" (onChange)="changeCheckboxAnak($event,ri,0,riAnak)" [(ngModel)]="data[col.field]"
+																	 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																</span>
+																<span *ngIf="!data.statusEnabled"> - </span>
+																<span hidden>{{'frmMapObjekModultoKelompokUser_cetak'| translate | splitCharT }} : {{data[col.field]}}</span>
+															</span>
+														</ng-template>
+													</p-column>
+													<p-column field="btampil" [style]="{'width':'50px', 'text-align': 'center'}">
+														<ng-template let-col pTemplate="body" let-riAnak="rowIndex" let-data="rowData">
+															<!-- <span *ngIf="!data.isParent"> -->
+															<span *ngIf="data.children.length ==0">
+																<span *ngIf="data.statusEnabled==true">
+																	<p-checkbox binary="true" (onChange)="changeCheckboxAnak($event,ri,1,riAnak)" [(ngModel)]="data[col.field]"
+																	 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																</span>
+																<span *ngIf="!data.statusEnabled"> - </span>
+																<span hidden>{{'frmMapObjekModultoKelompokUser_tampil'| translate | splitCharT }} : {{data[col.field]}}</span>
+															</span>
+														</ng-template>
+													</p-column>
+													<p-column field="bsimpan" [style]="{'width':'50px', 'text-align': 'center'}">
+														<ng-template let-col pTemplate="body" let-riAnak="rowIndex" let-data="rowData">
+															<!-- <span *ngIf="!data.isParent">															 -->
+															<span *ngIf="data.children.length ==0">
+																<span *ngIf="data.statusEnabled">
+																	<p-checkbox binary="true" (onChange)="changeCheckboxAnak($event,ri,2,riAnak)" [(ngModel)]="data[col.field]"
+																	 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																</span>
+																<span *ngIf="!data.statusEnabled"> - </span>
+																<span hidden>{{'frmMapObjekModultoKelompokUser_simpan'| translate | splitCharT }} : {{data[col.field]}}</span>
+															</span>
+														</ng-template>
+													</p-column>
+													<p-column field="bubah" [style]="{'width':'50px', 'text-align': 'center'}">
+														<ng-template let-col pTemplate="body" let-riAnak="rowIndex" let-data="rowData">
+															<!-- <span *ngIf="!data.isParent"> -->
+															<span *ngIf="data.children.length ==0">
+																<span *ngIf="data.statusEnabled">
+																	<p-checkbox binary="true" (onChange)="changeCheckboxAnak($event,ri,3,riAnak)" [(ngModel)]="data[col.field]"
+																	 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																</span>
+																<span *ngIf="!data.statusEnabled"> - </span>
+																<span hidden>{{'frmMapObjekModultoKelompokUser_ubah'| translate | splitCharT }} : {{data[col.field]}}</span>
+															</span>
+														</ng-template>
+													</p-column>
+													<p-column field="bhapus" [style]="{'width':'50px', 'text-align': 'center'}">
+														<ng-template let-col pTemplate="body" let-riAnak="rowIndex" let-data="rowData">
+															<!-- <span *ngIf="!data.isParent"> -->
+															<span *ngIf="data.children.length ==0">
+																<span *ngIf="data.statusEnabled">
+																	<p-checkbox binary="true" (onChange)="changeCheckboxAnak($event,ri,4,riAnak)" [(ngModel)]="data[col.field]"
+																	 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																</span>
+																<span *ngIf="!data.statusEnabled"> - </span>
+																<span hidden>{{'frmMapObjekModultoKelompokUser_hapus'| translate | splitCharT }} : {{data[col.field]}}</span>
+															</span>
+														</ng-template>
+													</p-column>
+													<p-column field="cek" [style]="{'width':'50px', 'text-align': 'center'}">
+														<ng-template let-col pTemplate="body" let-riAnak="rowIndex" let-data="rowData">
+															<!-- <span *ngIf="!data.isParent"> -->
+															<span *ngIf="data.children.length ==0">
+																<span *ngIf="data.statusEnabled">
+																	<p-checkbox binary="true" (onChange)="changeAllAnak($event,ri, riAnak)" [(ngModel)]="data[col.field]"
+																	 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																</span>
+																<span *ngIf="!data.statusEnabled"> - </span>
+																<span hidden>{{'frmMapObjekModultoKelompokUser_cek'| translate | splitCharT }} : {{data[col.field]}}</span>
+															</span>
+														</ng-template>
+													</p-column>
+													<!-- <p-column field="isParent" [style]="{'width':'50px', 'text-align': 'center'}" hidden="true">
+													<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+														<span *ngIf="data.isParent == true">
+															yaaaaaaaaaa
+														</span>
+														<span *ngIf="!data.statusEnabled"> - </span>
+
+													</ng-template>
+												</p-column> -->
+
+
+													<!-- cucu -->
+													<ng-template let-dataAnak="rowData" let-riAnak="rowIndex" pTemplate="rowexpansion">
+														<p-dataTable [value]="listDataTesting[ri].children[riAnak].children" [editable]="true" expandableRows="true"
+														 #dtEnCucu>
+
+															<p-column styleClass="col-icon" [style]="{'width':'50px', 'text-align': 'left'}">
+																<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+																	<button type="button" *ngIf="col.children.length !== 0" (click)="toggleCoba(col, dtEnCucu)" style="margin-left: 20px;border: none;background: no-repeat;"><i
+																		 class="fa fa-chevron-circle-right"></i></button>
+
+																</ng-template>
+															</p-column>
+															<!-- <p-column [expander]="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column> -->
+															<p-column field="statusEnabled" [style]="{'width':'50px', 'text-align': 'left'}">
+																<ng-template let-col pTemplate="body" let-riCucu="rowIndex" let-data="rowData">
+																	<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+																	 (onChange)="isParentChecked($event,data,ri)" [style]="{'margin-left':'30px'}"></p-checkbox>
+																	<span hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }} : {{data[col.field]}}</span>
+																</ng-template>
+															</p-column>
+															<p-column field="kdModulAplikasi" [hidden]="true"></p-column>
+															<p-column field="kode" [hidden]="true"></p-column>
+															<p-column field="namaObjekModulAplikasi" [editable]="false" [style]="{'width':'200px'}"></p-column>
+															<p-column field="bcetak" [style]="{'width':'50px', 'text-align': 'center'}">
+																<ng-template let-col pTemplate="body" let-riCucu="rowIndex" let-data="rowData">
+																	<!-- <span *ngIf="!data.isParent"> -->
+																	<span *ngIf="data.children.length ==0">
+																		<span *ngIf="data.statusEnabled">
+																			<p-checkbox binary="true" (onChange)="changeCheckboxCucu($event,ri,0, riAnak, riCucu)" [(ngModel)]="data[col.field]"
+																			 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																		</span>
+																		<span *ngIf="!data.statusEnabled"> - </span>
+																		<span hidden>{{'frmMapObjekModultoKelompokUser_cetak'| translate | splitCharT }} : {{data[col.field]}}</span>
+																	</span>
+																</ng-template>
+															</p-column>
+															<p-column field="btampil" [style]="{'width':'50px', 'text-align': 'center'}">
+																<ng-template let-col pTemplate="body" let-riCucu="rowIndex" let-data="rowData">
+																	<!-- <span *ngIf="!data.isParent"> -->
+																	<span *ngIf="data.children.length ==0">
+																		<span *ngIf="data.statusEnabled==true">
+																			<p-checkbox binary="true" (onChange)="changeCheckboxCucu($event,ri,1, riAnak, riCucu)" [(ngModel)]="data[col.field]"
+																			 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																		</span>
+																		<span *ngIf="!data.statusEnabled"> - </span>
+																		<span hidden>{{'frmMapObjekModultoKelompokUser_tampil'| translate | splitCharT }} : {{data[col.field]}}</span>
+																	</span>
+																</ng-template>
+															</p-column>
+															<p-column field="bsimpan" [style]="{'width':'50px', 'text-align': 'center'}">
+																<ng-template let-col pTemplate="body" let-riCucu="rowIndex" let-data="rowData">
+																	<!-- <span *ngIf="!data.isParent"> -->
+																	<span *ngIf="data.children.length ==0">
+																		<span *ngIf="data.statusEnabled">
+																			<p-checkbox binary="true" (onChange)="changeCheckboxCucu($event,ri,2, riAnak, riCucu)" [(ngModel)]="data[col.field]"
+																			 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																		</span>
+																		<span *ngIf="!data.statusEnabled"> - </span>
+																		<span hidden>{{'frmMapObjekModultoKelompokUser_simpan'| translate | splitCharT }} : {{data[col.field]}}</span>
+																	</span>
+																</ng-template>
+															</p-column>
+															<p-column field="bubah" [style]="{'width':'50px', 'text-align': 'center'}">
+																<ng-template let-col pTemplate="body" let-riCucu="rowIndex" let-data="rowData">
+																	<!-- <span *ngIf="!data.isParent"> -->
+																	<span *ngIf="data.children.length ==0">
+																		<span *ngIf="data.statusEnabled">
+																			<p-checkbox binary="true" (onChange)="changeCheckboxCucu($event,ri,3, riAnak, riCucu)" [(ngModel)]="data[col.field]"
+																			 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																		</span>
+																		<span *ngIf="!data.statusEnabled"> - </span>
+																		<span hidden>{{'frmMapObjekModultoKelompokUser_ubah'| translate | splitCharT }} : {{data[col.field]}}</span>
+																	</span>
+																</ng-template>
+															</p-column>
+															<p-column field="bhapus" [style]="{'width':'50px', 'text-align': 'center'}">
+																<ng-template let-col pTemplate="body" let-riCucu="rowIndex" let-data="rowData">
+																	<!-- <span *ngIf="!data.isParent"> -->
+																	<span *ngIf="data.children.length ==0">
+																		<span *ngIf="data.statusEnabled">
+																			<p-checkbox binary="true" (onChange)="changeCheckboxCucu($event,ri,4, riAnak, riCucu)" [(ngModel)]="data[col.field]"
+																			 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																		</span>
+																		<span *ngIf="!data.statusEnabled"> - </span>
+																		<span hidden>{{'frmMapObjekModultoKelompokUser_hapus'| translate | splitCharT }} : {{data[col.field]}}</span>
+																	</span>
+																</ng-template>
+															</p-column>
+															<p-column field="cek" [style]="{'width':'50px', 'text-align': 'center'}">
+																<ng-template let-col pTemplate="body" let-riCucu="rowIndex" let-data="rowData">
+																	<!-- <span *ngIf="!data.isParent"> -->
+																	<span *ngIf="data.children.length ==0">
+																		<span *ngIf="data.statusEnabled">
+																			<p-checkbox binary="true" (onChange)="changeAllCucu($event,ri,riAnak,riCucu)" [(ngModel)]="data[col.field]"
+																			 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																		</span>
+																		<span *ngIf="!data.statusEnabled"> - </span>
+																		<span hidden>{{'frmMapObjekModultoKelompokUser_cek'| translate | splitCharT }} : {{data[col.field]}}</span>
+																	</span>
+																</ng-template>
+															</p-column>
+															<!-- <p-column field="isParent" [style]="{'width':'50px', 'text-align': 'center'}" hidden="true">
+															<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+																<span *ngIf="data.isParent == true">
+																	yaaaaaaaaaa
+																</span>
+																<span *ngIf="!data.statusEnabled"> - </span>
+
+															</ng-template>
+														</p-column> -->
+
+															<!-- empat -->
+															<ng-template let-dataCucu="rowData" let-riCucu="rowIndex" pTemplate="rowexpansion">
+																<p-dataTable [value]="listDataTesting[ri].children[riAnak].children[riCucu].children" [editable]="true"
+																 expandableRows="true" #dtEnEmpat>
+
+																	<p-column styleClass="col-icon" [style]="{'width':'50px', 'text-align': 'left'}">
+																		<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+
+																			<button type="button" *ngIf="col.children.length !== 0" (click)="toggleCoba(col, dtEnEmpat)" style="margin-left: 30px;border: none;background: no-repeat;"><i
+																				 class="fa fa-chevron-circle-right"></i></button>
+
+																		</ng-template>
+																	</p-column>
+																	<!-- <p-column [expander]="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column> -->
+																	<p-column field="statusEnabled" [style]="{'width':'50px', 'text-align': 'left'}">
+																		<ng-template let-col pTemplate="body" let-riEmpat="rowIndex" let-data="rowData">
+																			<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+																			 (onChange)="isParentChecked($event,data,ri)" [style]="{'margin-left':'45px'}"></p-checkbox>
+																			<span hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }} : {{data[col.field]}}</span>
+																		</ng-template>
+																	</p-column>
+																	<p-column field="kdModulAplikasi" [hidden]="true"></p-column>
+																	<p-column field="kode" [hidden]="true"></p-column>
+																	<p-column field="namaObjekModulAplikasi" [editable]="false" [style]="{'width':'200px'}"></p-column>
+																	<p-column field="bcetak" [style]="{'width':'50px', 'text-align': 'center'}">
+																		<ng-template let-col pTemplate="body" let-riEmpat="rowIndex" let-data="rowData">
+																			<!-- <span *ngIf="!data.isParent"> -->
+																			<span *ngIf="data.children.length ==0">
+																				<span *ngIf="data.statusEnabled">
+																					<p-checkbox binary="true" (onChange)="changeCheckboxEmpat($event,ri,0, riAnak, riCucu, riEmpat)"
+																					 [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+																				</span>
+																				<span *ngIf="!data.statusEnabled"> - </span>
+																				<span hidden>{{'frmMapObjekModultoKelompokUser_cetak'| translate | splitCharT }} : {{data[col.field]}}</span>
+																			</span>
+																		</ng-template>
+																	</p-column>
+																	<p-column field="btampil" [style]="{'width':'50px', 'text-align': 'center'}">
+																		<ng-template let-col pTemplate="body" let-riEmpat="rowIndex" let-data="rowData">
+																			<!-- <span *ngIf="!data.isParent"> -->
+																			<span *ngIf="data.children.length ==0">
+																				<span *ngIf="data.statusEnabled==true">
+																					<p-checkbox binary="true" (onChange)="changeCheckboxEmpat($event,ri,1, riAnak, riCucu,riEmpat)"
+																					 [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+																				</span>
+																				<span *ngIf="!data.statusEnabled"> - </span>
+																				<span hidden>{{'frmMapObjekModultoKelompokUser_tampil'| translate | splitCharT }} : {{data[col.field]}}</span>
+																			</span>
+																		</ng-template>
+																	</p-column>
+																	<p-column field="bsimpan" [style]="{'width':'50px', 'text-align': 'center'}">
+																		<ng-template let-col pTemplate="body" let-riEmpat="rowIndex" let-data="rowData">
+																			<!-- <span *ngIf="!data.isParent"> -->
+																			<span *ngIf="data.children.length ==0">
+																				<span *ngIf="data.statusEnabled">
+																					<p-checkbox binary="true" (onChange)="changeCheckboxEmpat($event,ri,2, riAnak, riCucu,riEmpat)"
+																					 [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+																				</span>
+																				<span *ngIf="!data.statusEnabled"> - </span>
+																				<span hidden>{{'frmMapObjekModultoKelompokUser_simpan'| translate | splitCharT }} : {{data[col.field]}}</span>
+																			</span>
+																		</ng-template>
+																	</p-column>
+																	<p-column field="bubah" [style]="{'width':'50px', 'text-align': 'center'}">
+																		<ng-template let-col pTemplate="body" let-riEmpat="rowIndex" let-data="rowData">
+																			<!-- <span *ngIf="!data.isParent"> -->
+																			<span *ngIf="data.children.length ==0">
+																				<span *ngIf="data.statusEnabled">
+																					<p-checkbox binary="true" (onChange)="changeCheckboxEmpat($event,ri,3, riAnak, riCucu,riEmpat)"
+																					 [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+																				</span>
+																				<span *ngIf="!data.statusEnabled"> - </span>
+																				<span hidden>{{'frmMapObjekModultoKelompokUser_ubah'| translate | splitCharT }} : {{data[col.field]}}</span>
+																			</span>
+																		</ng-template>
+																	</p-column>
+																	<p-column field="bhapus" [style]="{'width':'50px', 'text-align': 'center'}">
+																		<ng-template let-col pTemplate="body" let-riEmpat="rowIndex" let-data="rowData">
+																			<!-- <span *ngIf="!data.isParent"> -->
+																			<span *ngIf="data.children.length ==0">
+																				<span *ngIf="data.statusEnabled">
+																					<p-checkbox binary="true" (onChange)="changeCheckboxEmpat($event,ri,4, riAnak, riCucu,riEmpat)"
+																					 [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+																				</span>
+																				<span *ngIf="!data.statusEnabled"> - </span>
+																				<span hidden>{{'frmMapObjekModultoKelompokUser_hapus'| translate | splitCharT }} : {{data[col.field]}}</span>
+																			</span>
+																		</ng-template>
+																	</p-column>
+																	<p-column field="cek" [style]="{'width':'50px', 'text-align': 'center'}">
+																		<ng-template let-col pTemplate="body" let-riEmpat="rowIndex" let-data="rowData">
+																			<!-- <span *ngIf="!data.isParent"> -->
+																			<span *ngIf="data.children.length ==0">
+																				<span *ngIf="data.statusEnabled">
+																					<p-checkbox binary="true" (onChange)="changeAllEmpat($event,ri,riAnak,riCucu,riEmpat)" [(ngModel)]="data[col.field]"
+																					 [ngModelOptions]="{standalone: true}"></p-checkbox>
+																				</span>
+																				<span *ngIf="!data.statusEnabled"> - </span>
+																				<span hidden>{{'frmMapObjekModultoKelompokUser_cek'| translate | splitCharT }} : {{data[col.field]}}</span>
+																			</span>
+																		</ng-template>
+																	</p-column>
+																	<!-- <p-column field="isParent" [style]="{'width':'50px', 'text-align': 'center'}" hidden="true">
+																	<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+																		<span *ngIf="data.isParent == true">
+																			yaaaaaaaaaa
+																		</span>
+																		<span *ngIf="!data.statusEnabled"> - </span>
+
+																	</ng-template>
+																</p-column> -->
+
+																	<!-- lima -->
+																	<ng-template let-dataEmpat="rowData" let-riEmpat="rowIndex" pTemplate="rowexpansion">
+																		<p-dataTable [value]="listDataTesting[ri].children[riAnak].children[riCucu].children[riEmpat].children"
+																		 [editable]="true" #dtEnLima>
+																			<!-- expandableRows="true" -->
+
+																			<p-column styleClass="col-icon" [style]="{'width':'50px', 'text-align': 'left'}">
+																				<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+
+																					<button type="button" *ngIf="col.children.length !== 0" (click)="toggleCoba(col, dtEnLima)" style="margin-left: 40px;border: none;background: no-repeat;"><i
+																						 class="fa fa-chevron-circle-right"></i></button>
+
+																				</ng-template>
+																			</p-column>
+																			<!-- <p-column styleClass="col-icon" [style]="{'width':'50px', 'text-align': 'left'}"></p-column> -->
+																			<p-column field="statusEnabled" [style]="{'width':'50px', 'text-align': 'left'}">
+																				<ng-template let-col pTemplate="body" let-riLima="rowIndex" let-data="rowData">
+																					<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+																					 (onChange)="isParentChecked($event,data,ri)" [style]="{'margin-left':'60px'}"></p-checkbox>
+																					<span hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }} : {{data[col.field]}}</span>
+																				</ng-template>
+																			</p-column>
+																			<p-column field="kdModulAplikasi" [hidden]="true"></p-column>
+																			<p-column field="kode" [hidden]="true"></p-column>
+																			<p-column field="namaObjekModulAplikasi" [editable]="false" [style]="{'width':'200px'}"></p-column>
+																			<p-column field="bcetak" [style]="{'width':'50px', 'text-align': 'center'}">
+																				<ng-template let-col pTemplate="body" let-riLima="rowIndex" let-data="rowData">
+																					<!-- <span *ngIf="!data.isParent"> -->
+																					<span *ngIf="data.children.length ==0">
+																						<span *ngIf="data.statusEnabled">
+																							<p-checkbox binary="true" (onChange)="changeCheckboxLima($event,ri,0, riAnak, riCucu, riEmpat,riLima)"
+																							 [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+																						</span>
+																						<span *ngIf="!data.statusEnabled"> - </span>
+																						<span hidden>{{'frmMapObjekModultoKelompokUser_cetak'| translate | splitCharT }} : {{data[col.field]}}</span>
+																					</span>
+																				</ng-template>
+																			</p-column>
+																			<p-column field="btampil" [style]="{'width':'50px', 'text-align': 'center'}">
+																				<ng-template let-col pTemplate="body" let-riLima="rowIndex" let-data="rowData">
+																					<!-- <span *ngIf="!data.isParent"> -->
+																					<span *ngIf="data.children.length ==0">
+																						<span *ngIf="data.statusEnabled==true">
+																							<p-checkbox binary="true" (onChange)="changeCheckboxLima($event,ri,1, riAnak, riCucu,riEmpat,riLima)"
+																							 [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+																						</span>
+																						<span *ngIf="!data.statusEnabled"> - </span>
+																						<span hidden>{{'frmMapObjekModultoKelompokUser_tampil'| translate | splitCharT }} : {{data[col.field]}}</span>
+																					</span>
+																				</ng-template>
+																			</p-column>
+																			<p-column field="bsimpan" [style]="{'width':'50px', 'text-align': 'center'}">
+																				<ng-template let-col pTemplate="body" let-riLima="rowIndex" let-data="rowData">
+																					<!-- <span *ngIf="!data.isParent"> -->
+																					<span *ngIf="data.children.length ==0">
+																						<span *ngIf="data.statusEnabled">
+																							<p-checkbox binary="true" (onChange)="changeCheckboxLima($event,ri,2, riAnak, riCucu,riEmpat,riLima)"
+																							 [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+																						</span>
+																						<span *ngIf="!data.statusEnabled"> - </span>
+																						<span hidden>{{'frmMapObjekModultoKelompokUser_simpan'| translate | splitCharT }} : {{data[col.field]}}</span>
+																					</span>
+																				</ng-template>
+																			</p-column>
+																			<p-column field="bubah" [style]="{'width':'50px', 'text-align': 'center'}">
+																				<ng-template let-col pTemplate="body" let-riLima="rowIndex" let-data="rowData">
+																					<!-- <span *ngIf="!data.isParent"> -->
+																					<span *ngIf="data.children.length ==0">
+																						<span *ngIf="data.statusEnabled">
+																							<p-checkbox binary="true" (onChange)="changeCheckboxLima($event,ri,3, riAnak, riCucu,riEmpat,riLima)"
+																							 [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+																						</span>
+																						<span *ngIf="!data.statusEnabled"> - </span>
+																						<span hidden>{{'frmMapObjekModultoKelompokUser_ubah'| translate | splitCharT }} : {{data[col.field]}}</span>
+																					</span>
+																				</ng-template>
+																			</p-column>
+																			<p-column field="bhapus" [style]="{'width':'50px', 'text-align': 'center'}">
+																				<ng-template let-col pTemplate="body" let-riLima="rowIndex" let-data="rowData">
+																					<!-- <span *ngIf="!data.isParent"> -->
+																					<span *ngIf="data.children.length ==0">
+																						<span *ngIf="data.statusEnabled">
+																							<p-checkbox binary="true" (onChange)="changeCheckboxLima($event,ri,4, riAnak, riCucu,riEmpat,riLima)"
+																							 [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+																						</span>
+																						<span *ngIf="!data.statusEnabled"> - </span>
+																						<span hidden>{{'frmMapObjekModultoKelompokUser_hapus'| translate | splitCharT }} : {{data[col.field]}}</span>
+																					</span>
+																				</ng-template>
+																			</p-column>
+																			<p-column field="cek" [style]="{'width':'50px', 'text-align': 'center'}">
+																				<ng-template let-col pTemplate="body" let-riLima="rowIndex" let-data="rowData">
+																					<!-- <span *ngIf="!data.isParent"> -->
+																					<span *ngIf="data.children.length ==0">
+																						<span *ngIf="data.statusEnabled">
+																							<p-checkbox binary="true" (onChange)="changeAllLima($event,ri,riAnak,riCucu,riEmpat,riLima)"
+																							 [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"></p-checkbox>
+																						</span>
+																						<span *ngIf="!data.statusEnabled"> - </span>
+																						<span hidden>{{'frmMapObjekModultoKelompokUser_cek'| translate | splitCharT }} : {{data[col.field]}}</span>
+																					</span>
+																				</ng-template>
+																			</p-column>
+																			<!-- <p-column field="isParent" [style]="{'width':'50px', 'text-align': 'center'}" hidden="true">
+																			<ng-template let-col pTemplate="body" let-ri="rowIndex" let-data="rowData">
+																				<span *ngIf="data.isParent == true">
+																					yaaaaaaaaaa
+																				</span>
+																				<span *ngIf="!data.statusEnabled"> - </span>
+
+																			</ng-template>
+																		</p-column> -->
+
+																		</p-dataTable>
+																	</ng-template>
+
+
+																</p-dataTable>
+															</ng-template>
+
+
+														</p-dataTable>
+													</ng-template>
+
+
+												</p-dataTable>
+											</ng-template>
+
+										</p-dataTable>
+									</div>
+									</div>
+								</p-fieldset>
+
+							</div>
+
+
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-8"></div>
+								<div class="ui-g-12 ui-md-8"></div>
+								<div class="ui-g-12 ui-md-2">
+									<button pButton type="button" label="{{'frmMapObjekModultoKelompokUser_btnSimpan'| translate | splitCharT }}" (click)="simpanMap2()" icon="fa-save"></button>
+								</div>
+								<div class="ui-g-12 ui-md-2" hidden="true">
+									<button pButton type="submit" label="{{'frmMapObjekModultoKelompokUser_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+								</div>
+								<div class="ui-g-12 ui-md-2">
+									<button pButton type="button" label="{{'frmMapObjekModultoKelompokUser_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- <div class="ui-g-6 ui-md-12">
+										<p-treeTable [value]="listObjek" selectionMode="checkbox" [(selection)]="selectedObjekModul">
+											<p-column field="name" header="Nama Objek Modul Aplikasi" [editable]="false" [style]="{'width':'150px'}"></p-column>
+											<p-column field="cetak" [style]="{'width':'50px', 'text-align': 'center'}" header="Cetak">
+												<ng-template let-col let-komponen="rowData" pTemplate="body">
+													<p-checkbox binary="true" formControlName="cetak"></p-checkbox>
+												</ng-template>
+											</p-column>
+											<p-column field="tampil" [style]="{'width':'50px', 'text-align': 'center'}" header="Tampil">
+												<ng-template let-col let-komponen="rowData" pTemplate="body">
+													<p-checkbox binary="true" formControlName="tampil"></p-checkbox>
+												</ng-template>
+											</p-column>
+											<p-column field="hapus" [style]="{'width':'50px', 'text-align': 'center'}" header="Hapus">
+												<ng-template let-col let-komponen="rowData" pTemplate="body">
+													<p-checkbox binary="true" formControlName="hapus"></p-checkbox>
+												</ng-template>
+											</p-column>
+											<p-column field="ubah" [style]="{'width':'50px', 'text-align': 'center'}" header="Ubah">
+												<ng-template let-col let-komponen="rowData" pTemplate="body">
+													<p-checkbox binary="true" formControlName="ubah"></p-checkbox>
+												</ng-template>
+											</p-column>
+											<p-column field="tambah" [style]="{'width':'50px', 'text-align': 'center'}" header="Tambah">
+												<ng-template let-col let-komponen="rowData" pTemplate="body">
+													<p-checkbox binary="true" formControlName="simpan"></p-checkbox>
+												</ng-template>
+											</p-column>
+
+										</p-treeTable>
+									</div> -->
+
+
+
+
+<!-- <p-column *ngFor="let col of listDataHakAkses; let i = index" [field]="col.nama" [header]="col.nama" [style]="{'width':'30px'}">
+														<ng-template let-col let-komponen="rowData" pTemplate="body">
+															<p-checkbox binary="true" inputId="{{i}}" [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" value={{col.kode}}></p-checkbox>
+														</ng-template>
+													</p-column> -->
+
+<!-- <div class="ui-g-6">
+								<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+									<form [formGroup]="form" (ngSubmit)="onSubmit()">
+										<div class="ui-g-12 ui-md-10">
+											<label>{{'frmMapObjekModultoKelompokUser_kodeExternal'| translate | splitCharT}}</label>
+											<input type="text" formControlName="kodeExternal" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<label>{{'frmMapObjekModultoKelompokUser_namaExternal'| translate | splitCharT}}</label>
+											<input type="text" formControlName="namaExternal" pInputText/>
+										</div>
+									</form>
+								</p-fieldset>
+							</div> -->

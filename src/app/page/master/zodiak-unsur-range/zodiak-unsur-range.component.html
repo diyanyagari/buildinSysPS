@@ -1,0 +1,132 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<form [formGroup]="form" (ngSubmit)="onSubmit()">
+					<h1>{{'frmShioUnsurRange_title'| translate | splitCharT }}</h1>
+					<div class="ui-g form-group">
+						<div class="ui-g-12">
+							<div class="ui-g-6">
+								<div class="ui-g-12 ui-md-10">
+									<label>{{'frmShioUnsurRange_negara'| translate | splitCharT}}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdNegara').valid && form.get('kdNegara').touched" style="color: red"> {{'frmShioUnsurRange_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="{{'frmShioUnsurRange_pilihNegara'| translate | splitCharT }}" formControlName="kdNegara" [options]="Negara"
+									 (ngModelChange)="getDropdownBasedNegara($event)" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmShioUnsurRange_shio'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdZodiak').valid && form.get('kdZodiak').touched" style="color: red"> {{'frmShioUnsurRange_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" [options]="listZodiak" formControlName="kdZodiak"
+									 [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmShioUnsurRange_shioUnsur'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdZodiakUnsur').valid && form.get('kdZodiakUnsur').touched" style="color: red"> {{'frmShioUnsurRange_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" [options]="listZodiakUnsur" formControlName="kdZodiakUnsur"
+									 [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmShioUnsurRange_sifat'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('sifat').valid && form.get('sifat').touched" style="color: red"> {{'frmShioUnsurRange_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" [options]="listSifat" formControlName="sifat"
+									[autoWidth]="false"></p-dropdown>
+									<!-- <input id="input" type="text" formControlName="sifat" pInputText maxlength="4" /> -->
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label>{{'frmShioUnsurRange_tanggal'| translate | splitCharT}}
+										<span style="color: red;font-weight: bolder;">*</span>
+									</label>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<app-calender [monthNavigator]="true" dateFormat="dd M yy" formControlName="tglAwal" [yearNavigator]="true" yearRange="2000:2030"
+									 [showIcon]="true" dateFormat="dd M yy" ></app-calender>
+									<span *ngIf="!form.get('tglAwal').valid && form.get('tglAwal').touched" style="color: red">*</span>
+									<span *ngIf="!form.get('tglAwal').valid && form.get('tglAwal').touched" style="color: red"> {{'frmShioUnsurRange_required'| translate | splitCharT}}</span>
+								</div>
+								<div class="ui-g-1 margin-3 text-center">
+									<label>{{'frmShioUnsurRange_s/d'| translate | splitCharT}}</label>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<app-calender [monthNavigator]="true" dateFormat="dd M yy" formControlName="tglAkhir" [yearNavigator]="true" yearRange="2000:2030"
+									 [showIcon]="true" dateFormat="dd M yy"></app-calender>
+									<span *ngIf="!form.get('tglAkhir').valid && form.get('tglAkhir').touched" style="color: red">*</span>
+									<span *ngIf="!form.get('tglAkhir').valid && form.get('tglAkhir').touched" style="color: red"> {{'frmShioUnsurRange_required'| translate | splitCharT}}</span>
+								</div>
+
+								<div class="ui-g-12 ui-md-10">
+									<p-checkbox binary="true" label="{{'frmShioUnsurRange_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'frmShioUnsurRange_required'| translate | splitCharT}}</span>
+								</div>
+							</div>
+						</div>
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-7"></div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmJenisDokumen_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="submit" label="{{'frmJenisDokumen_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmJenisDokumen_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmJenisDokumen_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<p-splitButton label="{{'frmJenisDokumen_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+
+							</div>
+						</div>
+
+
+
+					</div>
+				</form>
+				<div class="ui-g-12 ui-fluid">
+					<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+					 [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+					 [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)">
+						<p-header>
+							<div class="ui-helper-clearfix">
+								<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+								<input type="text" pInputText size="50" placeholder="{{'frmShioUnsurRange_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+								 (keyup)="cari()" style="width: 20%;float:right;">
+								<span style="float: left;padding:0.3em;">{{'frmShioUnsurRange_tableTitle'| translate | splitCharT}}</span>
+							</div>
+						</p-header>
+						<p-column field="namaZodiak" header="{{'frmShioUnsurRange_tableShio'| translate | splitCharT }}"></p-column>
+						<p-column field="namaZodiakUnsur" header="{{'frmShioUnsurRange_shioUnsur'| translate | splitCharT }}"></p-column>
+						<p-column field="sifat" header="{{'frmShioUnsurRange_tableSifat'| translate | splitCharT }}"></p-column>
+						<p-column field="tglAwal" header="{{'frmShioUnsurRange_tableTanggalAwal'| translate | splitCharT }}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								{{pick.tglAwal * 1000 | date: 'dd MMM yyyy'}}
+							</ng-template>
+						</p-column>
+						<p-column field="tglAkhir" header="{{'frmShioUnsurRange_tableTanggalAkhir'| translate | splitCharT }}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								{{pick.tglAkhir * 1000 | date: 'dd MMM yyyy'}}
+							</ng-template>
+						</p-column>
+						<p-column field="namaNegara" header="{{'frmShioUnsurRange_negara'| translate | splitCharT }}"></p-column>
+						<p-column field="statusEnabled" header="{{'frmShioUnsurRange_tableStatus'| translate | splitCharT }}">
+							<ng-template let-col="rowData" pTemplate type="body">
+								{{col.statusEnabled | truefalse | translate | splitCharT }}
+							</ng-template>
+						</p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

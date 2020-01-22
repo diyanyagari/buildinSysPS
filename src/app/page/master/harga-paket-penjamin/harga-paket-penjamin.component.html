@@ -1,0 +1,283 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmHargaPaketPenjamin_title' | translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-12">
+						<form [formGroup]="form">
+							<div class="ui-g-12  ui-md-4">
+								<!-- <div class="ui-g-12 ui-md-12" hidden>
+									<span class="ui-float-label" hidden>
+										<input id="input" type="text" hidden formControlName="kode" pInputText
+											disabled />
+										<label for="input" hidden>{{'frmHargaPaketPenjamin_kode'| translate | splitCharT}}</label>
+									</span>
+								</div> -->
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmHargaPaketPenjamin_kPasien' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('kdKelompokPasien').valid && form.get('kdKelompokPasien').touched"
+											style="color: red">{{'frmHargaPaketPenjamin_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown [disabled]="!disDropdown" id="dropdown" filter="filter"
+										class="ui-inputwrapper-filled" formControlName="kdKelompokPasien"
+										[options]="listKelompokPasien" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmHargaPaketPenjamin_penjaminPasien' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('kdRekananPenjamin').valid && form.get('kdRekananPenjamin').touched"
+											style="color: red">{{'frmHargaPaketPenjamin_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown [disabled]="!disDropdown" id="dropdown" filter="filter"
+										class="ui-inputwrapper-filled" formControlName="kdRekananPenjamin"
+										[options]="listPenjaminPasien" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmHargaPaketPenjamin_golAsuransi' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('kdGolonganAsuransi').valid && form.get('kdGolonganAsuransi').touched"
+											style="color: red">{{'frmHargaPaketPenjamin_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown [disabled]="!disDropdown" id="dropdown" filter="filter"
+										class="ui-inputwrapper-filled" formControlName="kdGolonganAsuransi"
+										[options]="listGolonganAsuransi" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmHargaPaketPenjamin_hubPeserta' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('kdHubunganPeserta').valid && form.get('kdHubunganPeserta').touched"
+											style="color: red">{{'frmHargaPaketPenjamin_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown [disabled]="!disDropdown" id="dropdown" filter="filter"
+										class="ui-inputwrapper-filled" formControlName="kdHubunganPeserta"
+										[options]="listHubunganPeserta" [autoWidth]="false"></p-dropdown>
+								</div>
+							</div>
+
+							<div class="ui-g-12 ui-md-4">
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmHargaPaketPenjamin_kelas' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdKelas').valid && form.get('kdKelas').touched"
+											style="color: red">{{'frmHargaPaketPenjamin_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown [disabled]="!disDropdown" id="dropdown" filter="filter"
+										class="ui-inputwrapper-filled" formControlName="kdKelas" [options]="listKelas"
+										[autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmHargaPaketPenjamin_paket' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdPaket').valid && form.get('kdPaket').touched"
+											style="color: red">{{'frmHargaPaketPenjamin_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown [disabled]="!disDropdown" id="dropdown" filter="filter"
+										class="ui-inputwrapper-filled" formControlName="kdPaket" [options]="listPaket"
+										[autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<label>{{'frmHargaPaketPenjamin_tglAwalBerlaku' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('tglBerlakuAwal').valid && form.get('tglBerlakuAwal').touched"
+											style="color: red">{{'frmHargaPaketPenjamin_required'| translate | splitCharT}}</span>
+									</label>
+									<app-calender [disabled]="!disDropdown" formControlName="tglBerlakuAwal"
+										dateFormat="dd M yy" [showIcon]="true" monthNavigator="true"
+										yearNavigator="true" yearRange="1850:2050"></app-calender>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<label>{{'frmHargaPaketPenjamin_tglAkhirBerlaku' | translate | splitCharT }}</label>
+									<app-calender formControlName="tglBerlakuAkhir" dateFormat="dd M yy"
+										[showIcon]="true" monthNavigator="true" yearNavigator="true"
+										yearRange="1850:2050"></app-calender>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<label>{{'frmHargaPaketPenjamin_hrgSatuan' | translate | splitCharT}}</label>
+									<div class="ui-inputgroup">
+										<span class="ui-inputgroup-addon">Rp</span>
+										<p-spinner [min]="0" (ngModelChange)="hrgSatuanChange($event)"
+											[disabled]="!disHargaSatuan" formControlName="hargaSatuan"></p-spinner>
+										<!-- <input type="number" ng-model="myDecimal | number : 2" pInputText> -->
+									</div>
+									<!-- <input currencyMask id="input" formControlName="hargaSatuan" [options]="{ prefix: '', thousands: ',', decimal: '' }" type="number" pInputText /> -->
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<label>{{'frmHargaPaketPenjamin_persenHrgSatuan'| translate | splitCharT}}</label>
+									<div class="ui-inputgroup">
+										<!-- <input id="input" formControlName="persenSatuan" type="number" pInputText /> -->
+										<p-spinner [min]="0" (ngModelChange)="persenHrgSatuanChange($event)"
+											[disabled]="!hargaSatuan" formControlName="persenHargaSatuan"></p-spinner>
+										<span class="ui-inputgroup-addon">%</span>
+										<!-- placeholder="{{40 | percent}}" -->
+									</div>
+								</div>
+							</div>
+							<div class="ui-g-12 ui-md-4">
+								<div class="ui-g-12 ui-md-6">
+									<label>{{'frmHargaPaketPenjamin_persenPenjamainSelisih' | translate | splitCharT}}</label>
+									<div class="ui-inputgroup">
+										<input id="input" min="0" onkeypress="return event.charCode != 45"
+											formControlName="persenTPenjamindrSelisih" type="number" pInputText />
+										<span class="ui-inputgroup-addon">%</span>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<label>{{'frmHargaPaketPenjamin_persenProfileSelisih' | translate | splitCharT}}</label>
+									<div class="ui-inputgroup">
+										<input id="input" min="0" onkeypress="return event.charCode != 45"
+											formControlName="persenTProfiledrSelisih" type="number" pInputText />
+										<span class="ui-inputgroup-addon">%</span>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<label>{{'frmHargaPaketPenjamin_faktorRate'| translate | splitCharT}}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('factorRate').valid && form.get('factorRate').touched"
+											style="color: red">{{'required'| translate | splitCharT}}</span>
+									</label>
+									<input id="input" min="1" onkeypress="return event.charCode != 45"
+										formControlName="factorRate" type="number" pInputText />
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<label>{{'frmHargaPaketPenjamin_maxPenjamin' | translate | splitCharT}}</label>
+									<input id="input" min="0" onkeypress="return event.charCode != 45"
+										formControlName="maxTPenjamin" type="number" pInputText />
+								</div>
+							</div>
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmHargaPaketPenjamin_btnBatal'| translate | splitCharT}}" icon="fa-refresh"
+										(click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmHargaPaketPenjamin_btnSimpan'| translate | splitCharT}}" icon="fa-save"
+										(click)="onSubmit()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmHargaPaketPenjamin_btnHapus'| translate | splitCharT}}" icon="fa-trash"
+										(click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmHargaPaketPenjamin_btnCetak'| translate | splitCharT}}" icon="fa-print"
+										(click)="cetak()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmHargaPaketPenjamin_btnExport'| translate | splitCharT }}" icon="fa-external-link"
+										[model]="items"></p-splitButton>
+								</div>
+							</div>
+
+						</form>
+					</div>
+
+					<div class="ui-g-12">
+
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+							[rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected"
+							(onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="Loading"
+							loadingIcon="fa-spinner" scrollable="true" [totalRecords]="totalRecords"
+							(onLazyLoad)="loadPage($event)">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50"
+										placeholder="{{'frmHargaPaketPenjamin_tablePencarian'| translate | splitCharT}}"
+										[(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+									<span
+										style="float: left;padding:0.3em;">{{'frmHargaPaketPenjamin_tableTitle'| translate | splitCharT}}</span>
+								</div>
+							</p-header>
+							<!-- <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column> -->
+							<p-column [style]="{'width':'50px'}" header="{{'frmHargaPaketPenjamin_tableNo'| translate | splitCharT}}">
+								<ng-template pTemplate="body" let-i="rowIndex">
+									{{i+1}}
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="namaKelompokPasien"
+								header="{{'frmHargaPaketPenjamin_tableKlmpkPasien'| translate | splitCharT}}"></p-column>
+							<p-column [style]="{'width':'150px'}" field="namaRekananPenjamin"
+								header="{{'frmHargaPaketPenjamin_tablePenjaminPasien'| translate | splitCharT}}"></p-column>
+							<p-column [style]="{'width':'150px'}" field="namaGolonganAsuransi"
+								header="{{'frmHargaPaketPenjamin_tableGolAPasien'| translate | splitCharT}}">
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="hubunganPeserta"
+								header="{{'frmHargaPaketPenjamin_tableHubPeserta'| translate | splitCharT}}">
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="namaKelas"
+								header="{{'frmHargaPaketPenjamin_tableKelas'| translate | splitCharT}}">
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="namaPaket"
+								header="{{'frmHargaPaketPenjamin_tablePaket'| translate | splitCharT}}">
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="kode"
+								header="{{'frmHargaPaketPenjamin_tableTglAwal'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.kode.tglBerlakuAwal > null">{{pick.kode.tglBerlakuAwal * 1000 | date: 'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="tglBerlakuAkhir"
+								header="{{'frmHargaPaketPenjamin_tableTglAkhir'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.tglBerlakuAkhir > null">{{pick.tglBerlakuAkhir * 1000 | date: 'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="hargaSatuan"
+								header="{{'frmHargaPaketPenjamin_tableHrgSatuan'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.hargaSatuan > null">{{pick.hargaSatuan | currency:'IDR':'code'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="persenHargaSatuan"
+								header="{{'frmHargaPaketPenjamin_tablePersenHSatuan'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.persenHargaSatuan > null">{{pick.persenHargaSatuan | number: '1.0-0'}}%</span>
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="persenTPenjamindrSelisih"
+								header="{{'frmHargaPaketPenjamin_tablePersenPSelisih'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.persenTPenjamindrSelisih > null">{{pick.persenTPenjamindrSelisih | number: '1.0-0'}}%</span>
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="persenTProfiledrSelisih"
+								header="{{'frmHargaPaketPenjamin_tablePersenProfSelisih'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.persenTProfiledrSelisih > null">{{pick.persenTProfiledrSelisih | number: '1.0-0'}}%</span>
+								</ng-template>
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="factorRate"
+								header="{{'frmHargaPaketPenjamin_tableFacRate'| translate | splitCharT}}">
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="maxTPenjamin"
+								header="{{'frmHargaPaketPenjamin_tableMaxPenjamin'| translate | splitCharT}}">
+							</p-column>
+							<p-column [style]="{'width':'150px'}" field="statusEnabled"
+								header="{{'frmHargaPaketPenjamin__tableStatus'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template>
+							</p-column>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

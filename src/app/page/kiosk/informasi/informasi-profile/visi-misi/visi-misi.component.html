@@ -1,0 +1,57 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"
+  [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item action">
+        <img src="../../../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img src="../../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <h2>Informasi - Profile - Visi & Misi</h2>
+      </div>
+      <div class="header-item action">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/power-button.svg"
+          alt="logout" (click)="logout($event)">
+      </div>
+
+
+    </div>
+  </div>
+  <div class="content">
+    <div class="container-content">
+      <div class="kiosk-card">
+        <div class="kiosk-card-content">
+          <h1>Visi</h1>
+          <div class="kiosk-card-content text-big" *ngIf="listVisi.length == 0">
+            <p>
+              Data Kosong
+            </p>
+          </div>
+          <ol>
+            <li *ngFor="let itemVisi of listVisi">{{itemVisi}}</li>
+          </ol>
+          <h1>Misi</h1>
+          <div class="kiosk-card-content text-big" *ngIf="listMisi.length == 0">
+            <p>
+              Data Kosong
+            </p>
+          </div>
+          <ol>
+            <li *ngFor="let itemMisi of listMisi">{{itemMisi}}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="informasi-action">
+    <!-- <hr> -->
+    <div class="container">
+      <button class="btn-subscribe bg-violet"
+        routerLink="/kiosk/informasi/profile/">Kembali</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,299 @@
+.blinking{
+    animation:blinkingText 2.5s infinite;
+}
+.blinkingDivBorder{
+  animation:blinkingDiv 2.5s infinite;
+}
+@keyframes blinkingText{
+    0%{     color: white;    }
+    25%{    color: #f1ff11; }
+    50%{    color: white; }
+    75%{    color:#f1ff11;  }
+    100%{   color: white;    }
+}
+@keyframes blinkingDiv{
+  0%{     border-top: 5px solid white;    }
+  25%{    border-top: 5px solid #f1ff11; }
+  50%{    border-top: 5px solid white; }
+  75%{    border-top: 5px solid #f1ff11;  }
+  100%{   border-top: 5px solid white;    }
+}
+.fade {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+  }
+  @-webkit-keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+  
+  @keyframes fade {
+    from {opacity: .4} 
+    to {opacity: 1}
+  }
+
+  .dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+  
+  .active {
+    background-color: #717171;
+  }
+
+  .topbar-date {
+    // padding-top: 35px;
+    margin-top: 25px;
+  }
+  .topbar-date h4{
+    font-family: 'neotericbold';
+    text-align: right;
+    font-size: 1.3vw;
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #ffffff;
+  }
+  .topbar-date span.jumlah-antrian {
+    font-family: 'gadugibold';
+    color: #f1ff11;
+    margin-right: 20px;
+  }
+  .topbar-date span.label-jumlah-antrian {
+    font-family: 'gadugibold';
+    color: #ffffff;
+    margin-right: 20px;
+  }
+  .topbar-date span.tanggal{
+    font-family: 'gadugibold';
+    color: #ffffff;
+    background: #00353f;
+    padding: 8px 20px 10px 20px;
+    border-radius: 35px;
+  }
+  .topbar-date span.jam{
+    background: #00353f;
+    padding: 8px 20px 10px 20px;
+    border-radius: 35px;
+    font-family: 'gadugibold';
+    color: #ffffff;
+    text-align: center;
+    margin-left: 20px;
+  }
+
+  .table-antrian table > thead {
+    border-top: 0;
+    color: #ffffff;
+  }
+  .table-antrian table > thead > tr > th.no-antrian{
+    background: #ac0000;
+    height: 3.5vh;
+    font-family: 'neotericregular';
+  }
+
+  #newTable > tr > th.no-antrian{
+    background: #ac0000;
+    height: 3.5vh;
+    font-family: 'neotericregular';
+  }
+
+  .table-antrian table > thead > tr > th.nama-pasien{
+    background: #909000;
+    font-family: 'neotericregular';
+  }
+  .table-antrian table > thead > tr > th.jenis-kelamin{
+    background: #3057ff;
+    font-family: 'neotericregular';
+  }
+  .table-antrian table > thead > tr > th.status{
+    background: #016501;
+    font-family: 'neotericregular';
+  }
+  .table-antrian table > thead > tr > th.ruangan{
+    background: #444444;
+    font-family: 'neotericregular';
+  }
+  .table-antrian table > thead > tr > th.dokter{
+    background: #008faa;
+    font-family: 'neotericregular';
+  }
+  .table-antrian table > thead > tr > th{
+    font-family: 'gadugiregular';
+    font-size: 1.5vw;
+    border-bottom: 0;
+    text-align: center;  
+  }
+  .table-antrian table > tbody > tr > td {
+    font-family: 'gadugibold';
+    color: #ffffff;
+    font-size: 1.2vw;
+    padding: 7px;
+  }
+  .table-antrian table > tbody > div > tr > td.no-antrian-atas {
+    border-bottom: 1px solid #cccccc;
+    border-left: 0;
+    border-right: 0;
+    text-align: center;
+    width: 18%;
+  }
+  .table-antrian table > tbody >  div > tr > td.no-loket-atas {
+    border-bottom: 1px solid #cccccc;
+    text-align: center;
+    background: rgba(155, 155, 155, 0.5);
+    width: 25%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    max-width: 40px;
+  }
+  .table-antrian table > tbody > div > tr > td.no-jk-atas {
+    border-bottom: 1px solid #cccccc;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.2);
+    width: 3%;
+  }
+  .table-antrian table > tbody > div > tr > td.no-panggilan-atas {
+    border-bottom: 1px solid #cccccc;
+    text-align: center;
+    color: #cccccc;
+    width: 18%;
+
+  }
+  .table-antrian table > tbody > tr > td.no-loket {
+    border-left: 1px solid #ffffff;
+  }
+
+  .table-antrian table > tbody > tr > td.no-ruangan {
+    
+    background: rgba(155, 155, 155, 0.5);
+    border-bottom: 1px solid #cccccc;
+    text-align: center;
+    color: #cccccc;
+    width: 16%;
+
+  }
+
+  .table-antrian table > tbody > div > tr > td.no-dokter {
+    border-bottom: 1px solid #cccccc;
+    text-align: center;
+    width: 43%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    max-width: 40px;
+
+
+  }
+
+  .no-antrian-bawah {
+    margin-top: 20px;
+    background: rgba(0,0,0, 0.5);
+    padding: 5px 0 0 0;
+    border-top: 5px solid #ffffff;
+  }
+  .no-antrian-bawah h2{
+    text-align: center;
+    font-family: 'gadugibold';
+    margin-top: 5px;
+    margin-block-end: 0px;
+    margin-block-start: 0px;
+    font-size: 2.2vw;
+    text-transform: uppercase;
+    color: white;
+  }
+  .no-antrian-bawah h1{
+    text-align: center;
+    font-family: 'gadugibold';
+    margin: 0;
+    font-size: 2.2vw;
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+    color: white;
+  }
+  .no-antrian-bawah h3{
+    text-align: center;
+    font-family: 'gadugibold';
+    color: #f1ff11;
+    background: rgba(0,106,126, 0.3);
+    padding: 10px 0 13px 0;
+    font-size: 1.4vw;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+  }
+  .no-antrian-bawah-panggil {
+    margin-top: 20px;
+    background: rgba(0,0,0, 0.7);
+    padding: 5px 0 0 0;
+    border-top: 5px solid #f1ff11;
+  }
+  .no-antrian-bawah-panggil h2{
+    text-align: center;
+    font-family: 'gadugibold';
+    margin-top: 5px;
+    color: #f1ff11;
+  }
+  .no-antrian-bawah-panggil h1{
+    text-align: center;
+    font-family: 'gadugibold';
+    font-size: 3vw;
+    margin: 0;
+  }
+  .no-antrian-bawah-panggil h3{
+    text-align: center;
+    font-family: 'gadugibold';
+    color: #f1ff11;
+    background: rgba(0,106,126, 0.3);
+    padding: 10px 0 13px 0;
+  }
+
+  .running-text {
+    width: 100%;
+    height: 8vh;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    padding: 0;
+    background: rgba(255,255,255, .3);
+  }
+  .running-text h1{
+    color: #000;
+    font-family: 'gadugibold';
+    margin-block-start: 5px;
+  }
+  .topbar1 h1{
+    color: white;
+    font-family: 'neotericbold';
+    text-align: left;
+    margin: auto;
+    font-size: 2vw;
+    text-transform: uppercase;
+  }
+  .topbar1 h2{
+    color: white;
+    font-family: 'gadugiregular';
+    text-align: left;
+    margin: auto;
+    font-size: 2vw;
+    font-weight:1;
+  }
+  .topbar1 img.img-logo-top {
+    max-width: 5vw;
+    width: 5vw;
+    margin: 10px;
+  }
+  
+  .running-text img{
+    max-width: 50px;
+    height: auto;
+    margin: 0 10px;
+    width: 2.5vw;
+    vertical-align: middle;
+    margin-top: -5px;
+  }
+  

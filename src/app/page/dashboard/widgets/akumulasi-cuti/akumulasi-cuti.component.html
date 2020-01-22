@@ -1,0 +1,55 @@
+<div class="cicing-content activity-feedt ui-g" style="height: 167px; border: 1px #CCC solid">
+	<div class="ui-g-12 overview-box-top">
+		<p-toolbar>
+			<div class="ui-toolbar-group-left">
+				<span class="overview-box-name">{{'AKUMULASI CUTI' | translate | splitCharT | splitCharT }}</span>
+			</div>
+		</p-toolbar>
+	</div>
+	<div class="ui-g-2 overview-box-icon" style="text-align:center">
+		<img src="assets/layout/images/dashboard/icon-1.svg" />
+	</div>
+	<div class="ui-g-10">
+		<div class="ui-g" id="cutiPegawai">
+			<div class="ui-g-7" style="font-weight: bold;">{{'Jatah Cuti' | translate | splitCharT | splitCharT }}
+				<br> {{'Cuti Diambil' | translate | splitCharT | splitCharT }}
+				<br> {{'Sisa Cuti Saat Ini' | translate | splitCharT | splitCharT }}
+				<br> {{'Sisa Cuti Tahun Lalu' | translate | splitCharT | splitCharT }}
+				<br>
+			</div>
+			<div class="ui-g-1" style="font-weight: bold;">:
+				<br>:
+				<br>:
+				<br>:
+				<br>
+			</div>
+			<div class="ui-g-3" style="text-align:right;" >
+				<span *ngIf="dataCuti" style="font-weight: bold; color: black">{{ dataCuti.totalQtyHariQuota }} Hari</span>
+				<span *ngIf="!dataCuti" style="font-weight: bold; color: black">-</span>
+				<br>
+				<span *ngIf="dataCuti" style="font-weight: bold; color: red">{{ dataCuti.cutiTerpakai }} Hari</span>
+				<span *ngIf="!dataCuti" style="font-weight: bold; color: red">-</span>
+				<br>
+				<span *ngIf="dataCuti" style="font-weight: bold; color: blue">{{ dataCuti.sisaKuotaHari - dataCuti.sisaCutiTahunSebelumnya }} Hari</span>
+				<span *ngIf="!dataCuti" style="font-weight: bold; color: blue">-</span>
+				<br>
+				<span *ngIf="dataCuti" style="font-weight: bold; color: blue">{{ dataCuti.sisaCutiTahunSebelumnya }} Hari</span>
+				<span *ngIf="!dataCuti" style="font-weight: bold; color: blue">-</span>
+				<br>
+			</div>
+			<!-- <div class="ui-g-4" style="font-weight: bold;">{{'Cuti Diambil' | translate | splitCharT | splitCharT }}</div>
+			<div class="ui-g-1" style="font-weight: bold;">:</div>
+			<div class="ui-g-7" style="font-weight: bold; color: red" *ngIf="dataCuti">{{ dataCuti.cutiTerpakai }} Hari</div>
+			<div class="ui-g-7" style="font-weight: bold; color: black" *ngIf="!dataCuti">-</div>
+			<div class="ui-g-4" style="font-weight: bold;">{{'Sisa Cuti Saat Ini/ Tahun Sebelumnya' | translate | splitCharT | splitCharT }}</div>
+			<div class="ui-g-1" style="font-weight: bold;">:</div>
+			<div class="ui-g-7" style="font-weight: bold; color: blue" *ngIf="dataCuti">
+				<br>{{ dataCuti.sisaKuotaHari - dataCuti.sisaCutiTahunSebelumnya}} Hari /{{ dataCuti.sisaCutiTahunSebelumnya }} Hari</div>
+			<div class="ui-g-7" style="font-weight: bold; color: black" *ngIf="!dataCuti">-</div> -->
+			<!-- <div class="ui-g-4" style="font-weight: bold;">{{'Tahun Sebelumnya' | translate | splitCharT | splitCharT }}</div>
+			<div class="ui-g-1" style="font-weight: bold;">:</div>
+			<div class="ui-g-7" style="font-weight: bold; color: blue" *ngIf="dataCuti">{{ dataCuti.sisaCutiTahunSebelumnya }} Hari</div>
+			<div class="ui-g-7" style="font-weight: bold; color: black" *ngIf="!dataCuti">-</div> -->
+		</div>
+	</div>
+</div>

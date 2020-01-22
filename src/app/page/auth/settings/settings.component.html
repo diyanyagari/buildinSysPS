@@ -1,0 +1,15 @@
+<p-dialog header="Settings" [(visible)]="pilAll" [width]="460" closable="false" closeOnEscape="false" modal="true">
+    <div *ngIf="pilAll" class="ui-g login-container">
+        <div class="ui-g-12" *ngIf="!pilProfile">
+            {{ 'Hostname' | translate | splitCharT  }}
+            <br/>
+            <strong>{{ namaKomputerSesion }}</strong>     
+            <br/>
+            <hr/>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="fa fa-fw fa-cog" (click)="settingPrinter()"
+            label="{{'Printer' | translate | splitCharT }}"></button>
+    </p-footer>
+</p-dialog>

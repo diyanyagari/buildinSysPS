@@ -1,0 +1,158 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+                <h1>{{'loginUserAplikasi'| translate | splitCharT }}</h1>
+                <div class="ui-g form-group">
+                  <div class="card card-w-title">
+                        <div class="ui-g-12 ui-md-5">
+                            <div class="card card-w-title">
+                              <div class="ui-g">
+                            <form [formGroup]="formDua" (ngSubmit)="onSubmit()">
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="input">{{'noHpEmail'| translate | splitCharT }}</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                                <input id="input" type="text" formControlName="noHpEmail" pInputText/>
+                                <span *ngIf="!formDua.get('noHpEmail').valid && formDua.get('noHpEmail').touched" style="color: red"> {{'noHpEmail'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="input">{{'kataSandi'| translate | splitCharT }}</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                                <input id="input" type="text" formControlName="kataSandi" pInputText  />
+                                <span *ngIf="!formDua.get('kataSandi').valid && formDua.get('kataSandi').touched" style="color: red"> {{'kataSandi'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>                                
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="input">{{'ulangiKataSandi'| translate | splitCharT }}</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                                <input id="input" type="text" formControlName="ulangiKataSandi" pInputText  />
+                                <span *ngIf="!formDua.get('ulangiKataSandi').valid && formDua.get('ulangiKataSandi').touched" style="color: red"> {{'ulangiKataSandi'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>                                
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="input">{{'hintKataSandi'| translate | splitCharT }}</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                                <input id="input" type="text" formControlName="hintKataSandi" pInputText  />
+                                <span *ngIf="!formDua.get('hintKataSandi').valid && formDua.get('hintKataSandi').touched" style="color: red"> {{'hintKataSandi'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>                                
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="input">{{'tglDaftar'| translate | splitCharT }}</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                                <app-calender [showIcon]="true" [yearNavigator]="true" [monthNavigator]="true" yearRange="1945:2017"  formControlName="tglDaftar"></app-calender>
+                                <span *ngIf="!formDua.get('tglDaftar').valid && formDua.get('tglDaftar').touched" style="color: red"> {{'tglDaftar'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>                                
+                            </div>
+                            </form>
+                            <form [formGroup]="form" (ngSubmit)="onSubmit()">                                
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="input">{{'namaLengkap'| translate | splitCharT }}</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                                <input id="input" type="text" formControlName="namaLengkap" pInputText disabled/>
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="input">{{'noIdentitas'| translate | splitCharT }}</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                                <input id="input" type="text" formControlName="noIdentitas" pInputText disabled/>
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="input">{{'jenisKelamin'| translate | splitCharT }}</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                                <input id="input" type="text" formControlName="jenisKelamin" pInputText disabled/>
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="input">{{'tglLahir'| translate | splitCharT }}</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                                <input id="input" type="text" formControlName="tglLahir" pInputText disabled/>                               
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="input">{{'foto'| translate | splitCharT }}</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                                <input hidden id="input" type="text" formControlName="photoDiri" (ngModelChange)="fotoDiri($event)" pInputText disabled/>                                
+                                <img [src]="(smbrFoto | imgsec) | async" width="150px">                           
+                            </div>
+                            </form>
+                            <form [formGroup]="formTiga" (ngSubmit)="onSubmit()">                                
+                            <div class="ui-g-12 ui-md-4">
+                                <label for="input">{{'kelompokUser'| translate | splitCharT }}</label>
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                                <p-dropdown id="dropdownTitle" filter="filter" [options]="departement" formControlName="kelompokUser" [autoWidth]="false"></p-dropdown>  
+                                <span *ngIf="!formTiga.get('kelompokUser').valid && formTiga.get('kelompokUser').touched" style="color: red"> {{'kelompokUser'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>                         
+                            </div>
+                          </form>
+                            <div class="ui-g-12 ui-md-12">
+                                <div class="ui-g-12 ui-fluid">
+                                    <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none;">
+                                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                        <input type="text" pInputText size="50" [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%">
+                                    </div>
+                                    <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+                                        [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)">
+                                        <p-column field="kdPegawai" header="{{'idPegawai'| translate | splitCharT }}"></p-column>
+                                        <p-column field="namaLengkap" header="{{'namaPegawai'| translate | splitCharT }}"></p-column>          
+                                    </p-dataTable>
+                                </div>
+                            </div> 
+                            <div class="ui-g-12 ui-md-4">
+                                
+                            </div>
+                            <div class="ui-g-12 ui-md-8">
+                              <div class="ui-g">
+                                <div class="ui-g-12 ui-md-6">
+                                    <button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"></button>
+                                </div>
+                                
+                                <div class="ui-g-12 ui-md-6">
+                                    <button pButton type="button" label="{{'batal'| translate | splitCharT}}" icon="fa-close" (click)="reset()"></button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-7">
+                            <div class="card card-w-title">
+                            <p-tabView>
+                                <p-tabPanel header="{{'profile'| translate | splitCharT }}" leftIcon="fa-user">
+                                    <p-header>
+                                        <label for="input">{{'profile'| translate | splitCharT }}</label>
+                                    </p-header>
+                                    <div class="ui-g" style="width:250px;margin-bottom:10px">
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Technology" label="Hotel Borobudur" [(ngModel)]="selectedCategories" inputId="technology"></p-checkbox></div>
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Finance" label="Artha Graha" [(ngModel)]="selectedCategories" inputId="finance"></p-checkbox></div>
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Sports" label="Hotel A" [(ngModel)]="selectedCategories" inputId="sports"></p-checkbox></div>
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Entertainment" label="Hotel B" [(ngModel)]="selectedCategories" inputId="entertainment"></p-checkbox></div>
+                                    </div>
+                                    <p-footer>
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Entertainment, Sports" label="Pilih Semua" [(ngModel)]="selectedCategories" inputId="entertainment"></p-checkbox></div>
+                                    </p-footer>
+                                </p-tabPanel>
+                                <p-tabPanel header="{{'modulAplikasi'| translate | splitCharT }}" leftIcon="fa-book">
+                                    <div class="ui-g" style="width:250px;margin-bottom:10px">
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Technology" label="Hotel Borobudur" [(ngModel)]="selectedCategories" inputId="technology"></p-checkbox></div>
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Finance" label="Artha Graha" [(ngModel)]="selectedCategories" inputId="finance"></p-checkbox></div>
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Sports" label="Hotel A" [(ngModel)]="selectedCategories" inputId="sports"></p-checkbox></div>
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Entertainment" label="Hotel B" [(ngModel)]="selectedCategories" inputId="entertainment"></p-checkbox></div>
+                                    </div>                                </p-tabPanel>
+                                <p-tabPanel header="{{'ruangan'| translate | splitCharT }}" leftIcon="fa-home">
+                                    <div class="ui-g" style="width:250px;margin-bottom:10px">
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Technology" label="Hotel Borobudur" [(ngModel)]="selectedCategories" inputId="technology"></p-checkbox></div>
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Finance" label="Artha Graha" [(ngModel)]="selectedCategories" inputId="finance"></p-checkbox></div>
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Sports" label="Hotel A" [(ngModel)]="selectedCategories" inputId="sports"></p-checkbox></div>
+                                        <div class="ui-g-12"><p-checkbox name="group2" value="Entertainment" label="Hotel B" [(ngModel)]="selectedCategories" inputId="entertainment"></p-checkbox></div>
+                                    </div>                                </p-tabPanel>
+                            </p-tabView>
+                        </div>
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>

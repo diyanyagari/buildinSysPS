@@ -1,0 +1,305 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<h1>{{'frmDepartemen_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<form [formGroup]="form" (ngSubmit)="onSubmit()">
+						<div class="ui-g form-group">
+							<div class="ui-g-6">
+								<div class="ui-g-12 ui-md-10" hidden>
+									<span class="ui-float-label" hidden>
+										<input id="input" type="text" hidden formControlName="kode" pInputText/>
+										<label for="input" hidden>{{'kodeDepartemen'| translate | splitCharT }}</label>
+									</span>
+								</div>
+								<div class="ui-g-12 ui-md-11">
+									<label>{{'frmDepartemen_parent'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownKodeDepartemenHead" filter="filter" class="ui-inputwrapper-filled" formControlName="kdDepartemenHead"
+									 [options]="listDepartemen" [autoWidth]="false"></p-dropdown>
+									<!-- <span *ngIf="!form.get('kdDepartemenHead').valid && form.get('kdDepartemenHead').touched" style="color: red"> {{'dataParent Departemen'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+								</div>
+								<div class="ui-g-12 ui-md-11">
+									<label>{{'frmDepartemen_nama'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('namaDepartemen').valid && form.get('namaDepartemen').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+									</label>
+									<input id="input" type="text" formControlName="namaDepartemen" [(ngModel)]="display" (ngModelChange)="valuechange($event)"
+									 pInputText />
+
+								</div>
+
+
+								<!-- <div class="ui-g-12 ui-md-10">
+									<span class="ui-float-label">
+								<p-dropdown id="dropdownAwards" filter="filter" class="ui-inputwrapper-filled"   formControlName="kdJenisPerawatan" [options]="listJenisPerawatan"  [autoWidth]="false"></p-dropdown>
+								<label for="input">{{'jenisPerawatan'| translate | splitCharT }}</label>
+								</span> -->
+								<!-- <span *ngIf="!form.get('kdJenisPerawatan').valid && form.get('kdJenisPerawatan').touched" style="color: red"> {{'jenisPerawatan'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+								<!-- </div> -->
+
+								<!-- <div class="ui-g-12 ui-md-7">
+									<input id="input" type="text" formControlName="fixedPhone" pInputText placeholder="{{'noTelp'| translate | splitCharT }}" pTooltip="{{'noTelp'| translate | splitCharT }}"
+									 tooltipPosition="top" />
+									
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">e.g. (022)-123456</label>
+								</div>
+								<div class="ui-g-12 ui-md-7">
+									<input id="input" type="text" formControlName="mobilePhone" pInputText placeholder="{{'noHP'| translate | splitCharT }}" pTooltip="{{'noHP'| translate | splitCharT }}"
+									 tooltipPosition="top" />
+																</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">e.g. (062)-12345678910</label>
+								</div>
+								<div class="ui-g-12 ui-md-7">
+									<input id="input" type="text" formControlName="faksimile" pInputText placeholder="{{'faksimil'| translate | splitCharT }}" pTooltip="{{'faksimil'| translate | splitCharT }}"
+									 tooltipPosition="top" />
+									
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">e.g. (02)-1234567</label>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<span class="ui-float-label">
+										<input id="input" formControlName="alamatEmail" type="text" pInputText placeholder="{{'alamatEmail'| translate | splitCharT }}" pTooltip="{{'alamatEmail'| translate | splitCharT }}"
+										 tooltipPosition="top" />
+
+									</span>
+									
+								</div> -->
+
+								<!-- <div class="ui-g-12 ui-md-10">
+									<span class="ui-float-label">
+										<input id="input" type="text" formControlName="prefixNoAntrian" pInputText placeholder="{{'awalanNoAntrian'| translate | splitCharT }}"
+										 pTooltip="{{'awalanNoAntrian'| translate | splitCharT }}" tooltipPosition="top" />
+
+									</span>
+									<span *ngIf="!form.get('prefixNoAntrian').valid && form.get('prefixNoAntrian').touched" style="color: red"> {{'awalanNoAntrian'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+								</div> -->
+								
+								<div class="ui-g-12 ui-md-11">
+									<label>{{'frmDepartemen_jenisAlamat'| translate | splitCharT }}</label>
+										<p-dropdown id="jenisAlamat" class="ui-inputwrapper-filled" [options]="jenisAlamat" filter="filter" formControlName="kdAlamat"
+										 [autoWidth]="false">	</p-dropdown>
+								</div>
+							
+								<!-- <div class="ui-g-12 ui-md-10">
+									<label>{{'frmDepartemen_alamatLengkap'| translate | splitCharT }}</label>
+									<textarea [rows]="3" [cols]="30" formControlName="alamatLengkap" pInputTextarea autoResize="autoResize"></textarea>
+								</div>
+								<div class="ui-g-12 ui-lg-10">
+									<label>{{'frmDepartemen_rtRw'| translate | splitCharT }}</label>
+									<p-inputMask id="rtRw" mask="99/99" formControlName="rtrw" placeholder="00/00"></p-inputMask>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label>{{'negara'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownNegara" filter="filter" class="ui-inputwrapper-filled" [options]="listNegara" formControlName="kdNegara"
+									 [(ngModel)]="kdNegara" (ngModelChange)="valuechangekdNegara($event)" [autoWidth]="false"></p-dropdown>
+								</div> -->
+
+								<div class="ui-g-12 ui-md-10">
+									<p-checkbox binary="true" label="{{'frmDepartemen_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+								</div>
+
+							</div>
+
+							<!-- <div class="ui-g-4">
+								<div class="ui-g-12 ui-md-10">
+									<label>{{'propinsi'| translate | splitCharT }}</label>
+									<p-dropdown id="propinsi" placeholder="--Pilih Propinsi--" class="ui-inputwrapper-filled" [options]="propinsi" filter="filter"
+									 formControlName="kdPropinsi" [(ngModel)]="kdPropinsi" (ngModelChange)="valuechangekdPropinsi($event)" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label>{{'kotaKabupaten'| translate | splitCharT }}</label>
+									<p-dropdown id="kotaKabupaten" placeholder="--Pilih Kota Kabupaten--" class="ui-inputwrapper-filled" [options]="kotaKabupaten"
+									 filter="filter" formControlName="kdKotaKabupaten" [(ngModel)]="kdKotaKabupaten" (ngModelChange)="valuechangekdKotaKabupaten($event)"
+									 [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label>{{'kecamatan'| translate | splitCharT }}</label>
+									<p-dropdown id="kecamatan" placeholder="--Pilih Kecamatan--" class="ui-inputwrapper-filled" [options]="kecamatan" filter="filter"
+									 formControlName="kdKecamatan" [(ngModel)]="kdKecamatan" (ngModelChange)="valuechangekdKecamatan($event)" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label>{{'kelurahan'| translate | splitCharT }}</label>
+									<p-dropdown id="kelurahan" placeholder="--Pilih Kelurahan--" class="ui-inputwrapper-filled" [options]="kelurahan" filter="filter"
+									 formControlName="kdDesaKelurahan" (ngModelChange)="setKodePos($event)" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label>{{'frmDepartemen_kodePos'| translate | splitCharT }}</label>
+									<span class="ui-float-label">
+										<input id="kodePos" type="text" formControlName="kodePos" pInputText />
+
+									</span>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<span class="ui-float-label">
+										<input id="input" type="text" formControlName="website" pInputText placeholder="{{'website'| translate | splitCharT }}" pTooltip="{{'website'| translate | splitCharT }}"
+										 tooltipPosition="top" />
+
+									</span>
+								</div>
+
+
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'isProfitCostCenter'| translate | splitCharT }}</label>
+									 <p-inputMask mask="9" formControlName="isProfitCostCenter" placeholder="1/0"></p-inputMask> 
+								</div>
+
+								<div class="ui-g-12 ui-md-10">
+									<p-checkbox binary="true" label="{{'frmDepartemen_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+								</div>
+							</div> -->
+
+							<div class="ui-g-6">
+								<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+									<form [formGroup]="form" (ngSubmit)="onSubmit()">
+										<div class="ui-g form-group">
+											<div class="ui-g-12 ui-md-10">
+												<label>{{'frmDepartemen_pegawaiKepala'| translate | splitCharT }}</label>
+												<p-dropdown id="dropdownPegawaiKepala" filter="filter" class="ui-inputwrapper-filled" formControlName="kdPegawaiKepala" [options]="listPegawai"
+												 [autoWidth]="false" pTooltip="" tooltipPosition="top"></p-dropdown>
+												<!-- <span *ngIf="!form.get('kdPegawaiKepala').valid && form.get('kdPegawaiKepala').touched" style="color: red"> {{'pegawaiKepala'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<p-checkbox binary="true" label="{{'isProfitCostCenter' | translate | splitCharT }}" formControlName="isProfitCostCenter" (onChange)="changeConvert($event)"></p-checkbox>
+												<!-- <span *ngIf="!form.get('isProfitCostCenter').valid && form.get('isProfitCostCenter').touched" style="color: red"> {{'isProfitCostCenter'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<label>{{'frmDepartemen_reportDisplay'| translate | splitCharT }}
+													<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">*</span>
+													<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+												</label>
+												<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="display2" pInputText />
+
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<label>{{'frmDepartemen_kodeEksternal'| translate | splitCharT }}</label>
+												<input id="input" type="text" formControlName="kodeExternal" pInputText />
+												<!-- <span *ngIf="!form.get('kodeExternal').valid && form.get('kodeExternal').touched" style="color: red"> {{'kodeEksternal'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<label>{{'frmDepartemen_namaEksternal'| translate | splitCharT }}</label>
+												<input id="input" type="text" formControlName="namaExternal" pInputText />
+												<!-- <span *ngIf="!form.get('namaExternal').valid && form.get('namaExternal').touched" style="color: red"> {{'namaEksternal'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+											</div>
+										</div>
+									</form>
+								</p-fieldset>
+							</div>
+
+
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmDepartemen_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmDepartemen_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmDepartemen_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmDepartemen_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmDepartemen_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+
+								</div>
+							</div>
+						</div>
+
+					</form>
+
+					<div class="ui-g-12">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+						 [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true"
+						 [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50" placeholder="{{'frmDepartemen_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+									 style="width: 20%;float:right;">
+									<span style="float: left;padding:0.3em;">{{'frmDepartemen_tableTitle'| translate | splitCharT }}</span>
+								</div>
+							</p-header>
+							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+							<p-column field="namaDepartemenHead" header="{{'frmDepartemen_tableParent'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="namaDepartemen" header="{{'frmDepartemen_tableNama'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+							<!-- <p-column field="namaLengkap" header="{{'frmDepartemen_tablePegawaiKepala'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column> -->
+							<!-- <p-column field="prefixNoAntrian" header="{{'awalanNoAntrian'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="namaJenisPerawatan" header="{{'jenisPerawatan'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="fixedPhone" header="{{'teleponTetap'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="mobilePhone" header="{{'teleponGenggam'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="faksimile" header="{{'faksimil'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="alamatEmail" header="{{'alamatEmail'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="website" header="{{'website'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column> -->
+							<p-column field="fullAlamat" header="{{'frmDepartemen_tableJenisAlamat'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<!-- <p-column field="alamatLengkap" header="{{'frmDepartemen_tableAlamatLengkap'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="rTRW" header="{{'frmDepartemen_tableRtRw'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="namaNegara" header="{{'frmDepartemen_tableNegara'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="namaPropinsi" header="{{'frmDepartemen_tablePropinsi'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="kotaKabupaten" header="{{'frmDepartemen_tableKotaKabupaten'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="kecamatan" header="{{'frmDepartemen_tableKecamatan'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="desaKelurahan" header="{{'frmDepartemen_tableKelurahan'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="kodePos" header="{{'frmDepartemen_tableKodePos'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column> -->
+
+							<!-- <p-column field="isProfitCostCenter" header="isProfitCostCenter" [style]="{'width':'200px'}">
+								  <ng-template let-pick="rowData" pTemplate type="body">
+                                    <span *ngIf="pick.isProfitCostCenter == true">1</span>
+                                    <span *ngIf="pick.isProfitCostCenter == false">0</span>
+                                </ng-template>
+							</p-column> -->
+							<p-column field="statusEnabled" header="{{'frmDepartemen_tableStatus'| translate | splitCharT }}" [style]="{'width':'150px'}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template> 
+							</p-column>
+							<ng-template let-departemen pTemplate="rowexpansion">
+								<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+										<div class="ui-grid-col-12">
+											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+												<div class="ui-grid-row">
+													<div class="ui-grid-col-2 label">
+														<span style="color:black">{{ 'frmDepartemen_optional' | translate | splitCharT }}</span>
+													</div>
+												</div>
+												<hr>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmDepartemen_tablePegawaiKepala'| translate | splitCharT }}</div>
+													<div class="ui-grid-col-4"> {{departemen.namaLengkap}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmDepartemen_tableReportDisplay'| translate | splitCharT }}</div>
+													<div class="ui-grid-col-4"> {{departemen.reportDisplay}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmDepartemen_tableKodeExternal'| translate | splitCharT }}</div>
+													<div class="ui-grid-col-4">{{departemen.kodeExternal}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmDepartemen_tableNamaExternal'| translate | splitCharT }}</div>
+													<div class="ui-grid-col-4">{{departemen.namaExternal}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

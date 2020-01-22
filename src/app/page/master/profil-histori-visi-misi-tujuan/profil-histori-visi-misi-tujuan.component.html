@@ -1,0 +1,82 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <h1>FORM PROFILE HISTORI VISI MISI TUJUAN </h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-6">
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Nomor Histori</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-dropdown id="dropdownNomorHistori" [options]="listNomorHistori" [(ngModel)]="nomorHistori" [autoWidth]="false"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Nomor Urut</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-dropdown id="dropdownNomorUrut" [options]="listNomorUrut" [(ngModel)]="nomorUrut" [autoWidth]="false"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Visi Profile</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input id="input" type="text" [(ngModel)]="visiProfile" pInputText/>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Misi Profile</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input id="input" type="text" [(ngModel)]="misiProfile" pInputText/>
+            </div>
+          </div>
+          <div class="ui-g-6">
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Tujuan Profile</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input id="input" type="text" [(ngModel)]="tujuanProfile" pInputText/>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Keterangan Lainnya</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input id="input" type="text" [(ngModel)]="keteranganLainnya" pInputText/>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Status Aktif</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-checkbox name="cg" value="aktif" label="Aktif" [(ngModel)]="statusEnabled"></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g-12 ui-md-8"></div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="submit" label="SIMPAN" icon="fa-save"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="submit" label="HAPUS" icon="fa-close"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="button" label="BATAL" icon=""></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="button" label="TUTUP" icon=""></button>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <p-dataTable [value]="dataProfilHistoriVisiMisiTujuan" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+              <p-column field="nomorHistori" header="Nomor Histori"></p-column>
+              <p-column field="nomorUrut" header="Nomor Urut"></p-column>
+              <p-column field="visiProfile" header="Visi Profile"></p-column>
+              <p-column field="kotaKabupaten" header="Misi Profile"></p-column>
+              <p-column field="tujuanProfile" header="Tujuan Profile"></p-column>
+              <p-column field="keteranganLainnya" header="Keterangan Lainnya"></p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

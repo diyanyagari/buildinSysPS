@@ -1,0 +1,7 @@
+<p-dialog header="Konfirmasi" [(visible)]="display" [modal]="true" [responsive]="true" [width]="350" [minWidth]="200">
+    <span>{{message}}</span>
+        <p-footer>
+            <button type="button" pButton icon="fa-check" (click)="next()" label="Yes"></button>
+            <button type="button" pButton icon="fa-close" (click)="display=false" label="No"></button>
+        </p-footer>
+</p-dialog>

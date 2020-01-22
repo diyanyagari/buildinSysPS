@@ -1,0 +1,160 @@
+<!-- <div class="ui-fluid" *ngIf="laporan">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <h1>{{'reportMasterAgama' | translate | splitCharT}}</h1>
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div id="report-pdf-agama" style="height: 450px;">{{'silahkanTunggu'| translate | splitCharT}}</div>
+                    </div>
+                    <div class="ui-g-12">
+                        <div class="ui-g-12 ui-md-8"></div>
+                        <div class="ui-g-12 ui-md-4">
+                            <button pButton type="button" label="Tutup" icon="fa-close" (click)="tutupLaporan()"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+                <h1>{{'frmAgama_title'| translate | splitCharT }}</h1>
+                <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="ui-g form-group">
+                                <div class="ui-g-6">
+                                    <div class="ui-g-12 ui-md-10">
+                                        <label>{{'negara'| translate | splitCharT}}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('kdNegara').valid && form.get('kdNegara').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                        </label>
+                                        <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih Negara--" formControlName="kdNegara" [options]="dropdownNegara"
+                                            [autoWidth]="false"></p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-10">
+                                        <label>{{'frmAgama_nama'| translate | splitCharT }}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('namaAgama').valid && form.get('namaAgama').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                        </label>
+                                        <input id="input" type="text" formControlName="namaAgama" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)" pInputText/>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-10">
+                                        <p-checkbox binary="true" label="{{'frmAgama_status'| translate | splitCharT }}" formControlName="statusEnabled"> </p-checkbox>
+                                        <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+                                        <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+
+                                    </div>
+
+                                </div>
+                                <div class="ui-g-6">
+                                    <p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+                                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                            <div class="ui-g form-group">
+                                                <div class="ui-g-12 ui-md-10">
+                                                    <label>{{'frmAgama_reportDisplay'| translate | splitCharT }}
+                                                        <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">*</span>
+                                                        <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                                    </label>
+                                                    <input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText />
+                                                </div>
+                                                <div class="ui-g-12 ui-md-10">
+                                                    <label>{{'frmAgama_kodeExternal'| translate | splitCharT }}</label>
+                                                    <input id="input" type="text" formControlName="kodeExternal" pInputText />
+                                                    <!-- <span *ngIf="!form.get('kodeExternal').valid && form.get('kodeExternal').touched" style="color: red"> {{'kodeEksternal'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+                                                </div>
+                                                <div class="ui-g-12 ui-md-10">
+                                                    <label>{{'frmAgama_namaExternal'| translate | splitCharT }}</label>
+                                                    <input id="input" type="text" formControlName="namaExternal" pInputText />
+                                                    <!-- <span *ngIf="!form.get('namaExternal').valid && form.get('namaExternal').touched" style="color: red"> {{'namaEksternal'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </p-fieldset>
+                                </div>
+
+                                <div class="ui-g-12">
+                                    <div class="ui-g-12 ui-md-7"></div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmAgama_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="submit" label="{{'frmAgama_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmAgama_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmAgama_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <p-splitButton label="{{'frmAgama_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ui-g-12 ui-fluid">
+                        <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+                            [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="Loading" loadingIcon="fa-spinner"
+                            [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+                            <p-header>
+                                <div class="ui-helper-clearfix">
+                                    <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                    <input type="text" pInputText size="50" placeholder="{{'frmAgama_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+                                        style="width: 20%;float:right;">
+                                    <span style="float: left;padding:0.3em;">{{'frmAgama_tableTitle'| translate | splitCharT}}</span>
+                                </div>
+                            </p-header>
+                            <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+                            <p-column field="namaAgama" header="{{'frmAgama_tableNama'| translate | splitCharT }}"></p-column>
+                            <p-column field="namaNegara" header="{{'negara'| translate | splitCharT }}"></p-column>
+                            <p-column field="statusEnabled" header="{{'frmAgama_tableStatus'| translate | splitCharT }}">
+                                <ng-template let-col="rowData" pTemplate type="body">
+                                    {{col.statusEnabled | truefalse | translate | splitCharT }}
+                                </ng-template>
+                            </p-column>
+                            <ng-template let-agama pTemplate="rowexpansion">
+                                <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                        <div class="ui-grid-col-12">
+                                            <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid-col-2 label">
+                                                        <span style="color:black">{{ 'frmAgama_optional' | translate | splitCharT }}</span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmAgama_tableReportDisplay'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{agama.reportDisplay}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmAgama_tableKodeExternal' | translate | splitCharT}} </div>
+                                                    <div class="ui-grid-col-4">{{agama.kodeExternal}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmAgama_tableNamaExternal'| translate | splitCharT}} </div>
+                                                    <div class="ui-grid-col-4">{{agama.namaExternal}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dataTable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

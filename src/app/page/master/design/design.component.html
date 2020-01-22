@@ -1,0 +1,231 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+                <h1>{{ 'frmDesign_title' | translate | splitCharT  }}</h1>
+                <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="ui-g form-group">
+
+
+                                <div class="ui-g-4">
+                                    <div class="ui-g-12 ui-md-10">
+                                        <label>{{'frmDesign_kdDesignHead'| translate | splitCharT }}
+                                        </label>
+                                        <p-dropdown filter="filter" class="ui-inputwrapper-filled"
+                                            placeholder="--Pilih--" formControlName="kdDesignHead"
+                                            [options]="dropdowndesignHead" [autoWidth]="false"></p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="ui-g-4"></div>
+                                <div class="ui-g-4"></div>
+                                <div class="ui-g-12"></div>
+
+                                <div class="ui-g-4">
+                                    <div class="ui-g-12 ui-md-10" hidden>
+                                        <span class="ui-float-label" hidden>
+                                            <input id="input" hidden type="text" formControlName="kode" pInputText
+                                                readonly="true" />
+                                        </span>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-10">
+                                        <label>{{'frmDesign_namaDesign'| translate | splitCharT }}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span
+                                                *ngIf="!form.get('namaDesign').valid && form.get('namaDesign').touched"
+                                                style="color: red">{{'frmDesign_required'| translate | splitCharT}}</span>
+                                        </label>
+                                        <input id="input" type="text" formControlName="namaDesign"
+                                            [(ngModel)]="namaDesign" (ngModelChange)="valuechange($event)" pInputText />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-10">
+                                        <label>{{'frmDesign_tglDesign'| translate | splitCharT }}
+                                        </label>
+                                        <app-calender [monthNavigator]="true" [yearNavigator]="true"
+                                            yearRange="2000:2030" formControlName="tglDesign" [showIcon]="true"
+                                            appendTo="body" dateFormat="dd M yy" [minDate]="minDateAwal"
+                                            [maxDate]="maxDateAwal"></app-calender>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-10">
+                                        <label>{{'frmDesign_kdBahasa'| translate | splitCharT }}
+                                        </label>
+                                        <p-dropdown filter="filter" class="ui-inputwrapper-filled"
+                                            placeholder="{{'frmDesign_pilih'| translate | splitCharT }}" formControlName="kdBahasa"
+                                            [options]="dropdownbahasa" [autoWidth]="false"></p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-10">
+                                        <label>{{'frmDesign_deskripsiDesign'| translate | splitCharT }}</label>
+                                        <textarea [rows]="5" [cols]="50" id="deskripsiDesign" type="text"
+                                            formControlName="deskripsiDesign" [(ngModel)]="deskripsiDesign"></textarea>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-10">
+                                        <label>{{'frmDesign_keteranganLainnya'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [rows]="5" [cols]="50" id="keteranganLainnya" type="text"
+                                            formControlName="keteranganLainnya"
+                                            [(ngModel)]="keteranganLainnya"></textarea>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <p-checkbox binary="true" label="{{'frmDesign_status'| translate | splitCharT }}"
+                                            formControlName="statusEnabled"></p-checkbox>
+                                        <span
+                                            *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                                            style="color: red"> *</span>
+                                        <span
+                                            *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                                            style="color: red"> {{'frmDesign_required'| translate | splitCharT}}</span>
+                                    </div>
+                                </div>
+                                <div class="ui-g-4">
+                                    <div class="ui-g-12 ui-md-10">
+                                        <label>{{'frmDesign_pathFile'| translate | splitCharT }}
+                                        </label>
+                                        <input id="input" type="text" formControlName="pathFile" [(ngModel)]="pathFile"
+                                            pInputText />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-10">
+                                        <br>
+                                        <p-fileUpload #fubauto mode="basic" (onUpload)="fileUpload($event)"
+                                            accept="image/*" name="file" maxFileSize="1000000"
+                                            (onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()"
+                                            auto="true" chooseLabel="Browse" withCredentials="true"></p-fileUpload>
+                                        <label>{{'frmDesign_imageCover'| translate | splitCharT }}</label>
+                                        <input id="imageCover" type="text" formControlName="imageCover"
+                                            [(ngModel)]="namaFoto" disabled pInputText />
+                                        <input hidden id="imageCoverPathFile" type="text"
+                                            formControlName="imageCoverPathFile" disabled pInputText />
+                                        <img *ngIf="smbrFoto !== null" [src]="(smbrFoto | imgsec) | async"
+                                            height="175px" class="img-responsive" />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-10">
+                                        <label>{{'frmDesign_imageCoverPathFile'| translate | splitCharT }}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="ui-g-4">
+                                    <p-fieldset legend="{{'frmDesign_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+                                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                            <div class="ui-g form-group">
+                                                <div class="ui-g-12 ui-md-10">
+                                                    <label>{{'frmDesign_reportDisplay'| translate | splitCharT }}
+                                                        <span
+                                                            *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched"
+                                                            style="color: red">*</span>
+                                                        <span
+                                                            *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched"
+                                                            style="color: red"> {{'frmDesign_required'| translate | splitCharT}}</span>
+                                                    </label>
+                                                    <input id="input" formControlName="reportDisplay"
+                                                        [(ngModel)]="report" pInputText />
+
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </p-fieldset>
+                                </div>
+
+
+                                <div class="ui-g-12">
+                                    <div class="ui-g-12 ui-md-7"></div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmDesign_btnBatal'| translate | splitCharT}}"
+                                            icon="fa-refresh" (click)="reset()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="submit" label="{{'frmDesign_btnSimpan'| translate | splitCharT}}"
+                                            icon="fa-save"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmDesign_btnHapus'| translate | splitCharT}}"
+                                            icon="fa-trash" (click)="confirmDelete()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmDesign_btnCetak'| translate | splitCharT}}"
+                                            icon="fa-print" (click)="cetak()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <p-splitButton label="{{'frmDesign_btnExport'| translate | splitCharT }}" icon="fa-external-link"
+                                            [model]="items"></p-splitButton>
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ui-g-12">
+                        <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+                            [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected"
+                            (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading"
+                            loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)"
+                            expandableRows="true">
+
+                            <p-header>
+                                <div class="ui-helper-clearfix">
+                                    <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                    <input type="text" pInputText size="50"
+                                        placeholder="{{'frmDesign_DaftarnamaDesignPencarian'| translate | splitCharT}}"
+                                        [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+                                    <span
+                                        style="float: left;padding:0.3em;">{{'frmDesign_DaftarDesignTitle'| translate | splitCharT }}</span>
+                                </div>
+                            </p-header>
+                            <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+                            <p-column field="namaDesignHead" header="{{'frmDesign_tableKdDesignHead'| translate | splitCharT}}"></p-column>
+                            <p-column field="namaDesign" header="{{'frmDesign_tableNamaDesign'| translate | splitCharT}}"></p-column>
+                            <p-column field="tglDesign" header="{{'frmDesign_tableTglDesign'| translate | splitCharT}}">
+                                <ng-template let-pick="rowData" pTemplate type="body">
+                                    <span
+                                        *ngIf="pick.tglDesign > null">{{pick.tglDesign * 1000 | date: 'dd MMM yyyy'}}</span>
+                                </ng-template>
+                            </p-column>
+                            <p-column field="namaBahasa" header="{{'frmDesign_tableKdBahasa'| translate | splitCharT}}"></p-column>
+                            <p-column field="pathFile" header="{{'frmDesign_tablePathFile'| translate | splitCharT}}"></p-column>
+                            <p-column field="imageCover" header="{{'frmDesign_tableImageCover'| translate | splitCharT}}"></p-column>
+                            <p-column field="statusEnabled" header="{{'frmDesign_tableStatus'| translate | splitCharT }}">
+                                <ng-template let-col="rowData" pTemplate type="body">
+                                    {{col.statusEnabled | truefalse | translate | splitCharT }}
+                                </ng-template>
+                            </p-column>
+                            <ng-template let-design pTemplate="rowexpansion">
+                                <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                        <div class="ui-grid-col-12">
+                                            <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid-col-2 label">
+                                                        <span style="color:black">{{ 'frmDesign_optional' | translate | splitCharT }}</span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmDesign_deskripsiDesign' | translate | splitCharT}}
+                                                    </div>
+                                                    <div class="ui-grid-col-4">{{design.deskripsiDesign}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmDesign_tableKeteranganLainnya'| translate | splitCharT}}
+                                                    </div>
+                                                    <div class="ui-grid-col-4">{{design.keteranganLainnya}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmDesign_tableReportDisplay'| translate | splitCharT }}
+                                                    </div>
+                                                    <div class="ui-grid-col-4"> {{design.reportDisplay}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dataTable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

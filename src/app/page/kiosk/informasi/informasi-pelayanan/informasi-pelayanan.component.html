@@ -1,0 +1,48 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+    <div class="header-title">
+        <div class="container">
+            <div class="header-item">
+                <img src="../../../../assets/layout/images/kiosk/home.svg" [routerLink]="['/kiosk']" alt="home">
+            </div>
+            <div class="header-item">
+                <img src="../../../../assets/layout/images/kiosk/icon-informasi.png" alt="icon">
+                <h2>Informasi - Pelayanan</h2>
+            </div>
+            <div class="header-item">
+                <img src="../../../../assets/layout/images/kiosk/power-button.svg" (click)="logout($event)" alt="logout">
+            </div>
+        </div>
+        <div class="container-grid">
+            <div class="main-content">
+                <div>
+                    <img src="../../../../../assets/layout/images/kiosk/pelayanan-fasilitas.png" [routerLink]="['/kiosk/informasi/pelayanan/fasilitas-layanan']">
+                    <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/pelayanan/fasilitas-layanan']">Fasilitas Layanan</a>
+                </div>
+                <div>
+                    <img src="../../../../../assets/layout/images/kiosk/pelayanan-prosedur.png" [routerLink]="['/kiosk/informasi/pelayanan/prosedur-pelayanan']">
+                    <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/pelayanan/prosedur-pelayanan']">Prosedur Pelayanan</a>
+                </div>
+                <div>
+                    <img src="../../../../../assets/layout/images/kiosk/pelayanan-tarif.png" [routerLink]="['/kiosk/informasi/pelayanan/tarif-pelayanan']">
+                    <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/pelayanan/tarif-pelayanan']">Tarif Pelayanan</a>
+                </div>
+                <div>
+                    <img src="../../../../../assets/layout/images/kiosk/pelayanan-jadwal-pelayanan.png" [routerLink]="['/kiosk/informasi/pelayanan/jadwal-pelayanan/']">
+                    <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/pelayanan/jadwal-pelayanan/']">Jadwal Pelayanan</a>
+                </div>
+                <div>
+                    <img src="../../../../../assets/layout/images/kiosk/pelayanan-jadwal-dokter.png" [routerLink]="['/kiosk/informasi/pelayanan/jadwal-dokter']">
+                    <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/pelayanan/jadwal-dokter/']">Jadwal Dokter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="informasi-action" style="margin-top: 100px;">
+        <hr>
+        <div class="container">
+            <button class="btn-subscribe bg-violet" [routerLink]="['/kiosk/informasi/']">Kembali</button>
+        </div>
+
+    </div>
+</div>

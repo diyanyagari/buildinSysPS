@@ -1,0 +1,467 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmMapPaketMdlApkToObjekModul_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<form style="width: 100%;" [formGroup]="form">
+						<div class="ui-g form-group">
+							<div class="ui-g-12 ui-md-12 ui-lg-2 ui-g-nopad">
+								<p-fieldset
+									legend="{{'frmMapPaketMdlApkToObjekModul_paket' | translate | splitCharT }}">
+									<div class="ui-g form-group">
+										<div class="ui-g-12 ui-md-12 ui-lg-12">
+											<!-- {{'frmProfileKonfigurasiDesign_Profile'| translate | splitCharT}} -->
+											<label>{{'frmMapPaketMdlApkToObjekModul_paket'|translate|splitCharT }}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!form.get('kdPaket').valid && form.get('kdPaket').touched"
+													style="color: red">
+													{{'required'| translate | splitCharT}}</span>
+											</label>
+											<p-dropdown filter="filter" class="ui-inputwrapper-filled"
+												placeholder="--Pilih--" (onChange)="getObjekModul()"
+												formControlName="kdPaket" [options]="listPaket" [autoWidth]="false">
+											</p-dropdown>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label
+												for="input">{{'frmMapPaketMdlApkToObjekModul_mdlAplikasi' | translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span
+													*ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched"
+													style="color: red">{{'required'| translate | splitCharT}}</span>
+											</label>
+											<p-dropdown id="dropdown" (onChange)="getObjekModul()"
+												formControlName="kdModulAplikasi" filter="filter"
+												class="ui-inputwrapper-filled" [autoWidth]="false"
+												[options]="modulAplikasi"></p-dropdown>
+										</div>
+										<!-- <div class="ui-g-12 ui-md-12">
+											<label for="input">{{'frmMapPaketMdlApkToObjekModul_version' | translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!form.get('kdBahasa').valid && form.get('kdBahasa').touched"
+													style="color: red">{{'required'| translate | splitCharT}}</span>
+											</label>
+											<p-dropdown id="dropdown" (onChange)="getList()" formControlName="kdBahasa" filter="filter"
+												class="ui-inputwrapper-filled" [autoWidth]="false" [options]="listBahasa"></p-dropdown>
+										</div> -->
+										<div class="ui-g-12 ui-md-12">
+											<label
+												for="input">{{'frmMapPaketMdlApkToObjekModul_version' | translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<!-- <span *ngIf="!form.get('version').valid && form.get('version').touched"
+													style="color: red">{{'required'| translate | splitCharT}}</span> -->
+											</label>
+											<div class="ui-g-12 ui-md-12"
+												style="border: 1px solid #cfcfcf; width: 100%;height: 24px;background: #ffffff;padding: 0em;">
+												<div class="ui-g-12 ui-md-10" (click)="openDropdown()" style="cursor: pointer;
+													overflow: hidden;
+													height: 23px;
+													white-space: nowrap;
+													text-overflow: ellipsis;" *ngIf="selectedVersion != null">
+													<label>{{selectedVersion}}</label>
+												</div>
+												<div class="ui-g-12 ui-md-10" (click)="openDropdown()" style="cursor: pointer;
+													overflow: hidden;
+													height: 23px;
+													white-space: nowrap;
+													text-overflow: ellipsis;" *ngIf="selectedVersion == null">
+													<label>{{'-- Pilih Version --' | translate | splitCharT }}</label>
+												</div>
+												<div class="ui-g-12 ui-md-2" style="text-align: right"
+													style="cursor: pointer;" (click)="openDropdown()">
+													<span class="ui-clickable fa fa-fw fa-caret-down"
+														ng-reflect-klass="ui-clickable"
+														ng-reflect-ng-class="fa fa-fw fa-caret-down"></span>
+												</div>
+												<div class="ui-g-12 ui-md-12"
+													style="z-index: 1;border:1px solid #cfcfcf; width: 12vw;background: #ffffff;display: none;position: relative; margin: 1.368px 1.4px 1.4px -1px;max-height: 20vh;overflow-y: scroll;"
+													id="dropdownTree" appendTo="body">
+													<p-tree [style]="{'border':'0px','background': '#ffffff'}"
+														[value]="listVersion" selectionMode="single"
+														[(selection)]="selectedFiles"
+														(onNodeSelect)="nodeSelect($event)"
+														(onNodeUnselect)="nodeUnselect($event)">
+													</p-tree>
+												</div>
+											</div>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label
+												for="input">{{'frmMapPaketMdlApkToObjekModul_edisi' | translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!form.get('kdEdisi').valid && form.get('kdEdisi').touched"
+													style="color: red">{{'required'| translate | splitCharT}}</span>
+											</label>
+											<p-dropdown id="dropdown" (onChange)="getObjekModul()"
+												formControlName="kdEdisi" filter="filter" class="ui-inputwrapper-filled"
+												[autoWidth]="false" [options]="edisi"></p-dropdown>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label
+												for="input">{{'frmMapPaketMdlApkToObjekModul_kelompokKlien' | translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span
+													*ngIf="!form.get('kdKelompokKlien').valid && form.get('kdKelompokKlien').touched"
+													style="color: red">{{'required'| translate | splitCharT}}</span>
+											</label>
+											<p-dropdown id="dropdown" (onChange)="getObjekModul()"
+												formControlName="kdKelompokKlien" filter="filter"
+												class="ui-inputwrapper-filled" [autoWidth]="false"
+												[options]="kelompokKlien"></p-dropdown>
+										</div>
+
+										<!-- <div class="ui-g-12 ui-md-12">
+											<label
+												for="input">{{'frmLanguageManager_mdlAplikasi' | translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span
+													*ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched"
+													style="color: red">{{'required'| translate | splitCharT}}</span>
+											</label>
+											<p-dropdown #dd id="dropdown" formControlName="kdModulAplikasi"
+												filter="filter" (click)="clearFilter(dd)" class="ui-inputwrapper-filled"
+												[autoWidth]="false" [options]="listMdlAplikasi">												
+											</p-dropdown>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label for="input">{{'frmLanguageManager_version' | translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+											</label>
+											<div class="ui-g-12 ui-md-12"
+												style="border: 1px solid #cfcfcf; width: 100%;height: 24px;background: #ffffff;padding: 0em;">
+												<div class="ui-g-12 ui-md-10" (click)="openDropdown()" style="cursor: pointer;
+                        overflow: hidden;
+                        height: 23px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;" *ngIf="selectedVersion != null">
+													<label>{{selectedVersion}}</label>
+												</div>
+												<div class="ui-g-12 ui-md-10" (click)="openDropdown()" style="cursor: pointer;
+                        overflow: hidden;
+                        height: 23px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;" *ngIf="selectedVersion == null">
+													<label>{{'-- Pilih Version --' | translate | splitCharT }}</label>
+												</div>
+												<div class="ui-g-12 ui-md-2" style="text-align: right"
+													style="cursor: pointer;" (click)="openDropdown()">
+													<span class="ui-clickable fa fa-fw fa-caret-down"
+														ng-reflect-klass="ui-clickable"
+														ng-reflect-ng-class="fa fa-fw fa-caret-down"></span>
+												</div>
+												<div class="ui-g-12 ui-md-12"
+													style="z-index: 1;border:1px solid #cfcfcf; width: 12vw;background: #ffffff;display: none;position: relative; margin: 1.368px 1.4px 1.4px -1px;max-height: 20vh;overflow-y: scroll;"
+													id="dropdownTree" appendTo="body">
+													<p-tree [style]="{'border':'0px','background': '#ffffff'}"
+														[value]="listVersion" selectionMode="single"
+														[(selection)]="selectedFiles"
+														(onNodeSelect)="nodeSelect($event)"
+														(onNodeUnselect)="nodeUnselect($event)">
+													</p-tree>
+												</div>
+											</div>
+										</div> -->
+									</div>
+								</p-fieldset>
+							</div>
+							<div class="ui-g-12 ui-md-12 ui-lg-10">
+								<div class="ui-g form-group">
+									<p-fieldset
+										legend="{{'frmMapPaketMdlApkToObjekModul_objModulAplikasi' | translate | splitCharT }}">
+
+										 <div class="ui-helper-clearfix">
+											<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+											<input style="width: 20%;float:right;" type="text" [(ngModel)]="pencarian"
+												[ngModelOptions]="{standalone: true}"
+												placeholder="{{'frmMapPaketMdlApkToObjekModul_pencarian' | translate | splitCharT }}"
+												(keyup)="globalFilter($event.target.value)">
+										</div>
+										<!--
+										<p-dataTable [value]="listData" loadingIcon="fa-spinner" expandableRows="true"
+											[lazy]="true" [headerCheckboxToggleAllPages]="true"
+											[(selection)]="selectedMenu">
+
+										<p-column styleClass="col-icon"
+											[style]="{'width':'10px', 'text-align': 'left'}">
+											<ng-template let-col="rowData" pTemplate="body" let-i="rowIndex">
+												<button type="button" (click)="toggleCoba(col, dtEn)"
+													style="margin-left: 0px;border: none;background: no-repeat;"><i
+														class="fa fa-chevron-circle-right"></i></button>
+											</ng-template>
+										</p-column>
+
+										<p-column field="cek" [style]="{'width':'50px', 'text-align': 'center'}">
+											<ng-template pTemplate="body" let-data="rowData" let-col>
+												<p-checkbox binary="true" (onChange)="changeCheckbox($event)"
+													[ngModel]="data.kode !== null"
+													[ngModelOptions]="{standalone: true}"></p-checkbox>
+											</ng-template>
+										</p-column>
+										<p-column field="objekModulAplikasi" [style]="{'width':'180px'}"></p-column>
+
+										<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+											<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"
+												#dt>
+											</p-column>
+											<p-column field="objekModulAplikasi">
+											</p-column>
+											<ng-template let-child pTemplate="rowexpansion" expanded="true"
+												let-ri="rowIndex">
+												
+												<p-dataTable [value]="listData[ri+first].childs" expandableRows="true"
+													loadingIcon="fa-spinner" [headerCheckboxToggleAllPages]="true"
+													[(selection)]="selectedMenu">
+													<p-column [style]="{'width':'38px'}" selectionMode="multiple">
+													</p-column>
+													<p-column expander="true" styleClass="col-icon"
+														[style]="{'width':'50px'}" #dt>
+													</p-column>
+													<p-column field="objekModulAplikasi">
+													</p-column>
+													<ng-template let-child pTemplate="rowexpansion" expanded="true"
+														let-ri="rowIndex">
+														<p-dataTable
+															[value]="listData[ri+first].childs[ri+first].childs"
+															expandableRows="true" loadingIcon="fa-spinner"
+															[headerCheckboxToggleAllPages]="true"
+															[(selection)]="selectedMenu">
+															<p-column field="objekModulAplikasi"
+																[style]="{'width':'60px'}">
+															</p-column>
+														</p-dataTable>
+													</ng-template>
+												</p-dataTable>
+												
+											</ng-template>
+										</p-dataTable> -->
+
+										<div style="overflow-y: scroll;max-height: 217.5px;" class="ui-g-6 ui-md-12">
+											<!-- parent -->
+											<div class="treeD">
+												<p-dataTable [value]="listData" rowGroupMode="subheader"
+													groupField="nama" [scrollable]="true" [globalFilter]="gb"
+													expandableRows="true" #dtEn>
+
+													<p-column styleClass="col-icon"
+														[style]="{'width':'50px', 'text-align': 'left'}">
+														<ng-template let-col="rowData" pTemplate="body"
+															let-i="rowIndex">
+															<button type="button" *ngIf="col.childs.length !== 0"
+																(click)="toggleCoba(col, dtEn)"
+																style="margin-left: 0px;border: none;background: no-repeat;"><i
+																	class="fa fa-chevron-circle-right"></i></button>
+														</ng-template>
+													</p-column>
+													<p-column field="statusAktif"
+														[style]="{'width':'50px', 'text-align': 'left'}">
+														<ng-template let-col pTemplate="body" let-ri="rowIndex"
+															let-data="rowData">
+															<p-checkbox binary="true" [(ngModel)]="data[col.field]"
+																[ngModelOptions]="{standalone: true}"
+																(onChange)="isParentChecked($event,data,ri)"
+																[style]="{'margin-left':'0px'}"></p-checkbox>
+															<span
+																hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+																: {{data[col.field]}}</span>
+														</ng-template>
+													</p-column>
+													<p-column field="objekModulAplikasi"></p-column>
+													
+													<!-- anak -->
+													<ng-template let-data="rowData" let-ri="rowIndex"
+														pTemplate="rowexpansion">
+														<p-dataTable [value]="listData[ri].childs" [editable]="true"
+															expandableRows="true" #dtEnAnak>
+
+															<p-column styleClass="col-icon"
+																[style]="{'width':'50px', 'text-align': 'left'}">
+																<ng-template let-col="rowData" pTemplate="body"
+																	let-i="rowIndex">
+																	<button type="button"
+																		*ngIf="col.childs.length !== 0"
+																		(click)="toggleCoba(col, dtEnAnak)"
+																		style="margin-left: 10px;border: none;background: no-repeat;"><i
+																			class="fa fa-chevron-circle-right"></i></button>
+
+																</ng-template>
+															</p-column>
+															<!-- <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column> -->
+															<p-column field="statusAktif"
+																[style]="{'width':'50px', 'text-align': 'left'}">
+																<ng-template let-col pTemplate="body"
+																	let-riAnak="rowIndex" let-data="rowData">
+																	<p-checkbox binary="true"
+																		[(ngModel)]="data[col.field]"
+																		[ngModelOptions]="{standalone: true}"
+																		(onChange)="isParentChecked($event,data,ri)"
+																		[style]="{'margin-left':'15px'}"></p-checkbox>
+																	<span
+																		hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+																		: {{data[col.field]}}</span>
+																</ng-template>
+															</p-column>
+															<p-column field="objekModulAplikasi"></p-column>
+															<!-- <p-column field="kode" [hidden]="true"></p-column>
+														<p-column field="namaObjekModulAplikasi" [editable]="false" [style]="{'width':'200px'}"></p-column> -->
+
+
+
+															<!-- cucu -->
+															<ng-template let-dataAnak="rowData" let-riAnak="rowIndex"
+																pTemplate="rowexpansion">
+																<p-dataTable
+																	[value]="listData[ri].childs[riAnak].childs"
+																	[editable]="true" expandableRows="true" #dtEnCucu>
+
+																	<p-column styleClass="col-icon"
+																		[style]="{'width':'50px', 'text-align': 'left'}">
+																		<ng-template let-col="rowData" pTemplate="body"
+																			let-i="rowIndex">
+																			<button type="button"
+																				*ngIf="col.childs.length !== 0"
+																				(click)="toggleCoba(col, dtEnCucu)"
+																				style="margin-left: 20px;border: none;background: no-repeat;"><i
+																					class="fa fa-chevron-circle-right"></i></button>
+																		</ng-template>
+																	</p-column>
+																	<!-- <p-column [expander]="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column> -->
+																	<p-column field="statusAktif"
+																		[style]="{'width':'60px', 'text-align': 'left'}">
+																		<ng-template let-col pTemplate="body"
+																			let-riCucu="rowIndex" let-data="rowData">
+																			<p-checkbox binary="true"
+																				[(ngModel)]="data[col.field]"
+																				[ngModelOptions]="{standalone: true}"
+																				(onChange)="isParentChecked($event,data,ri)"
+																				[style]="{'margin-left':'30px'}">
+																			</p-checkbox>
+																			<span
+																				hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+																				: {{data[col.field]}}</span>
+																		</ng-template>
+																	</p-column>
+																	<p-column field="objekModulAplikasi"></p-column>
+																	<!-- <p-column field="kode" [hidden]="true"></p-column>
+																<p-column field="namaObjekModulAplikasi" [editable]="false" [style]="{'width':'200px'}"></p-column> -->
+
+
+																	<!-- empat -->
+																	<ng-template let-dataCucu="rowData"
+																		let-riCucu="rowIndex" pTemplate="rowexpansion">
+																		<p-dataTable
+																			[value]="listDataTesting[ri].childs[riAnak].childs[riCucu].childs"
+																			[editable]="true" expandableRows="true"
+																			#dtEnEmpat>
+
+																			<p-column styleClass="col-icon"
+																				[style]="{'width':'50px', 'text-align': 'left'}">
+																				<ng-template let-col="rowData"
+																					pTemplate="body" let-i="rowIndex">
+
+																					<button type="button"
+																						*ngIf="col.childs.length !== 0"
+																						(click)="toggleCoba(col, dtEnEmpat)"
+																						style="margin-left: 30px;border: none;background: no-repeat;"><i
+																							class="fa fa-chevron-circle-right"></i></button>
+
+																				</ng-template>
+																			</p-column>
+																			<!-- <p-column [expander]="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column> -->
+																			<p-column field="statusAktif"
+																				[style]="{'width':'50px', 'text-align': 'left'}">
+																				<ng-template let-col pTemplate="body"
+																					let-riEmpat="rowIndex"
+																					let-data="rowData">
+																					<p-checkbox binary="true"
+																						[(ngModel)]="data[col.field]"
+																						[ngModelOptions]="{standalone: true}"
+																						(onChange)="isParentChecked($event,data,ri)"
+																						[style]="{'margin-left':'45px'}">
+																					</p-checkbox>
+																					<span
+																						hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+																						: {{data[col.field]}}</span>
+																				</ng-template>
+																			</p-column>
+																			<p-column field="objekModulAplikasi">
+																			</p-column>
+
+																			<!-- lima -->
+																			<ng-template let-dataEmpat="rowData"
+																				let-riEmpat="rowIndex"
+																				pTemplate="rowexpansion">
+																				<p-dataTable
+																					[value]="listDataTesting[ri].childs[riAnak].childs[riCucu].childs[riEmpat].childs"
+																					[editable]="true" #dtEnLima>
+																					<!-- expandableRows="true" -->
+
+																					<p-column styleClass="col-icon"
+																						[style]="{'width':'50px', 'text-align': 'left'}">
+																						<ng-template let-col="rowData"
+																							pTemplate="body"
+																							let-i="rowIndex">
+
+																							<button type="button"
+																								*ngIf="col.childs.length !== 0"
+																								(click)="toggleCoba(col, dtEnLima)"
+																								style="margin-left: 40px;border: none;background: no-repeat;"><i
+																									class="fa fa-chevron-circle-right"></i></button>
+
+																						</ng-template>
+																					</p-column>
+																					<p-column field="statusAktif"
+																						[style]="{'width':'50px', 'text-align': 'left'}">
+																						<ng-template let-col
+																							pTemplate="body"
+																							let-riLima="rowIndex"
+																							let-data="rowData">
+																							<p-checkbox binary="true"
+																								[(ngModel)]="data[col.field]"
+																								[ngModelOptions]="{standalone: true}"
+																								(onChange)="isParentChecked($event,data,ri)"
+																								[style]="{'margin-left':'60px'}">
+																							</p-checkbox>
+																							<span
+																								hidden>{{'frmMapObjekModultoKelompokUser_statusEnabled'| translate | splitCharT }}
+																								:
+																								{{data[col.field]}}</span>
+																						</ng-template>
+																					</p-column>
+																					<p-column
+																						field="objekModulAplikasi">
+																					</p-column>
+																				</p-dataTable>
+																			</ng-template>
+																		</p-dataTable>
+																	</ng-template>
+																</p-dataTable>
+															</ng-template>
+														</p-dataTable>
+													</ng-template>
+												</p-dataTable>
+											</div>
+										</div>
+									</p-fieldset>
+								</div>
+							</div>
+							<div class='ui-g-12 ui-md-12'>
+								<div style="float: right" class="ui-g-12 ui-md-1">
+									<button pButton type="submit"
+										label="{{'frmMapPaketMdlApkToObjekModul_reset'| translate | splitCharT}}"
+										icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div style="float: right" class="ui-g-12 ui-md-1">
+									<button pButton type="submit"
+										label="{{'frmMapPaketMdlApkToObjekModul_simpan'| translate | splitCharT}}"
+										icon="fa-save" (click)="onSubmit()"></button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,112 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<form [formGroup]="form" (ngSubmit)="onSubmit()">
+					<h1>Master {{'strukturNomorDetail'| translate | splitCharT }}</h1>
+					<div class="ui-g form-group">
+						<div class="ui-g-4">
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'strukturNomor'| translate | splitCharT }}</label>
+								<p-dropdown id="dropdownStruktur" filter="filter"  class="ui-inputwrapper-filled" [options]="listStruktur" formControlName="kdStrukturNomor" [autoWidth]="false" ></p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'levelTingkat'| translate | splitCharT }}<span *ngIf="!form.get('kdLevelTingkat').valid && form.get('kdLevelTingkat').touched" style="color: red">*</span></label>
+								<p-dropdown id="dropdownLevel" filter="filter" class="ui-inputwrapper-filled" [options]="listLevel" formControlName="kdLevelTingkat" [autoWidth]="false" ></p-dropdown>  
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'qtyDigitKode'| translate | splitCharT }}<span *ngIf="!form.get('qtyDigitKode').valid && form.get('qtyDigitKode').touched" style="color: red">*</span></label>
+								<input id="input" type="text" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)"  formControlName="qtyDigitKode" pInputText placeholder="{{'qtyDigitKode'| translate | splitCharT }}" />
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'kodeUrutAwal'| translate | splitCharT }}<span *ngIf="!form.get('kodeUrutAwal').valid && form.get('kodeUrutAwal').touched" style="color: red">*</span></label>
+								<input id="input" type="text" formControlName="kodeUrutAwal" pInputText placeholder="{{'kodeUrutAwal'| translate | splitCharT }}" />
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'kodeUrutAkhir'| translate | splitCharT }}<span *ngIf="!form.get('kodeUrutAkhir').valid && form.get('kodeUrutAkhir').touched" style="color: red">*</span></label>
+								<input id="input" type="text" formControlName="kodeUrutAkhir" pInputText />
+							</div>
+						</div>
+						<div class="ui-g-4">
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'formatKode'| translate | splitCharT }}<span *ngIf="!form.get('formatKode').valid && form.get('formatKode').touched" style="color: red">*</span></label>
+								<input id="input" type="text" formControlName="formatKode" pInputText />       
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'keteranganLainnya'| translate | splitCharT }}</label>
+								<input id="input" type="text" formControlName="keteranganLainnya" pInputText />
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">is AutoIncrement</label>
+							</div>
+							<div class="ui-g-12 ui-md-8">
+								<div class="ui-g">
+									<div class="ui-g-3">
+										<p-radioButton name="rg" value="1" label="Ya" formControlName="isAutoIncrement"></p-radioButton>
+										<span *ngIf="!form.get('isAutoIncrement').valid && form.get('isAutoIncrement').touched" style="color: red">*</span>
+									</div>
+									<div class="ui-g-5">
+										<p-radioButton name="rg" value="0" label="Tidak" formControlName="isAutoIncrement"></p-radioButton>
+										<span *ngIf="!form.get('isAutoIncrement').valid && form.get('isAutoIncrement').touched" style="color: red">*</span>
+									</div>
+								</div>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<p-checkbox binary="true" label="{{'statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+								<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+							</div>
+						</div>
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-8"></div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'simpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'hapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'batal'| translate | splitCharT}}" icon="fa-close" (click)="reset()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<p-splitButton label="{{'cetak'| translate | splitCharT }}" icon="fa-print" [model]="items"></p-splitButton>
+							</div>
+						</div>
+					</div>
+				</form>
+
+
+				<div class="ui-g-12 ui-fluid">
+					<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+					[(selection)]="selected" scrollable="true" resizableColumns="true" (onRowSelect)="onRowSelect($event)" [lazy]="true"
+					[loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)">             
+					<p-header>
+						<div class="ui-helper-clearfix">
+							<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+							<input type="text" pInputText size="50" placeholder="{{'pencarianStrukturNomor'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+							<span style="float: left;padding:0.3em;">{{'daftarMasterStrukturNomorDetail'| translate | splitCharT}}</span>
+						</div>{{'daftarMasterStrukturNomorDetail'| translate | splitCharT }}</p-header>
+						<p-column field="namaStrukturNomor" header="{{'dataParentStrukturNomor'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+						<p-column field="namaLevelTingkat" header="{{'kodeLevelTingkat'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+						<p-column field="qtyDigitKode" header="{{'qtyDigitKode'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+						<p-column field="kodeUrutAwal" header="{{'kodeUrutAwal'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+						<p-column field="kodeUrutAkhir" header="{{'kodeUrutAkhir'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+						<p-column field="formatKode" header=" {{'formatKode'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+						<p-column field="keterangaLainnya" header=" {{'keterangaLainnya'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+						<p-column field="isAutoIncrement" header="{{'isAutoIncrement'| translate | splitCharT }}" [style]="{'width':'200px'}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								<span *ngIf="pick.isAutoIncrement == 1">Ya</span>
+								<span *ngIf="pick.isAutoIncrement == 0">Tidak</span>
+							</ng-template>
+						</p-column>
+						<p-column field="statusEnabled" header="{{'statusEnabled'| translate | splitCharT }}" [style]="{'width':'200px'}">
+							<ng-template let-col="rowData" pTemplate type="body">
+								{{col.statusEnabled | truefalse | translate | splitCharT }}
+							</ng-template> 
+						</p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

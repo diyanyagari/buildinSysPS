@@ -1,0 +1,220 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmSpesifikasi_title'| translate | splitCharT }}</h1>
+        <p-tabView (onChange)="onTabChange($event)" [activeIndex]="tabIndex">
+          <p-tabPanel header="Spesifikasi">
+            <h1>{{'frmSpesifikasi_spesifikasiHead'| translate | splitCharT }}</h1>
+            <form [formGroup]="form">
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-8 ui-g-nopad ui-g form-group">
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_nama'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span> <span *ngIf="!form.get('namaSpesifikasi').valid && form.get('namaSpesifikasi').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> </label>
+                    <input id="input" type="text" formControlName="namaSpesifikasi" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)" pInputText/>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_nilaiMin'| translate | splitCharT }}</label>
+                    <input id="input" type="text" formControlName="nilaiSpesifikasiMin" pInputText/>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_noUrut'| translate | splitCharT }} </label>
+                    <input id="input" type="text" formControlName="noUrut" pInputText />
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_nilaiMax'| translate | splitCharT }}</label>
+                    <input id="input" type="text" formControlName="nilaiSpesifikasiMax" pInputText />
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_nilaiNormal'| translate | splitCharT }}</label>
+                    <input id="input" type="text" formControlName="nilaiSpesifikasiNormal" pInputText />
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_typeDataObjek'| translate | splitCharT }}</label>
+                    <p-dropdown id="typeDataObjek" filter="filter" formControlName="kdTypeDataObjek" [options]="listTypeDataObjek" [autoWidth]="false"></p-dropdown>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_satuanHasil'| translate | splitCharT }}</label>
+                    <p-dropdown id="satuanHasil" filter="filter" formControlName="kdSatuanHasil" [options]="listSatuanHasil" [autoWidth]="false"></p-dropdown>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <br>
+                    <p-checkbox binary="true" label="{{'frmSpesifikasi_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+                    <form [formGroup]="form">
+                      <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmJenisKeputusan_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span><span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'required'| translate | splitCharT}}</span></label>
+                          <input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="display2" pInputText/>
+                        </div>
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmJenisKeputusan_kodeExternal'| translate | splitCharT }}</label>
+                          <input id="input" type="text" formControlName="kodeExternal" pInputText/>
+                        </div>
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmJenisKeputusan_namaExternal'| translate | splitCharT }}</label>
+                          <input id="input" type="text" formControlName="namaExternal" pInputText/>
+                        </div>
+                      </div>
+                    </form>
+                  </p-fieldset>
+                </div>
+                <div class="ui-g-12 ui-md-1 ui-md-offset-7">
+                  <button pButton type="button" label="{{'frmSpesifikasi_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="submit" label="{{'frmSpesifikasi_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmSpesifikasi_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmSpesifikasi_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <p-splitButton label="{{'frmSpesifikasi_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+                </div>
+              </div>
+            </form>
+          </p-tabPanel>
+          <!-- Tab Child -->
+          <p-tabPanel *ngFor="let item of listTab" [header]="item.namaSpesifikasi">
+            <h1>{{item.namaSpesifikasi}}</h1>
+            <form [formGroup]="form">
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-8 ui-g-nopad ui-g form-group">
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_nama'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span> <span *ngIf="!form.get('namaSpesifikasi').valid && form.get('namaSpesifikasi').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> </label>
+                    <input id="input" type="text" formControlName="namaSpesifikasi" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)" pInputText/>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_nilaiMin'| translate | splitCharT }}</label>
+                    <input id="input" type="text" formControlName="nilaiSpesifikasiMin" pInputText/>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_noUrut'| translate | splitCharT }} </label>
+                    <input id="input" type="text" formControlName="noUrut" pInputText />
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_nilaiMax'| translate | splitCharT }}</label>
+                    <input id="input" type="text" formControlName="nilaiSpesifikasiMax" pInputText />
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_nilaiNormal'| translate | splitCharT }}</label>
+                    <input id="input" type="text" formControlName="nilaiSpesifikasiNormal" pInputText />
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_typeDataObjek'| translate | splitCharT }}</label>
+                    <p-dropdown id="typeDataObjek" filter="filter" formControlName="kdTypeDataObjek" [options]="listTypeDataObjek" [autoWidth]="false"></p-dropdown>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <label for="input">{{'frmSpesifikasi_satuanHasil'| translate | splitCharT }}</label>
+                    <p-dropdown id="satuanHasil" filter="filter" formControlName="kdSatuanHasil" [options]="listSatuanHasil" [autoWidth]="false"></p-dropdown>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <br>
+                    <p-checkbox binary="true" label="{{'frmSpesifikasi_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+                    <form [formGroup]="form">
+                      <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmJenisKeputusan_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span><span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'required'| translate | splitCharT}}</span></label>
+                          <input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="display2" pInputText/>
+                        </div>
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmJenisKeputusan_kodeExternal'| translate | splitCharT }}</label>
+                          <input id="input" type="text" formControlName="kodeExternal" pInputText/>
+                        </div>
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmJenisKeputusan_namaExternal'| translate | splitCharT }}</label>
+                          <input id="input" type="text" formControlName="namaExternal" pInputText/>
+                        </div>
+                      </div>
+                    </form>
+                  </p-fieldset>
+                </div>
+                <div class="ui-g-12 ui-md-1 ui-md-offset-7">
+                  <button pButton type="button" label="{{'frmSpesifikasi_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="submit" label="{{'frmSpesifikasi_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmSpesifikasi_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmSpesifikasi_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="reset()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <p-splitButton label="{{'frmSpesifikasi_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+                </div>
+              </div>
+            </form>
+          </p-tabPanel>
+        </p-tabView>
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" scrollable="true" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+              <p-header>
+                <div class="ui-helper-clearfix">
+                  <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                  <input type="text" pInputText size="50" placeholder="{{'frmSpesifikasi_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+                  (keyup)="cari()" style="width: 20%;float:right;">
+                  <span style="float: left;padding:0.3em;">{{'frmSpesifikasi_tableTitle'| translate | splitCharT}}</span>
+                </div>
+              </p-header>
+              <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+              <p-column field="namaSpesifikasi" header="{{'frmSpesifikasi_tableNama'| translate | splitCharT }}"></p-column>
+              <p-column field="noUrut" header="{{'frmSpesifikasi_tableNoUrut'| translate | splitCharT }}"></p-column>
+              <p-column field="nilaiSpesifikasiMin" header="{{'frmSpesifikasi_tableNilaiMin'| translate | splitCharT }}"></p-column>
+              <p-column field="nilaiSpesifikasiNormal" header="{{'frmSpesifikasi_tableNilaiNormal'| translate | splitCharT }}"></p-column>
+              <p-column field="nilaiSpesifikasiMax" header="{{'frmSpesifikasi_tableNilaiMax'| translate | splitCharT }}"></p-column>
+              <p-column field="namaSatuanHasil" header="{{'frmSpesifikasi_tableSatuanHasil'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="namaTypeDataObjek" header="{{'frmSpesifikasi_tableTypeDataObjek'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="statusEnabled" header="{{'frmSpesifikasi_tableStatus'| translate | splitCharT }}">
+                <ng-template let-col="rowData" pTemplate type="body">
+                  {{col.statusEnabled | truefalse | translate | splitCharT }}
+              </ng-template> 
+              </p-column>
+              <ng-template let-spesifikasi pTemplate="rowexpansion">
+                <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                  <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                    <div class="ui-grid-col-12">
+                      <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                        <div class="ui-grid-row">
+                          <div class="ui-grid-col-2 label">
+                            <span style="color:black">{{ 'frmSpesifikasi_optional' | translate | splitCharT }}</span>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="ui-grid-row">
+                          <div class="ui-grid label">{{'frmSpesifikasi_tableReportDisplay'| translate | splitCharT }} </div>
+                          <div class="ui-grid-col-4"> {{spesifikasi.reportDisplay}}</div>
+                        </div>
+                        <div class="ui-grid-row">
+                          <div class="ui-grid label">{{'frmSpesifikasi_tableKodeExternal' | translate | splitCharT}} </div>
+                          <div class="ui-grid-col-4">{{spesifikasi.kodeExternal}}</div>
+                        </div>
+                        <div class="ui-grid-row">
+                          <div class="ui-grid label">{{'frmSpesifikasi_tableNamaExternal'| translate | splitCharT}} </div>
+                          <div class="ui-grid-col-4">{{spesifikasi.namaExternal}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

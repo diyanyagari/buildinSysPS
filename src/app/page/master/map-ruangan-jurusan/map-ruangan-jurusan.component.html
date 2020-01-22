@@ -1,0 +1,53 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+	  <div class="ui-g-12">
+		<div class="card card-w-title">
+		  <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+		  <h1>{{'frmMapRuanganToJurusan_title' | translate | splitCharT}}</h1>
+		  <div class="ui-g form-group">
+			<div class="ui-g-6">
+			  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+				<div class="ui-g-12 ui-md-10">
+				  <label for="input">{{'frmMapRuanganToJurusan_titleLabel' | translate | splitCharT}}</label>
+				  <p-dropdown id="dropdown" filter="filter" (ngModelChange)="clearPanelBawah($event)" class="ui-inputwrapper-filled"
+					[(ngModel)]="kdRuangan" formControlName="kdRuangan" [autoWidth]="false" [options]="kodeRuangan"></p-dropdown>
+				</div>
+			  </form>
+			</div>
+			<div class="ui-g-12">
+			  <div class="ui-g-6"></div>
+			  <div class="ui-g-6">
+				<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+				<input type="text" pInputText size="50" placeholder="{{'frmMapRuanganToJurusan_pencarian'| translate | splitCharT}}" style="width: 40%;float:right;"
+				  [(ngModel)]="pencarian" (keyup)="cari()">
+			  </div>
+			  <p-blockUI [target]="pnl" [blocked]="hasilCek" [baseZIndex]=10 [autoZIndex]="false">
+				<i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+			  </p-blockUI>
+			  <p-fieldset #pnl legend="{{'frmMapRuanganToJurusan_titleTable'| translate | splitCharT}}">
+				<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+				  [lazy]="true" [headerCheckboxToggleAllPages]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" expandableRows="true"
+				  [(selection)]="selected" (onRowSelect)="onRowSelect($event)">
+					<p-column [style]="{'width':'10%'}" selectionMode="multiple"></p-column>
+				  <p-column field="namaFakultas" header="{{'frmMapRuanganToJurusan_headerFakultas' | translate | splitCharT }}"></p-column>
+				  <p-column field="namaProgram" header="{{'frmMapRuanganToJurusan_headerProgram'| translate | splitCharT}}"></p-column>
+				  <p-column field="namaJurusan" header="{{'frmMapRuanganToJurusan_headerJurusan'| translate | splitCharT}}"></p-column>
+				</p-dataTable>
+			  </p-fieldset>
+			</div>
+			<div class="ui-g-12">
+			  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+				<div class="ui-g-12 ui-md-8"></div>
+				<div class="ui-g-12 ui-md-8"></div>
+				<div class="ui-g-12 ui-md-8"></div>
+				<div class="ui-g-12 ui-md-2"></div>
+				<div class="ui-g-12 ui-md-2">
+				  <button pButton type="submit" label="{{'frmMapRuanganToJurusan_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+				</div>
+			  </form>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>

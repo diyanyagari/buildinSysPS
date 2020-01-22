@@ -1,0 +1,217 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+          <p-confirmDialog responsive="true" [closable]=false icon="fa fa-question-circle" width="425" style="left: 35vw;
+          top: 40vh;" #cd>
+            <p-footer>
+              <button type="button" pButton icon="fa-check" label="Ya" (click)="cd.accept()"></button>
+            </p-footer>
+          </p-confirmDialog>
+          <h1>
+              <div class="ui-helper-clearfix">
+              
+                <div style="float:right;margin: 4px;margin-right: 4px;margin-top: 10px;font-size: 12px">
+                    <label>{{'frmMasukRuangan_nomorAntrian' | translate | splitCharT }}</label>
+                    <label style="color:red" for="nomorAntrian">{{noAntrian}}</label>
+                </div>
+                
+                <a class="fa fa-angle-left"
+                  style="padding:0.2em 0.2em;float:right;margin-top:-7px;display:block;margin-right: 5px;font-size: 2em"
+                  (click)="periodeOpen()" id="periodePencarianOpen" title="{{'frmMasukRuangan_pencarianPeriode' | translate | splitCharT}}"></a>
+                  
+                  <div
+                  style="border:1px solid #c1c1c1;float:right;border-radius: 5px;display:none;margin-right: 5px; margin-top: -4px"
+                  id="periodePencarian">
+                  <!-- width:24%; -->
+                  <!-- <form [formGroup]="form"> -->
+    
+                    <!-- <div style="float:right;font-size:12px;margin-top: 12px;margin-right: 10px">
+                        <button
+                        title="{{'frmMasukRuangan_editPasienDilayanaiDirumah/Kantor' | translate | splitCharT}}"
+                        (click)="showEdit()" class="btnAktifAntrian"
+                        [disabled]="buttonEdit">
+                        <img style="width: 19px"
+                            src="assets/layout/images/klinik/edit-regular.svg" />
+                      </button>
+                    </div>
+                      
+                  <div style="float:right;font-size:12px;margin-top: 12px;margin-right: 10px">
+                    <p-checkbox [disabled]="disCek" (onChange)="openCek($event)" binary="true" label="{{'frmMasukRuangan_pasienDilayaniDirumah/Kantor'| translate | splitCharT }}" formControlName="pasienDilayani"></p-checkbox>
+                  </div> -->
+                  <div class="ui-g-12 ui-md-6" style="margin-top: 12px;font-size: 12px">
+                    <label>{{'frmMasukRuangan_tglPendaftaran' | translate | splitCharT }}
+                      <span style="color: red;font-weight: bolder;">*</span>
+                    </label>
+                  </div>
+                  <div class="ui-g-12 ui-md-6" style="margin-top: 10px;font-size: 12px;float:right;">
+                    <app-calender (ngModelChange)="getDokter($event)" [(ngModel)]="tglDft" [monthNavigator]="true" [yearNavigator]="true" yearRange="{{rangeTahun}}"
+                         [showIcon]="true" dateFormat="dd M yy" [showTime]="true" [ngModelOptions]="{standalone: true}">
+                      </app-calender>
+                  </div>
+                  
+                  <!-- <div style="float:right;margin: 10px;font-size: 12px">
+                      <app-calender (ngModelChange)="getDokter($event)" [(ngModel)]="tglDft" [monthNavigator]="true" [yearNavigator]="true" yearRange="{{rangeTahun}}"
+                         [showIcon]="true" dateFormat="dd M yy" [showTime]="true" [ngModelOptions]="{standalone: true}">
+                      </app-calender>
+                  </div>
+                  <div style="float:right;margin-top: 12px;font-size: 12px">
+                    <label>{{'frmMasukRuangan_tglPendaftaran' | translate | splitCharT }}
+                      <span style="color: red;font-weight: bolder;">*</span>
+                    </label>
+                  </div> -->
+                </div>
+                <a class="fa fa-angle-right"
+                  style="padding:0.2em 0.2em;float:right;margin-top:-7px;display:none;font-size: 2em "
+                  (click)="periodeClose()" title="{{'frmMasukRuangan_tutupPencarianPeriode' | translate | splitCharT}}" id="periodePencarianClose"></a>
+                <span style="float: left;padding:0.3em;">{{'frmMasukRuangan_title'| translate | splitCharT }}</span>
+              </div>
+            </h1>
+
+            <form [formGroup]="form">
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-g-nopad">
+                  <div class="ui-g-12 ui-md-12">
+                    <div class="ui-g form-group">
+
+                        <div class="ui-g-12 ui-md-2" style="width: 9%">
+                            <label>{{'frmMasukRuangan_noRm' | translate | splitCharT }}
+                            </label>
+                            <input id="input" type="text" formControlName="noCM" pInputText />
+                          </div>
+                          <div class="ui-g-12 ui-md-4">
+                            <label>{{'frmMasukRuangan_namaLengkap' | translate | splitCharT }}
+                            </label>
+                            <input id="input" type="text" formControlName="namaLengkap" pInputText />
+                          </div>
+                          <div class="ui-g-12 ui-md-1" style="width: 4%;">
+                            <label>{{'frmMasukRuangan_tahun' | translate | splitCharT }}</label>
+                            <input id="input" type="text" formControlName="tahun" pInputText
+                               />
+                               <!-- (input)="getTglLahir($event,'tahun','data')" -->
+                          </div>
+                          <div class="ui-g-12 ui-md-1" style="width: 4%;">
+                            <label>{{'frmMasukRuangan_bulan' | translate | splitCharT }}</label>
+                            <input id="input" type="text" formControlName="bulan" pInputText
+                               />
+                               <!-- (input)="getTglLahir($event,'bulan','data')" -->
+                          </div>
+                          <div class="ui-g-12 ui-md-1" style="width: 3%;">
+                            <label>{{'frmMasukRuangan_hari' | translate | splitCharT }}</label>
+                            <input id="input" type="text" formControlName="hari" pInputText
+                              />
+                              <!-- (input)="getTglLahir($event,'hari','data')"  -->
+                          </div>
+                          <div class="ui-g-12 ui-md-1" style="width: 2%">
+                              <label>{{'frmMasukRuangan_jenisKelamin' | translate | splitCharT }}</label>
+                              <input id="input" type="text" formControlName="jenisKelamin" pInputText />
+                            </div>
+                          <div class="ui-g-12 ui-md-2" style="width: 12%;">
+                              <label>{{'frmMasukRuangan_pendidikanTerakhir' | translate | splitCharT }}
+                              </label>
+                              <input id="input" type="text" formControlName="namaPendidikan" pInputText
+                              />
+                            </div>
+                            <div class="ui-g-12 ui-md-2" style="width: 16%;">
+                              <label>{{'frmMasukRuangan_pekerjaan' | translate | splitCharT }}
+                              </label>
+                              <input id="input" type="text" formControlName="namaPekerjaan" pInputText
+                              />
+                            </div>
+                            <div class="ui-g-12 ui-md-2" style="width: 16%">
+                              <label>{{'frmMasukRuangan_kelompokPasien' | translate | splitCharT }}</label>
+                              <input id="input" type="text" formControlName="kelompokPasien" pInputText />
+                            </div>
+                            
+                            <div class="ui-g-12 ui-md-2" style="width: 12%;margin-right: 3px;">
+                              <label>{{'frmMasukRuangan_tanggalDaftar' | translate | splitCharT}}</label>
+                              <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="{{rangeTahun}}"
+                                formControlName="tglDaftarPelayanan" [showIcon]="true" dateFormat="dd M yy" [showTime]="true">
+                              </app-calender>
+                            </div>
+                            <div class="ui-g-12 ui-md-10" style="width: 87%">
+                              <label>{{'frmMasukRuangan_alamatLengkap' | translate | splitCharT }}
+                              </label>
+                              <input id="input" type="text" formControlName="alamatLengkap" pInputText />
+                            </div>
+
+                            <div class="ui-g-12 ui-md-2">
+                                <label>{{'frmMasukRuangan_ruangPelayanan' | translate | splitCharT }}</label>
+                                <input id="input" type="text" formControlName="ruangPelayanan" pInputText />
+                            </div>
+                            <div class="ui-g-12 ui-md-2">
+                                <label>{{'frmMasukRuangan_asalRujukan' | translate | splitCharT }}</label>
+                                <input id="input" type="text" formControlName="asalRujukan" pInputText />
+                            </div>
+                            <div class="ui-g-12 ui-md-2" [hidden]="dropdownOnOffPenyakit">
+                                <label>{{'frmMasukRuangan_kasusPenyakit' | translate | splitCharT }}
+                                    <span style="color: red;font-weight: bolder;">*</span>
+                                    <span *ngIf="!form.get('kdKasusPenyakit').valid && form.get('kdKasusPenyakit').touched"
+                                      style="color: red"> {{'frmMasukRuangan_required'| translate | splitCharT}}</span>
+                                  </label>
+                                  <p-dropdown filter="filter" class="ui-inputwrapper-filled"
+                                    [options]="listKasusPenyakit" formControlName="kdKasusPenyakit" [autoWidth]="false">
+                                  </p-dropdown>
+                            </div>
+                            <div class="ui-g-12 ui-md-2" [hidden]="!dropdownOnOffPenyakit">
+                              <label>{{'frmMasukRuangan_kasusPenyakit' | translate | splitCharT }}</label>
+                              <input id="input" type="text" formControlName="kdKasusPenyakit" pInputText />
+                            </div>
+
+                            <div class="ui-g-12 ui-md-2" [hidden]="dropdownOnOffPelayanan">
+                                <label>{{'frmMasukRuangan_kelasPelayanan' | translate | splitCharT }}
+                                    <span style="color: red;font-weight: bolder;">*</span>
+                                    <span *ngIf="!form.get('kelasPelayanan').valid && form.get('kelasPelayanan').touched"
+                                      style="color: red"> {{'frmMasukRuangan_required'| translate | splitCharT}}</span>
+                                </label>
+                                <p-dropdown filter="filter" class="ui-inputwrapper-filled"
+                                [options]="listKelasPelayanan" formControlName="kelasPelayanan" [autoWidth]="false">
+                                </p-dropdown>
+                            </div>
+                            <div class="ui-g-12 ui-md-2" [hidden]="!dropdownOnOffPelayanan">
+                              <label>{{'frmMasukRuangan_kelasPelayanan' | translate | splitCharT }}</label>
+                              <input id="input" type="text" formControlName="kelasPelayanan" pInputText />
+                            </div>
+                            
+                            <div class="ui-g-12 ui-md-4">
+                                <label>{{'frmMasukRuangan_dokterPenanggungJawab' | translate | splitCharT }}
+                                    <span style="color: red;font-weight: bolder;">*</span>
+                                    <span *ngIf="!form.get('kdDokter').valid && form.get('kdDokter').touched"
+                                      style="color: red"> {{'frmMasukRuangan_required'| translate | splitCharT}}</span>
+                                  </label>
+                                  <p-dropdown filter="filter" class="ui-inputwrapper-filled"
+                                    [options]="listDokter" formControlName="kdDokter" [autoWidth]="false">
+                                  </p-dropdown>
+                            </div>
+                            <!-- <div class="ui-g-12 ui-md-2">
+                                <label>{{'frmMasukRuangan_penjamin' | translate | splitCharT }}
+                                  </label>
+                                  <p-dropdown filter="filter" class="ui-inputwrapper-filled"
+                                    [options]="listPenjamin" formControlName="kdPenjamin" [autoWidth]="false">
+                                  </p-dropdown>
+                            </div> -->
+
+                            <div class="ui-g-12">
+                                <div class="ui-g-12 ui-md-10"></div>
+                                  <div class="ui-g-12 ui-md-1">
+                                    <button pButton type="button" (click)="onSubmit()"
+                                      label="{{'frmMasukRuangan_btnSimpan'| translate | splitCharT }}" icon="fa-save"
+                                      [disabled]="buttonAktif"></button>
+                                  </div>
+                                  <div class="ui-g-12 ui-md-1">
+                                    <button pButton type="button" (click)="lanjutkan()"
+                                      label="{{'frmMasukRuangan_btnLanjutkan'| translate | splitCharT }}" icon=""></button>
+                                  </div>
+                  
+                              </div>
+
+                    </div>
+                    </div>
+                  </div>
+                </div>
+             </form>
+
+      </div>
+    </div>
+  </div>
+</div>

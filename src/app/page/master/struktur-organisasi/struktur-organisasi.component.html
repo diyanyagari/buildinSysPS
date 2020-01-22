@@ -1,0 +1,164 @@
+<p-dialog header="{{'strukturOrganisasi'| translate | splitCharT }}" [resizable]="false" responsive="true" showEffect="fade" modal="modal"
+ [(visible)]="dialogPreview" width="{{widht}}">
+	<div class="ui-g form-group" style="position: relative;" id="dialogPreviewId">
+		<div class="ui-g-12">
+			<ngx-image-viewer [src]="images" [config]="config" (customEvent)="handleEvent($event)"></ngx-image-viewer>
+		</div>
+	</div>
+</p-dialog>
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g">
+			<p-dialog header="{{'infoDepartemen'| translate | splitCharT }}" [resizable]="false" responsive="true" showEffect="fade" modal="modal"
+			 [(visible)]="dialogInfoDepartemen" width="500">
+				<form [formGroup]="form">
+					<div class="ui-g form-group" style="margin-bottom: 16px;">
+						<div class="ui-g-12 ui-md-6">
+							<div class="ui-g-12 ui-md-12">
+								<label>{{'namaDepartemenHead'| translate | splitCharT}}
+								</label>
+								<p-dropdown formControlName="kdDepartemenHead" class="ui-inputwrapper-filled" [options]="listAsalDepartemen"
+								 [autoWidth]="false"></p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-12">
+								<label>{{'namaDepartemen'| translate | splitCharT}}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!form.get('namaDepartemen').valid && form.get('namaDepartemen').touched" style="color: red;font-weight: bolder;">required</span>
+								</label>
+								<input id="namaDepartemen" type="text" pInputText formControlName="namaDepartemen" />
+							</div>
+
+						</div>
+						<div class="ui-g-12 ui-md-6">
+							<div class="ui-g-12 ui-md-12">
+								<label>{{'pegawaiKepala'| translate | splitCharT }}</label>
+								<p-dropdown id="dropdownPegawaiKepala" filter="filter" class="ui-inputwrapper-filled" formControlName="kdPegawaiKepala"
+								 [options]="listPegawai" [autoWidth]="false" pTooltip="" tooltipPosition="top"></p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-12">
+								<p-checkbox binary="true" label="isProfitCostCenter" formControlName="isProfitCostCenter" (onChange)="changeConvert($event)"></p-checkbox>
+							</div>
+							<div class="ui-g-12 ui-md-12">
+								<p-checkbox binary="true" label="{{'statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+							</div>
+						</div>
+					</div>
+					<div class="ui-g-12 ui-md-4 ui-md-offset-8">
+						<p-footer>
+							<button type="button" pButton icon="fa-check" (click)="update()" label="{{'simpan'| translate | splitCharT}}"></button>
+						</p-footer>
+					</div>
+				</form>
+			</p-dialog>
+			<div class="card card-w-title">
+				<div class="ui-g">
+					<h1>{{'strukturOrganisasi'| translate | splitCharT }}</h1>
+					<br>
+				</div>
+				<div class="ui-g">
+					<br>
+				</div>
+				<div class="ui-g">
+					<br>
+					<button pButton type="button" icon="fa fa-camera" (click)=snapShot()></button>
+					<button pButton type="button" icon="fa fa-file-pdf-o" (click)=exportToDoc()></button>
+					<button pButton type="button" icon="fa fa-file-excel-o" (click)=exportToXLSX()></button>
+				</div>
+				<div class="ui-g" id="screenShot">
+					<div *ngFor="let item of listData" align="center">
+						<br>
+						<p-organizationChart styleClass="company" [value]="[item]" selectionMode="single" [(selection)]="selectedNode">
+							<ng-template let-node pTemplate="person">
+								<div pDraggable="organisasi" pDroppable="organisasi" (onDragStart)="dragStart(node)" (onDrop)="drop(node)">
+									<!-- <div class="node-header ui-corner-top">{{node.namaDepartemen}}</div>
+									<div class="node-content">
+										<img src="assets/showcase/images/demo/organization/{node.data.avatar}" width="32">
+										<div>{{node.namaDepartemen}}</div>
+									</div> -->
+									<div class="node-header ui-corner-top">
+										<p style="font-size:90%">Departemen</p>
+									</div>
+									<div class="node-content">
+										<div>
+											<p style="font-size:80%">{{node.namaDepartemen}}</p>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+							<ng-template let-node pTemplate="department">
+								<div pDraggable="organisasi" pDroppable="organisasi" (onDragStart)="dragStart(node)" (onDrop)="drop(node)"
+								 style="width: -webkit-fill-available;">
+									<div class="node-header ui-corner-top" *ngIf="node.jml <= 3 && node.jml >= 0" style="width:150px">
+										<p style="font-size:90%">{{node.namaDepartemen}}</p>
+									</div>
+									<div class="node-content" *ngIf="node.jml <= 3 && node.jml > 0" style="width:150px;">
+										<label>
+											<div class="ui-g">
+												<div *ngFor="let dat of node.pegawai; let i = index" class="ui-g-12 ui-md-12 ui-lg-12">
+													<td style="vertical-align: middle;width: 20%;">
+														<div style="text-align: left;width: 20%;"><img *ngIf="node.pegawai[i].photoDiri !== null" [src]="(node.pegawai[i].photoDiri | imgsec) | async"
+															 width="35" height="35" border="3" alig />
+														</div>
+													</td>
+													<td style="vertical-align: middle;width: 80%;">
+														<p style="font-size:80%;text-align:left">{{node.pegawai[i].namaPegawai}}</p>
+													</td>
+												</div>
+											</div>
+											<!-- <table style="width: 100%">
+												<thead>
+													<tr *ngFor="let dat of node.pegawai; let i = index">
+														<th style="width:70%">
+															<p style="font-size:80%;text-align:left">{{node.pegawai[i].namaPegawai}}</p>
+														</th>
+														<th style="width:30%">
+															<img *ngIf="node.pegawai[i].photoDiri !== null" [src]="(node.pegawai[i].photoDiri | imgsec) | async"
+															 width="35" height="35" border="3" />
+														</th>
+													</tr>
+												</thead>
+											</table> -->
+										</label>
+									</div>
+									<div class="node-header ui-corner-top" *ngIf="node.jml > 3" name="introtext" style="width: 150px;">
+										<p style="font-size:90%">{{node.namaDepartemen}}</p>
+									</div>
+									<div class="node-content" *ngIf="node.jml > 3" name="introtext" style="width: 150px;">
+										<div style="height: 150px;overflow-y: scroll;" class="removedClass">
+											<label>
+												<div class="ui-g">
+													<div *ngFor="let dat of node.pegawai; let i = index" class="ui-g-12 ui-md-12 ui-lg-12" name="testtt">
+														<td style="vertical-align: middle;width: 20%;" name="tdgambarPegawai">
+															<img *ngIf="node.pegawai[i].photoDiri !== null" [src]="(node.pegawai[i].photoDiri | imgsec) | async"
+															 width="35" height="35" border="3" style="float: left;" name="gambarPegawai"/>
+														</td>
+														<td style="vertical-align: middle;width: 80%;" name="tdlabelPegawai">
+															<p style="font-size:80%;text-align:left">{{node.pegawai[i].namaPegawai}}</p>
+														</td>
+													</div>
+												</div>
+												<!-- <table style="width: 100%">
+													<thead>
+														<tr *ngFor="let dat of node.pegawai; let i = index">
+															<th style="width:70%">
+																<p style="font-size:80%;text-align:left">{{node.pegawai[i].namaPegawai}}</p>
+															</th>
+															<th style="width:30%">
+																<img *ngIf="node.pegawai[i].photoDiri !== null" [src]="(node.pegawai[i].photoDiri | imgsec) | async"
+																 width="35" height="35" border="3" />
+															</th>
+														</tr>
+													</thead>
+												</table> -->
+											</label>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-organizationChart>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

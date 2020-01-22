@@ -1,0 +1,369 @@
+
+<div class="ui-fluid" >
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmJenisKeputusan_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-12">
+						<form [formGroup]="form" (ngSubmit)="onSubmit()">
+								<div class="ui-g form-group">
+										<div class="ui-g-6">
+											<div class="ui-g-12 ui-md-4">
+												<label>{{'frmJenisKeputusan_nama'| translate | splitCharT }}<span style="color: red;font-weight: bolder;">*</span><span *ngIf="!form.get('namaJenisKeputusan').valid && form.get('namaJenisKeputusan').touched" style="color: red"> {{'required'| translate | splitCharT}}</span></label>
+												<input type="text" formControlName="namaJenisKeputusan" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<br>
+												<p-checkbox binary="true" label="{{'frmJenisKeputusan_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+											</div>
+											<div class="ui-g-12">
+												<br>
+												<p-checkbox binary="true" label="{{'frmJenisKeputusan_generateSK'| translate | splitCharT }}" formControlName="isGenerateSK" ></p-checkbox>
+											</div>
+										</div>
+										
+										<div class="ui-g-6">
+											<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+												<form [formGroup]="form">
+													<div class="ui-g form-group">
+														<div class="ui-g-12 ui-md-12">
+															<label for="input">{{'frmJenisKeputusan_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span><span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'required'| translate | splitCharT}}</span></label>
+															<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+														</div>
+														<div class="ui-g-12 ui-md-12">
+															<label for="input">{{'frmJenisKeputusan_kodeExternal'| translate | splitCharT }}</label>
+															<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+														</div>
+														<div class="ui-g-12 ui-md-12">
+															<label for="input">{{'frmJenisKeputusan_namaExternal'| translate | splitCharT }}</label>
+															<input id="input" type="text" formControlName="namaExternal" pInputText/>
+														</div>
+													</div>
+												</form>
+											</p-fieldset>
+										</div>
+										<div class="ui-g-12">
+											<div class="ui-g-12 ui-md-1 ui-md-offset-7">
+												<button pButton type="button" label="{{'frmJenisKeputusan_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+											</div>
+											<div class="ui-g-12 ui-md-1">
+												<button pButton type="submit" label="{{'frmJenisKeputusan_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+											</div>
+											<div class="ui-g-12 ui-md-1">
+												<button pButton type="button" label="{{'frmJenisKeputusan_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+											</div>
+											<div class="ui-g-12 ui-md-1">
+												<button pButton type="button" label="{{'frmJenisKeputusan_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+											</div>
+											<div class="ui-g-12 ui-md-1">
+												<p-splitButton label="{{'frmJenisKeputusan_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+											</div>
+										</div>
+							</div>
+						</form>
+					</div>
+					<div class="ui-g-12">
+							<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							[(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+							[totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50" placeholder="{{'frmJenisKeputusan_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+									(keypress)="cari()" style="width: 20%;float:right;">
+									<span style="float: left;padding:0.3em;">{{'frmJenisKeputusan_tableTitle'| translate | splitCharT}}</span>
+								</div>
+							</p-header>
+							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+							<p-column field="namaJenisKeputusan" header="{{'frmJenisKeputusan_tableNama'| translate | splitCharT}}"></p-column>
+							<p-column field="isGenerateSK" header="{{'frmJenisKeputusan_tableGenerateSK'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									<span *ngIf="col.isGenerateSK === 1" >
+										{{'ya'| translate | splitCharT}}
+									</span>
+									<span *ngIf="col.isGenerateSK === 0" >
+										{{'tidak'| translate | splitCharT}}
+									</span>
+									<span *ngIf="col.isGenerateSK === null" >
+										-
+									</span>
+									<!-- {{col.isGenerateSK | truefalse | translate | splitCharT }} -->
+								</ng-template> 
+							</p-column>
+							<p-column field="statusEnabled" header="{{'frmJenisKeputusan_tableStatus'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template> 
+							</p-column>
+							<ng-template let-jenis pTemplate="rowexpansion">
+								<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+										<div class="ui-grid-col-12">
+											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+												<div class="ui-grid-row">
+													<div class="ui-grid-col-2 label">
+														<span style="color:black">{{ 'frmJenisKeputusan_optional' | translate | splitCharT }}</span>
+													</div>
+												</div>
+												<hr>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmJenisKeputusan_reportDisplay'| translate | splitCharT }} </div>
+													<div class="ui-grid-col-4"> {{jenis.reportDisplay}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmJenisKeputusan_kodeExternal' | translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{jenis.kodeExternal}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmJenisKeputusan_namaExternal'| translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{jenis.namaExternal}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-dataTable>
+					</div>
+				
+				<!-- <p-tabView (onChange)="onTabChange($event)" [activeIndex]="tabIndex">
+					<p-tabPanel header="Jenis Keputusan">
+						<h1>{{'frmJenisKeputusan_jenisKeputusanHead'| translate | splitCharT }}</h1>
+						<form [formGroup]="form">
+							<div class="ui-g form-group">
+								<div class="ui-g-6">
+									<div class="ui-g-12 ui-md-4">
+										<label>{{'frmJenisKeputusan_nama'| translate | splitCharT }}<span style="color: red;font-weight: bolder;">*</span><span *ngIf="!form.get('namaJenisKeputusan').valid && form.get('namaJenisKeputusan').touched" style="color: red"> {{'required'| translate | splitCharT}}</span></label>
+										<input type="text" formControlName="namaJenisKeputusan" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-8">
+										<br>
+										<p-checkbox binary="true" label="{{'frmJenisKeputusan_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+									</div>
+									<div class="ui-g-12">
+										<br>
+										<p-checkbox binary="true" label="{{'frmJenisKeputusan_generateSK'| translate | splitCharT }}" formControlName="geneSK"></p-checkbox>
+									</div>
+								</div>
+								
+								<div class="ui-g-6">
+									<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+										<form [formGroup]="form">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisKeputusan_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span><span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'required'| translate | splitCharT}}</span></label>
+													<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisKeputusan_kodeExternal'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisKeputusan_namaExternal'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="namaExternal" pInputText/>
+												</div>
+											</div>
+										</form>
+									</p-fieldset>
+								</div>
+								<div class="ui-g-12">
+									<div class="ui-g-12 ui-md-1 ui-md-offset-7">
+										<button pButton type="button" label="{{'frmJenisKeputusan_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="submit" label="{{'frmJenisKeputusan_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmJenisKeputusan_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmJenisKeputusan_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<p-splitButton label="{{'frmJenisKeputusan_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+									</div>
+								</div>
+							</div>
+						</form>
+					</p-tabPanel> -->
+					<!-- Tab Child -->
+					<!-- <p-tabPanel *ngFor="let item of listTab" [header]="item.namaJenisKeputusan">
+						<h1>{{item.namaJenisKeputusan}}</h1>
+						<form [formGroup]="form">
+							<div class="ui-g form-group">
+								<div class="ui-g-12 ui-md-4">
+									<label>{{'frmJenisKeputusan_nama'| translate | splitCharT }}<span style="color: red;font-weight: bolder;">*</span><span *ngIf="!form.get('namaJenisKeputusan').valid && form.get('namaJenisKeputusan').touched" style="color: red"> {{'required'| translate | splitCharT}}</span></label>
+									<input type="text" formControlName="namaJenisKeputusan" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<br>
+									<p-checkbox binary="true" label="{{'frmJenisKeputusan_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-md-offset-3">
+									<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+										<form [formGroup]="form">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisKeputusan_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span><span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'required'| translate | splitCharT}}</span></label>
+													<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisKeputusan_kodeExternal'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisKeputusan_namaExternal'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="namaExternal" pInputText/>
+												</div>
+											</div>
+										</form>
+									</p-fieldset>
+								</div>
+								<div class="ui-g-12 ui-md-1 ui-md-offset-7">
+									<button pButton type="button" label="{{'frmJenisKeputusan_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmJenisKeputusan_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmJenisKeputusan_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmJenisKeputusan_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetakChild()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmJenisKeputusan_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="itemsChild"></p-splitButton>
+								</div>
+							</div>
+						</form>
+					</p-tabPanel>
+				</p-tabView> -->
+				<!-- <div class="ui-g form-group"> -->
+					<!-- <div class="ui-g-12">
+						<form [formGroup]="form" (ngSubmit)="onSubmit()">
+							<div class="ui-g-6">
+								<div class="ui-g-12 ui-md-10" hidden>
+									<span class="ui-float-label" hidden>
+										<input id="input" type="text" hidden readonly="true" formControlName="kode" pInputText/>
+										<label for="input" hidden>{{'kodeJenisKeputusan'| translate | splitCharT}}</label>
+									</span>
+
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmJenisKeputusan_parent'| translate | splitCharT}}</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" [options]="kodeJenisKeputusanHead" formControlName="kdJenisKeputusanHead"
+									 [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmJenisKeputusan_nama'| translate | splitCharT}} <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('namaJenisKeputusan').valid && form.get('namaJenisKeputusan').touched" style="color: red"> {{'required'| translate | splitCharT}}</span></label>
+									<input id="input" type="text" formControlName="namaJenisKeputusan" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)"
+									 pInputText />
+									
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<p-checkbox binary="true" label="{{'frmJenisKeputusan_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+                                    <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+								</div>
+							</div>
+
+							<div class="ui-g-6">
+								<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+									<form [formGroup]="form" (ngSubmit)="onSubmit()">
+										<div class="ui-g-12 ui-md-10">
+											<label for="input">{{'frmJenisKeputusan_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span>
+                                            <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'required'| translate | splitCharT}}</span></label>
+											<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+											
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<label for="input">{{'frmJenisKeputusan_kodeExternal'| translate | splitCharT }}</label>
+											<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<label for="input">{{'frmJenisKeputusan_namaExternal'| translate | splitCharT }}</label>
+											<input id="input" type="text" formControlName="namaExternal" pInputText/>
+										</div>
+									</form>
+								</p-fieldset>
+							</div>
+
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmJenisKeputusan_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmJenisKeputusan_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmJenisKeputusan_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmJenisKeputusan_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmJenisKeputusan_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+
+								</div>
+							</div>
+						</form>
+					</div> -->
+					<!-- <div class="ui-g-12">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+						[(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+						[totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+						<p-header>
+							<div class="ui-helper-clearfix">
+								<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+								<input type="text" pInputText size="50" placeholder="{{'frmJenisKeputusan_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+								(keypress)="cari()" style="width: 20%;float:right;">
+								<span style="float: left;padding:0.3em;">{{'frmJenisKeputusan_tableTitle'| translate | splitCharT}}</span>
+							</div>
+						</p-header>
+						<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+						<p-column field="namaJenisKeputusan" header="{{'frmJenisKeputusan_tableNama'| translate | splitCharT}}"></p-column>
+						<p-column field="statusEnabled" header="{{'frmJenisKeputusan_tableStatus'| translate | splitCharT }}">
+							<ng-template let-col="rowData" pTemplate type="body">
+								{{col.statusEnabled | truefalse | translate | splitCharT }}
+							</ng-template> 
+						</p-column>
+						<p-column field="generateSK" header="{{'frmJenisKeputusan_tableGenerateSK'| translate | splitCharT }}"></p-column>
+						<ng-template let-jenis pTemplate="rowexpansion">
+							<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+								<div class="ui-grid ui-grid-responsive ui-grid-pad">
+									<div class="ui-grid-col-12">
+										<div class="ui-grid ui-grid-responsive ui-grid-pad">
+											<div class="ui-grid-row">
+												<div class="ui-grid-col-2 label">
+													<span style="color:black">{{ 'frmJenisKeputusan_optional' | translate | splitCharT }}</span>
+												</div>
+											</div>
+											<hr>
+											<div class="ui-grid-row">
+												<div class="ui-grid label">{{'frmJenisKeputusan_reportDisplay'| translate | splitCharT }} </div>
+												<div class="ui-grid-col-4"> {{jenis.reportDisplay}}</div>
+											</div>
+											<div class="ui-grid-row">
+												<div class="ui-grid label">{{'frmJenisKeputusan_kodeExternal' | translate | splitCharT}} </div>
+												<div class="ui-grid-col-4">{{jenis.kodeExternal}}</div>
+											</div>
+											<div class="ui-grid-row">
+												<div class="ui-grid label">{{'frmJenisKeputusan_namaExternal'| translate | splitCharT}} </div>
+												<div class="ui-grid-col-4">{{jenis.namaExternal}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+					</p-dataTable>
+				</div> -->
+			</div>
+		</div>
+	</div>
+</div>
+</div>

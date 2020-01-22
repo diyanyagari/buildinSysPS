@@ -1,0 +1,93 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <h1>{{'frmMapKelompokTransaksiToRuangan_title'| translate | splitCharT}}</h1>
+          <div class="ui-g form-group">
+            <div class="ui-g-6">
+              <div class="ui-g-6 ui-md-8">
+                <label for="input">{{'kelompokTransaksi'| translate | splitCharT }}
+                  <span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('kdKelompokTransaksi').valid && form.get('kdKelompokTransaksi').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+                </label>
+                <p-dropdown id="dropdown" (ngModelChange)="clearPanelBawah($event)" filter="filter" class="ui-inputwrapper-filled" [(ngModel)]="kdKelompokTransaksi"
+                  formControlName="kdKelompokTransaksi" [options]="kodeKelompok" [autoWidth]="false"></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="ui-g-6">
+          <p-blockUI [target]="pnl" [blocked]="hasilCek" [baseZIndex]=10 [autoZIndex]="false">
+            <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+          </p-blockUI>
+          <p-fieldset #pnl>
+              <p-dataTable #da [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [(selection)]="selectedSatuan" [rows]="10" [editable]="true" 
+              [headerCheckboxToggleAllPages]="true"
+              >
+              <p-header>
+                  <div class="ui-helper-clearfix">
+                      <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                      <input type="text" pInputText size="50" placeholder="{{'frmMapKelompokTransaksiToRuangan_pencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+                       style="width: 30%;float:right;">
+                  </div>
+              </p-header>
+              <p-column field="isCheck" [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+              <p-column field="namaRuangan" header="{{'frmMapKelompokTransaksiToRuangan_namaRuangan'| translate | splitCharT }}" [editable]="false"></p-column>
+              <p-column field="avgServiceMenit" header="{{'frmMapKelompokTransaksiToRuangan_averageService'| translate | splitCharT }}" >
+                  <ng-template let-col let-komponen="rowData" pTemplate="body">
+                      <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                    </ng-template>
+              </p-column>
+              <!-- <p-column field="isAllowNextStep" header="{{'isAllowNextStep'| translate | splitCharT }}">
+                <ng-template let-col let-komponen="rowData" pTemplate="body">
+                    <p-checkbox binary="true"  (onChange)="changeConvert($event)" [(ngModel)]="komponen[col.field]"></p-checkbox>
+                </ng-template>
+              </p-column> -->
+            </p-dataTable>
+            <!-- <div *ngFor="let data of listData; let i = index" class="ui-g-3">
+              <p-checkbox (change)="onChange()" value={{data.id_kode}} label="{{data.namaRuangan}}" [(ngModel)]="pilihan" inputId="{{i}}"></p-checkbox>
+            </div> -->
+          </p-fieldset>
+        </div>
+        <div class="ui-g-6" style="padding-top: 361px;">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <!-- <div class="ui-g-12 ui-md-8"></div>
+            <div class="ui-g-12 ui-md-8"></div>
+            <div class="ui-g-12 ui-md-8"></div>
+             -->
+            <div class="ui-g-12 ui-md-2">
+              <button pButton type="button" label="{{'frmMapKelompokTransaksiToRuangan_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <button pButton type="button" label="{{'frmShiftKerja_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+            </div>
+          </form>
+        </div>
+        <!-- <div class="ui-g-6 ui-md-10">
+          <div class="checkbox_cont">
+            <div class="checkbox ">
+              <p-checkbox [(ngModel)]="pilihSemua" [disabled]="hasilCek" (click)="selectAll()" label="{{'frmMapKelompokTransaksiToRuangan_pilihSemua'| translate | splitCharT}}"
+                binary="true"></p-checkbox>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="ui-g-12">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="ui-g-12 ui-md-8"></div>
+            <div class="ui-g-12 ui-md-8"></div>
+            <div class="ui-g-12 ui-md-8"></div>
+            
+            <div class="ui-g-12 ui-md-2">
+              <button pButton type="button" label="{{'frmMapKelompokTransaksiToRuangan_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+                <button pButton type="button" label="{{'frmShiftKerja_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+            </div>
+          </form>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>

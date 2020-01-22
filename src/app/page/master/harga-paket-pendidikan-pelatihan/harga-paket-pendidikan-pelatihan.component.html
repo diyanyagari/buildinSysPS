@@ -1,0 +1,202 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>Master {{'hargaPaketPendidikanPelatihan'| translate | splitCharT }}</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-4">
+                <div class="ui-g-4">
+                  <label for="input">{{'paket'| translate | splitCharT }}</label>
+                </div>
+                <div class="ui-g-8">
+                  <p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" formControlName="kdPaket" [options]="listpaket"
+                    [autoWidth]="false"></p-dropdown>
+                  <span *ngIf="!form.get('kdPaket').valid && form.get('kdPaket').touched" style="color: red"> {{'paket'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                </div>
+                <div class="ui-g-4">
+                  <label for="input">{{'kelas'| translate | splitCharT }}</label>
+                </div>
+                <div class="ui-g-8">
+                  <p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" formControlName="kdKelas" [options]="listKelas"
+                    [autoWidth]="false"></p-dropdown>
+                  <span *ngIf="!form.get('kdKelas').valid && form.get('kdKelas').touched" style="color: red"> {{'kelas'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                </div>
+                <div class="ui-g-4">
+                  <label for="input">{{'asalProduk'| translate | splitCharT }}</label>
+                </div>
+                <div class="ui-g-8">
+                  <p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" formControlName="kdAsalProduk" [options]="listAsalProduk"
+                    [autoWidth]="false"></p-dropdown>
+                  <span *ngIf="!form.get('kdAsalProduk').valid && form.get('kdAsalProduk').touched" style="color: red"> {{'asalProduk'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                </div>
+                <div class="ui-g-4">
+                  <label for="input">{{'asalPeserta'| translate | splitCharT }}</label>
+                </div>
+                <div class="ui-g-8">
+                  <p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" formControlName="kdAsalPeserta" [options]="listAsalPeserta"
+                    [autoWidth]="false"></p-dropdown>
+                  <span *ngIf="!form.get('kdAsalPeserta').valid && form.get('kdAsalPeserta').touched" style="color: red"> {{'asalPeserta'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                </div>
+                <div class="ui-g-4">
+                  <label>{{'tanggalBerlakuAwal'| translate | splitCharT}}</label>
+                </div>
+                <div class="ui-g-8">
+                  <app-calender [monthNavigator]="true" dateFormat="dd/mm/yy" [yearNavigator]="true" yearRange="2000:2030" formControlName="tglBerlakuAwal"
+                    [showIcon]="true"></app-calender>
+                  <span *ngIf="!form.get('tglBerlakuAwal').valid && form.get('tglBerlakuAwal').touched" style="color: red"> {{'TglBerlakuAwal'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                </div>
+                <div class="ui-g-4">
+                  <label>{{'tanggalBerlakuAkhir'| translate | splitCharT}}</label>
+                </div>
+                <div class="ui-g-8">
+                  <app-calender [monthNavigator]="true" dateFormat="dd/mm/yy" [yearNavigator]="true" yearRange="2000:2030" formControlName="tglBerlakuAkhir"
+                    [showIcon]="true"></app-calender>
+                  <span *ngIf="!form.get('tglBerlakuAkhir').valid && form.get('tglBerlakuAkhir').touched" style="color: red"> {{'TglBerlakuAwal'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                </div>
+                <div class="ui-g-4">
+                  <label>{{'hargaNetto'| translate | splitCharT}}</label>
+                </div>
+                <div class="ui-g-8">
+                  <input type="text" formControlName="hargaNetto" pInputText/>
+                  <span *ngIf="!form.get('hargaNetto').valid && form.get('hargaNetto').touched" style="color: red"> {{'hargaNetto'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                </div>
+              </div>
+              <div class="ui-g-4">
+                <div class="ui-g-4">
+                  <label for="input">{{'mataUang'| translate | splitCharT }}</label>
+                </div>
+                <div class="ui-g-8">
+                  <p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" formControlName="kdMataUang" [options]="listMataUang"
+                    [autoWidth]="false"></p-dropdown>
+                </div>
+                <div class="ui-g-4">
+                  <label>{{'hargaSatuan'| translate | splitCharT}}</label>
+                </div>
+                <div class="ui-g-8">
+                  <input type="text" formControlName="hargaSatuan" pInputText/>
+                </div>
+                <div class="ui-g-12">
+                  <div class="ui-g-6" style="padding: 0px">
+                    <p-radioButton value="persendiskon" [(ngModel)]="type" [ngModelOptions]="{standalone: true}" label="{{'persendiskon' | translate | splitCharT }}"
+                      (ngModelChange)="valueRadio($event)" [disabled]="btnResponse"></p-radioButton>
+                  </div>
+                  <div class="ui-g-6" style="padding: 0px">
+                    <p-radioButton value="hargadiskon" [(ngModel)]="type" [ngModelOptions]="{standalone: true}" label="{{'hargadiskon' | translate | splitCharT }}"
+                      (ngModelChange)="valueRadio($event)" [disabled]="btnResponse"></p-radioButton>
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-sm-12" *ngIf="type == 'persendiskon'">
+                  <div class="ui-g-12">
+                    <input type="text" formControlName="persenDiscount" pInputText placeholder="{{'persenDiscount' | translate | splitCharT }}" />
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-sm-12" *ngIf="type == 'hargadiskon'">
+                  <div class="ui-g-12">
+                    <input type="text" formControlName="hargaDiscount" pInputText placeholder="{{'hargadiskon' | translate | splitCharT }}" />
+                  </div>
+                </div>
+                <div class="ui-g-12 ui-md-12">
+                  <p-checkbox binary="true" label="{{'statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                  <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red"> {{'statusEnabled'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                </div>
+              </div>
+              <div class="ui-g-4">
+                <p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+                  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-4">
+                        <label>{{'factorRate'| translate | splitCharT}}</label>
+                      </div>
+                      <div class="ui-g-8">
+                        <input type="text" formControlName="factoreRate" pInputText/>
+                        <span *ngIf="!form.get('factoreRate').valid && form.get('factoreRate').touched" style="color: red"> {{'factorRate'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                      </div>
+                      <div class="ui-g-4">
+                        <label>{{'operatorFactorRate'| translate | splitCharT}}</label>
+                      </div>
+                      <div class="ui-g-8">
+                        <p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" formControlName="operatorFactorRate" [options]="listOperatorFactorRate"
+                          [autoWidth]="false"></p-dropdown>
+                        <span *ngIf="!form.get('operatorFactorRate').valid && form.get('operatorFactorRate').touched" style="color: red"> {{'operatorFactorRate'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                      </div>
+                    </div>
+                  </form>
+                </p-fieldset>
+              </div>
+              <div class="ui-g-12">
+                <div class="ui-g-12 ui-md-7"></div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'batal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'hapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'cetak'| translate | splitCharT}}" icon="fa-print" (click)="reset()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <p-splitButton label="{{'export'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+
+                </div>
+              </div>
+
+
+
+            </form>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none;">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" placeholder="{{'pencarianNamaPaket'| translate | splitCharT}}" [(ngModel)]="pencarian" (keypress)="cari()"
+                style="width: 20%">
+            </div>
+            <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+              [(selection)]="selected" scrollable="true" resizableColumns="true" (onRowSelect)="onRowSelect($event)" [lazy]="true"
+              [loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)">
+              <p-header>{{'daftarMasterHargaPaketPendidikanPelatihan'| translate | splitCharT }}</p-header>
+              <p-column field="namaPaket" header="{{'paket'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="namaKelas" header="{{'kelas'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="namaAsalProduk" header="{{'asalProduk'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="namaAsalPeserta" header="{{'asalPeserta'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="tglBerlakuAwal" header="{{'tanggalBerlakuAwal'| translate | splitCharT}}" [style]="{'width':'200px'}">
+                <ng-template let-pick="rowData" pTemplate type="body">
+                  {{pick.tglBerlakuAwal * 1000 | date: 'dd/MM/yyyy'}}
+                </ng-template>
+              </p-column>
+              <p-column field="tglBerlakuAkhir" header="{{'tanggalBerlakuAkhir'| translate | splitCharT}}" [style]="{'width':'200px'}">
+                <ng-template let-pick="rowData" pTemplate type="body">
+                  {{pick.tglBerlakuAkhir * 1000 | date: 'dd/MM/yyyy'}}
+                </ng-template>
+              </p-column>
+              <p-column field="hargaNetto" header="{{'hargaNetto'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="hargaSatuan" header="{{'hargaSatuan'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="persenDiscount" header="{{'persenDiscount'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="hargaDiscount" header="{{'hargaDiscount'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="factoreRate" header="{{'factorRate'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="operatorFactorRate" header="{{'operatorFactorRate'| translate | splitCharT}}" [style]="{'width':'200px'}">
+                <ng-template let-pick="rowData" pTemplate type="body">
+                  <span *ngIf="pick.operatorFactorRate == 'plus'">+</span>
+                  <span *ngIf="pick.operatorFactorRate == 'min'">-</span>
+                  <span *ngIf="pick.operatorFactorRate == 'divide'">/</span>
+                  <span *ngIf="pick.operatorFactorRate == 'max'">*</span>
+                </ng-template>
+              </p-column>
+              <p-column field="namaMataUang" header="{{'mataUang'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="statusEnabled" header="{{'statusEnabled'| translate | splitCharT }}" [style]="{'width':'150px'}">
+                <ng-template let-col="rowData" pTemplate type="body">
+                  {{col.statusEnabled | truefalse | translate | splitCharT }}
+              </ng-template> 
+              </p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

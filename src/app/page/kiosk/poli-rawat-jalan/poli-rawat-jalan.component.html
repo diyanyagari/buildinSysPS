@@ -1,0 +1,102 @@
+<p-dialog header="" [(visible)]="pilihDialog" 
+modal="modal" width="306" [responsive]="true" >
+<!-- header="{{'frmMonitoringPasienDiperiksa_Ruangan' | translate | splitCharT }}"  -->
+    <div class="ui-g form-group">
+        <div class="ui-g-12">
+                <!-- placeholder="{{'frmKiosKAntrian_TanggalKunjungan' | translate | splitCharT }}"
+                (onFocus)="focusTglPelayanan()" (onClose)="focusOutTglPelayanan()" -->
+            <app-calender [monthNavigator]="true" [yearNavigator]="true" [showIcon]="false"
+                dateFormat="dd M yy" appendTo="body" id="tglPelayananPilihxx"
+                [(ngModel)]="tglPelayananPilihss" yearRange="{{rangeTahun}}"
+                (onSelect)="pilihTanggal($event)" [minDate]="minDate" [style]="{'height':'29px'}">
+            </app-calender>
+            <p-dropdown [style]="{'position':'fixed','width': '122px'}" class="ui-inputwrapper-filled" (onChange)="pilihJamPopUp($event)" id="dropdownJamPopUp" [(ngModel)]="dataJamPop" filter="filter" [options]="listDataJamPop" [autoWidth]="false"></p-dropdown>
+        </div>
+    </div>
+</p-dialog>
+
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+    <div class="header-title">
+        <div class="container">
+            <div class="header-item action">
+                <img src="../../../../assets/layout/images/kiosk/home.svg" [routerLink]="['/kiosk']" alt="home">
+                
+            </div>
+            <div id="infoTglKunjungan">
+                <h4>
+                    {{'frmKiosKAntrian_TanggalKunjungan' | translate | splitCharT }} :
+                </h4>
+                <label for="infoTgl">{{tglKunjungan * 1000 | date:'dd MMM yyyy'}}</label>
+            </div>
+            <div class="header-item-khusus">
+                <img src="../../../../assets/layout/images/kiosk/icon-antrian.png" alt="icon">
+                <h2>{{'frmKiosKAntrian_antrianPasien' | translate | splitCharT }} {{jenisAsalPasien.nama}} - {{'frmKiosKAntrian_pilihRuangan' | translate | splitCharT }}</h2>
+            </div>
+            <div class="header-item action">
+                <img src="../../../../assets/layout/images/kiosk/power-button.svg" alt="logout"
+                    (click)="logout($event)">
+            </div>
+        </div>
+        <div class="container-grid">
+            <div class="main-content" id="mainContent">
+                <!-- <div></div>
+                <div></div> -->
+                <div *ngFor="let dat of listData; let i = index" id="ruangan-{{i}}" style="padding-bottom: 7px;">
+                    <img *ngIf="listData[i].gambarIcon !== null" [src]="(listData[i].gambarIcon | imgsec) | async"
+                        width="35" height="35" border="3" alig (click)="clickRuangan(listData[i],i)" />
+                    <p  id="poliumum" style="font-size:16px" (click)="clickRuangan(listData[i],i)">{{listData[i].namaRuangan}}</p>
+                    <p style="font-size: 14px;">({{listData[i].jamBuka}}-{{listData[i].jamTutup}})</p>
+                    <div *ngIf="dat.isAntrianByRuangan == true && this.jenisAsalPasien.statusPasien != this.kdStatusSetting" >
+                        <p style="font-size:13px">{{dat.counter}} dari {{dat.qtyPasienMax}}</p>
+                            <app-calender (onFocus)="focusTglPelayanan()" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="false"
+                            dateFormat="dd M yy" appendTo="body" id="tglPelayananPilih"
+                            [(ngModel)]="dat.tglSekarang" yearRange="{{rangeTahun}}"
+                            (onSelect)="pilihTanggal2($event,listData[i],i)" [minDate]="minDate" [style]="{'height':'29px'}">
+                            </app-calender>
+
+                        <!-- dat.arrayJam[0] -->
+                        <p-dropdown class="ui-inputwrapper-filled" (onChange)="pilihJam($event,listData[i],i)" id="dropdownJam" [(ngModel)]="selectedJam" filter="filter" [options]="dat.arrayJam" [autoWidth]="false">
+                        </p-dropdown>
+                        <!-- <button class="btn-kalender fa fa-calendar" (click)="popUpPilihKalender(dat.kdRuangan,i)" ></button> -->
+                    </div>
+                    <div *ngIf="dat.isAntrianByRuangan == false && this.jenisAsalPasien.statusPasien != this.kdStatusSetting">
+                        <div style="height: 59px">
+                            
+                        </div>
+                    </div>
+                    <!-- <p *ngIf="dat.counter == dat.qtyPasienMax" style="font-size:13px">{{dat.counter}} <span>dari</span> {{dat.qtyPasienMax}}</p> -->
+                    <!-- <p><button (click)="">{{'frmKiosKAntrian_Kalender' | translate | splitCharT }}</button></p> -->
+                    <!-- nanti disini kalo counter == qtyPasienMax juga baru aktif, sementara buat tes dulu -->
+                    <!-- [(ngModel)]="dat.arrayJam[0]" -->
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="informasi-action">
+        <div class="container">
+            <div class="ui-g-6" *ngIf="buttonCetakAktif == true">
+                <button class="btn-cetak-nomor" style="float: right;margin-right: 25px;opacity: 0.4;"
+                    (click)="cetakNoAntrian()" [disabled]="buttonCetakAktif">{{'frmKiosKAntrian_CetakNomorAntrian' | translate | splitCharT }}</button>
+            </div>
+            <div class="ui-g-6" *ngIf="buttonCetakAktif == false">
+                <button class="btn-cetak-nomor" style="float: right;margin-right: 25px;cursor: pointer;"
+                    (click)="cetakNoAntrian()" [disabled]="buttonCetakAktif">{{'frmKiosKAntrian_CetakNomorAntrian' | translate | splitCharT }}</button>
+            </div>
+
+            <div class="ui-g-6" *ngIf="buttonAktif == true">
+                <button class="btn-subscribe" style="float: left;margin-left: 25px;opacity: 0.4;"
+                    (click)="selanjutnya()" [disabled]="buttonAktif">{{'frmKiosKAntrian_Selanjutnya' | translate | splitCharT }}</button>
+            </div>
+            <div class="ui-g-6" *ngIf="buttonAktif == false">
+                <button class="btn-subscribe" style="float: left;margin-left: 25px;cursor: pointer;" (click)="selanjutnya()"
+                    [disabled]="buttonAktif">{{'frmKiosKAntrian_Selanjutnya' | translate | splitCharT }}</button>
+            </div>
+            <div class="ui-g-12">
+                <button class="btn-kembali" style="cursor: pointer;"
+                    (click)="kembali()">{{'frmKiosKAntrian_Kembali' | translate | splitCharT }}</button>
+            </div>
+        </div>
+    </div>
+</div>

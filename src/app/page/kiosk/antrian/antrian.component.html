@@ -1,0 +1,33 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+    <div class="header-title">
+        <div class="container">
+            <div class="header-item action">
+                <img src="../../../../assets/layout/images/kiosk/home.svg" [routerLink]="['/kiosk']" alt="home">
+            </div>
+            <div class="header-item">
+                <img src="../../../../assets/layout/images/kiosk/icon-antrian.png" alt="icon">
+                <h2>{{'frmKiosKAntrian_antrianPasien' | translate | splitCharT }}</h2>
+            </div>
+            <div class="header-item action">
+                <img src="../../../../assets/layout/images/kiosk/power-button.svg" alt="logout"
+                    (click)="logout($event)">
+            </div>
+        </div>
+        <div class="container-grid">
+            <div class="main-content">
+                <div *ngFor="let dat of listData; let i = index">
+                    <img [src]="dat.gambarIcon"
+                        width="35" height="35" border="3" alig (click)="clickAntrian(listData[i])" />
+                    <span class="underlined" style="cursor: pointer;" (click)="clickAntrian(listData[i])">{{listData[i].namaLengkap}}</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="informasi-action">
+        <div class="container">
+            <button class="btn-kembali" style="cursor: pointer;" [routerLink]="['/kiosk']">{{'frmKiosKAntrian_Kembali' | translate | splitCharT }}</button>
+        </div>
+    </div>
+</div>

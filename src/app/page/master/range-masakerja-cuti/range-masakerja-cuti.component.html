@@ -1,0 +1,166 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmMasterRangeMasaKerjaCuti_titleMasaKerjaCuti'| translate | splitCharT }}</h1>
+				
+				<!-- <h1>{{frmMasterRangeMasaKerjaCuti_titleMasaKerjaCuti}}</h1> -->
+				<form [formGroup]="formRange" (ngSubmit)="onSubmitRange()">
+					<div class="ui-g form-group">
+						<div class="ui-g-12 ui-md-8">
+							<div class="ui-g-12 ui-md-6">
+								<label>{{'frmMasterRangeMasaKerjaCuti_nama'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!formRange.get('namaRange').valid && formRange.get('namaRange').touched" style="color: red">
+									{{'frmMasterRangeMasaKerjaCuti_required'| translate | splitCharT}}</span>
+								</label>
+								<input type="text" formControlName="namaRange" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)" pInputText/>
+							</div>
+							<!-- <div class="ui-g-12 ui-md-6"> -->
+								<div class="ui-g-12 ui-md-3">
+									<label>{{'frmMasterRangeMasaKerjaCuti_rangeMin'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!formRange.get('rangeMin').valid && formRange.get('rangeMin').touched" style="color: red">
+										{{'frmMasterRangeMasaKerjaCuti_required'| translate | splitCharT}}</span>
+									</label>
+									<input type="number" formControlName="rangeMin" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label>{{'frmMasterRangeMasaKerjaCuti_rangeMax'| translate | splitCharT }}</label>
+									<input type="number" formControlName="rangeMax" pInputText/>
+								</div>
+							<!-- </div> -->
+							<div class="ui-g-12 ui-md-6">
+								<label>{{'frmMasterRangeMasaKerjaCuti_noUrut'| translate | splitCharT}}</label>
+								<input type="text" formControlName="noUrut" pInputText/>
+							</div>
+							<div class="ui-g-12 ui-md-5" >
+								<label>{{'frmMasterRangeMasaKerjaCuti_satuanStandar'| translate | splitCharT }}</label>
+								<p-dropdown id="dropdownSatuanStandar" [options]="SatuanStandar" formControlName="kdSatuanStandar" filter="filter" [autoWidth]="false"></p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-6" hidden="true">
+								<label>{{'frmMasterRangeMasaKerjaCuti_typeDataObjek'| translate | splitCharT }}</label>
+								<p-dropdown id="dropdownSatuanStandar" [options]="TypeDataObjek" formControlName="kdTypeDataObjek" filter="filter" [autoWidth]="false"></p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<br>
+								<p-checkbox binary="true" label="{{'frmMasterRangeMasaKerjaCuti_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+							</div>
+						</div>
+						<div class="ui-g-12 ui-md-4 ui-g-nopad">
+							<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+								<form [formGroup]="formRange">
+									<div class="ui-g form-group">
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmMasterRangeMasaKerjaCuti_faktorRate'| translate | splitCharT}}</label>
+											<input type="text" formControlName="factorRate" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmMasterRangeMasaKerjaCuti_operatorFaktorRate'| translate | splitCharT}}</label>
+											<p-dropdown id="dropdown" filter="filter" formControlName="operatorFactorRate" [options]="listOperatorFactorRate" [autoWidth]="false"></p-dropdown>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmMasterRangeMasaKerjaCuti_reportDisplay'| translate | splitCharT }}</label>
+											<input type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmMasterRangeMasaKerjaCuti_kodeExternal'| translate | splitCharT }}</label>
+											<input type="text" formControlName="kodeExternal" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmMasterRangeMasaKerjaCuti_namaExternal'| translate | splitCharT }}</label>
+											<input type="text" formControlName="namaExternal" pInputText/>
+										</div>
+									</div>
+								</form>
+							</p-fieldset>
+						</div>
+					</div>
+				</form>
+				<div class="ui-g-12 ui-md-12">
+					<form [formGroup]="formRange" class="ui-g form-group">
+						<div class="ui-g-12 ui-md-1 ui-md-offset-7">
+							<button pButton type="button" label="{{'frmMasterRangeMasaKerjaCuti_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="resetRange()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="submit" label="{{'frmMasterRangeMasaKerjaCuti_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmitRange()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmMasterRangeMasaKerjaCuti_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDeleteRange()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmMasterRangeMasaKerjaCuti_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetakChild()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<p-splitButton label="{{'frmMasterRangeMasaKerjaCuti_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="itemsChild"></p-splitButton>
+						</div>
+					</form>
+				</div>
+			<div class="ui-g-12">
+				<p-dataTable [value]="listDataRange" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+				[(selection)]="selected" scrollable="true" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+				[totalRecords]="totalRecordsRange" (onLazyLoad)="loadPageRange($event)" (onRowSelect)="onRowSelectRange($event)" expandableRows="true">
+				<p-header>
+					<div class="ui-helper-clearfix">
+						<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+						<input type="text" pInputText size="50" placeholder="{{'frmMasterRangeMasaKerjaCuti_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarianRange"
+						(keyup)="cariRange()" style="width: 20%;float:right;">
+						<span style="float: left;padding:0.3em;">{{'frmRangeMasaKerjaCuti_tableTitle'| translate | splitCharT }}</span>
+					</div>
+				</p-header>
+				<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+				<p-column field="namaRange" header="{{'frmMasterRangeMasaKerjaCuti_tableNama'| translate | splitCharT }}" [style]="{'width':'160px'}"></p-column>
+				<p-column field="rangeMin" header="{{'frmMasterRangeMasaKerjaCuti_tableRangeMin'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+				<p-column field="rangeMax" header="{{'frmMasterRangeMasaKerjaCuti_tableRangeMax'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+				<p-column field="noUrut" header="{{'frmMasterRangeMasaKerjaCuti_tableNoUrut'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+				<!-- <p-column field="namaJenisRange" header="{{'frmMasterRangeMasaKerjaCuti_tableJenisRange'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column> -->
+				<p-column field="namaSatuanStandar" header="{{'frmMasterRangeMasaKerjaCuti_tableSatuanStandar'| translate | splitCharT }}" [style]="{'width':'130px'}"></p-column>
+				<!-- <p-column field="namaTypeDataObjek" header="{{'frmMasterRangeMasaKerjaCuti_tableTypeDataObjek'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column> -->
+				<p-column field="statusEnabled" header="{{'frmMasterRangeMasaKerjaCuti_tableStatus'| translate | splitCharT }}" [style]="{'width':'100px'}">
+					<ng-template let-col="rowData" pTemplate type="body">
+						{{col.statusEnabled | truefalse | translate | splitCharT }}
+					</ng-template> 
+				</p-column>
+				<ng-template let-detail pTemplate="rowexpansion">
+					<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+						<div class="ui-grid ui-grid-responsive ui-grid-pad">
+							<div class="ui-grid-col-12">
+								<div class="ui-grid ui-grid-responsive ui-grid-pad">
+									<div class="ui-grid-row">
+										<div class="ui-grid-col-2 label">
+											<span style="color:black">{{ 'frmMasterRangeMasaKerjaCuti_optional' | translate | splitCharT }}</span>
+										</div>
+									</div>
+									<hr>
+									<div class="ui-grid-row">
+										<div class="ui-grid label">{{'frmMasterRangeMasaKerjaCuti_tableFaktorRate' | translate | splitCharT}} </div>
+										<div class="ui-grid-col-4">{{detail.factorRate}}</div>
+									</div>
+									<div class="ui-grid-row">
+										<div class="ui-grid label">{{'frmMasterRangeMasaKerjaCuti_tableOperatorFaktorRate'| translate | splitCharT}} </div>
+										<div class="ui-grid-col-4">{{detail.operatorFactorRate}}</div>
+									</div>
+									<div class="ui-grid-row">
+										<div class="ui-grid label">{{'frmMasterRangeMasaKerjaCuti_tableReportDisplay' | translate | splitCharT}} </div>
+										<div class="ui-grid-col-4">{{detail.reportDisplay}}</div>
+									</div>
+									<div class="ui-grid-row">
+										<div class="ui-grid label">{{'frmMasterRangeMasaKerjaCuti_tableKodeExternal' | translate | splitCharT}} </div>
+										<div class="ui-grid-col-4">{{detail.kodeExternal}}</div>
+									</div>
+									<div class="ui-grid-row">
+										<div class="ui-grid label">{{'frmMasterRangeMasaKerjaCuti_tableNamaExternal'| translate | splitCharT}} </div>
+										<div class="ui-grid-col-4">{{detail.namaExternal}}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</p-dataTable>
+		</div>
+	</div>
+</div>
+</div>
+</div>

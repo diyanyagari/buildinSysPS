@@ -1,0 +1,316 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmManualHelp_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<form [formGroup]="form">
+						<div class="ui-g form-group">
+							<div style="padding: 0px" class="ui-g-12 ui-md-8">
+								<div class="ui-g-12 ui-md-10" hidden>
+									<span class="ui-float-label" hidden>
+										<input id="input" type="text" hidden formControlName="kode" pInputText
+											disabled />
+										<label for="input"
+											hidden>{{'frmManualHelp_kode'| translate | splitCharT}}</label>
+									</span>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label
+										for="input">{{'frmManualHelp_manualHelpHead'| translate | splitCharT}}</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="kdManualHelpHead" [options]="manualHelpHead"
+										[autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-2">
+									<label for="input">{{'frmManualHelp_noManualHelp'| translate | splitCharT}}</label>
+									<input id="noManual" type="text" formControlName="noManualHelp" maxlength="100"
+										pInputText />
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<label for="input">{{'frmManualHelp_manualHelp'| translate | splitCharT}}<span
+											style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('namaJudulManualHelp').valid && form.get('namaJudulManualHelp').touched"
+											style="color: red">
+											{{'frmManualHelp_required'| translate | splitCharT}}</span></label>
+									<input id="namaManualHelp" formControlName="namaJudulManualHelp" type="text"
+										maxlength="100" (keyup)="setReportDisplay()" pInputText />
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmManualHelp_deskripsi'| translate | splitCharT}}</label>
+									<!-- <textarea style="height: 11vh" formControlName="deskripsiManualHelp" pInputTextarea
+										id="deskripsi" rows="3" cols="30" autoResize="autoResize"
+										type="text"></textarea> -->
+									<p-editor [(ngModel)]="isiDeskripsi" [ngModelOptions]="{standalone: true}"
+										id="texteditor" [style]="{'height':'100px'}"></p-editor>
+								</div>
+								<div class="ui-g-12 ui-md-2">
+									<label for="input">{{'frmManualHelp_tgl'| translate | splitCharT}}</label>
+									<app-calender formControlName="tglManualHelp" [monthNavigator]="true"
+										dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+										[showIcon]="true" appendTo="body" dateFormat="dd M yy"></app-calender>
+								</div>
+								<div class="ui-g-12 ui-md-2">
+									<label for="input">{{'frmManualHelp_jenis'| translate | splitCharT}}<span
+											style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('jenisManualHelp').valid && form.get('jenisManualHelp').touched"
+											style="color: red">
+											{{'frmManualHelp_required'| translate | splitCharT}}</span></label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="jenisManualHelp" [options]="jenisManualHead"
+										[autoWidth]="false" (onChange)="changeUkuran($event)"></p-dropdown>
+								</div>
+								<!-- <div style="padding: 0px" class="ui-g-12 ui-md-4">
+
+								</div> -->
+								<div class="ui-g-12 ui-md-4">
+									<label>{{'frmManualHelp_buttonImage'| translate | splitCharT}}</label>
+									<div style="display: flex; padding: 0px; margin: 0px">
+										<p-fileUpload #fubauto mode="basic" (onUpload)="imageUpload($event)"
+											accept=".mp4,.jpg,.jpeg,.png,.exe,.pdf,.tif,.apk" name="file"
+											maxFileSize="30000000" (onBeforeSend)="addHeader($event)"
+											(onSelect)="loading($event)" auto="true" [url]="urlUpload()" auto="true"
+											chooseLabel="Browse" withCredentials="true"></p-fileUpload>
+										<input *ngIf="loadingUpload" style="height: 3.8vh" id="imagePath" type="text"
+											formControlName="imageFile" [(ngModel)]="namaImage" disabled pInputText />
+										<input *ngIf="!loadingUpload" style="height: 3.8vh" id="imagePath" type="text"
+											formControlName="imageFile" [(ngModel)]="textLoad" disabled pInputText />
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label>{{'frmManualHelp_buttonImageCover'| translate | splitCharT}}</label>
+									<div style="display: flex; padding: 0px; margin: 0px">
+										<p-fileUpload #fubauto mode="basic" (onUpload)="coverUpload($event)"
+											accept=".mp4,.jpg,.jpeg,.png,.exe,.pdf,.tif,.apk" name="file"
+											maxFileSize="30000000" (onBeforeSend)="addHeader($event)" auto="true"
+											[url]="urlUpload()" auto="true" chooseLabel="Browse" withCredentials="true">
+										</p-fileUpload>
+										<input style="height: 3.8vh" id="coverPath" type="text"
+											formControlName="imageCover" [(ngModel)]="namaCover" disabled pInputText />
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmManualHelp_isiManualHelp' | translate | splitCharT}}</label>
+									<!-- <textarea [ngStyle]="heightVar" formControlName="isiManualHelp" pInputTextarea
+										id="isiManualHelp" rows="3" cols="50" autoResize="autoResize"
+										type="text"></textarea> -->
+									<p-editor *ngIf="!jenisVideo" [(ngModel)]="isiManualHelp"
+										[ngModelOptions]="{standalone: true}" id="texteditor"
+										[style]="{'height':'100px'}"></p-editor>
+									<input *ngIf="jenisVideo" id="jumlah" type="text" [(ngModel)]="isiManualHelp"
+										[ngModelOptions]="{standalone: true}" pInputText />
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<div style="padding-top: 0px; padding-left: 0px" class="ui-g-6">
+										<label for="input">{{'frmManualHelp_bahasa'| translate | splitCharT}}</label>
+										<p-dropdown id="dropdown" filter="filter" formControlName="kdBahasa"
+											class="ui-inputwrapper-filled" [options]="listBahasa" [autoWidth]="false">
+										</p-dropdown>
+									</div>
+									<div style="padding-top: 0px; padding-right: 0px" class="ui-g-6">
+										<label for="input">{{'frmManualHelp_jumlah'| translate | splitCharT}}</label>
+										<input id="jumlah" type="text" maxlength="100" formControlName="qtyPages"
+											pInputText />
+									</div>
+									<div style="padding: 0px" class="ui-g-12">
+										<label for="input">{{'frmManualHelp_link'| translate | splitCharT}}</label>
+										<p-dropdown id="dropdown" filter="filter" formControlName="kdManualHelpLinkTo"
+											class="ui-inputwrapper-filled" [options]="manualHelpHead"
+											[autoWidth]="false">
+										</p-dropdown>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<label>{{'frmManualHelp_keterangan'| translate | splitCharT}}</label>
+									<textarea style="height: 10.6vh" formControlName="keteranganLainnya" pInputTextarea
+										id="keterangan" rows="3" cols="30" autoResize="autoResize"
+										type="text"></textarea>
+								</div>
+								<div style="padding-top: 20px" class="ui-g-2">
+									<p-checkbox binary="true" label="{{'frmManualHelp_statusEnabled'| translate | splitCharT }}"
+										formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+										style="color: red">*</span>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+										style="color: red">{{'frmManualHelp_required'| translate | splitCharT}}</span>
+								</div>
+							</div>
+							<div style="padding: 0px" class="ui-g-12 ui-md-4">
+								<div style="padding: 0px" class="ui-g-12 ui-md-12">
+									<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+										<div class="ui-g-12 ui-md-10">
+											<label for="input">{{'frmManualHelp_reportDisplay'| translate | splitCharT }} <span
+													style="color: red;font-weight: bolder;"></span>
+												<span
+													*ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched"
+													style="color: red">*
+													{{'frmManualHelp_required'| translate | splitCharT}}</span></label>
+											<input id="report" type="text" formControlName="reportDisplay"
+												maxlength="100" [(ngModel)]="report" pInputText />
+											<!-- <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">*{{'isRequired'| translate | splitCharT}}</span> -->
+										</div>
+									</p-fieldset>
+								</div>
+								<div style="padding: 0px" class="ui-g-12 ui-md-12">
+									<p-fieldset legend="{{'frmManualHelp_viewImage'| translate | splitCharT}}" [toggleable]="true" [collapsed]="true">
+										<div class="ui-g-12 ui-md-10">
+											<img *ngIf="paramThumbnailImage !== null"
+												[src]="(smbrImage | imgsec) | async" width="100%" height="auto"
+												class="img-responsive" />
+											<video id="playVideo" *ngIf="paramThumbnailVideo !== null" width="100%"
+												height="auto" controls>
+												<source id="sourceVideo" [src]="smbrImage" type="video/mp4">
+												Browser not supported
+											</video>
+										</div>
+									</p-fieldset>
+								</div>
+								<div style="padding: 0px" class="ui-g-12 ui-md-12">
+									<p-fieldset legend="{{'frmManualHelp_viewImageCover'| translate | splitCharT}}" [toggleable]="true" [collapsed]="true">
+										<div class="ui-g-12 ui-md-10">
+											<img *ngIf="paramThumbnailImageCover !== null"
+												[src]="(smbrCover | imgsec) | async" width="100%" height="auto"
+												class="img-responsive" />
+											<video id="playVideoCover" *ngIf="paramThumbnailVideoCover !== null"
+												width="100%" height="auto" controls>
+												<source id="sourceVideoCover" [src]="smbrCover" type="video/mp4">
+												Browser not supported
+											</video>
+										</div>
+									</p-fieldset>
+								</div>
+							</div>
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmManualHelp_btnBatal'| translate | splitCharT}}"
+										icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmManualHelp_btnSimpan'| translate | splitCharT}}"
+										icon="fa-save" (click)="onSubmit()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmManualHelp_btnHapus'| translate | splitCharT}}"
+										icon="fa-trash" (click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmManualHelp_btnCetak'| translate | splitCharT}}"
+										icon="fa-print" (click)="cetak()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmManualHelp_btnExport'| translate | splitCharT }}" icon="fa-external-link"
+										[model]="items"></p-splitButton>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<div class="ui-g-12">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+							[rowsPerPageOptions]="[5,10,20]" selectionMode="single" scrollable="true"
+							[(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true"
+							[loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords"
+							(onLazyLoad)="loadPage($event)" expandableRows="true">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50"
+										placeholder="{{'frmManualHelp_pencarian'| translate | splitCharT}}"
+										[(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+									<span
+										style="float: left;padding:0.3em;">{{'frmManualHelp_daftarMasterManualHelp' | translate | splitCharT }}</span>
+								</div>
+							</p-header>
+							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+							<p-column field="namaJudulManualHelpHead" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tableManualHelpHead'| translate | splitCharT}}"></p-column>
+							<p-column field="noManualHelp" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tableNo'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="namaJudulManualHelp" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tableManualHelp'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="deskripsiManualHelp" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tableDeskripsi'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="tglManualHelp" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tableTgl'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.tglManualHelp > null">{{pick.tglManualHelp * 1000 | date: 'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="jenisManualHelp" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tableJenis'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="pathFile" [style]="{'width':'50px'}"
+								header="{{'frmManualHelp_tableImage'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<img style="border-radius: 50%;" [src]="(pick.smbrImage | imgsec) | async"
+										width="100%" height="auto" class="img-responsive" />
+								</ng-template>
+							</p-column>
+							<p-column field="imageFile" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tablePathFile'| translate | splitCharT}}"></p-column>
+							<p-column field="imageCover" [style]="{'width':'50px'}"
+								header="{{'frmManualHelp_tableImageCover'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<img style="border-radius: 50%;" [src]="(pick.smbrCover | imgsec) | async"
+										width="100%" height="auto" class="img-responsive" />
+								</ng-template>
+							</p-column>
+							<p-column field="imageCoverPathFile" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tablePathCover'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="isiManualHelp" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tableIsiManualHelp'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="namaBahasa" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tableBahasa'| translate | splitCharT}}"></p-column>
+							<p-column field="qtyPages" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tableJumlah'| translate | splitCharT}}"></p-column>
+							<p-column field="namaManualLinkTo" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tableLink'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="keteranganLainnya" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_tableKeterangan'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="statusEnabled" [style]="{'width':'150px'}"
+								header="{{'frmManualHelp_statusEnabled'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template>
+							</p-column>
+							<ng-template let-detail pTemplate="rowexpansion">
+								<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+										<div class="ui-grid-col-12">
+											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+												<div class="ui-grid-row">
+													<div class="ui-grid-col-2 label">
+														<span
+															style="color:black">{{ 'frmManualHelp_optional' | translate | splitCharT }}</span>
+													</div>
+												</div>
+												<hr>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">
+														{{'frmManualHelp_tblReportDisplay'| translate | splitCharT }} </div>
+													<div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

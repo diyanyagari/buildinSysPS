@@ -1,0 +1,242 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<form [formGroup]="form" (ngSubmit)="onSubmit()">
+					<h1>{{'frmMasterMessaging_title' | translate | splitCharT }}</h1>
+					<div class="ui-g form-group">
+						<div class="ui-g-12">
+							
+							<div class="ui-g-4">
+								<div class="ui-g-12 ui-md-11" hidden>
+									<input hidden type="text" formControlName="kode" readonly="true" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-11">
+									<label for="input">{{'frmMasterMessaging_parentMessaging'| translate | splitCharT }}</label>
+									<p-dropdown  filter="filter" filterBy="label" [options]="listNotifMessagingHead" [autoWidth]="false" formControlName="kdNotifMessagingHead"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-11">
+									<label for="input">{{'frmMasterMessaging_modulAplikasi'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched" style="color: red"> {{'frmMasterMessaging_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown  filter="filter" filterBy="label" [options]="listModulAplikasi" [autoWidth]="false" formControlName="kdModulAplikasi" (onChange)="getObjek($event)" ></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-11">
+									<label for="input">{{'frmMasterMessaging_objekModulAplikasi'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdObjekModulAplikasi').valid && form.get('kdObjekModulAplikasi').touched" style="color: red"> {{'frmMasterMessaging_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown  filter="filter" filterBy="label" [options]="listObjekModulAplikasi" [autoWidth]="false" formControlName="kdObjekModulAplikasi"></p-dropdown>
+								</div>
+							</div>
+							<div class="ui-g-4">
+								<div class="ui-g-12 ui-md-11">
+									<label for="input">{{'frmMasterMessaging_namaMessaging'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('namaMessaging').valid && form.get('namaMessaging').touched" style="color: red"> {{'frmMasterMessaging_required'| translate | splitCharT}}</span>
+									</label>
+									<textarea formControlName="namaMessaging" maxlength="150" [rows]="2" [cols]="60" pInputTextarea></textarea>
+								</div>
+								<div class="ui-g-12 ui-md-11">
+									<label for="input">{{'frmMasterMessaging_deskripsiDetailMessaging'| translate | splitCharT }}
+									</label>
+									<textarea formControlName="deskripsiDetailMessaging" maxlength="300" [rows]="2" [cols]="60" pInputTextarea></textarea>
+								</div>
+								<div class="ui-g-12 ui-md-11">
+									<label for="input">{{'frmMasterMessaging_keteranganLainnya'| translate | splitCharT }}
+									</label>
+									<textarea formControlName="keteranganLainnya"  maxlength="150" [rows]="2" [cols]="60" pInputTextarea></textarea>
+								</div>
+							</div>
+							<div class="ui-g-4">
+								<div class="ui-g-12 ui-md-11">
+									<label for="input">{{'frmMasterMessaging_qtyHariBefore'| translate | splitCharT }}
+									</label>
+									<input id="input" type="number" formControlName="qtyHariBefore" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-11">
+									<label for="input">{{'frmMasterMessaging_qtyHariFreq'| translate | splitCharT }}
+									</label>
+									<input id="input" type="number" formControlName="qtyHariFreq" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-11">
+									<label for="input">{{'frmMasterMessaging_qtyMessaging'| translate | splitCharT }}
+									</label>
+									<input id="input" type="number" formControlName="qtyMessaging" pInputText/>
+								</div>		
+								<div class="ui-g-12 ui-md-11">
+									<p-checkbox binary="true" label="{{'frmMasterMessaging_statusEnabled'| translate | splitCharT}}" formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'frmMasterMessaging_required'| translate | splitCharT}}</span>
+								</div>						
+							</div>
+							
+						</div>
+						
+						<div class="ui-g-12">
+							<p-fieldset>
+								<div class="ui-g-4">
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterMessaging_modulAplikasiTujuan'| translate | splitCharT }}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span *ngIf="!form.get('kdModulAplikasiTujuan').valid && form.get('kdModulAplikasiTujuan').touched" style="color: red"> {{'frmMasterMessaging_required'| translate | splitCharT}}</span>
+										</label>
+										<p-dropdown  filter="filter" filterBy="label" [options]="listModulAplikasiTujuan" [autoWidth]="false" formControlName="kdModulAplikasiTujuan" (onChange)="getObjekTujuan($event)"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterMessaging_objekModulAplikasiTujuan'| translate | splitCharT }}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span *ngIf="!form.get('kdObjekModulAplikasiTujuan').valid && form.get('kdObjekModulAplikasiTujuan').touched" style="color: red"> {{'frmMasterMessaging_required'| translate | splitCharT}}</span>
+										</label>
+										<p-dropdown filter="filter" filterBy="label" [options]="listObjekModulAplikasiTujuan" [autoWidth]="false" formControlName="kdObjekModulAplikasiTujuan"></p-dropdown>
+										<!-- <p-multiSelect [options]="listObjekModulAplikasiTujuan" formControlName="kdObjekModulAplikasiTujuan" [(ngModel)]="selectedObjekModulAplikasiTujuan" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect> -->
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterMessaging_customUrlObjekModul'| translate | splitCharT }}
+										</label>
+										<input id="input" type="text" formControlName="customUrlObjekModul" maxlength="255" pInputText/>
+									</div>
+								</div>
+								<div class="ui-g-4">
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterMessaging_namaFungsiFrontEnd'| translate | splitCharT }}
+										</label>
+										<input id="input" type="text" formControlName="namaFungsiFrontEnd" maxlength="100" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterMessaging_ruanganTujuan'| translate | splitCharT }}
+										</label>
+										<p-dropdown formControlName="kdRuanganTujuan" [options]="listRuanganTujuan" [autoWidth]="false" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterMessaging_jabatanTujuan'| translate | splitCharT }}
+										</label>
+										<p-dropdown formControlName="kdJabatanTujuan" [options]="listJabatanTujuan" [autoWidth]="false" appendTo="body" [filter]="true" filterBy="label" ></p-dropdown>
+									</div>
+								</div>
+								<div class="ui-g-4">
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterMessaging_titleNotifikasi'| translate | splitCharT }}
+										</label>
+										<textarea type="text" pInputTextarea formControlName="titleNotifikasi" maxlength="35" [rows]="2" [cols]="60" appendTo="body"></textarea>									
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterMessaging_pesanNotifikasi'| translate | splitCharT }}
+										</label>
+										<textarea type="text" pInputTextarea formControlName="pesanNotifikasi" maxlength="250" [rows]="2" [cols]="60" appendTo="body"></textarea>										
+									</div>
+								</div>
+								
+								<!-- <div class="ui-g-12">
+									<p-dataTable [value]="listInputDetail" [editable]="true" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [rows]="5" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" scrollable="true" [totalRecords]="totalRecordsInput" [lazy]="true">
+										<p-header>
+											<div class="ui-helper-clearfix">
+												<button pButton type="button" icon="fa-plus" (click)="tambahInput()" style="float: left;"></button>
+											</div>
+										</p-header>
+										<p-column field="ruanganTujuan" header="{{'unitKerjaTujuan'| translate | splitCharT}}" [editable]="true" [style]="{'width':'220px'}">
+											<ng-template let-col let-ruangantujuan="rowData" pTemplate="body">
+												{{ruangantujuan[col.field].namaRuanganTujuan}}
+											</ng-template>
+											<ng-template let-col let-ruangantujuan="rowData" let-ri="rowIndex" pTemplate="editor">
+												<p-dropdown [(ngModel)]="ruangantujuan[col.field]" [options]="listRuanganTujuan" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label" [ngModelOptions]="{standalone: true}"></p-dropdown>
+											</ng-template>
+										</p-column>
+										<p-column field="jabatanTujuan" header="{{'jabatanTujuan'| translate | splitCharT}}" [editable]="true" [style]="{'width':'220px'}">
+											<ng-template let-col let-jabatan="rowData" pTemplate="body">
+												{{jabatan[col.field].namaJabatanTujuan}}
+											</ng-template>
+											<ng-template let-col let-jabatan="rowData" let-ri="rowIndex" pTemplate="editor">
+												<p-dropdown [(ngModel)]="jabatan[col.field]" [options]="listJabatanTujuan" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label" [ngModelOptions]="{standalone: true}" ></p-dropdown>
+											</ng-template>
+										</p-column>
+										<p-column field="titleNotifikasi" header="{{'titlenotifikasi'| translate | splitCharT}}" [editable]="true" [style]="{'width':'220px'}">
+											<ng-template let-col let-titlenotifikasi="rowData" pTemplate="body">
+												{{titlenotifikasi[col.field]}}
+											</ng-template>
+											<ng-template let-col let-titlenotifikasi="rowData" pTemplate="editor">
+												<input type="text" pInputText [(ngModel)]="titlenotifikasi[col.field]" [ngModelOptions]="{standalone: true}" maxlength="35" appendTo="body">
+											</ng-template>
+										</p-column>
+										<p-column field="pesanNotifikasi" header="{{'pesanNotifikasi'| translate | splitCharT}}" [editable]="true" [style]="{'width':'220px'}">
+											<ng-template let-col let-pesanNotifikasi="rowData" pTemplate="body">
+												{{pesanNotifikasi[col.field]}}
+											</ng-template>
+											<ng-template let-col let-pesanNotifikasi="rowData" pTemplate="editor">
+												<input type="text" pInputText [(ngModel)]="pesanNotifikasi[col.field]" [ngModelOptions]="{standalone: true}" maxlength="250" appendTo="body">
+											</ng-template>
+										</p-column>
+										<p-column header="{{'statusAktif'| translate | splitCharT}}" styleClass="col-button" [style]="{'width':'50px'}">
+											<ng-template pTemplate="header"></ng-template>
+											<ng-template pTemplate="body" let-col let-data="rowData" let-ri="rowIndex">
+												<p-checkbox binary="true" [(ngModel)]="data[col.field]" appendTo="body" [ngModelOptions]="{standalone: true}"></p-checkbox>
+											</ng-template>
+										</p-column>
+										<p-column styleClass="col-button" [style]="{'width':'50px'}">
+											<ng-template pTemplate="header"></ng-template>
+											<ng-template pTemplate="body" let-col let-data="rowData" let-ri="rowIndex">
+												<div *ngIf="data.ruanganTujuan.kdRuanganTujuan == null">
+													<button type="button" pButton icon="fa-trash" (click)="hapusRow(ri)"></button>
+												</div>
+											</ng-template>
+										</p-column>
+									</p-dataTable>
+								</div> -->
+								
+								
+							</p-fieldset>
+						</div>
+						
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-7"></div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmMasterMessaging_btnBatal' | translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="submit" label="{{'frmMasterMessaging_btnSimpan' | translate | splitCharT }}" icon="fa-save" (click)="onSubmit()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmMasterMessaging_btnHapus' | translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmMasterMessaging_btnCetak' | translate | splitCharT }}" icon="fa-print" (click)="cetak()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<p-splitButton label="{{'frmMasterMessaging_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+								<!-- <button pButton type="button" label="{{'export' | translate | splitCharT }}" icon="fa-external-link"></button> -->
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="ui-g-12 ui-fluid">
+					<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" scrollable="true">
+						<p-header>
+							<div class="ui-helper-clearfix">
+								<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+								<input type="text" pInputText size="50" placeholder="{{'frmMasterMessaging_pencarianNamaMessaging'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+								style="width: 20%;float:right;">
+								<span style="float: left;padding:0.3em;">{{'frmMasterMessaging_masterMessaging'| translate | splitCharT}}</span>
+							</div>
+						</p-header>
+						<p-column field="namaMessagingHead" header="{{'frmMasterMessaging_btlParentMessaging'| translate | splitCharT}}"></p-column>
+						<p-column field="namaModulAplikasi" header="{{'frmMasterMessaging_tblParentMessaging'| translate | splitCharT}}"></p-column>
+						<p-column field="namaObjekModulAplikasi" header="{{'frmMasterMessaging_tblObjekModulAplikasi'| translate | splitCharT}}"></p-column>
+						<p-column field="namaMessaging" header="{{'frmMasterMessaging_tblMessaging'| translate | splitCharT}}"></p-column>
+						<p-column field="deskripsiDetailMessaging" header="{{'frmMasterMessaging_tblDeskripsiDetailMessaging'| translate | splitCharT}}"></p-column>
+						<p-column field="keteranganLainnya" header="{{'frmMasterMessaging_tblKeteranganLainnya'| translate | splitCharT}}"></p-column>
+						<p-column field="qtyHariBefore" header="{{'frmMasterMessaging_tblQtyHariBefore'| translate | splitCharT}}"></p-column>
+						<p-column field="qtyHariFreq" header="{{'frmMasterMessaging_tblQtyHariFreq'| translate | splitCharT}}"></p-column>
+						<p-column field="qtyMessaging" header="{{'frmMasterMessaging_tblQtyMessaging'| translate | splitCharT}}"></p-column>
+						<p-column field="statusEnabled" header="{{'frmMasterMessaging_tblStatusEnabled'| translate | splitCharT}}">
+							<ng-template let-col="rowData" pTemplate type="body">
+								{{col.statusEnabled | truefalse | translate | splitCharT }}
+							</ng-template> 
+						</p-column>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,1253 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmProfilStrukturGajibyMkgp_title' | translate | splitCharT }}</h1>
+
+				<p-tabView [activeIndex]="tabIndex">
+					<p-tabPanel header="{{'frmProfilStrukturGajibyMkgp_tabPHK'| translate | splitCharT}}">
+						<h1>
+							{{'frmProfilStrukturGajibyMkgp_tabPHK'| translate | splitCharT}}
+						</h1>
+						<div class="ui-g form-group">
+							<div class="ui-g-12">
+								<form [formGroup]="form" (ngSubmit)="onSubmit()">
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+													<div class="ui-g-8">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_namaSK'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-dropdown formControlName="namaSk" (onChange)="ambilSK($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+														[filter]="true" filterBy="label"></p-dropdown>
+													</div>
+													<div class="ui-g-12 ui-md-3">
+														<br/>
+														<button pButton type="button" [routerLink]="['/master-sk/surat-keputusan']" label="{{'frmProfilStrukturGajibyMkgp_buatSk'| translate | splitCharT }}"></button>
+													</div>
+													<div class="ui-g-12 ui-md-11">
+														<label>{{'frmProfilStrukturGajibyMkgp_noSK'| translate | splitCharT }}</label>
+														<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+													</div>
+												</div>
+												<div class="ui-g-12 ui-md-1"></div>
+												<div class="ui-g-12 ui-md-6" style="margin-top: 8px; margin-left: -90px;">
+													<div class="ui-g form-group">
+														<div class="ui-g-12 ui-md-10">
+															<label>{{'frmProfilStrukturGajibyMkgp_periodeBerlakuSk'| translate | splitCharT}}
+															</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAwal" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+														</div>
+														<div>
+															<label>-</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAkhir" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+														</div>
+													</div>
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g-12 ui-md-6">
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_kategoriPegawai'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red;">
+															required</span>
+														</label>
+														<p-dropdown [filter]="true" filterBy="label" formControlName="kdKategoryPegawai" [(ngModel)]="kdKategoriPegawai" (ngModelChange)="valuechangeGetKomponen($event)"
+														class="ui-inputwrapper-filled" [options]="listKategoryPegawai" [autoWidth]="false"></p-dropdown>
+													</div>
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_komponenHarga'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKomponenHarga').valid && form.get('kdKomponenHarga').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-dropdown [filter]="true" filterBy="label" formControlName="kdKomponenHarga" class="ui-inputwrapper-filled" [options]="listKomponen"
+														[autoWidth]="false"></p-dropdown>
+													</div>
+												</div>
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10" hidden="true">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_rangeMasaKerja'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdRange').valid && form.get('kdRange').touched" style="color: red;font-weight: bolder;"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT }}</span>
+														</label>
+														<p-multiSelect [options]="listRange" formControlName="kdRange" [(ngModel)]="selectedRange" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+												</div>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_levelJabatan'| translate | splitCharT }}
+															<!-- <span style="color: red;font-weight: bolder;">*</span>
+																<span *ngIf="!form.get('kdGolonganPegawai').valid && form.get('kdGolonganPegawai').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> -->
+															</label>
+															<p-multiSelect [options]="listGolonganPegawai" formControlName="kdGolonganPegawai" [(ngModel)]="selectedGolongan" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+														</div>
+														<div class="ui-g-12 ui-md-10">
+															<label>
+																{{'frmProfilStrukturGajibyMkgp_pangkat'| translate | splitCharT }}
+																<span style="color: red;font-weight: bolder;">*</span>
+																<span *ngIf="!form.get('kdPangkat').valid && form.get('kdPangkat').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+															</label>
+															<p-multiSelect [options]="listPangkat" formControlName="kdPangkat" [(ngModel)]="selectedPangkat" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+														</div>
+														<div class="ui-g-12 ui-md-10" hidden="true">
+															<label>
+																{{'frmProfilStrukturGajibyMkgp_keteranganAlasan'| translate | splitCharT }}
+															<!-- <span style="color: red;font-weight: bolder;">*</span>
+																<span *ngIf="!form.get('kdKeteranganAlasan').valid && form.get('kdKeteranganAlasan').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> -->
+															</label>
+															<p-multiSelect [options]="listKeteranganAlasan" formControlName="kdKeteranganAlasan" [(ngModel)]="selectedKeteranganAlasan" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+														</div>
+													<!-- <div class="ui-g-12 ui-md-10">
+														<p-checkbox binary="true" label="{{'frmProfilStrukturGajibyMkgp_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+														<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">* {{'required'| translate | splitCharT}}</span>
+													</div> -->
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+								</form>
+								<div class="ui-g-12">
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g form-group">
+												<div class="ui-g-12">
+													<p-dataTable #gridKomponenHargaTake [value]="listHarga" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true" scrollable="true" [responsive]="true">
+														<p-header>
+															<div class="ui-helper-clearfix">
+																<label style="float:center;">{{'frmProfilStrukturGajibyMkgp_dataKomponenHargaTake'| translate | splitCharT }}</label>
+																<button type="button" [disabled]="tambahOnOff" pButton icon="fa-plus" (click)="tambahKomponen()" style="float:left; font-size: 13px !important;"></button>
+															</div>
+														</p-header>
+
+
+														<p-column  field="range" header="{{'frmProfilStrukturGajibyMkgp_tableRange'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-range="rowData" pTemplate="body">
+																{{range[col.field].namaRange}}
+															</ng-template>
+															<ng-template let-col let-range="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOff" [(ngModel)]="range[col.field]" [options]="listRange" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="keteranganAlasan" header="{{'frmProfilStrukturGajibyMkgp_tableKeteranganAlasan'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-keteranganAlasan="rowData" pTemplate="body">
+																{{keteranganAlasan[col.field].namaKeteranganAlasan}}
+															</ng-template>
+															<ng-template let-col let-keteranganAlasan="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOff" [(ngModel)]="keteranganAlasan[col.field]" [options]="listKeteranganAlasan" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+
+
+														<p-column field="dataHarga" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTake'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																{{komponen[col.field].namaKomponen}}
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOff" [(ngModel)]="komponen[col.field]" [options]="listKomponenTake" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="hargaSatuan" header="{{'frmProfilStrukturGajibyMkgp_tableHargaSatuan'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-data="rowData" pTemplate="body">
+																<!-- {{ setHarga(data[col.field]) }} -->
+																<div *ngIf="(dataEditHarga !== true) || (tambahOnOff === true)">
+																	{{data.hargaSatuan | number}}
+																</div>
+																<div *ngIf="data.persenHargaSatuan == null && tambahOnOff !== true ">                            
+																	<p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+																</div>
+															</ng-template>
+															<!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+																<!-- <div *ngIf="data.persenHargaSatuan == null"> -->
+																	<!-- <input [disabled]="tambahOnOff" type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+																<!-- </div> -->
+															<!-- </ng-template> -->
+														</p-column>
+														<p-column field="persenHargaSatuan" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakePersenHargaSatuan'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-data="rowData" pTemplate="body">
+																<!-- {{ setHarga(data[col.field]) }} -->
+																<div *ngIf="(dataEditPersen !== true) || (tambahOnOff === true)">
+																	{{data.persenHargaSatuan | number}}
+																</div>
+																<div *ngIf="data.hargaSatuan == null && tambahOnOff !== true ">                            
+																	<p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+																</div>
+															</ng-template>
+															<!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+																<!-- <div *ngIf="data.hargaSatuan == null"> -->
+																	<!-- <input [disabled]="tambahOnOff" type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+																<!-- </div> -->
+															<!-- </ng-template> -->
+														</p-column>
+														<p-column field="factorRate" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeFaktorRate'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<input [disabled]="tambahOnOff" id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<input [disabled]="tambahOnOff" id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+														</p-column>
+														<p-column field="dataRate" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeOperatorFaktorRate'| translate | splitCharT}}" [editable]="true" [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																{{komponen[col.field].kode}}
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOff" [(ngModel)]="komponen[col.field]" [options]="listOperatorFactorRate" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="factorRateDivide" header="{{'frmProfilStrukturGajibyMkgp_factorRateDivide'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<input [disabled]="tambahOnOff" id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<input [disabled]="tambahOnOff" id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+														</p-column>
+														<p-column field="totalPoin" header="{{'frmProfilStrukturGajibyMkgp_totalPoin'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<p-spinner [disabled]="tambahOnOff" [(ngModel)]="komponen[col.field]" appendTo="body"></p-spinner>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-spinner [disabled]="tambahOnOff" [(ngModel)]="komponen[col.field]" appendTo="body"></p-spinner>
+															</ng-template>
+														</p-column>
+														<p-column field="statusAktif" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeStatus'| translate | splitCharT}}" [style]="{'width':'50px'}">
+															<ng-template pTemplate type="body" let-col let-checked="rowData" let-ri="rowIndex">
+																<p-checkbox [(ngModel)]="checked[col.field]" binary="true"></p-checkbox>
+															</ng-template>
+														</p-column>
+														<p-column styleClass="col-button" [style]="{'width': '50px'}">
+															<ng-template pTemplate="header"></ng-template>
+															<ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+																<div *ngIf="data.noSK == null">
+																	<button [disabled]="tambahOnOff" type="button" pButton icon="fa-trash" (click)="hapusRow(i)"></button>
+																</div>
+															</ng-template>
+														</p-column>
+													</p-dataTable>
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ui-g-12">
+							<form [formGroup]="form" (ngSubmit)="onSubmit()">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmProfilStrukturGajibyMkgp_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetak()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmProfilStrukturGajibyMkgp_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+								</div>
+							</form>
+						</div>
+						<div class="ui-g-12">
+							<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" 	[(selection)]="selected" scrollable="true" (onRowSelect)="onRowSelect($event)" expandableRows="true" [totalRecords]="totalRecords" 	(onLazyLoad)="loadPage($event)" [lazy]="true">
+								<p-header>
+									<div class="ui-helper-clearfix">
+										<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+										<input type="text" pInputText size="50" placeholder="{{'frmProfilStrukturGajibyMkgp_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+										<span style="float: left;padding:0.3em;">{{'frmProfilStrukturGajibyMkgp_tableTitle'| translate | splitCharT }}</span>
+									</div>
+								</p-header>
+								<p-column field="noSK" header="{{'frmProfilStrukturGajibyMkgp_tableNoSk' | translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+								<p-column field="namaSK" header="{{'frmProfilStrukturGajibyMkgp_tableNamaSk' | translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+								<p-column field="tglBerlakuAwal" header="{{'frmProfilStrukturGajibyMkgp_tableTglBerlakuSkAwal' | translate | splitCharT }}" [style]="{'width':'150px'}">
+									<ng-template let-pick="rowData" pTemplate type="body">
+										{{pick.tglBerlakuAwal * 1000 | date: 'dd MMM yyyy'}}
+									</ng-template>
+								</p-column>
+								<p-column field="tglBerlakuAkhir" header="{{'frmProfilStrukturGajibyMkgp_tableTglBerlakuSkAkhir' | translate | splitCharT }}" [style]="{'width':'150px'}">
+									<ng-template let-pick="rowData" pTemplate type="body">
+										<span *ngIf="pick.tglBerlakuAkhir == null">-</span>
+										<span *ngIf="pick.tglBerlakuAkhir != null">
+											{{pick.tglBerlakuAkhir * 1000 | date: 'dd MMM yyyy'}}
+										</span>
+									</ng-template>
+								</p-column>
+								<p-column field="namaKomponenHarga" header="{{'frmProfilStrukturGajibyMkgp_namaKomponenHarga'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+								<p-column field="namaRange" header="{{'frmProfilStrukturGajibyMkgp_tableRangeMasaKerja'| translate | splitCharT }}" [style]="{'width':'250px'}" hidden="true"></p-column>
+								<p-column field="namaKategoryPegawai" header="{{'frmProfilStrukturGajibyMkgp_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+								<p-column field="namaGolonganPegawai" header="{{'frmProfilStrukturGajibyMkgp_tableLevelJabatan'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+								<p-column field="namaPangkat" header="{{'frmProfilStrukturGajibyMkgp_tablePangkat'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+								<p-column field="namaKeteranganAlasan" header="{{'frmProfilStrukturGajibyMkgp_tableKeteranganAlasan'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+								<p-column field="namaKomponenHargaTake" header="{{'frmProfilStrukturGajibyMkgp_NamaKomponenHargaTake'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+								<!-- <p-column field="statusEnabled" header="{{'frmProfilStrukturGajibyMkgp_tableStatusAktif'| translate | splitCharT }}" [style]="{'width':'100px'}">
+									<ng-template let-col="rowData" pTemplate type="body">
+										{{col.statusEnabled | truefalse | translate | splitCharT }}
+									</ng-template> 
+								</p-column> -->
+							</p-dataTable>
+						</div>
+					</p-tabPanel>
+
+
+
+					<p-tabPanel header="{{'frmProfilStrukturGajibyMkgp_tabTHR'| translate | splitCharT}}">
+						<h1>
+							{{'frmProfilStrukturGajibyMkgp_tabTHR'| translate | splitCharT}}
+						</h1>
+						<div class="ui-g form-group">
+							<div class="ui-g-12">
+								<form [formGroup]="formTHR" (ngSubmit)="onSubmitTHR()">
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+													<div class="ui-g-8">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_namaSK'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-dropdown formControlName="namaSk" (onChange)="ambilSKTHR($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+														[filter]="true" filterBy="label"></p-dropdown>
+													</div>
+													<div class="ui-g-12 ui-md-3">
+														<br/>
+														<button pButton type="button" [routerLink]="['/master-sk/surat-keputusan']" label="{{'frmProfilStrukturGajibyMkgp_buatSk'| translate | splitCharT }}"></button>
+													</div>
+													<div class="ui-g-12 ui-md-11">
+														<label>{{'frmProfilStrukturGajibyMkgp_noSK'| translate | splitCharT }}</label>
+														<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+													</div>
+												</div>
+												<div class="ui-g-12 ui-md-1"></div>
+												<div class="ui-g-12 ui-md-6" style="margin-top: 8px; margin-left: -90px;">
+													<div class="ui-g form-group">
+														<div class="ui-g-12 ui-md-10">
+															<label>{{'frmProfilStrukturGajibyMkgp_periodeBerlakuSk'| translate | splitCharT}}
+															</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAwal" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+														</div>
+														<div>
+															<label>-</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAkhir" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+														</div>
+													</div>
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g-12 ui-md-6">
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_kategoriPegawai'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red;">
+															{{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT }}</span>
+														</label>
+														<p-dropdown [filter]="true" filterBy="label" formControlName="kdKategoryPegawai" [(ngModel)]="kdKategoriPegawaiTHR" (ngModelChange)="valuechangeGetKomponen($event)"
+														class="ui-inputwrapper-filled" [options]="listKategoryPegawai" [autoWidth]="false"></p-dropdown>
+													</div>
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_komponenHarga'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKomponenHarga').valid && form.get('kdKomponenHarga').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-dropdown [filter]="true" filterBy="label" formControlName="kdKomponenHarga" class="ui-inputwrapper-filled" [options]="listKomponen"
+														[autoWidth]="false"></p-dropdown>
+													</div>
+												</div>
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10" hidden="true">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_rangeMasaKerja'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdRange').valid && form.get('kdRange').touched" style="color: red;font-weight: bolder;"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT }}</span>
+														</label>
+														<p-multiSelect [options]="listRange" formControlName="kdRange" [(ngModel)]="selectedRangeTHR" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+												</div>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_levelJabatan'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdGolonganPegawai').valid && form.get('kdGolonganPegawai').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-multiSelect [options]="listGolonganPegawai" formControlName="kdGolonganPegawai" [(ngModel)]="selectedGolonganTHR" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_pangkat'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdPangkat').valid && form.get('kdPangkat').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-multiSelect [options]="listPangkat" formControlName="kdPangkat" [(ngModel)]="selectedPangkatTHR" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+													<div class="ui-g-12 ui-md-10" hidden="true">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_KeteranganAlasan'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKeteranganAlasan').valid && form.get('kdKeteranganAlasan').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-multiSelect [options]="listKeteranganAlasanTHR" formControlName="kdKeteranganAlasan" [(ngModel)]="selectedKeteranganAlasanTHR" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+													<!-- <div class="ui-g-12 ui-md-10">
+														<p-checkbox binary="true" label="{{'frmProfilStrukturGajibyMkgp_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+														<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">* {{'required'| translate | splitCharT}}</span>
+													</div> -->
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+								</form>
+								<div class="ui-g-12">
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g form-group">
+												<div class="ui-g-12">
+													<p-dataTable #gridKomponenHargaTake [value]="listHargaTHR" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true" scrollable="true" [responsive]="true">
+														<p-header>
+															<div class="ui-helper-clearfix">
+																<label style="float:center;">{{'frmProfilStrukturGajibyMkgp_dataKomponenHargaTake'| translate | splitCharT }}</label>
+																<button type="button" [disabled]="tambahOnOffTHR" pButton icon="fa-plus" (click)="tambahKomponenTHR()" style="float:left; font-size: 13px !important;"></button>
+															</div>
+														</p-header>
+
+
+
+														<p-column field="range" header="{{'frmProfilStrukturGajibyMkgp_tableRange'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-range="rowData" pTemplate="body">
+																{{range[col.field].namaRange}}
+															</ng-template>
+															<ng-template let-col let-range="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffTHR" [(ngModel)]="range[col.field]" [options]="listRange" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="keteranganAlasan" header="{{'frmProfilStrukturGajibyMkgp_tableKeteranganAlasan'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-keteranganAlasan="rowData" pTemplate="body">
+																{{keteranganAlasan[col.field].namaKeteranganAlasan}}
+															</ng-template>
+															<ng-template let-col let-keteranganAlasan="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffTHR" [(ngModel)]="keteranganAlasan[col.field]" [options]="listKeteranganAlasanTHR" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+
+
+														<p-column field="dataHarga" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTake'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																{{komponen[col.field].namaKomponen}}
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffTHR" [(ngModel)]="komponen[col.field]" [options]="listKomponenTake" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="hargaSatuan" header="{{'frmProfilStrukturGajibyMkgp_tableHargaSatuan'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-data="rowData" pTemplate="body">
+																<!-- {{ setHarga(data[col.field]) }} -->
+																<div *ngIf="(dataEditHargaTHR !== true) || (tambahOnOffTHR === true)">
+																	{{data.hargaSatuan | number}}
+																</div>
+																<div *ngIf="data.persenHargaSatuan == null && tambahOnOffTHR !== true ">                            
+																	<p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+																</div>
+															</ng-template>
+															<!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+																<!-- <div *ngIf="data.persenHargaSatuan == null"> -->
+																	<!-- <input type="number" [disabled]="tambahOnOffTHR" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+																<!-- </div> -->
+															<!-- </ng-template> -->
+														</p-column>
+														<p-column field="persenHargaSatuan" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakePersenHargaSatuan'| translate | splitCharT}}"  [style]="{'width':'100px'}">
+															<ng-template let-col let-data="rowData" pTemplate="body">
+																<!-- {{ setHarga(data[col.field]) }} -->
+																<div *ngIf="(dataEditPersenTHR !== true) || (tambahOnOffTHR === true)">
+																	{{data.persenHargaSatuan | number}}
+																</div>
+																<div *ngIf="data.hargaSatuan == null && tambahOnOffTHR !== true ">                            
+																	<p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+																</div>
+															</ng-template>
+															<!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+																<!-- <div *ngIf="data.hargaSatuan == null"> -->
+																	<!-- <input [disabled]="tambahOnOffTHR" type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+																<!-- </div> -->
+															<!-- </ng-template> -->
+														</p-column>
+														<p-column field="factorRate" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeFaktorRate'| translate | splitCharT}}"  [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<input id="input" [disabled]="tambahOnOffTHR" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<input id="input" [disabled]="tambahOnOffTHR" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+														</p-column>
+														<p-column field="dataRate" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeOperatorFaktorRate'| translate | splitCharT}}" [editable]="true" [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																{{komponen[col.field].kode}}
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffTHR" [(ngModel)]="komponen[col.field]" [options]="listOperatorFactorRate" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="factorRateDivide" header="{{'frmProfilStrukturGajibyMkgp_tableFactorRateDivide'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<input id="input" [disabled]="tambahOnOffTHR" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<input id="input" [disabled]="tambahOnOffTHR" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+														</p-column>
+														<p-column field="totalPoin" header="{{'frmProfilStrukturGajibyMkgp_tableTotalPoin'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<p-spinner [disabled]="tambahOnOffTHR" [(ngModel)]="komponen[col.field]" appendTo="body"></p-spinner>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-spinner [disabled]="tambahOnOffTHR" [(ngModel)]="komponen[col.field]" appendTo="body"></p-spinner>
+															</ng-template>
+														</p-column>
+														<p-column field="statusAktif" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeStatus'| translate | splitCharT}}" [style]="{'width':'50px'}">
+															<ng-template pTemplate type="body" let-col let-checked="rowData" let-ri="rowIndex">
+																<p-checkbox [(ngModel)]="checked[col.field]" binary="true"></p-checkbox>
+															</ng-template>
+														</p-column>
+														<p-column styleClass="col-button" [style]="{'width': '50px'}">
+															<ng-template pTemplate="header"></ng-template>
+															<ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+																<div *ngIf="data.noSK == null">
+																	<button [disabled]="tambahOnOffTHR" type="button" pButton icon="fa-trash" (click)="hapusRowTHR(i)"></button>
+																</div>
+															</ng-template>
+														</p-column>
+													</p-dataTable>
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ui-g-12">
+							<form [formGroup]="formTHR" (ngSubmit)="onSubmitTHR()">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmProfilStrukturGajibyMkgp_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDeleteTHR()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetakTHR()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmProfilStrukturGajibyMkgp_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="itemsTHR"></p-splitButton>
+								</div>
+							</form>
+						</div>
+						<div class="ui-g-12">
+							<p-dataTable [value]="listDataTHR" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" 	[(selection)]="selectedTHR" scrollable="true" (onRowSelect)="onRowSelectTHR($event)" expandableRows="true" [totalRecords]="totalRecordsTHR" (onLazyLoad)="loadPageTHR($event)" [lazy]="true">
+								<p-header>
+									<div class="ui-helper-clearfix">
+										<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+										<input type="text" pInputText size="50" placeholder="{{'frmProfilStrukturGajibyMkgp_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarianTHR" (keyup)="cariTHR()" style="width: 20%;float:right;">
+										<span style="float: left;padding:0.3em;">{{'frmProfilStrukturGajibyMkgp_tableTitle'| translate | splitCharT }}</span>
+									</div>
+								</p-header>
+								<p-column field="noSK" header="{{'frmProfilStrukturGajibyMkgp_tableNoSk' | translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+								<p-column field="namaSK" header="{{'frmProfilStrukturGajibyMkgp_tableNamaSk' | translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+								<p-column field="tglBerlakuAwal" header="{{'frmProfilStrukturGajibyMkgp_tableTglBerlakuSkAwal' | translate | splitCharT }}" [style]="{'width':'150px'}">
+									<ng-template let-pick="rowData" pTemplate type="body">
+										{{pick.tglBerlakuAwal * 1000 | date: 'dd MMM yyyy'}}
+									</ng-template>
+								</p-column>
+								<p-column field="tglBerlakuAkhir" header="{{'frmProfilStrukturGajibyMkgp_tableTglBerlakuSkAkhir' | translate | splitCharT }}" [style]="{'width':'150px'}">
+									<ng-template let-pick="rowData" pTemplate type="body">
+										<span *ngIf="pick.tglBerlakuAkhir == null">
+											-
+										</span>
+										<span *ngIf="pick.tglBerlakuAkhir != null">
+											{{pick.tglBerlakuAkhir * 1000 | date: 'dd MMM yyyy'}}
+										</span>
+									</ng-template>
+								</p-column>
+								<p-column field="namaKomponenHarga" header="{{'frmProfilStrukturGajibyMkgp_tableNamaKomponenHarga'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+								<p-column field="namaRange" header="{{'frmProfilStrukturGajibyMkgp_tableRangeMasaKerja'| translate | splitCharT }}" [style]="{'width':'250px'}" hidden="true"></p-column>
+								<p-column field="namaKategoryPegawai" header="{{'frmProfilStrukturGajibyMkgp_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+								<p-column field="namaGolonganPegawai" header="{{'frmProfilStrukturGajibyMkgp_tableLevelJabatan'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+								<p-column field="namaPangkat" header="{{'frmProfilStrukturGajibyMkgp_tablePangkat'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+								<p-column field="namaKeteranganAlasan" header="{{'frmProfilStrukturGajibyMkgp_tableKeteranganAlasan'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+								<p-column field="namaKomponenHargaTake" header="{{'frmProfilStrukturGajibyMkgp_tableNamaKomponenHargaTake'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+								<!-- <p-column field="statusEnabled" header="{{'frmProfilStrukturGajibyMkgp_tableStatusAktif'| translate | splitCharT }}" [style]="{'width':'100px'}">
+									<ng-template let-col="rowData" pTemplate type="body">
+										{{col.statusEnabled | truefalse | translate | splitCharT }}
+									</ng-template> 
+								</p-column> -->
+							</p-dataTable>
+						</div>
+					</p-tabPanel>
+
+
+
+
+					<p-tabPanel header="{{'frmProfilStrukturGajibyMkgp_tabPensiun'| translate | splitCharT}}">
+						<h1>
+							{{'frmProfilStrukturGajibyMkgp_tabPensiun'| translate | splitCharT}}
+						</h1>
+						<div class="ui-g form-group">
+							<div class="ui-g-12">
+								<form [formGroup]="formPensiun" (ngSubmit)="onSubmitPensiun()">
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+													<div class="ui-g-8">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_namaSK'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-dropdown formControlName="namaSk" (onChange)="ambilSKPensiun($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+														[filter]="true" filterBy="label"></p-dropdown>
+													</div>
+													<div class="ui-g-12 ui-md-3">
+														<br/>
+														<button pButton type="button" [routerLink]="['/master-sk/surat-keputusan']" label="{{'frmProfilStrukturGajibyMkgp_buatSk'| translate | splitCharT }}"></button>
+													</div>
+													<div class="ui-g-12 ui-md-11">
+														<label>{{'frmProfilStrukturGajibyMkgp_noSK'| translate | splitCharT }}</label>
+														<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+													</div>
+												</div>
+												<div class="ui-g-12 ui-md-1"></div>
+												<div class="ui-g-12 ui-md-6" style="margin-top: 8px; margin-left: -90px;">
+													<div class="ui-g form-group">
+														<div class="ui-g-12 ui-md-10">
+															<label>{{'frmProfilStrukturGajibyMkgp_periodeBerlakuSk'| translate | splitCharT}}
+															</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAwal" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+														</div>
+														<div>
+															<label>-</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAkhir" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+														</div>
+													</div>
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g-12 ui-md-6">
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_kategoriPegawai'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red;">
+																{{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT }}</span>
+														</label>
+														<p-dropdown [filter]="true" filterBy="label" formControlName="kdKategoryPegawai" [(ngModel)]="kdKategoriPegawaiPensiun" (ngModelChange)="valuechangeGetKomponen($event)"
+														class="ui-inputwrapper-filled" [options]="listKategoryPegawai" [autoWidth]="false"></p-dropdown>
+													</div>
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_komponenHarga'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKomponenHarga').valid && form.get('kdKomponenHarga').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-dropdown [filter]="true" filterBy="label" formControlName="kdKomponenHarga" class="ui-inputwrapper-filled" [options]="listKomponen"
+														[autoWidth]="false"></p-dropdown>
+													</div>
+												</div>
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10" hidden="true">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_rangeMasaKerja'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdRange').valid && form.get('kdRange').touched" style="color: red;font-weight: bolder;">{{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT }}</span>
+														</label>
+														<p-multiSelect [options]="listRange" formControlName="kdRange" [(ngModel)]="selectedRangePensiun" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+												</div>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_levelJabatan'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdGolonganPegawai').valid && form.get('kdGolonganPegawai').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-multiSelect [options]="listGolonganPegawai" formControlName="kdGolonganPegawai" [(ngModel)]="selectedGolonganPensiun" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_pangkat'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdPangkat').valid && form.get('kdPangkat').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-multiSelect [options]="listPangkat" formControlName="kdPangkat" [(ngModel)]="selectedPangkatPensiun" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+													<div class="ui-g-12 ui-md-10" hidden="true">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_KeteranganAlasan'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKeteranganAlasan').valid && form.get('kdKeteranganAlasan').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-multiSelect [options]="listKeteranganAlasanPensiun" formControlName="kdKeteranganAlasan" [(ngModel)]="selectedKeteranganAlasanPensiun" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+													<!-- <div class="ui-g-12 ui-md-10">
+														<p-checkbox binary="true" label="{{'frmProfilStrukturGajibyMkgp_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+														<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">* {{'required'| translate | splitCharT}}</span>
+													</div> -->
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+								</form>
+								<div class="ui-g-12">
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g form-group">
+												<div class="ui-g-12">
+													<p-dataTable #gridKomponenHargaTake [value]="listHargaPensiun" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true" scrollable="true" [responsive]="true">
+														<p-header>
+															<div class="ui-helper-clearfix">
+																<label style="float:center;">{{'frmProfilStrukturGajibyMkgp_dataKomponenHargaTake'| translate | splitCharT }}</label>
+																<button type="button" [disabled]="tambahOnOffPensiun" pButton icon="fa-plus" (click)="tambahKomponenPensiun()" style="float:left; font-size: 13px !important;"></button>
+															</div>
+														</p-header>
+
+
+														<p-column field="range" header="{{'frmProfilStrukturGajibyMkgp_tableRange'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-range="rowData" pTemplate="body">
+																{{range[col.field].namaRange}}
+															</ng-template>
+															<ng-template let-col let-range="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffPensiun" [(ngModel)]="range[col.field]" [options]="listRange" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="keteranganAlasan" header="{{'frmProfilStrukturGajibyMkgp_tableKeteranganAlasan'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-keteranganAlasan="rowData" pTemplate="body">
+																{{keteranganAlasan[col.field].namaKeteranganAlasan}}
+															</ng-template>
+															<ng-template let-col let-keteranganAlasan="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffPensiun" [(ngModel)]="keteranganAlasan[col.field]" [options]="listKeteranganAlasanPensiun" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+
+
+														<p-column field="dataHarga" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTake'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																{{komponen[col.field].namaKomponen}}
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffPensiun" [(ngModel)]="komponen[col.field]" [options]="listKomponenTake" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="hargaSatuan" header="{{'frmProfilStrukturGajibyMkgp_tableHargaSatuan'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-data="rowData" pTemplate="body">
+																<!-- {{ setHarga(data[col.field]) }} -->
+																<div *ngIf="(dataEditHargaPensiun !== true) || (tambahOnOffPensiun === true)">
+																	{{data.hargaSatuan | number}}
+																</div>
+																<div *ngIf="data.persenHargaSatuan == null && tambahOnOffPensiun !== true ">                            
+																	<p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+																</div>
+															</ng-template>
+															<!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+																<!-- <div *ngIf="data.persenHargaSatuan == null"> -->
+																	<!-- <input [disabled]="tambahOnOffPensiun" type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+																<!-- </div> -->
+															<!-- </ng-template> -->
+														</p-column>
+														<p-column field="persenHargaSatuan" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakePersenHargaSatuan'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-data="rowData" pTemplate="body">
+																<!-- {{ setHarga(data[col.field]) }} -->
+																<div *ngIf="(dataEditPersenPensiun !== true) || (tambahOnOffPensiun === true)">
+																	{{data.persenHargaSatuan | number}}
+																</div>
+																<div *ngIf="data.hargaSatuan == null && tambahOnOffPensiun !== true ">                            
+																	<p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+																</div>
+															</ng-template>
+															<!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+																<!-- <div *ngIf="data.hargaSatuan == null"> -->
+																	<!-- <input [disabled]="tambahOnOffPensiun" type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+																<!-- </div> -->
+															<!-- </ng-template> -->
+														</p-column>
+														<p-column field="factorRate" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeFaktorRate'| translate | splitCharT}}"  [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<input id="input" [disabled]="tambahOnOffPensiun" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<input id="input" [disabled]="tambahOnOffPensiun" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+														</p-column>
+														<p-column field="dataRate" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeOperatorFaktorRate'| translate | splitCharT}}" [editable]="true" [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																{{komponen[col.field].kode}}
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffPensiun" [(ngModel)]="komponen[col.field]" [options]="listOperatorFactorRate" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="factorRateDivide" header="{{'frmProfilStrukturGajibyMkgp_tableFactorRateDivide'| translate | splitCharT}}"  [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<input id="input" [disabled]="tambahOnOffPensiun" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<input id="input" [disabled]="tambahOnOffPensiun" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+														</p-column>
+														<p-column field="totalPoin" header="{{'frmProfilStrukturGajibyMkgp_tableTotalPoin'| translate | splitCharT}}"  [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<p-spinner [disabled]="tambahOnOffPensiun" [(ngModel)]="komponen[col.field]" appendTo="body"></p-spinner>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-spinner [disabled]="tambahOnOffPensiun" [(ngModel)]="komponen[col.field]" appendTo="body"></p-spinner>
+															</ng-template>
+														</p-column>
+														<p-column field="statusAktif" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeStatus'| translate | splitCharT}}" [style]="{'width':'50px'}">
+															<ng-template pTemplate type="body" let-col let-checked="rowData" let-ri="rowIndex">
+																<p-checkbox [(ngModel)]="checked[col.field]" binary="true"></p-checkbox>
+															</ng-template>
+														</p-column>
+														<p-column styleClass="col-button" [style]="{'width': '50px'}">
+															<ng-template pTemplate="header"></ng-template>
+															<ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+																<div *ngIf="data.noSK == null">
+																	<button type="button" [disabled]="tambahOnOffPensiun" pButton icon="fa-trash" (click)="hapusRowPensiun(i)"></button>
+																</div>
+															</ng-template>
+														</p-column>
+													</p-dataTable>
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ui-g-12">
+							<form [formGroup]="formPensiun" (ngSubmit)="onSubmitPensiun()">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmProfilStrukturGajibyMkgp_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDeletePensiun()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetakPensiun()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmProfilStrukturGajibyMkgp_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="itemsPensiun"></p-splitButton>
+								</div>
+							</form>
+						</div>
+						<div class="ui-g-12">
+							<p-dataTable [value]="listDataPensiun" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" 	[(selection)]="selectedPensiun" scrollable="true" (onRowSelect)="onRowSelectPensiun($event)" expandableRows="true" [totalRecords]="totalRecordsPensiun" 	(onLazyLoad)="loadPagePensiun($event)" [lazy]="true">
+								<p-header>
+									<div class="ui-helper-clearfix">
+										<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+										<input type="text" pInputText size="50" placeholder="{{'frmProfilStrukturGajibyMkgp_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarianPensiun" (keyup)="cariPensiun()" style="width: 20%;float:right;">
+										<span style="float: left;padding:0.3em;">{{'frmProfilStrukturGajibyMkgp_tableTitle'| translate | splitCharT }}</span>
+									</div>
+								</p-header>
+								<p-column field="noSK" header="{{'frmProfilStrukturGajibyMkgp_tableNoSk' | translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+								<p-column field="namaSK" header="{{'frmProfilStrukturGajibyMkgp_tableNamaSk' | translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+								<p-column field="tglBerlakuAwal" header="{{'frmProfilStrukturGajibyMkgp_tableTglBerlakuSkAwal' | translate | splitCharT }}" [style]="{'width':'150px'}">
+									<ng-template let-pick="rowData" pTemplate type="body">
+										{{pick.tglBerlakuAwal * 1000 | date: 'dd MMM yyyy'}}
+									</ng-template>
+								</p-column>
+								<p-column field="tglBerlakuAkhir" header="{{'frmProfilStrukturGajibyMkgp_tableTglBerlakuSkAkhir' | translate | splitCharT }}" [style]="{'width':'150px'}">
+									<ng-template let-pick="rowData" pTemplate type="body">
+										<span *ngIf="pick.tglBerlakuAkhir == null">
+											-
+										</span>
+										<span *ngIf="pick.tglBerlakuAkhir != null">
+											{{pick.tglBerlakuAkhir * 1000 | date: 'dd MMM yyyy'}}
+										</span>
+									</ng-template>
+								</p-column>
+								<p-column field="namaKomponenHarga" header="{{'frmProfilStrukturGajibyMkgp_tableNamaKomponenHarga'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+								<p-column field="namaRange" header="{{'frmProfilStrukturGajibyMkgp_tableRangeMasaKerja'| translate | splitCharT }}" [style]="{'width':'250px'}" hidden="true"></p-column>
+								<p-column field="namaKategoryPegawai" header="{{'frmProfilStrukturGajibyMkgp_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+								<p-column field="namaGolonganPegawai" header="{{'frmProfilStrukturGajibyMkgp_tableLevelJabatan'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+								<p-column field="namaPangkat" header="{{'frmProfilStrukturGajibyMkgp_tablePangkat'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+								<p-column field="namaKeteranganAlasan" header="{{'frmProfilStrukturGajibyMkgp_tableKeteranganAlasan'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+								<p-column field="namaKomponenHargaTake" header="{{'frmProfilStrukturGajibyMkgp_tableNamaKomponenHargaTake'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+								<!-- <p-column field="statusEnabled" header="{{'frmProfilStrukturGajibyMkgp_tableStatusAktif'| translate | splitCharT }}" [style]="{'width':'100px'}">
+									<ng-template let-col="rowData" pTemplate type="body">
+										{{col.statusEnabled | truefalse | translate | splitCharT }}
+									</ng-template> 
+								</p-column> -->
+							</p-dataTable>
+						</div>
+					</p-tabPanel>
+
+
+
+
+					<p-tabPanel header="{{'frmProfilStrukturGajibyMkgp_tabBonus'| translate | splitCharT}}">
+						<h1>
+							{{'frmProfilStrukturGajibyMkgp_tabBonus'| translate | splitCharT}}
+						</h1>
+						<div class="ui-g form-group">
+							<div class="ui-g-12">
+								<form [formGroup]="formBonus" (ngSubmit)="onSubmitBonus()">
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+													<div class="ui-g-8">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_namaSK'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-dropdown formControlName="namaSk" (onChange)="ambilSKBonus($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+														[filter]="true" filterBy="label"></p-dropdown>
+													</div>
+													<div class="ui-g-12 ui-md-3">
+														<br/>
+														<button pButton type="button" [routerLink]="['/master-sk/surat-keputusan']" label="{{'frmProfilStrukturGajibyMkgp_buatSk'| translate | splitCharT }}"></button>
+													</div>
+													<div class="ui-g-12 ui-md-11">
+														<label>{{'frmProfilStrukturGajibyMkgp_noSK'| translate | splitCharT }}</label>
+														<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+													</div>
+												</div>
+												<div class="ui-g-12 ui-md-1"></div>
+												<div class="ui-g-12 ui-md-6" style="margin-top: 8px; margin-left: -90px;">
+													<div class="ui-g form-group">
+														<div class="ui-g-12 ui-md-10">
+															<label>{{'frmProfilStrukturGajibyMkgp_periodeBerlakuSk'| translate | splitCharT}}
+															</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAwal" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+														</div>
+														<div>
+															<label>-</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAkhir" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+														</div>
+													</div>
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g-12 ui-md-6">
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_kategoriPegawai'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red;">
+															{{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT }}</span>
+														</label>
+														<p-dropdown [filter]="true" filterBy="label" formControlName="kdKategoryPegawai" [(ngModel)]="kdKategoriPegawaiBonus" (ngModelChange)="valuechangeGetKomponen($event)"
+														class="ui-inputwrapper-filled" [options]="listKategoryPegawai" [autoWidth]="false"></p-dropdown>
+													</div>
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_komponenHarga'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKomponenHarga').valid && form.get('kdKomponenHarga').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-dropdown [filter]="true" filterBy="label" formControlName="kdKomponenHarga" class="ui-inputwrapper-filled" [options]="listKomponen"
+														[autoWidth]="false"></p-dropdown>
+													</div>
+												</div>
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10" hidden="true">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_rangeMasaKerja'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdRange').valid && form.get('kdRange').touched" style="color: red;font-weight: bolder;"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT }}</span>
+														</label>
+														<p-multiSelect [options]="listRange" formControlName="kdRange" [(ngModel)]="selectedRangeBonus" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+												</div>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_levelJabatan'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdGolonganPegawai').valid && form.get('kdGolonganPegawai').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-multiSelect [options]="listGolonganPegawai" formControlName="kdGolonganPegawai" [(ngModel)]="selectedGolonganBonus" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+													<div class="ui-g-12 ui-md-10">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_pangkat'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdPangkat').valid && form.get('kdPangkat').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-multiSelect [options]="listPangkat" formControlName="kdPangkat" [(ngModel)]="selectedPangkatBonus" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+													<div class="ui-g-12 ui-md-10" hidden="true">
+														<label>
+															{{'frmProfilStrukturGajibyMkgp_KeteranganAlasan'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKeteranganAlasan').valid && form.get('kdKeteranganAlasan').touched" style="color: red"> {{'frmProfilStrukturGajibyMkgp_required'| translate | splitCharT}}</span>
+														</label>
+														<p-multiSelect [options]="listKeteranganAlasanBonus" formControlName="kdKeteranganAlasan" [(ngModel)]="selectedKeteranganAlasanBonus" multiple="multiple" checkbox="checkbox" filter="filter" optionLabel="label"></p-multiSelect>
+													</div>
+												<!-- 	<div class="ui-g-12 ui-md-10">
+														<p-checkbox binary="true" label="{{'frmProfilStrukturGajibyMkgp_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+														<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">* {{'required'| translate | splitCharT}}</span>
+													</div> -->
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+								</form>
+								<div class="ui-g-12">
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g form-group">
+												<div class="ui-g-12">
+													<p-dataTable #gridKomponenHargaTake [value]="listHargaBonus" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true" scrollable="true" [responsive]="true">
+														<p-header>
+															<div class="ui-helper-clearfix">
+																<label style="float:center;">{{'frmProfilStrukturGajibyMkgp_dataKomponenHargaTake'| translate | splitCharT }}</label>
+																<button type="button" [disabled]="tambahOnOffBonus" pButton icon="fa-plus" (click)="tambahKomponenBonus()" style="float:left; font-size: 13px !important;"></button>
+															</div>
+														</p-header>
+
+
+														<p-column field="range" header="{{'frmProfilStrukturGajibyMkgp_tableRange'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-range="rowData" pTemplate="body">
+																{{range[col.field].namaRange}}
+															</ng-template>
+															<ng-template let-col let-range="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffBonus" [(ngModel)]="range[col.field]" [options]="listRange" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="keteranganAlasan" header="{{'frmProfilStrukturGajibyMkgp_tableKeteranganAlasan'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-keteranganAlasan="rowData" pTemplate="body">
+																{{keteranganAlasan[col.field].namaKeteranganAlasan}}
+															</ng-template>
+															<ng-template let-col let-keteranganAlasan="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffBonus" [(ngModel)]="keteranganAlasan[col.field]" [options]="listKeteranganAlasanBonus" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+
+
+														<p-column field="dataHarga" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTake'| translate | splitCharT}}" [editable]="true" [style]="{'width':'150px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																{{komponen[col.field].namaKomponen}}
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffBonus" [(ngModel)]="komponen[col.field]" [options]="listKomponenTake" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="hargaSatuan" header="{{'frmProfilStrukturGajibyMkgp_tableHargaSatuan'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-data="rowData" pTemplate="body">
+																<!-- {{ setHarga(data[col.field]) }} -->
+																<div *ngIf="(dataEditHargaBonus !== true) || (tambahOnOffBonus === true)">
+																	{{data.hargaSatuan | number}}
+																</div>
+																<div *ngIf="data.persenHargaSatuan == null && tambahOnOffBonus !== true ">                            
+																	<p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+																</div>
+															</ng-template>
+															<!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+																<!-- <div *ngIf="data.persenHargaSatuan == null"> -->
+																	<!-- <input type="number" [disabled]="tambahOnOffBonus" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+																<!-- </div> -->
+															<!-- </ng-template> -->
+														</p-column>
+														<p-column field="persenHargaSatuan" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakePersenHargaSatuan'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-data="rowData" pTemplate="body">
+																<!-- {{ setHarga(data[col.field]) }} -->
+																<div *ngIf="(dataEditPersenBonus !== true) || (tambahOnOffBonus === true)">
+																	{{data.persenHargaSatuan | number}}
+																</div>
+																<div *ngIf="data.hargaSatuan == null && tambahOnOffBonus !== true ">                            
+																	<p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+																</div>
+															</ng-template>
+															<!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+																<!-- <div *ngIf="data.hargaSatuan == null"> -->
+																	<!-- <input type="number" [disabled]="tambahOnOffBonus" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+																<!-- </div> -->
+															<!-- </ng-template> -->
+														</p-column>
+														<p-column field="factorRate" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeFaktorRate'| translate | splitCharT}}"  [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<input id="input" [disabled]="tambahOnOffBonus" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<input id="input" [disabled]="tambahOnOffBonus" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+														</p-column>
+														<p-column field="dataRate" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeOperatorFaktorRate'| translate | splitCharT}}" [editable]="true" [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																{{komponen[col.field].kode}}
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-dropdown [disabled]="tambahOnOffBonus" [(ngModel)]="komponen[col.field]" [options]="listOperatorFactorRate" [autoWidth]="false" required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+															</ng-template>
+														</p-column>
+														<p-column field="factorRateDivide" header="{{'frmProfilStrukturGajibyMkgp_tablefactorRateDivide'| translate | splitCharT}}"  [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<input id="input" [disabled]="tambahOnOffBonus" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<input id="input" [disabled]="tambahOnOffBonus" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+															</ng-template>
+														</p-column>
+														<p-column field="totalPoin" header="{{'frmProfilStrukturGajibyMkgp_tableTotalPoin'| translate | splitCharT}}" [style]="{'width':'100px'}">
+															<ng-template let-col let-komponen="rowData" pTemplate="body">
+																<p-spinner [disabled]="tambahOnOffBonus" [(ngModel)]="komponen[col.field]" appendTo="body"></p-spinner>
+															</ng-template>
+															<ng-template let-col let-komponen="rowData" pTemplate="editor">
+																<p-spinner [disabled]="tambahOnOffBonus" [(ngModel)]="komponen[col.field]" appendTo="body"></p-spinner>
+															</ng-template>
+														</p-column>
+														<p-column field="statusAktif" header="{{'frmProfilStrukturGajibyMkgp_tableKomponenHargaTakeStatus'| translate | splitCharT}}" [style]="{'width':'50px'}">
+															<ng-template pTemplate type="body" let-col let-checked="rowData" let-ri="rowIndex">
+																<p-checkbox [(ngModel)]="checked[col.field]" binary="true"></p-checkbox>
+															</ng-template>
+														</p-column>
+														<p-column styleClass="col-button" [style]="{'width': '50px'}">
+															<ng-template pTemplate="header"></ng-template>
+															<ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+																<div *ngIf="data.noSK == null">
+																	<button [disabled]="tambahOnOffBonus" type="button" pButton icon="fa-trash" (click)="hapusRowBonus(i)"></button>
+																</div>
+															</ng-template>
+														</p-column>
+													</p-dataTable>
+												</div>
+											</div>
+										</p-fieldset>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="ui-g-12">
+							<form [formGroup]="formBonus" (ngSubmit)="onSubmitBonus()">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmProfilStrukturGajibyMkgp_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDeleteBonus()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmProfilStrukturGajibyMkgp_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetakBonus()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmProfilStrukturGajibyMkgp_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="itemsBonus"></p-splitButton>
+								</div>
+							</form>
+						</div>
+						<div class="ui-g-12">
+							<p-dataTable [value]="listDataBonus" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" 	[(selection)]="selectedBonus" scrollable="true" (onRowSelect)="onRowSelectBonus($event)" expandableRows="true" [totalRecords]="totalRecordsBonus" 	(onLazyLoad)="loadPageBonus($event)" [lazy]="true">
+								<p-header>
+									<div class="ui-helper-clearfix">
+										<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+										<input type="text" pInputText size="50" placeholder="{{'frmProfilStrukturGajibyMkgp_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarianBonus" (keyup)="cariBonus()" style="width: 20%;float:right;">
+										<span style="float: left;padding:0.3em;">{{'frmProfilStrukturGajibyMkgp_tableTitle'| translate | splitCharT }}</span>
+									</div>
+								</p-header>
+								<p-column field="noSK" header="{{'frmProfilStrukturGajibyMkgp_tableNoSk' | translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+								<p-column field="namaSK" header="{{'frmProfilStrukturGajibyMkgp_tableNamaSk' | translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+								<p-column field="tglBerlakuAwal" header="{{'frmProfilStrukturGajibyMkgp_tableTglBerlakuSkAwal' | translate | splitCharT }}" [style]="{'width':'150px'}">
+									<ng-template let-pick="rowData" pTemplate type="body">
+										{{pick.tglBerlakuAwal * 1000 | date: 'dd MMM yyyy'}}
+									</ng-template>
+								</p-column>
+								<p-column field="tglBerlakuAkhir" header="{{'frmProfilStrukturGajibyMkgp_tableTglBerlakuSkAkhir' | translate | splitCharT }}" [style]="{'width':'150px'}">
+									<ng-template let-pick="rowData" pTemplate type="body">
+										<span *ngIf="pick.tglBerlakuAkhir == null">
+											-
+										</span>
+										<span *ngIf="pick.tglBerlakuAkhir != null">
+											{{pick.tglBerlakuAkhir * 1000 | date: 'dd MMM yyyy'}}
+										</span>
+									</ng-template>
+								</p-column>
+								<p-column field="namaKomponenHarga" header="{{'frmProfilStrukturGajibyMkgp_tableNamaKomponenHarga'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+								<p-column field="namaRange" header="{{'frmProfilStrukturGajibyMkgp_tableRangeMasaKerja'| translate | splitCharT }}" [style]="{'width':'250px'}" hidden="true"></p-column>
+								<p-column field="namaKategoryPegawai" header="{{'frmProfilStrukturGajibyMkgp_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+								<p-column field="namaGolonganPegawai" header="{{'frmProfilStrukturGajibyMkgp_tableLevelJabatan'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+								<p-column field="namaPangkat" header="{{'frmProfilStrukturGajibyMkgp_tablePangkat'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+								<p-column field="namaKeteranganAlasan" header="{{'frmProfilStrukturGajibyMkgp_tableKeteranganAlasan'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+								<p-column field="namaKomponenHargaTake" header="{{'frmProfilStrukturGajibyMkgp_tableNamaKomponenHargaTake'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+								<!-- <p-column field="statusEnabled" header="{{'frmProfilStrukturGajibyMkgp_tableStatusAktif'| translate | splitCharT }}" [style]="{'width':'100px'}">
+									<ng-template let-col="rowData" pTemplate type="body">
+										{{col.statusEnabled | truefalse | translate | splitCharT }}
+									</ng-template> 
+								</p-column> -->
+							</p-dataTable>
+						</div>
+					</p-tabPanel>
+
+
+
+
+
+				</p-tabView>
+
+			</div>
+		</div>
+	</div>
+</div>

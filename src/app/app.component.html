@@ -1,0 +1,59 @@
+<div class="splash-screen" *ngIf="loadingRouteConfig">
+    <div class="splash-loader"></div>
+    <img class="splash-logo" src="assets/layout/images/logo.png"/>
+</div>
+
+<p-dialog header="{'Silahkan tunggu' | translate | splitCharT }" [(visible)]="performance">
+    Content
+</p-dialog>
+
+<div class="layout-wrapper" [ngClass]="{'layout-wrapper-menu-active':sidebarActive,
+                                        'layout-overlay-menu':overlay}">
+    
+    <app-loader></app-loader>
+
+    <app-topbar *ngIf="isLogin" id="app-topbar"></app-topbar>
+    
+    <app-sidebar *ngIf="isLogin && !isLaporan" id="app-sidebar"></app-sidebar>
+
+    <p-dialog [header]="titleBar" [(visible)]="performance" modal="true" closeOnEscape="false" closable="false">
+        <p-progressBar [value]="valueBar1" *ngIf="pBar1"></p-progressBar>
+        <p-progressBar [value]="valueBar2" *ngIf="pBar2"></p-progressBar>
+        <p-progressBar [value]="valueBar3" *ngIf="pBar3"></p-progressBar>
+    </p-dialog>
+    
+    
+    <div class="layout-content">
+        <app-handle-dialog></app-handle-dialog>
+        <app-super-user></app-super-user>
+        <app-settings></app-settings>
+        <pdf-report *ngIf="isLogin"></pdf-report>
+    	<app-alert></app-alert>
+    	<app-info></app-info>
+
+        <div class="ui-fluid" *ngIf="isLaporan">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card card-w-title">
+                        <h1>{{ titleLap | translate | splitCharT }}</h1>
+                        <div class="ui-g">
+                            <div class="ui-g-12">
+                                <div class="pdfobject-container" id="report-pdf-embed">{{'Silahkan tunggu'| translate | splitCharT}}</div>
+                            </div>
+                            <div class="ui-g-12">
+                                <div class="ui-g-12 ui-md-8"></div>
+                                <div class="ui-g-12 ui-md-4">
+                                    <button pButton type="button" label="{{'Tutup'| translate | splitCharT}}" icon="fa-close" (click)="tutupLaporan()"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <router-outlet *ngIf="!isLaporan && !loadingRouteConfig"></router-outlet>
+        <div style="width: 100%; height: 45px;" id="pembatas"></div>
+        <app-footer *ngIf="isLogin" id="app-footer"></app-footer>       
+<!--    <div style="width: 100%; text-align: right;"><app-footer *ngIf="isLogin"></app-footer></div>  -->
+    </div>
+</div>

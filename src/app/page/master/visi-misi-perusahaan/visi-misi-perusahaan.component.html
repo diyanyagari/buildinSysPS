@@ -1,0 +1,229 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<!-- <form [formGroup]="form" (ngSubmit)="onSubmit()"> -->
+				<h1>{{'profileHistoriVisiMisi'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<!-- <div class="ui-g-12"> -->
+					<div class="ui-g-12 ui-md-2">
+						<label>{{'frmProfileHistoriVisiMisi_periodeAwal'| translate | splitCharT}}</label>
+						<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+							[(ngModel)]="tanggalAwal" [showIcon]="true" dateFormat="dd M yy"
+							[(disabled)]="disUpdateOnOff"></app-calender>
+					</div>
+					<div>
+						<br>
+						<label>-</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<label>{{'frmProfileHistoriVisiMisi_periodeAkhir'| translate | splitCharT}}</label>
+						<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+							[(ngModel)]="tanggalAkhir" [showIcon]="true" dateFormat="dd M yy"
+							[(disabled)]="disUpdateOnOff"></app-calender>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<label>{{'frmProfileHistoriVisiMisi_tglTransaksi'| translate | splitCharT}}</label>
+						<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+							[(ngModel)]="tanggalTransaksi" [showIcon]="true" dateFormat="dd M yy"
+							[(disabled)]="disUpdateOnOff"></app-calender>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<br />
+						<p-checkbox binary="true" [(disabled)]="checklistDisable"
+							label="{{'frmProfileHistoriVisiMisi_statusAktif'| translate | splitCharT }}" [(ngModel)]="statusAktif">
+						</p-checkbox>
+					</div>
+					<!-- <div class="ui-g-6"> -->
+
+					<!-- <div class="ui-g-12 ui-md-10" hidden>
+								<label for="input" hidden>{{'kode'| translate | splitCharT }}</label>
+								<input hidden type="text" pTooltip="kode" tooltipPosition="top" placeholder="kode" formControlName="kode" pInputText readonly="true" />
+							</div> -->
+					<!-- <div class="ui-g-12 ui-md-10">
+								<label for="input">{{'kdMisi'| translate | splitCharT }} <span *ngIf="!form.get('kdMisi').valid && form.get('kdMisi').touched" style="color: red">*</span></label>
+								<p-dropdown class="ui-inputwrapper-filled" [options]="kdMisi" [autoWidth]="false" formControlName="kdMisi" placeholder="misi"></p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'noHistori'| translate | splitCharT }} <span *ngIf="!form.get('noHistori').valid && form.get('noHistori').touched" style="color: red">*</span></label>
+								<!-- <p-dropdown class="ui-inputwrapper-filled" [options]="noHistori" [autoWidth]="false" formControlName="noHistori" placeholder="noHistori"></p-dropdown> -->
+					<!-- <input type="text" formControlName="noHistori" pInputText placeholder="noHistori"/>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<label for="input">{{'keteranganLainnya'| translate | splitCharT }}</label>
+								<input type="text" formControlName="keteranganLainnya" pInputText placeholder="keteranganLainnya"/>
+							</div>
+							<div class="ui-g-12 ui-md-10">
+								<p-checkbox binary="true" label="Status Aktif" formControlName="statusEnabled"></p-checkbox>
+								<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+							</div> -->
+					<!-- </div> -->
+				</div>
+				<!-- </div> -->
+				<!-- </form> -->
+
+				<div class="ui-g-12 ui-md-12">
+					<p-blockUI [target]="gridVisiMisi" [blocked]="viMi" [baseZIndex]=10 [autoZIndex]="false">
+						<i class="fa fa-lock fa-5x" style="position:absolute;top:25%;left:45%"></i>
+					</p-blockUI>
+					<p-dataTable #gridVisiMisi [value]="listDataVisiMisi" [rows]="10" [paginator]="true" [pageLinks]="3"
+						[rowsPerPageOptions]="[5,10,20]" [(selection)]="selectedVisiMisi"
+						[headerCheckboxToggleAllPages]="true" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+						[totalRecords]="totalRecords" (onLazyLoad)="loadPageVisiMisi($event)" scrollable="true">
+						<!-- <p-header>
+					  <div class="ui-helper-clearfix">
+						<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+						<input type="text" pInputText size="50" placeholder="{{'frmProfileHistoriVisiMisi_cari'| translate | splitCharT}}" [ngModelOptions]="{standalone: true}"
+						  [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+					  </div> 
+					</p-header> -->
+						<p-column [style]="{'width':'38px','text-align':'center'}" selectionMode="multiple"></p-column>
+						<p-column field="kode" header="{{'frmProfileHistoriVisiMisi_visi'| translate | splitCharT}}" hidden="true">
+						</p-column>
+						<p-column field="namaVisi" header="{{'frmProfileHistoriVisiMisi_visi'| translate | splitCharT}}"></p-column>
+						<p-column field="namaMisi" header="{{'frmProfileHistoriVisiMisi_misi'| translate | splitCharT}}"></p-column>
+					</p-dataTable>
+					<!-- <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" scrollable="true" expandableRows="true">
+					<p-header>
+						<div class="ui-helper-clearfix">
+							<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+							<input type="text" pInputText size="50" placeholder="{{'pencarianNamaProfileHistoriVisiMisi'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+							<span style="float: left;padding:0.3em;">{{'daftarMasterProfileHistoriVisiMisi'| translate | splitCharT}}</span>
+						</div>
+					</p-header>
+					<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column>
+					<p-column field="namaMisi" header="{{'namaMisi '| translate | splitCharT }}"></p-column>
+					<p-column field="noHistori" header="{{'noHistori'| translate | splitCharT }}"></p-column>
+					<p-column field="keteranganLainnya" header="{{'keteranganLainnya'| translate | splitCharT }}" ></p-column>
+					<p-column field="statusEnabled" header="{{'statusEnabled'| translate | splitCharT }}" >
+						<ng-template let-col="rowData" pTemplate type="body">
+							{{col.statusEnabled | truefalse | translate | splitCharT }}
+						</ng-template> 
+					</p-column>
+				</p-dataTable> -->
+				</div>
+
+				<div class="ui-g-12">
+					<div class="ui-g-12 ui-md-8"></div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmProfileHistoriVisiMisi_btnSimpan'| translate | splitCharT }}" icon="fa-save" (click)="simpan()"
+							[(disabled)]="checklistDisable"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmProfileHistoriVisiMisi_btnHapus'| translate | splitCharT }}" icon="fa-trash"
+							(click)="confirmDelete()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmProfileHistoriVisiMisi_btnBatal'| translate | splitCharT }}" icon="fa-close"
+							(click)="reset()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmProfileHistoriVisiMisi_btnCetak'| translate | splitCharT }}" icon="fa-print"></button>
+						<!-- <p-splitButton label="{{'cetak'| translate | splitCharT }}" icon="fa-print" [model]="items"></p-splitButton> -->
+					</div>
+				</div>
+
+				<div class="ui-g-12">
+					<div class="ui-g-12 ui-md-7"></div>
+					<div class="ui-g-12 ui-md-2">
+						<app-calender placeholder="{{'frmProfileHistoriVisiMisi_cariPeriode-TanggalAwal'| translate | splitCharT}}" [(ngModel)]="cariTglAwal"
+							[showIcon]="true" [yearNavigator]="true" [monthNavigator]="true" yearRange="1945:2025"
+							dateFormat="dd M yy"></app-calender>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<app-calender placeholder="{{'frmProfileHistoriVisiMisi_cariPeriode-TanggalAkhir'| translate | splitCharT}}" [(ngModel)]="cariTglAkhir"
+							[showIcon]="true" [yearNavigator]="true" [monthNavigator]="true" yearRange="1945:2025"
+							dateFormat="dd M yy"></app-calender>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" icon="fa-search" (click)="cariPeriode()"
+							label="{{'frmProfileHistoriVisiMisi_cari'| translate | splitCharT}}"></button>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-md-12">
+					<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+						[rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected"
+						(onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+						[totalRecords]="totalRecords2" (onLazyLoad)="loadPage($event)" scrollable="true"
+						expandableRows="true">
+						<p-header>
+							<div class="ui-helper-clearfix">
+								<!-- <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+							<input type="text" pInputText size="50" placeholder="{{'pencarianNamaProfileHistoriVisiMisi'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;"> -->
+								<span
+									style="float: left;padding:0.3em;">{{'frmProfileHistoriVisiMisi_daftarMasterProfileHistoriVisiMisi'| translate | splitCharT}}</span>
+							</div>
+						</p-header>
+						<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column>
+						<p-column field="nomor" header="{{'frmProfileHistoriVisiMisi_No'| translate | splitCharT }}" [style]="{'width':'50px'}">
+							<ng-template pTemplate="body" let-i="rowIndex">
+								{{i+1}}
+							</ng-template>
+						</p-column>
+						<p-column field="tglAwal" header="{{'frmProfileHistoriVisiMisi_periodeAwal'| translate | splitCharT }}">
+							<ng-template let-awal="rowData" pTemplate type="body">
+								{{awal.tglAwal * 1000 | date: 'dd MMM yyyy'}}
+							</ng-template>
+						</p-column>
+						<p-column field="tglAkhir" header="{{'frmProfileHistoriVisiMisi_periodeAkhir'| translate | splitCharT }}">
+							<ng-template let-akhir="rowData" pTemplate type="body">
+								{{akhir.tglAkhir * 1000 | date: 'dd MMM yyyy'}}
+							</ng-template>
+						</p-column>
+						<p-column field="tglHistori" header="{{'frmProfileHistoriVisiMisi_tglTransaksi'| translate | splitCharT }}">
+							<ng-template let-histori="rowData" pTemplate type="body">
+								{{histori.tglHistori * 1000 | date: 'dd MMM yyyy'}}
+							</ng-template>
+						</p-column>
+						<p-column field="statusEnabled" header="{{'frmProfileHistoriVisiMisi_statusEnabled'| translate | splitCharT }}">
+							<ng-template let-col="rowData" pTemplate type="body">
+								{{col.statusEnabled | truefalse | translate | splitCharT }}
+							</ng-template>
+						</p-column>
+						<ng-template let-profileVM pTemplate="rowexpansion">
+							<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+								<p-dataTable [value]="profileVM.visiMisi" [rows]="5" [paginator]="true" [pageLinks]="3"
+									[rowsPerPageOptions]="[5,10,20]" [loading]="loading" loadingIcon="fa-spinner"
+									scrollable="true">
+									<p-column field="nomor" header="{{'frmProfileHistoriVisiMisi_No'| translate | splitCharT }}" [style]="{'width':'50px'}">
+										<ng-template pTemplate="body" let-i="rowIndex">
+											{{i+1}}
+										</ng-template>
+									</p-column>
+									<p-column field="namaVisi" header="{{'frmProfileHistoriVisiMisi_visi'| translate | splitCharT}}">
+									</p-column>
+									<p-column field="namaMisi" header="{{'frmProfileHistoriVisiMisi_misi'| translate | splitCharT}}">
+									</p-column>
+								</p-dataTable>
+								<!-- <div class="ui-grid ui-grid-responsive ui-grid-pad">
+								<div class="ui-grid-col-12">
+									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+										<div class="ui-grid-row">
+											<div class="ui-grid-col-2 label">
+												<span style="color:black">{{ 'frmProfileHistoriVisiMisi_Detail' | translate | splitCharT }}</span>
+											</div>
+										</div>
+										<hr>
+										<div class="ui-grid-row">
+											<div class="ui-grid label">{{'frmProfileHistoriVisiMisi_namaVisi'| translate | splitCharT }} </div>
+											<div class="ui-grid-col-4"> {{profileVM.namaVisi}}</div>
+										</div>
+										<div class="ui-grid-row">
+											<div class="ui-grid label">{{'frmProfileHistoriVisiMisi_namaMisi' | translate | splitCharT}} </div>
+											<div class="ui-grid-col-4">{{profileVM.namaMisi}}</div>
+										</div>
+									</div>
+								</div>
+							</div> -->
+							</div>
+						</ng-template>
+
+					</p-dataTable>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>

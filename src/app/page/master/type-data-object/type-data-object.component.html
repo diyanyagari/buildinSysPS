@@ -1,0 +1,151 @@
+
+
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        
+        <h1>{{'frmTipeDataObjek_title' | translate | splitCharT }}</h1>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+              <div class="ui-g-4">
+                <div class="ui-g-12 ui-md-10" hidden>
+                  <span class="ui-float-label" hidden>
+                    <input id="input" hidden type="text" formControlName="kode" pInputText disabled/>
+                    <label for="input" hidden> {{'frmTipeDataObjek_kode'| translate | splitCharT }}</label>
+                  </span>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmTipeDataObjek_parent'| translate | splitCharT }}</label>
+                  <p-dropdown id="dropdownType" filter="filter" [options]="listType" formControlName="kdTypeDataObjekHead" [autoWidth]="false"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmTipeDataObjek_nama'| translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">  {{'frmTipeDataObjek_required'| translate | splitCharT}}</span>
+                  </label>
+                  <input id="input" type="text" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)" formControlName="namaTypeDataObjek"
+                  pInputText/>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmTipeDataObjek_rangeHargaAwal'| translate | splitCharT }}</label>
+                  <input id="input" type="text" formControlName="rangeNilaiAwal" pInputText/>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmTipeDataObjek_rangeHargaAkhir'| translate | splitCharT }}</label>
+                  <input id="input" type="text" formControlName="rangeNilaiAkhir" pInputText/>
+                </div>
+              </div>
+              <div class="ui-g-4">
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmTipeDataObjek_lengthPrecision'| translate | splitCharT }}</label>
+                  <input id="input" type="text" formControlName="lengthPrecision" pInputText/>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmTipeDataObjek_storageBytesSize'| translate | splitCharT }}</label>
+                  <input id="input" type="text" formControlName="storageBytesSize" pInputText/>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmTipeDataObjek_databaseVersion'| translate | splitCharT }}</label>
+                  <input id="input" type="text" formControlName="databaseVersion" pInputText/>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <p-checkbox binary="true" label="{{'frmTipeDataObjek_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                  <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+                  <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'frmTipeDataObjek_required'| translate | splitCharT}}</span>
+                </div>
+              </div>
+              <div class="ui-g-4">
+                <p-fieldset legend="{{'frmTipeDataObjek_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+                  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="ui-g-12 ui-md-10">
+                      <label for="input">{{'frmTipeDataObjek_reportDisplay'| translate | splitCharT }}
+                        <span style="color: red;font-weight: bolder;"></span>
+                        <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'frmTipeDataObjek_required'| translate | splitCharT}}</span>
+                      </label>
+                      
+                      <input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText />
+                      
+                      
+                    </div>
+                  </form>
+                </p-fieldset>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-7"></div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmTipeDataObjek_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="submit" label="{{'frmTipeDataObjek_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmTipeDataObjek_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmTipeDataObjek_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <p-splitButton label="{{'frmTipeDataObjek_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+                
+              </div>
+            </div>
+          </div>
+        </form>
+        
+        
+        
+        <div class="ui-g-12">
+          <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+          scrollable="true" resizableColumns="true" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true"
+          [loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+          <p-header>
+            <div class="ui-helper-clearfix">
+              <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+              <input type="text" pInputText size="50" placeholder="{{'frmTipeDataObjek_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+              (keyup)="cari()" style="width: 20%;float:right;">
+              <span style="float: left;padding:0.3em;">{{'frmTipeDataObjek_tableTitle'| translate | splitCharT}}</span>
+            </div>
+          </p-header>
+          <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+          <p-column field="namaTypeDataObjek" header="{{'frmTipeDataObjek_tableNama'| translate | splitCharT}}"></p-column>
+          <p-column field="rangeNilaiAwal" header="{{'frmTipeDataObjek_tablerangeHargaAwal'| translate | splitCharT}}"></p-column>
+          <p-column field="rangeNilaiAkhir" header="{{'frmTipeDataObjek_tablerangeHargaAkhir'| translate | splitCharT}}"></p-column>
+          <p-column field="lengthPrecision" header="{{'frmTipeDataObjek_lengthPrecision'| translate | splitCharT}}"></p-column>
+          <p-column field="storageBytesSize" header="{{'frmTipeDataObjek_tablestorageBytesSize'| translate | splitCharT}}"></p-column>
+          <p-column field="namaTypeDataObjekHead" header="{{'frmTipeDataObjek_tableParent'| translate | splitCharT}}"></p-column>
+          <p-column field="databaseVersion" header="{{'frmTipeDataObjek_tabledatabaseVersion'| translate | splitCharT}}"></p-column>
+          <p-column field="statusEnabled" header="{{'frmTipeDataObjek_tableStatus'| translate | splitCharT }}" [style]="{'width':'150px'}">
+            <ng-template let-col="rowData" pTemplate type="body">
+              {{col.statusEnabled | truefalse | translate | splitCharT }}
+          </ng-template> 
+          </p-column>
+          <ng-template let-detail pTemplate="rowexpansion">
+            <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+              <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                <div class="ui-grid-col-12">
+                  <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-2 label">
+                        <span style="color:black">{{ 'frmTipeDataObjek_optional' | translate | splitCharT }}</span>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="ui-grid-row">
+                      <div class="ui-grid label">{{'frmTipeDataObjek_tableReportDisplay'| translate | splitCharT }}</div>
+                      <div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </p-dataTable>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,65 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmMapJenisPegawaiKeJabatan_title'| translate | splitCharT}}</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-6">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-6 ui-md-8">
+                <label>{{'frmMapJenisPegawaiKeJabatan_posisi'| translate | splitCharT}} <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('kdJenisPegawai').valid && form.get('kdJenisPegawai').touched" style="color: red"> {{'required'| translate | splitCharT}}</span></label>
+                <p-dropdown id="dropdown" [(ngModel)]="kdJenisPegawai"  (ngModelChange)="clearPanelBawah($event)"
+                  filter="filter" class="ui-inputwrapper-filled" formControlName="kdJenisPegawai" [options]="kodePegawai" [autoWidth]="false"></p-dropdown>
+                
+                
+                
+              </div>
+            </form>
+          </div>
+
+          <div class="ui-g-12">
+            <p-blockUI [target]="pnl" [blocked]="hasilCek" [baseZIndex]=10 [autoZIndex]="false">
+              <i class="fa fa-lock fa-5x" style="position:absolute;top:25%;left:50%"></i>
+            </p-blockUI>
+            <p-fieldset #pnl>
+              <!-- <form [formGroup]="form">  -->
+              <div *ngFor="let data of listData; let i = index" class="ui-g-3">
+                <p-checkbox name="group1" (change)="onChange()" value="{{data.id_kode}}" label="{{data.namaJabatan}}" [(ngModel)]="pilihan"
+                  inputId="{{i}}"></p-checkbox>
+                <!-- <input type="checkbox" (change)="onChange(data.values, $event.target.checked)"  value="data.selected" [checked]="data.selected">{{data.label}}<br> -->
+              </div>
+              <!-- </form>  -->
+
+              <!-- <pre>Form values: {{myForm.value | json}}</pre>  -->
+            </p-fieldset>
+          </div>
+          <div class="ui-g-6 ui-md-10">
+            <!-- <form [formGroup]="form"> -->
+            <div class="checkbox_cont">
+              <div class="checkbox ">
+                <p-checkbox [(ngModel)]="pilihSemua" [disabled]="hasilCek" (click)="selectAll()" label="{{'frmMapJenisPegawaiKeJabatan_pilihSemua'| translate | splitCharT}}" binary="true"></p-checkbox>
+                <!-- <input type="checkbox" id="pilihSemua" name="pilihSemua" value="pilihSemua" (click)="toggleSelect($event)" /> -->
+                <!-- <label for="pilihSemua">Pilih Semua</label> -->
+              </div>
+            </div>
+            <!-- </form> -->
+          </div>
+
+          <div class="ui-g-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-2"></div>
+              <div class="ui-g-12 ui-md-2">
+                <button pButton type="submit" label="{{'frmMapJenisPegawaiKeJabatan_simpan'| translate | splitCharT}}" icon="fa-save"></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,209 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmKalender_title'| translate | splitCharT}}</h1>
+				<div class="ui-g form-group">
+					<p-dialog header="{{'frmKalender_hariLibur'| translate | splitCharT }}" [resizable]="false" responsive="true" showEffect="fade" modal="modal" [(visible)]="displayHari"
+					 width="500">
+						<form [formGroup]="formHariLibur">
+							<div class="ui-g form-group" style="margin-bottom: 16px;">
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmKalender_tanggalLibur'| translate | splitCharT}}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!formHariLibur.get('tanggalLibur').valid && formHariLibur.get('tanggalLibur').touched" style="color: red"> {{'frmKalender_required'| translate | splitCharT}}</span>
+									</label>
+									<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" formControlName="tanggalLibur" [showIcon]="true"
+									 appendTo="body" dateFormat="dd M yy"></app-calender>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmKalender_hariLibur'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!formHariLibur.get('kdHariLibur').valid && formHariLibur.get('kdHariLibur').touched" style="color: red"> {{'frmKalender_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdownHariLibur" filter="filter" class="ui-inputwrapper-filled" [options]="kodeHariLibur" formControlName="kdHariLibur"
+									 [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmKalender_periodeHead'| translate | splitCharT }}
+										<!-- <span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!formHariLibur.get('kdPeriode').valid && formHariLibur.get('kdPeriode').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> -->
+									</label>
+                                    <p-dropdown filter="filter" class="ui-inputwrapper-filled" formControlName="kdPeriode"
+                                    [options]="listPeriode" [autoWidth]="false" (onChange)="pilihHead($event)" ></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmKalender_periodeChild'| translate | splitCharT }}
+										<!-- <span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!formHariLibur.get('kdPeriodeChild').valid && formHariLibur.get('kdPeriodeChild').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> -->
+									</label>
+									<p-dropdown filter="filter" class="ui-inputwrapper-filled" formControlName="kdPeriodeChild"
+									[options]="listPeriodeChild" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<p-checkbox binary="true" label="{{'frmKalender_statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!formHariLibur.get('statusEnabled').valid && formHariLibur.get('statusEnabled').touched" style="color: red">*</span>
+								</div>
+								<div class="ui-g-12 ui-md-8"></div>
+								<div class="ui-g-12 ui-md-4">
+									<p-footer>
+										<button type="button" pButton icon="fa-check" (click)="onSubmit()" label="{{'frmKalender_btnSimpan'| translate | splitCharT}}"></button>
+									</p-footer>
+								</div>
+							</div>
+						</form>
+					</p-dialog>
+					<p-dialog header="{{'frmKalender_hariLibur'| translate | splitCharT }} {{'frmKalender_update'| translate | splitCharT }}" [resizable]="false" responsive="true" showEffect="fade"
+					 modal="modal" [(visible)]="displayHariUpdate" width="500">
+						<form [formGroup]="formHariLiburUpdate">
+							<div class="ui-g form-group" style="margin-bottom: 16px;">
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmKalender_tanggalLibur'| translate | splitCharT}}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!formHariLiburUpdate.get('tanggalLibur').valid && formHariLiburUpdate.get('tanggalLibur').touched" style="color: red">
+										{{'frmKalender_required'| translate | splitCharT}}</span>
+									</label>
+									<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" formControlName="tanggalLibur" [showIcon]="true"
+									 appendTo="body" dateFormat="dd M yy" readonly="true"></app-calender>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmKalender_hariLibur'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!formHariLiburUpdate.get('kdHariLibur').valid && formHariLiburUpdate.get('kdHariLibur').touched" style="color: red">
+										{{'frmKalender_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdownHariLibur" filter="filter" class="ui-inputwrapper-filled" [options]="kodeHariLibur" formControlName="kdHariLibur"
+									 [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmKalender_periodeHead'| translate | splitCharT }}
+										<!-- <span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!formHariLiburUpdate.get('kdPeriode').valid && formHariLiburUpdate.get('kdPeriode').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> -->
+									</label>
+									<p-dropdown filter="filter" class="ui-inputwrapper-filled" formControlName="kdPeriode"
+									[options]="listPeriode" [autoWidth]="false" (onChange)="pilihHead($event)"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label for="input">{{'frmKalender_periodeChild'| translate | splitCharT }}
+										<!-- <span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!formHariLiburUpdate.get('kdPeriodeChild').valid && formHariLiburUpdate.get('kdPeriodeChild').touched" style="color: red"> {{'required'| translate | splitCharT}}</span> -->
+									</label>
+									<p-dropdown filter="filter" class="ui-inputwrapper-filled" formControlName="kdPeriodeChild"
+									[options]="listPeriodeChild" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<p-checkbox binary="true" label="{{'frmKalender_statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!formHariLiburUpdate.get('statusEnabled').valid && formHariLiburUpdate.get('statusEnabled').touched" style="color: red">*</span>
+								</div>
+								<div class="ui-g-12 ui-md-8"></div>
+								<div class="ui-g-12 ui-md-4">
+									<p-footer>
+										<button type="button" pButton icon="fa-check" (click)="confirmUpdate()" label="{{'frmKalender_btnSimpan'| translate | splitCharT}}"></button>
+									</p-footer>
+								</div>
+							</div>
+						</form>
+					</p-dialog>
+					<!-- <form [formGroup]="form" (ngSubmit)="onSubmit()">
+						<div class="ui-g-12">
+							<p-fieldset legend="{{'generateTahun'| translate | splitCharT}}">
+								<div class="ui-g form-group">
+									<div class="ui-g-12 ui-md-4">
+										<label>{{'frmKalender_tahun'| translate | splitCharT}}</label>
+									</div>
+									<div class="ui-g-12 ui-md-8">
+										<p-dropdown id="unitKerja" formControlName="kdTahun" [options]="listTahun" [autoWidth]="false"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-4">
+									</div>
+									<div class="ui-g-12 ui-md-8">
+										<button pButton type="button" label="{{'frmKalender_btnMenghasilkan' | translate | splitCharT }}" icon="fa-close" (click)="generateTahun()"></button>
+									</div>
+								</div>
+							</p-fieldset>
+						</div>
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-6"></div>
+							<div class="ui-g-12 ui-md-2">
+								<button pButton type="button" label="{{'frmKalender_btnSimpan' | translate | splitCharT }}" icon="fa-save" (click)="onSubmit()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-2">
+								<button pButton type="button" label="{{'frmKalender_btnHapus' | translate | splitCharT }}" icon="fa-close" (click)="confirmDelete()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-2">
+								<button pButton type="button" label="{{'frmKalender_btnBatal' | translate | splitCharT }}" icon="fa-close" (click)="reset()"></button>
+							</div>
+						</div>
+					</form> -->
+					<!-- <div class="ui-g-12">
+
+						<p-dataTable [value]="listData" [paginator]="true" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)"
+						 [loading]="loading" loadingIcon="fa-spinner" [rowsPerPageOptions]="[5,10,20]" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)"
+						 [lazy]="true" [rows]="10" scrollable="true" frozenWidth="150px" unfrozenWidth="calc(100% - 150px)">
+							<p-header>{{'kalender'| translate | splitCharT}}</p-header>
+							<p-column field="kdTanggal" header="{{'kodeTanggal'| translate | splitCharT}}" [style]="{'width':'100px'}" frozen="true"></p-column>
+							<p-column field="tanggal" header="{{'tanggal'| translate | splitCharT}}" [style]="{'width':'150px'}">
+								<ng-template pTemplate="body" let-kalendar="rowData">
+									{{kalendar.tanggal * 1000 | date:'shortDate'}}
+								</ng-template>
+							</p-column>
+							<p-column field="namaHari" header="{{'namaHari'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="namaBulan" header="{{'namaBulan'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="hariKeDlmMinggu" header="{{'hariKeDlmMinggu'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="hariKeDlmBulan" header="{{'hariKeDlmBulan'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="hariKeDlmTahun" header="{{'hariKeDlmTahun'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="mingguKeDlmTahun" header="{{'mingguKeDlmTahun'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="bulanKeDlmTahun" header="{{'bulanKeDlmTahun'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+						</p-dataTable>
+					</div> -->
+					<div class="ui-g-12 ui-md-4">
+						<p-dataTable [value]="listDataLibur" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" scrollable="true" selectionMode="single"
+						 [(selection)]="selected" (onRowSelect)="onRowSelect($event,fc)" (onLazyLoad)="loadPage($event)" [lazy]="true" [totalRecords]="totalRecords">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50" placeholder="{{'frmKalender_pencarianNamaMapKalenderToHariLibur'| translate | splitCharT}}" [(ngModel)]="pencarian"
+									 (keyup)="cari()" style="width: 20%;float:right;">
+									<span style="float: left;padding:0.3em;">{{'frmKalender_daftarMasterMapKalenderToHariLibur'| translate | splitCharT}}</span>
+								</div>
+							</p-header>
+							<p-column field="tanggal" header="{{'frmKalender_tblTanggal'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									{{pick.tanggal * 1000 | date: 'dd MMM yyyy'}}
+								</ng-template>
+							</p-column>
+							<p-column field="namaHariLibur" header="{{'frmKalender_tblHariLibur'| translate | splitCharT}}"></p-column>
+							<p-column field="namaPeriode" header="{{'frmKalender_tblNamaPeriode'| translate | splitCharT}}"></p-column>
+							<p-column field="statusEnabled" header="{{'frmKalender_tblStatusEnabled'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template> 
+							</p-column>
+						</p-dataTable>
+						
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<div class="ui-g-12 ui-md-1">
+							<table>
+								<tr>
+									<td>
+										<button type="button" pButton (click)="prevYear(fc)" icon="fa-arrow-left"></button>
+									</td>
+									<td>
+										<label>{{'frmKalender_tahun'| translate | splitCharT}}</label>
+									</td>
+									<td>
+										<button type="button" pButton (click)="nextYear(fc)" icon="fa-arrow-right"></button>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<p-schedule [events]="events" [header]="header" [editable]="true" (onDayClick)="onClik($event)" (onEventClick)="onClikEvent($event)"
+						 #fc></p-schedule>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

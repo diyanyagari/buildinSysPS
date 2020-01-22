@@ -1,0 +1,11 @@
+<div class="card card-w-title">
+    <h1>Proses Registrasi Pegawai</h1>
+    <div class="ui-g form-group">
+    	<div class="ui-g-12 ui-md-12">
+    		<p-steps [model]="items" [(activeIndex)]="activeIndex" [readonly]="isNew"></p-steps>
+    	</div>
+    	<div class="ui-g-12 ui-md-1 ui-md-offset-11">
+    		<button pButton type="button" label="{{'frmProsesRegistrasiPegawai_kembali'| translate }}" icon="fa-chevron-left" [routerLink]="['/daftar-monitoring-database-pegawai']"></button>
+    	</div>
+    </div>
+</div>

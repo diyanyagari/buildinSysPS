@@ -1,0 +1,92 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <h1>FORM HISTORI LOWONGAN DAN KJ_T</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-6">
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Nomor Histori</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-dropdown id="dropdownNoHistori" [options]="listNoHistori" [(ngModel)]="noHistori" [autoWidth]="false"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Jabatan</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-dropdown id="dropdownJabatan" [options]="listJabatan" [(ngModel)]="jabatan" [autoWidth]="false"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Jenis Pegawai</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-dropdown id="dropdownJenisPegawai" [options]="listJenisPegawai" [(ngModel)]="jenisPegawai" [autoWidth]="false"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Nomor SK</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input id="input" type="text" [(ngModel)]="nomorSk" pInputText/>
+            </div>
+            
+          </div>
+          <div class="ui-g-6">
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Kode Alamat Profile Tujuan</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownKodeAlamatProfile" [options]="listKodeAlamatProfile" [(ngModel)]="kodeAlamatProfile" [autoWidth]="false"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Keterangan Lainnya</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input id="input" type="text" [(ngModel)]="keteranganLainnya" pInputText/>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Kode Kualifikasi Jurusan</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-dropdown id="dropdownKodeKualifikasi" [options]="listKodeKualifikasi" [(ngModel)]="kodeKualifikasi" [autoWidth]="false"></p-dropdown>
+            </div>
+            
+            <div class="ui-g-12 ui-md-4">
+               </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-checkbox name="cbAktif" value="" label="Aktif" [(ngModel)]="kdaktif"></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g-12 ui-md-4"></div>
+            <div class="ui-g-12 ui-md-2">
+              <button pButton type="button" label="SIMPAN" icon="fa-save"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <button pButton type="submit" label="HAPUS" icon="fa-close"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <button pButton type="submit" label="BATAL" icon="fa-close"></button>
+            </div>
+            <div class="ui-g-12 ui-md-2">
+              <button pButton type="submit" label="TUTUP" icon="fa-close"></button>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <p-dataTable [value]="dataProfileHistori" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+             <p-header>DATA PROFILE HISTORI DAN KJ-T</p-header>
+              <p-column field="nomorHistori" header="NOMOR HISTORI"></p-column>
+              <p-column field="jabatan" header="JABATAN"></p-column>
+              <p-column field="jenisPegawai" header="JENIS PEGAWAI"></p-column>
+              <p-column field="nomorSk" header="NOMOR SK"></p-column>
+              <p-column field="kodeAlamatProfileTujuan" header="KODE ALAMAT PROFILE TUJUAN"></p-column>
+              <p-column field="keteranganLainnya" header="KETERANGAN LAINNYA"></p-column>
+              <p-column field="kodeKualifikasiJurusan" header="KODE KUALIFIKASI JURUSAN"></p-column>
+            </p-dataTable>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

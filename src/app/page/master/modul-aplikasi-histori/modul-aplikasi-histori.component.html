@@ -1,0 +1,203 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{ 'frmAplikasiHostori_title' | translate | splitCharT}}</h1>
+				<div class="ui-g form-group">
+					<form [formGroup]="form">
+						<div class="ui-g form-group">
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-3">
+									<label for="input">{{'frmAplikasiHostori_mdlAplikasi'| translate | splitCharT}}<span
+											style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched"
+											style="color: red">
+											{{'frmAplikasiHostori_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="kdModulAplikasi" [options]="modulAplikasiHead"
+										[autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label for="input">{{'frmAplikasiHostori_versi'| translate | splitCharT}} <span
+											style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdVersion').valid && form.get('kdVersion').touched"
+											style="color: red">
+											{{'frmAplikasiHostori_required'| translate | splitCharT}}</span></label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="kdVersion" [options]="versiAplikasi" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label for="input">{{'frmAplikasiHostori_tglAwalDev'| translate | splitCharT}}</label>
+									<app-calender formControlName="tglAwalDeveloped" [monthNavigator]="true"
+										dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+										[showIcon]="true" appendTo="body" dateFormat="dd M yy"></app-calender>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label for="input">{{'frmAplikasiHostori_tglAkhitDev'| translate | splitCharT}}</label>
+									<app-calender formControlName="tglAkhirDeveloped" [monthNavigator]="true"
+										dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+										[showIcon]="true" appendTo="body" dateFormat="dd M yy"></app-calender>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label for="input">{{'frmAplikasiHostori_tglReleased'| translate | splitCharT}}</label>
+									<app-calender formControlName="tglReleased" [monthNavigator]="true"
+										dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+										[showIcon]="true" appendTo="body" dateFormat="dd M yy"></app-calender>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label for="input">{{'frmAplikasiHostori_tglAwalSupp'| translate | splitCharT}}</label>
+									<app-calender formControlName="tglAwalSupported" [monthNavigator]="true"
+										dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+										[showIcon]="true" appendTo="body" dateFormat="dd M yy"></app-calender>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label for="input">{{'frmAplikasiHostori_tglAkhirSupp'| translate | splitCharT}}</label>
+									<app-calender formControlName="tglAkhirSupported" [monthNavigator]="true"
+										dateFormat="dd M yy" [yearNavigator]="true" yearRange="2000:2030"
+										[showIcon]="true" appendTo="body" dateFormat="dd M yy"></app-calender>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label>{{'frmAplikasiHostori_image'| translate | splitCharT}}</label>
+									<div style="display: flex; padding: 0px; margin: 0px">
+										<p-fileUpload #fubauto mode="basic" (onUpload)="imageUpload($event)"
+											accept="image/*" name="file" maxFileSize="1000000"
+											(onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()"
+											auto="true" chooseLabel="Browse" withCredentials="true"></p-fileUpload>
+										<input style="height: 3.8vh" id="imagePath" type="text"
+											formControlName="versionIconImage" [(ngModel)]="namaImage" disabled
+											pInputText />
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label>{{'frmAplikasiHostori_deskripsi'| translate | splitCharT}}</label>
+									<textarea formControlName="deskripsiVersion" pInputTextarea id="keterangan" rows="3"
+										cols="30" autoResize="autoResize" type="text"></textarea>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<label>{{'frmAplikasiHostori_keterangan'| translate | splitCharT}}</label>
+									<textarea formControlName="keteranganLainnya" pInputTextarea id="keterangan"
+										rows="3" cols="30" autoResize="autoResize" type="text"></textarea>
+								</div>
+								<div style="padding-top: 2.7vh" class="ui-g-12 ui-md-3">
+									<p-checkbox binary="true" label="{{'statusEnabled'| translate | splitCharT }}"
+										formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+										style="color: red">*</span>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+										style="color: red">{{'frmAplikasiHostori_required'| translate | splitCharT}}</span>
+								</div>
+							</div>
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmAplikasiHostori_btnBatal'| translate | splitCharT}}" icon="fa-refresh"
+										(click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmAplikasiHostori_btnSimpan'| translate | splitCharT}}" icon="fa-save"
+										(click)="onSubmit()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmAplikasiHostori_btnHapus'| translate | splitCharT}}" icon="fa-trash"
+										(click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmAplikasiHostori_btnCetak'| translate | splitCharT}}" icon="fa-print"
+										(click)="cetak()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmAplikasiHostori_btnExport'| translate | splitCharT }}" icon="fa-external-link"
+										[model]="items"></p-splitButton>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<div class="ui-g-12">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+							[rowsPerPageOptions]="[5,10,20]" selectionMode="single" scrollable="true"
+							[(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true"
+							[loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords"
+							(onLazyLoad)="loadPage($event)">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50"
+										placeholder="{{'frmAplikasiHostori_pencarian'| translate | splitCharT}}"
+										[(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+									<span
+										style="float: left;padding:0.3em;">{{'frmAplikasiHostori_tableTitle'| translate | splitCharT}}</span>
+								</div>
+							</p-header>
+							<p-column [style]="{'width':'50px'}" header="{{'frmAplikasiHostori_tableNo'| translate | splitCharT}}">
+								<ng-template pTemplate="body" let-i="rowIndex">
+									{{i+1}}
+								</ng-template>
+							</p-column>
+							<p-column field="namaModulAplikasi" [style]="{'width':'150px'}"
+								header="{{'frmAplikasiHostori_tableModulApliaksi'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="namaVersion" [style]="{'width':'150px'}"
+								header="{{'frmAplikasiHostori_tableVersi'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="tglAwalDeveloped" [style]="{'width':'150px'}"
+								header="{{'frmAplikasiHostori_tableTglAwalDev'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.tglAwalDeveloped > null">{{pick.tglAwalDeveloped * 1000 | date: 'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="tglAkhirDeveloped" [style]="{'width':'150px'}"
+								header="{{'frmAplikasiHostori_tableTglAkhirDev'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.tglAkhirDeveloped > null">{{pick.tglAkhirDeveloped * 1000 | date: 'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="tglReleased" [style]="{'width':'150px'}"
+								header="{{'frmAplikasiHostori_tableTglReleased'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.tglReleased > null">{{pick.tglReleased * 1000 | date: 'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="tglAwalSupported" [style]="{'width':'150px'}"
+								header="{{'frmAplikasiHostori_tableTglAwalSupp'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.tglAwalSupported > null">{{pick.tglAwalSupported * 1000 | date: 'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="tglAkhirSupported" [style]="{'width':'150px'}"
+								header="{{'frmAplikasiHostori_tableTglAkhirSupp'| translate | splitCharT}}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span
+										*ngIf="pick.tglAkhirSupported > null">{{pick.tglAkhirSupported * 1000 | date: 'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="deskripsiVersion" [style]="{'width':'150px'}"
+								header="{{'frmAplikasiHostori_tableDeskripsi'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="versionIconImage" [style]="{'width':'150px'}"
+								header="{{'frmAplikasiHostori_tablePathFile'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="keteranganLainnya" [style]="{'width':'150px'}"
+								header="{{'frmAplikasiHostori_tableKeterangan'| translate | splitCharT}}">
+							</p-column>
+							<p-column field="statusEnabled" [style]="{'width':'150px'}"
+								header="{{'frmAplikasiHostori_tableStatus'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template>
+							</p-column>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

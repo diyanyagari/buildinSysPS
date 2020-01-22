@@ -1,0 +1,314 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmPegawaiSKHitungKomponenKetidakhadiran_title'| translate | splitCharT}}</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-12">
+                <p-fieldset legend="">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+                      <div class="ui-g-12 ui-md-8">
+                        <label>{{'frmPegawaiSKHitungKomponenKetidakhadiran_namaSK'| translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red">{{'frmPegawaiSKHitungKomponenKetidakhadiran_required'| translate | splitCharT}}</span>
+                        </label>
+                        <p-dropdown formControlName="namaSk" (onChange)="ambilSK($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+                        [filter]="true" filterBy="label"></p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-3">
+                        <br/>
+                        <button pButton type="button" (click)="getKelompokTransaksi()" label="{{'frmPegawaiSKHitungKomponenKetidakhadiran_buatSk'| translate | splitCharT }}"></button>
+                      </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-3" style="margin-top: 9px;">
+                      <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-7">
+                          <label>{{'frmPegawaiSKHitungKomponenKetidakhadiran_noSK'| translate | splitCharT }}</label>
+                          <input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-4" style="margin-top: 6px; margin-left: -90px;">
+                      <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-10">
+                          <label>{{'frmPegawaiSKHitungKomponenKetidakhadiran_periodeBerlakuSk'| translate | splitCharT}}
+                          </label>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                          <app-calender formControlName="tanggalAwal" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy" ></app-calender>
+                        </div>
+                        <div class="ui-g-12 ui-md-1" style="text-align:  center;">
+                          <label>-</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                          <app-calender formControlName="tanggalAkhir" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </p-fieldset>
+              </div>
+
+              <div class="ui-g-4">
+                <p-fieldset legend="">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-12">
+                      <div class="ui-g-12 ui-md-10">
+                        <label>{{'frmPegawaiSKHitungKomponenKetidakhadiran_ketidakhadiran'| translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('kdKetidakhadiran').valid && form.get('kdKetidakhadiran').touched" style="color: red;font-weight: bolder;">
+                          required</span>
+                        </label>
+                        <p-multiSelect [options]="listKetidakhadiran" formControlName="kdKetidakhadiran" [(ngModel)]="selectedKetidakhadiran" multiple="multiple"
+                        checkbox="checkbox" filter="filter" optionLabel="label">
+                      </p-multiSelect>
+                    </div>
+                  </div>
+                </div>
+              </p-fieldset>
+            </div>
+
+            <div class="ui-g-8">
+              <p-fieldset legend="">
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-12">
+                    <div class="ui-g-12 ui-md-6">
+                      <div class="ui-g-12 ui-md-10">
+                        <label>{{'frmPegawaiSKHitungKomponenKetidakhadiran_kategoriPegawai'| translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red;font-weight: bolder;">required</span>
+                        </label>
+                            <p-dropdown formControlName="kdKategoryPegawai" [options]="listKategoryPegawai" [(ngModel)]="selectedKategoriPegawai" (ngModelChange)="valuechangeGetKomponen($event)"
+                            [autoWidth]="false" [filter]="true" filterBy="label" class="ui-inputwrapper-filled"></p-dropdown>
+                          </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <div class="ui-g-12 ui-md-10">
+                            <label>{{'frmPegawaiSKHitungKomponenKetidakhadiran_komponenHarga'| translate | splitCharT }}
+                              <span style="color: red;font-weight: bolder;">*</span>
+                              <span *ngIf="!form.get('kdKomponenHarga').valid && form.get('kdKomponenHarga').touched" style="color: red"> {{'frmPegawaiSKHitungKomponenKetidakhadiran_required'| translate | splitCharT}}</span>
+                            </label>
+                            <p-dropdown [filter]="true" filterBy="label" formControlName="kdKomponenHarga" class="ui-inputwrapper-filled" [options]="listKomponen"
+                            [autoWidth]="false"></p-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </p-fieldset>
+                </div>
+
+                <div class="ui-g-12">
+                  <p-fieldset legend="">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-6">
+                        <div class="ui-g-12 ui-md-10">
+                          <label>{{'frmPegawaiSKHitungKomponenKetidakhadiran_levelJabatan'| translate | splitCharT }}
+                            <span style="color: red;font-weight: bolder;">*</span>
+                            <span *ngIf="!form.get('kdGolonganPegawai').valid && form.get('kdGolonganPegawai').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+                          </label>
+                          <p-multiSelect [options]="listGolonganPegawai" formControlName="kdGolonganPegawai" [(ngModel)]="selectedGolongan" multiple="multiple"
+                          checkbox="checkbox" filter="filter" optionLabel="label">
+                        </p-multiSelect>
+                      </div>
+                      <div class="ui-g-12 ui-md-10">
+                        <label>{{'frmPegawaiSKHitungKomponenKetidakhadiran_pangkat'| translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('kdPangkat').valid && form.get('kdPangkat').touched" style="color: red"> {{'frmPegawaiSKHitungKomponenKetidakhadiran_required'| translate | splitCharT}}</span>
+                        </label>
+                        <p-multiSelect [options]="listPangkat" formControlName="kdPangkat" [(ngModel)]="selectedPangkat" multiple="multiple" checkbox="checkbox"
+                        filter="filter" optionLabel="label">
+                      </p-multiSelect>
+                    </div>
+                  </div>
+
+                  <div class="ui-g-12 ui-md-6">
+                    <div class="ui-g-12 ui-md-10">
+                      <label>{{'frmPegawaiSKHitungKomponenKetidakhadiran_ketidakhadiranstatus'| translate | splitCharT }}
+                        <span style="color: red;font-weight: bolder;">*</span>
+                        <span *ngIf="!form.get('kdStatusPegawai').valid && form.get('kdStatusPegawai').touched" style="color: red"> {{'frmPegawaiSKHitungKomponenKetidakhadiran_required'| translate | splitCharT}}</span>
+                      </label>
+                      <p-dropdown [filter]="true" filterBy="label" formControlName="kdStatusPegawai" class="ui-inputwrapper-filled" [options]="listStatus"
+                      [autoWidth]="false"></p-dropdown>
+                    </div>
+                    <div class="ui-g-12 ui-md-10">
+                      <p-checkbox binary="true" label="{{'frmPegawaiSKHitungKomponenKetidakhadiran_isByDay'| translate | splitCharT }}" formControlName="isByDay" (onChange)="changeByDay($event)"></p-checkbox>
+                    </div>
+                    <div class="ui-g-12 ui-md-10">
+                      <p-checkbox binary="true" label="{{'frmPegawaiSKHitungKomponenKetidakhadiran_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                      <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">* {{'frmPegawaiSKHitungKomponenKetidakhadiran_required'| translate | splitCharT}}</span>
+                    </div>
+                  </div>
+                </div>
+              </p-fieldset>
+            </div>
+                
+            </form>
+
+            <div class="ui-g-12">
+              <div class="ui-g-12">
+                <p-fieldset legend="">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                    <p-dataTable #gridKomponenHargaTake [value]="listHarga" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+                    [editable]="true" scrollable="true" [responsive]="true">
+                    <p-header>
+                      <div class="ui-helper-clearfix">
+                        <label style="float:center;">{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableDataKomponenHargaTake'| translate | splitCharT }}
+                        </label>
+                        <button type="button" pButton icon="fa-plus" (click)="tambahKomponen()" style="float:left; font-size: 13px !important;"></button>
+                      </div>
+                    </p-header>
+                    <p-column field="dataHarga" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableKomponenHargaTake'| translate | splitCharT}}" [editable]="true"
+                    [style]="{'width':'150px'}">
+                    <ng-template let-col let-komponen="rowData" pTemplate="body">
+                      {{komponen[col.field].namaKomponen}}
+                    </ng-template>
+                    <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="komponen[col.field]" [options]="listKomponenTake" [autoWidth]="false" required="true" appendTo="body"
+                      [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                      </p-column>
+                      <p-column field="hargaSatuan" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableHargaSatuan'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                        <ng-template let-col let-data="rowData" pTemplate="body">
+                          <div *ngIf="dataEditHarga !== true">
+                            {{data.hargaSatuan | number}}
+                          </div>
+                          <div *ngIf="data.persenHargaSatuan === null">                            
+                           <p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                         </div>
+                       </ng-template>
+                        </p-column>
+                        <p-column field="persenHargaSatuan" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableKomponenHargaTakePersenHargaSatuan'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                          <ng-template let-col let-data="rowData" pTemplate="body">
+                            <div *ngIf="dataEditPersen !== true">
+                              {{data.persenHargaSatuan | number}}
+                            </div>
+                            <div *ngIf="data.hargaSatuan === null">                            
+                             <p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                           </div>
+                         </ng-template>
+                          </p-column>
+                          <p-column field="factorRate" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableKomponenHargaTakeFaktorRate'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                            <ng-template let-col let-komponen="rowData" pTemplate="body">
+                              <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText />                           
+                      
+                            </ng-template>
+                          </p-column>
+                          <p-column field="dataRate" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableKomponenHargaTakeOperatorFaktorRate'| translate | splitCharT}}"
+                          [editable]="true" [style]="{'width':'100px'}">
+                          <ng-template let-col let-komponen="rowData" pTemplate="body">
+                            {{komponen[col.field].kode}}
+                          </ng-template>
+                          <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                            <p-dropdown [(ngModel)]="komponen[col.field]" [options]="listOperatorFactorRate" [autoWidth]="false" required="true" appendTo="body"
+                            [filter]="true" filterBy="label"></p-dropdown>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="factorRateDivide" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableKomponenHargaTakeFaktorRateDevide'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                        <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          
+                         <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="statusAktif" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableKomponenHargaTakeStatus'| translate | splitCharT}}" [style]="{'width':'50px'}">
+                        <ng-template pTemplate type="body" let-col let-checked="rowData" let-ri="rowIndex">
+                          <p-checkbox [(ngModel)]="checked[col.field]" binary="true"></p-checkbox>
+                        </ng-template>
+                      </p-column>
+
+                      <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                        <ng-template pTemplate="header"></ng-template>
+                        <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                          <div *ngIf="data.noSK == null">
+                            <button type="button" pButton icon="fa-trash" (click)="hapusRow(i)"></button>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                    </p-dataTable>
+                  </div>
+                </div>
+              </p-fieldset>
+            </div>
+          </div>
+
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="ui-g-12 ui-md-7"></div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="button" label="{{'frmPegawaiSKHitungKomponenKetidakhadiran_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="submit" label="{{'frmPegawaiSKHitungKomponenKetidakhadiran_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="button" label="{{'frmPegawaiSKHitungKomponenKetidakhadiran_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="button" label="{{'frmPegawaiSKHitungKomponenKetidakhadiran_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetak()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <p-splitButton label="{{'frmPegawaiSKHitungKomponenKetidakhadiran_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+            </div>
+          </form>
+        </div>
+
+        <div class="ui-g-12">
+          <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+          [(selection)]="selected" scrollable="true" (onRowSelect)="onRowSelect($event)" expandableRows="true" [totalRecords]="totalRecords"
+          (onLazyLoad)="loadPage($event)" [lazy]="true">
+          <p-header>
+            <div class="ui-helper-clearfix">
+              <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+              <input type="text" pInputText size="50" placeholder="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tablepencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+              (keyup)="cari()" style="width: 20%;float:right;">
+              <span style="float: left;padding:0.3em;">{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableTitle'| translate | splitCharT }}</span>
+            </div>
+          </p-header>
+          <p-column field="kode.noSK" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableNoSk' | translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+          <p-column field="namaSK" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableNamaSk' | translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+          <p-column field="tglBerlakuAwal" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableTglBerlakuSkAwal' | translate | splitCharT }}" [style]="{'width':'150px'}">
+            <ng-template pTemplate="body" let-StatusSK="rowData">
+              <span *ngIf="StatusSK.tglBerlakuAwal != null">{{StatusSK.tglBerlakuAwal * 1000 | date:'dd MMM yyyy'}}</span>
+              <span *ngIf="StatusSK.tglBerlakuAwal == null">-</span>
+            </ng-template>
+          </p-column>
+          <p-column field="tglBerlakuAkhir" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableTglBerlakuSkAkhir' | translate | splitCharT }}" [style]="{'width':'150px'}">
+            <ng-template pTemplate="body" let-StatusSK="rowData">
+              <span *ngIf="StatusSK.tglBerlakuAkhir != null">{{StatusSK.tglBerlakuAkhir * 1000 | date:'dd MMM yyyy'}}</span>
+              <span *ngIf="StatusSK.tglBerlakuAkhir == null">-</span>
+            </ng-template>
+          </p-column>
+          <p-column field="namaKategoryPegawai" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+          <p-column field="namaGolonganPegawai" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableLevelJabatan'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+          <p-column field="namaPangkat" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tablePangkat'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+          <p-column field="namaStatusPegawai" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableStatusPegawai'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+          <p-column field="namaKomponenHarga" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableKomponenHarga'| translate | splitCharT }}" [style]="{'width':'220px'}"></p-column>
+              <p-column field="isByDay" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableIsByDay'| translate | splitCharT }}" [style]="{'width':'150px'}">
+                <ng-template pTemplate="body" let-StatusSK="rowData">
+                  <span *ngIf="StatusSK.isByDay == 1">Ya</span>
+                  <span *ngIf="StatusSK.isByDay == 0">Tidak</span>
+                </ng-template>
+              </p-column>
+              <p-column field="statusEnabled" header="{{'frmPegawaiSKHitungKomponenKetidakhadiran_tableStatusAktif'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                <ng-template let-col="rowData" pTemplate type="body">
+                  {{col.statusEnabled | truefalse | translate | splitCharT }}
+                </ng-template> 
+              </p-column>
+            </p-dataTable>
+          </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

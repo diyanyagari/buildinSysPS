@@ -1,0 +1,123 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+/*body .ui-inputtext:enabled:hover:not(.ui-state-error) {
+    background: linear-gradient(to bottom, #F1F6F5 0%,#ffffff 100%);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
+    transition: all 0.2s linear;
+}
+
+body .ui-inputtext:enabled:focus:not(.ui-state-error) {
+    background: linear-gradient(to bottom, #F1F6F5 0%,#ffffff 100%);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
+    transition: all 0.2s linear;
+}*/
+
+/*body .ui-inputtext.ng-dirty.ng-invalid {
+      background-color: #f0d1d0;
+    background: linear-gradient(to bottom, #F1A6D5 0%,#ffffff 100%);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2) inset, 0 -1px 0 rgba(0,0,0,0.05) inset;
+    transition: all 0.2s linear;
+}*/
+
+a.wajib  
+{ text-decoration: underline !important; 
+ color: blue !important; 
+}
+
+.kuning {
+	background-color: yellow
+}
+
+.pac-container { 
+	z-index: 100000 !important; 
+}
+
+.handle {
+    padding: 0 5px;
+    cursor: move;
+}
+.ui-overlaypanel-content {
+	width: 300px !important;
+}
+.ui-float-label {
+	margin-top: 10px;
+}
+
+.ui-float-label label{
+	font-weight: bolder;		
+}
+
+.ui-timepicker {
+	padding: 0 0 !important;
+}
+
+.tglPasienLama .ui-timepicker {
+	font-size: 12px !important;
+}
+
+.padding5 {
+	padding: 5px;
+}
+
+.login-panel {
+	width: 450px !important;
+}
+
+.super-panel {
+	width: 300px !important;
+}
+
+.borderBot {	
+	padding: 5px;
+	border-bottom: #AAA 1px solid; 	
+}
+
+.borderTop {	
+	padding: 2px;
+	border-top: #AAA 1px solid; 	
+}
+
+.borderMod {
+	margin: 5px;
+	border: #555 3px solid; 	
+}
+
+.borderNone {
+	margin: 5px;
+	border: #f8f8f8 3px solid;
+}
+.layout-wrapper .topbar {
+	z-index: 1000 !important;
+}
+.ui-inputswitch .ui-inputswitch-handle{
+	background-color: #f1f1f1 !important;
+}
+body .ui-datatable .ui-datatable-data tr td{
+	overflow: hidden;
+    text-overflow: ellipsis;
+}
+.ui-paginator .ui-dropdown {
+    width: 1px;
+}
+
+.scrollme {
+  overflow : auto;
+}
+
+.btn-grid .ui-button {
+    font-size: 10px !important;
+}
+.ui-widget-header .ui-inputtext {
+	margin-top: 1px;
+}
+.ui-overlaypanel-content {
+	padding: .1em;
+	width: 230px;
+	background: #f1f1f1;
+	color: #777777;
+}
+.scrollList {
+	height: 350px !important;
+}

@@ -1,0 +1,38 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+<div class="ui-g dashboard" [style.display]="muncul?'inherit':'none'">
+	<gridster id="container-gridster" [options]="options" style="width:100%; height: 1480px;">
+		<gridster-item [item]="item" *ngFor="let item of dashboard">
+			<div class="item-buttons-modif">
+				<div style="padding: 13px">
+					<button pButton type="button" icon="fa fa-arrows" class="drag-handler" pTooltip="Drag & Drop" tooltipPosition="top" style="background-color: transparent; color: grey;"></button>
+					<button pButton type="button" icon="fa-close" (mousedown)="removeItem($event, item)" pTooltip="Close" tooltipPosition="top" (touchstart)="removeItem($event, item)"></button>
+				</div>
+			</div>
+			<app-widget-jumlah-pegawai *ngIf="item.content == 'pegawai'"></app-widget-jumlah-pegawai>
+			<app-widget-gaji-pegawai *ngIf="item.content == 'gaji'"></app-widget-gaji-pegawai>
+			<app-widget-aset-ruangan *ngIf="item.content == 'aset'"></app-widget-aset-ruangan>
+			<app-widget-pengajuan *ngIf="item.content == 'pengajuan'"></app-widget-pengajuan>
+			<app-widget-persentasi-absensi *ngIf="item.content == 'dataAbsensi'"></app-widget-persentasi-absensi>
+			<app-widget-persentasi-jabatan *ngIf="item.content == 'dataJabatan'"></app-widget-persentasi-jabatan>
+			<app-widget-sisa-pinjaman-pegawai *ngIf="item.content == 'dataSisaPinjamanPegawai'"></app-widget-sisa-pinjaman-pegawai>
+			<app-widget-persentasi-pengajuan *ngIf="item.content == 'dataPengajuan'"></app-widget-persentasi-pengajuan>
+			<app-widget-persentasi-aset *ngIf="item.content == 'dataAset'"></app-widget-persentasi-aset>
+			<app-kontak-pegawai *ngIf="item.content == 'kontakPegawai'"></app-kontak-pegawai>
+ 			<app-widget-pegawai-usia-pensiun *ngIf="item.content == 'pegawaiUsiaPensiun'"></app-widget-pegawai-usia-pensiun>
+			<app-widget-pegawai-habis-kontrak *ngIf="item.content == 'habisKontrak'"></app-widget-pegawai-habis-kontrak>
+			<app-widget-akumulasi-cuti *ngIf="item.content == 'cutiPegawai'"></app-widget-akumulasi-cuti>
+			<app-widget-pegawai-ulang-tahun *ngIf="item.content == 'ulangTahun'"></app-widget-pegawai-ulang-tahun>
+			<app-widget-persentasi-pegawai-pensiun *ngIf="item.content == 'dataPensiun'"></app-widget-persentasi-pegawai-pensiun>			
+			<app-widget-persentasi-pegawai-resign *ngIf="item.content == 'dataResign'"></app-widget-persentasi-pegawai-resign>
+			<app-widget-persentasi-struktur-kolega *ngIf="item.content == 'dataKolega'" style="text-align: left;"></app-widget-persentasi-struktur-kolega>
+			<app-widget-persentasi-jumlah-pegawai *ngIf="item.content == 'dataJumlahPegawai'"></app-widget-persentasi-jumlah-pegawai>
+		</gridster-item>
+	</gridster>
+</div>
+<div class="ui-g">
+	<div class="ui-g-4 ui-g-offset-20">
+		<button type="button" pButton icon="fa-refresh" (click)="factoryDashboard()" label="{{'Factory Setting'| translate | splitCharT}}"></button>
+		<button type="button" pButton icon="fa-upload" (click)="resetDashboard()" label="{{'Reset Layout'| translate | splitCharT}}"></button>
+		<button type="button" pButton icon="fa-save" (click)="simpanDashboard()" label="{{'Simpan Dashboard'| translate | splitCharT}}"></button>
+	</div>
+</div>

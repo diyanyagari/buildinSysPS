@@ -1,0 +1,54 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item action">
+        <img src="../../../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img src="../../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <!-- <ng-template let-item="dataAlamat"> -->
+          <h2 >Informasi - Profile - Alamat</h2>
+        <!-- </ng-template> -->
+      </div>
+      <div class="header-item action">
+        <img src="../../../../../../assets/layout/images/kiosk/power-button.svg" alt="logout" (click)="logout($event)">
+      </div>
+    </div>
+  </div>
+  <div class="map-container">
+    <div class="google-map" #gmap></div>
+  </div>
+  <!-- <div class="container">
+    <div class="container-item">
+      <h2>Layanan Gawat Darurat</h2>
+      <p>
+        Layanan gawat darurat disediakan untuk kepentingan pasien yang sifatnya
+        sangat penting dan memerlukan pertolongan sesegera mungkin, hubungi
+        nomer telpon dibawah untuk panggilan gawat darurat. Unit siaga kami akan
+        segera merespon panggilan anda.
+        (022) 123 - 456 - 7890
+      </p>
+    </div>
+    <div class="container-item">
+      <h2>Dapatkan update terbaru dari kami</h2>
+      <p>
+        Dapatkan informasi, kegiatan terbaru yang lainnya dari kami melaui
+        telpon, pesan singkat, sosial media, aplikasi chatting, messenger dan
+        yang lainnya. Staf customer service kami dengan senang hati akan
+        melayani dan menjawab pertanyaan pengunjung website.
+      </p>
+    </div>
+  </div> -->
+
+  <div class="informasi-action">
+    <!-- <hr> -->
+    <div class="container">
+      <button class="btn-subscribe bg-violet"
+        routerLink="/kiosk/informasi/profile/">Kembali</button>
+    </div>
+
+  </div>
+</div>

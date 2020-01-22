@@ -1,0 +1,55 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmMapGolonganAsuransiToKelas_title'| translate | splitCharT}}</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-6">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-6 ui-md-8">
+                <label for="input">{{'frmMapGolonganAsuransiKeKelas_golonganAsuransi' | translate | splitCharT }}
+                  <span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('kdGolonganAsuransi').valid && form.get('kdGolonganAsuransi').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+
+                </label>
+                <p-dropdown id="dropdown" (ngModelChange)="clearPanelBawah($event)" filter="filter" class="ui-inputwrapper-filled" [(ngModel)]="kdGolonganAsuransi"
+                  formControlName="kdGolonganAsuransi" [options]="kdGolonganAsuransi" [autoWidth]="false"></p-dropdown>
+              </div>
+            </form>
+          </div>
+          <div class="ui-g-12">
+            <p-blockUI [target]="pnl" [blocked]="hasilCek" [baseZIndex]=10 [autoZIndex]="false">
+              <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+            </p-blockUI>
+            <p-fieldset #pnl>
+              <div *ngFor="let data of listData; let i = index" class="ui-g-3">
+
+                <p-checkbox (change)="onChange()" value={{data.id_kode}} label="{{data.namaKelas}}" [(ngModel)]="pilihan" inputId="{{i}}"></p-checkbox>
+              </div>
+            </p-fieldset>
+          </div>
+          <div class="ui-g-6 ui-md-10">
+            <div class="checkbox_cont">
+              <div class="checkbox ">
+                <p-checkbox [(ngModel)]="pilihSemua" [disabled]="hasilCek" (click)="selectAll()" label="{{'frmMapGolonganAsuransiToKelas_pilihSemua'| translate | splitCharT}}"
+                  binary="true"></p-checkbox>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-2"></div>
+              <div class="ui-g-12 ui-md-2">
+                <button pButton type="submit" label="{{'frmMapGolonganAsuransiToKelas_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

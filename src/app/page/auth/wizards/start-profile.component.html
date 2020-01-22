@@ -1,0 +1,275 @@
+<div class="login-bg">
+    <img src="assets/layout/images/login/bg-login.jpg"/>
+</div>
+
+<div class="login-bg-overlay"></div>
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+<!-- <p-tabView>
+    <p-tabPanel>
+ -->        <div class="ui-fluid">
+            <div class="ui-g">
+               <div class="bg-green ui-g-8 ui-g-offset-0">
+
+
+
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12">
+                                <div *ngIf="proses" class="ui-g">
+                                        
+                                    <div class="ui-g">
+
+                                        <div class="ui-g-12"><strong>{{statusText}}</strong><hr  *ngIf="berhasil"/></div>
+
+                                        
+                                        <div *ngIf="berhasil" class="ui-g-12"><strong>{{'Informasi Perusahaan'| translate | splitCharT }}</strong></div>
+
+                                        <div *ngIf="berhasil"  class="ui-g-8">
+                                            <div class="ui-g">
+                                                <div class="ui-g-3">{{'Negara'| translate | splitCharT }}</div>
+                                                <div class="ui-g-1">:</div>
+                                                <div class="ui-g-8">{{sNegara}}</div>
+                                                <div class="ui-g-3">{{'Jenis Industri'| translate | splitCharT }}</div>
+                                                <div class="ui-g-1">:</div>
+                                                <div class="ui-g-8">{{sJenisIndustri}}</div>
+                                                     
+                                                     
+                                                <div class="ui-g-3">{{'Nama Perusahaan'| translate | splitCharT }}</div>
+                                                <div class="ui-g-1">:</div>
+                                                <div class="ui-g-8">{{sNamaPerusahaan}}</div>
+                                                     
+                                                <div class="ui-g-3">{{'Hostname'| translate | splitCharT }}</div>
+                                                <div class="ui-g-1">:</div>
+                                                <div class="ui-g-8">{{sHostname}}</div>
+                                                     
+        <!--                                         <div class="ui-g-12"><strong>{{'Informasi Organisasi'| translate | splitCharT }}</strong></div>
+                                                     
+                                                <div class="ui-g-3">{{'Jabatan'| translate | splitCharT }}</div>
+                                                <div class="ui-g-1">:</div>
+                                                <div class="ui-g-8">{{sJabatan}}</div>
+                                                <div class="ui-g-3">{{'Departement'| translate | splitCharT }}</div>
+                                                <div class="ui-g-1">:</div>
+                                                <div class="ui-g-8">{{sDepartement}}</div>
+                                                <div class="ui-g-3">{{'Unit Kerja'| translate | splitCharT }}</div>
+                                                <div class="ui-g-1">:</div>
+                                                <div class="ui-g-8">{{sUnitKerja}}</div>
+         -->                                             
+
+                                                <div class="ui-g-12"><strong>{{'Informasi Login'| translate | splitCharT }}</strong></div>
+                                                     
+                                                <div class="ui-g-3">{{'Username'| translate | splitCharT }}</div>
+                                                <div class="ui-g-1">:</div>
+                                                <div class="ui-g-8">{{sUsername}}</div>
+        <!--                                         <div class="ui-g-3">{{'Nama Lengkap'| translate | splitCharT }}</div>
+                                                <div class="ui-g-1">:</div>
+                                                <div class="ui-g-8">{{sNamaLengkap}}</div>
+                                                <div class="ui-g-3">{{'Jenis Kelamin'| translate | splitCharT }}</div>
+                                                <div class="ui-g-1">:</div>
+                                                <div class="ui-g-8">{{sJenisKelamin}}</div>
+                                                <div class="ui-g-3">{{'Tanggal Lahir'| translate | splitCharT }}</div>
+                                                <div class="ui-g-1">:</div>
+                                                <div class="ui-g-8">{{sTanggalLahir | date : 'dd MMM y'}}</div> -->
+                                            </div>                                       
+                                        </div>    
+
+                                        <div *ngIf="berhasil" class="ui-g-4">
+                                            <div><strong>{{'Gambar Logo'| translate | splitCharT }}</strong></div>
+                                            <img *ngIf="smbrFoto !== null" [src]="smbrFoto" height="175px" class="img-responsive" />
+                                        </div> 
+
+                                    </div>
+
+                                    <div class="ui-g-12 ui-g-offset-6"><img *ngIf="loading" src="{{ imgLoading }}" /></div>
+
+                                </div>
+
+                                <form  *ngIf="!proses"  [formGroup]="form" (ngSubmit)="onSubmit()">
+
+                                    <div class="ui-g">
+                                        <div class="ui-g-8"  style="border: 1px dotted #AAA" >
+
+                                            <div class="ui-g">
+                                                <div class="ui-g-12">Company / Profile</div>
+                                            </div>    
+                                            
+                                            <div class="ui-g form-group">
+                                                <div class="ui-g-12">
+                                                    <label for="kdNegara">{{'Negara'| translate | splitCharT }}</label>
+                                                    <p-dropdown [style]="bg-solid-white" id="dropdownNegara" filter="filter" [options]="kdNegara" formControlName="kdNegara" [autoWidth]="false"></p-dropdown>
+                                                </div>
+
+                                                <div class="ui-g-12">
+                                                    <label for="kdJenisProfile">{{'Jenis Industri'| translate | splitCharT }}</label>
+                                                    <p-dropdown [style]="bg-solid-white" id="dropdownJnsprofile" filter="filter" [options]="kdJenisProfile" formControlName="kdJenisProfile" [autoWidth]="false"></p-dropdown>
+                                                </div>
+
+                                                <br/>
+
+                                                <div class="ui-g-6">
+                                                     <div class="ui-inputgroup ui-g-12">
+                                                    <span class="ui-inputgroup-addon"><i class="fa fa-briefcase"></i></span>    
+                                                    <input id="namaLengkap" type="text" formControlName="namaLengkap" placeholder="{{'Nama Organisasi'| translate | splitCharT }}" pInputText/>
+                                                </div>
+                                                </div>
+
+                                                <div class="ui-g-6">
+                                                    <div class="ui-inputgroup ui-g-12">
+                                                        <span class="ui-inputgroup-addon"><i class="fa fa-at"></i></span>    
+                                                        <input id="hostname1" type="text"
+                                                        formControlName="hostname1" (blur)="iniKesana($event)" 
+                                                        (input)="emailFormatCheck($event)" 
+                                                        placeholder="namaperusahaan.com" pInputText/>
+                                                   </div>
+                                                    <span *ngIf="dataEmailTersedia">
+                                                    <!--     <label style="color: #2df704;font-weight: 150;">{{responseEmail}}</label> -->
+                                                    </span>
+                                                    <span *ngIf="dataEmailTidakTersedia">
+                                                        <label style="color: #f21d1d; font-weight: 150;">{{responseEmail}}</label>  
+                                                    </span>
+                                                </div>          
+
+                                                <div class="ui-g-6">
+                                                    <label>Tempelate Excel Data Pegawai</label>
+                                                    <button pButton type="button" label="{{'Unduh Template'| translate | splitCharT }}" icon="fa-cloud-download" (click)="downloadpegawai()"></button>
+                                                </div>
+
+                                                <div class="ui-g-6">
+                                                    <label><strong>{{'File Data Excel'| translate | splitCharT }}</strong></label>
+                                                    <input type="text" formControlName="fileExcel" readonly="true" pInputText/>
+                                                    <hr/>  
+                                                    <p-fileUpload (onUpload)="fileUploadExcel($event)" name="file" (onBeforeSend)="addHeader($event)" auto="false" [url]="urlUpload()" withCredentials="true" ></p-fileUpload>
+                                                </div> 
+
+                                            </div>
+
+        <!--                                     <div class="ui-g">
+                                                <div class="ui-g-12">Organisasi</div>
+                                            </div> -->
+        <!--                                     <div class="ui-g form-group">    
+                                                <div class="ui-g-4">
+                                                    <label for="jabatan">{{'jabatan'| translate | splitCharT }}</label>  
+                                                    <input id="jabatan" type="text" formControlName="jabatan" placeholder="{{'Direktur'| translate | splitCharT }}" pInputText/>
+                                                </div> 
+
+                                                <div class="ui-g-4">
+                                                    <label for="departement">{{'departement'| translate | splitCharT }}</label>  
+                                                    <input id="departement" type="text" formControlName="departement" placeholder="{{'Direksi'| translate | splitCharT }}" pInputText/>
+                                                </div>  
+
+                                                <div class="ui-g-4">
+                                                    <label for="unitKerja">{{'unitKerja'| translate | splitCharT }}</label>  
+                                                    <input id="unitKerja" type="text" formControlName="unitKerja" placeholder="{{'Head Office'| translate | splitCharT }}" pInputText/>
+                                                </div>
+                                            </div>
+                                            <br/> -->
+        <!--                                     <div class="ui-g">
+                                                <div class="ui-g-12">Account Login / Pegawai Pertama</div>
+                                            </div> -->
+        <!--                                     <div class="ui-g form-group">    
+
+                                                <div class="ui-g-12 ui-md-6">
+                                                    <div class="ui-inputgroup">
+                                                        <span class="ui-inputgroup-addon"><i class="fa fa-envelope-o"></i></span>    
+                                                        <input id="namaUserEmail" type="text" formControlName="namaUserEmail" placeholder="{{'email'| translate | splitCharT }}" readonly="true" pInputText/>
+                                                    </div>
+                                                </div>  
+                                            </div>
+                                            <div class="ui-g form-group">    
+                                                <div class="ui-g-4">
+                                                    <label for="namaAwal">{{'namaAwal'| translate | splitCharT }}</label>
+                                                    <input id="namaAwal" type="text" formControlName="namaAwal" pInputText/>
+                                                   
+                                                </div>  
+                                                <div class="ui-g-4">
+                                                    <label for="namaTengah">{{'namaTengah'| translate | splitCharT }}</label>  
+                                                    <input id="namaTengah" type="text" formControlName="namaTengah" pInputText/>
+                                                </div>  
+                                                <div class="ui-g-4">
+                                                    <label for="namaAkhir">{{'namaAkhir'| translate | splitCharT }}</label>  
+                                                    <input id="namaAkhir" type="text" formControlName="namaAkhir" pInputText/>
+                                                </div>  
+                                            </div>    
+                                            <div class="ui-g form-group">    
+                                                <div class="ui-g-6 ui-md-4">
+                                                    <label for="jenisKelamin">{{'jenisKelamin'| translate | splitCharT }}</label>
+                                                    <p-dropdown [style]="bg-solid-white" id="jenisKelamin" filter="filter" [options]="kdJenisKelamin" formControlName="kdJenisKelamin" [autoWidth]="false"></p-dropdown>
+                                                </div>    
+
+                                                <div class="ui-g-6 ui-md-4">
+                                                    <label for="tanggalLahir">{{'tanggalLahir'| translate | splitCharT }}</label>
+                                                    <app-calender [showIcon]="true" [yearNavigator]="true" [monthNavigator]="true" yearRange="1945:2042" formControlName="tglLahir" ></app-calender>
+                                                </div>
+                                            </div> --> 
+                                        </div>    
+                                        <div class="ui-g-4">
+
+                                            <div class="ui-g form-group">    
+
+                                                <div class="ui-g-12">                                            
+                                                    <p-fileUpload #fubauto mode="basic" (onUpload)="fileUpload($event)" accept="image/*" name="file"
+                                                    maxFileSize="2000000" (onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()" auto="true" chooseLabel="Browse"
+                                                    withCredentials="true"></p-fileUpload>
+                                                    <label for="gambarLogo">{{'Gambar Logo'| translate | splitCharT }}</label>
+                                                    <input id="gambarLogo" type="text" formControlName="gambarLogo" [(ngModel)]="namaFoto" disabled pInputText/>
+                                                    <hr/>
+                                                   <img *ngIf="smbrFoto !== null" [src]="smbrFoto" height="175px" style="max-width: 250px; max-height: 250px; display: block; margin-left: auto; margin-right: auto" class="img-responsive" />
+                                                </div>
+
+        <!--                                         <div class="ui-g-12">
+                                                    <label><strong>{{'File Data Excel'| translate | splitCharT }}</strong></label>
+                                                    <p-fileUpload (onUpload)="fileUploadExcel($event)" name="file" (onBeforeSend)="addHeader($event)" auto="false" [url]="urlUpload()" withCredentials="true" ></p-fileUpload>
+                                                    <input type="text" formControlName="fileExcel" readonly="true" pInputText/>   
+                                                </div>   --> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div *ngIf="!proses" class="ui-g-12 ui-md-2">
+                                <button pButton type="button" label="{{'Proses'| translate | splitCharT }}" icon="fa-save" (click)="onSubmit()"></button>
+                            </div>
+
+                            <div *ngIf="back" class="ui-g-12 ui-md-2 ui-md-offset-2">
+                                <button pButton type="button" label="{{'Kembali'| translate | splitCharT }}" icon="fa-arrow-left" (click)="kembali()"></button>
+                            </div>
+
+                            <div *ngIf="berhasil" class="ui-g-12 ui-md-2">
+                                <button pButton type="button" label="{{'Login'| translate | splitCharT }}" icon="fa-user-circle" (click)="login()"></button>
+                            </div>
+
+                        </div>                            
+                </div>
+            </div>
+        </div>        	
+<!--     </p-tabPanel>
+</p-tabView> -->
+
+
+                                    <!-- <div class="ui-g form-group">    
+                                        <div class="ui-g-6 ui-md-4">
+                                           <label for="tglMasuk">{{'joinDate'| translate | splitCharT }}</label>  
+                                            <app-calender [yearNavigator]="true" [monthNavigator]="true" yearRange="1945:2042" [showIcon]="true" formControlName="tglMasuk" dateFormat="dd/mm/yy"></app-calender>
+                                        </div>  
+
+                                        <div class="ui-g-6 ui-md-4">
+                                            <label for="tglDaftar">{{'joinGroupDate'| translate | splitCharT }}</label>
+                                            <app-calender [yearNavigator]="true" [monthNavigator]="true" yearRange="1945:2042" [showIcon]="true" formControlName="tglDaftar" dateFormat="dd/mm/yy"></app-calender>
+                                        </div>
+
+                                    </div> -->    
+
+<!--                                             <input hidden id="ambilFoto" type="text" formControlName="ambilFoto" (ngModelChange)="fotoUpload($event)" disabled pInputText/>
+ --> 
+
+ <!--                     <div class="ui-g-12 ui-md-3 ui-md-offset-2">
+                        <button pButton type="button" label="{{'Unduh Template'| translate | splitCharT }}" icon="fa-cloud-download" (click)="download()"></button>
+                    </div> -->
+
+                                                                <!--  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" -->
+
+
+                                        <!--<div class="ui-g-12">
+                                            <label><strong>{{'File Data Excel'| translate | splitCharT }}</strong></label>
+                                            <p-fileUpload (onUpload)="fileUploadExcel($event)" name="file" (onBeforeSend)="addHeader($event)" auto="false" [url]="urlUpload()" withCredentials="true" ></p-fileUpload>
+                                            <input type="text" formControlName="fileExcel" readonly="true" pInputText/>   
+                                        </div>-->

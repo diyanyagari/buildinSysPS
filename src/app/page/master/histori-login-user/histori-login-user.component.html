@@ -1,0 +1,102 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<h1>{{'frmMasterHistoriLoginUser_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-12 ui-md-2">
+						<label>{{'frmMasterHistoriLoginUser_periodeHistorilogin'| translate | splitCharT}}</label>
+						<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAwal" [showIcon]="true"
+						 dateFormat="dd M yy"></app-calender>
+					</div>
+					<div>
+						<br/>
+						<label>-</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<br/>
+						<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAkhir" [showIcon]="true"
+						 dateFormat="dd M yy"></app-calender>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<br/>
+						<button pButton type="button" icon="fa-search" (click)="cari()"></button>
+					</div>
+					<div class="ui-g-12">
+						<p-dataTable [value]="listData" [rows]="20" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [totalRecords]="totalRecords"
+						 (onLazyLoad)="loadPage($event)" scrollable="true">
+							<p-header [style]="{'text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}">
+								<div class="ui-helper-clearfix">
+									<!-- <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50" placeholder="{{'pencarianHistoriLogin'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cariGrid()"
+									 style="width: 20%;float:right;"> -->
+									<span style="float: center;padding:0.3em;">{{'frmMasterHistoriLoginUser_dataHistoryLoginUser'| translate | splitCharT }}</span>
+								</div>
+							</p-header>
+
+							<p-column field="namaObjekCRUD" [filter]="true" header="{{'frmMasterHistoriLoginUser_tblNamaObjek/Table'| translate | splitCharT }}" [style]="{'width':'250px','text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}">
+								<ng-template pTemplate="filter" let-col>
+									<input type="text" pInputText [(ngModel)]="pencarianNamaObjek" (keyup)="cariGridNamaObjek()" placeholder="Cari Nama Objek/Table">
+								</ng-template>
+							</p-column>
+							<p-column field="namaProses" [filter]="true" header="{{'frmMasterHistoriLoginUser_tblNamaProses/KelompokTransaksi'| translate | splitCharT }}" [style]="{'width':'250px','text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}">
+								<ng-template pTemplate="filter" let-col>
+									<input type="text" pInputText [(ngModel)]="pencarianNamaProses" (keyup)="cariGridNamaProses()" placeholder="Cari Nama Proses/Kelompok Transaksi">
+								</ng-template>
+							</p-column>
+							<p-column field="isCRUD" header="{{'frmMasterHistoriLoginUser_tblIsCRUD'| translate | splitCharT }}" [style]="{'width':'100px','text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}"></p-column>
+							<p-column field="detailObjekCRUD" header="{{'frmMasterHistoriLoginUser_tblDetailObjek'| translate | splitCharT }}" [style]="{'width':'350px','text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}"></p-column>
+							<p-column field="detailDataCRUD" [filter]="true" header="{{'frmMasterHistoriLoginUser_tblDataCRUD'| translate | splitCharT }}" [style]="{'width':'700px','text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}">
+								<ng-template pTemplate="filter" let-col>
+									<input type="text" pInputText [(ngModel)]="pencarianDataCRUD" (keyup)="cariGridNamaDataCRUD()" placeholder="Cari Data CRUD">
+								</ng-template>
+							</p-column>
+							<p-column field="tglCRUDin" header="{{'frmMasterHistoriLoginUser_tblTanggalCRUDIn'| translate | splitCharT }}" [style]="{'width':'100px','text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span *ngIf="pick.tglCRUDin > null">{{pick.tglCRUDin * 1000 | date: 'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="tglCRUDout" header="{{'frmMasterHistoriLoginUser_tblTanggalCRUDOut'| translate | splitCharT }}" [style]="{'width':'100px','text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<span *ngIf="pick.tglCRUDout > null">{{pick.tglCRUDout * 1000 | date: 'dd/MM/yyyy'}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="namaLengkap" [filter]="true" header="{{'frmMasterHistoriLoginUser_tblNamaLengkap'| translate | splitCharT }}" [style]="{'width':'250px','text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}">
+								<ng-template pTemplate="filter" let-col>
+									<input type="text" pInputText [(ngModel)]="pencarianNamaUser" (keyup)="cariGridNamaUser()" placeholder="Cari Nama User">
+								</ng-template>
+							</p-column>
+							<p-column field="namaRuangan" [filter]="true" header="{{'frmMasterHistoriLoginUser_tblUnitKerja'| translate | splitCharT }}" [style]="{'width':'250px','text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}">
+								<ng-template pTemplate="filter" let-col>
+									<input type="text" pInputText [(ngModel)]="pencarianRuangan" (keyup)="cariGridNamaRuangan()" placeholder="Cari Unit Kerja">
+								</ng-template>
+							</p-column>
+							<p-column field="namaHost" header="{{'frmMasterHistoriLoginUser_tblIpAddress'| translate | splitCharT }}" [style]="{'width':'150px','text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}"></p-column>
+							<p-column field="namaModulAplikasi" [filter]="true" header="{{'frmMasterHistoriLoginUser_tblNamaModul'| translate | splitCharT }}" [style]="{'width':'250px','text-align': 'center','border-top': '1px solid #0aa699','border-left': '1px solid #0aa699','border-right': '1px solid #0aa699','border-bottom': '1px solid #0aa699'}">
+								<ng-template pTemplate="filter" let-col>
+									<input type="text" pInputText [(ngModel)]="pencarianNamaModulAplikasi" (keyup)="cariGridNamaModul()" placeholder="Cari Modul Aplikasi">
+								</ng-template>
+							</p-column>
+
+						</p-dataTable>
+					</div>
+
+					<div class="ui-g-12">
+						<div class="ui-g-12 ui-md-8"></div>
+						<div class="ui-g-12 ui-md-8"></div>
+						<div class="ui-g-12 ui-md-1"></div>
+						<div class="ui-g-12 ui-md-1"></div>
+						<!-- <div class="ui-g-12 ui-md-1">
+							<button pButton type="button" (click)="ngOnInit()" icon="fa-refresh" label="{{'batal'| translate | splitCharT }}"></button>
+						</div> -->
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmMasterHistoriLoginUser_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<p-splitButton label="{{'frmMasterHistoriLoginUser_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

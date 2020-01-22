@@ -1,0 +1,105 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item action">
+        <img src="../../../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img src="../../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <h2>Informasi - Profile - Prestasi</h2>
+      </div>
+      <div class="header-item action">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/power-button.svg" alt="logout" (click)="logout($event)">
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <div id="next" alt="Next" title="Next">
+      <div class="arrow-right"></div>
+    </div>
+    <div id="prev" alt="Prev" title="Prev">
+      <div class="arrow-left"></div>
+    </div>
+    <div id="slider">
+      <div class="slide" *ngFor="let item of listAward; let index= index"
+        [class.inactive]="index != 0" [class.active]="index == 0">
+        <img src="{{item.pathFileFolderEvent}}" alt="image-event">
+        <div class="slide-copy">
+          <h2>{{item.namaEvent}}</h2>
+          <p>
+            {{item.deskripsiEvent}}
+          </p>
+        </div>
+        <div class="img{{index}}"></div>
+      </div>
+
+      <!-- <div class="slide">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/event-gallery-2.jpg"
+          alt="">
+        <div class="slide-copy">
+          <h2>Gallery 2</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae
+            commodo sem. Integer eros nibh, molestie congue elementum quis,
+            mattis
+            nec tortor. Vivamus sed hendrerit sed vitae orci convallis.</p>
+        </div>
+        <div class="img2"></div>
+      </div>
+
+      <div class="slide">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/event-gallery-3.jpg"
+          alt="">
+        <div class="slide-copy">
+          <h2>Gallery 3</h2>
+
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae
+            commodo sem. Integer eros nibh, molestie congue elementum quis,
+            mattis
+            nec tortor. Vivamus sed hendrerit sed vitae orci convallis.</p>
+        </div>
+        <div class="img3"></div>
+      </div>
+
+      <div class="slide">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/event-gallery-1.jpg"
+          alt="">
+        <div class="slide-copy">
+          <h2>Gallery 4</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae
+            commodo sem. Integer eros nibh, molestie congue elementum quis,
+            mattis
+            nec tortor. Vivamus sed hendrerit sed vitae orci convallis.</p>
+        </div>
+        <div class="img4"></div>
+      </div>
+
+      <div class="slide">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/event-gallery-2.jpg"
+          alt="">
+        <div class="slide-copy">
+          <h2>Gallery 5</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae
+            commodo sem. Integer eros nibh, molestie congue elementum quis,
+            mattis
+            nec tortor. Vivamus sed hendrerit sed vitae orci convallis.</p>
+        </div>
+        <div class="img5"></div>
+      </div> -->
+    </div>
+  </div>
+  <div class="informasi-action">
+    <div class="container">
+      <button class="btn-subscribe bg-violet"
+        routerLink="/kiosk/informasi/profile/">Kembali</button>
+    </div>
+
+  </div>
+</div>

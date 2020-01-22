@@ -1,0 +1,142 @@
+
+<div class="ui-fluid" >
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <h1>{{'frmHubunganPesertaAsuransi_title'| translate | splitCharT }}</h1>
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+              <div class="ui-g-6 ui-g-nopad">
+                <div class="ui-g-12 ui-md-10" hidden>
+                  <span class="ui-float-label" hidden>
+                    <input hidden type="text" pTooltip="kode" tooltipPosition="top" placeholder="kode" formControlName="kode" pInputText readonly="true"
+                    />
+                  </span>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmHubunganPesertaAsuransi_hubunganPeserta'| translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('hubunganPeserta').valid && form.get('hubunganPeserta').touched" style="color: red"> {{'frmHubunganPesertaAsuransi_required'| translate | splitCharT}}</span>
+                  </label>
+                  <input type="text" formControlName="hubunganPeserta" (keyup)="setReportDisplay()" pInputText />
+
+                </div>
+                <!-- <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmHubunganPesertaAsuransi_hubunganPeserta'| translate | splitCharT }}
+                      <span style="color: red;font-weight: bolder;">*</span>
+                  </label>
+                  <input type="text" formControlName="hubunganPeserta" (keyup)="setReportDisplay()" pInputText />
+                </div> -->
+                <div class="ui-g-12 ui-md-10">
+                  <p-checkbox binary="true" label="{{'frmHubunganPesertaAsuransi_status'| translate | splitCharT}}" formControlName="statusEnabled"></p-checkbox>
+                  <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+                  <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'frmHubunganPesertaAsuransi_required'| translate | splitCharT}}</span>
+                </div>
+              </div>
+              <div class="ui-g-6">
+                <p-fieldset legend="{{'frmHubunganPesertaAsuransi_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+                  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="ui-g-12 ui-md-10">
+                      <label for="input">{{'frmHubunganPesertaAsuransi_reportDisplay'| translate | splitCharT }}
+                        <span *ngIf="!form.get('hubunganPeserta').valid && form.get('hubunganPeserta').touched"
+                          style="color: red"></span>
+                        <span *ngIf="!form.get('hubunganPeserta').valid && form.get('hubunganPeserta').touched" style="color: red">* {{'frmHubunganPesertaAsuransi_required'| translate | splitCharT}}</span>
+                      </label>
+                      <input id="input" type="text" formControlName="reportDisplay" (keyup)="setReportDisplay()" [(ngModel)]="report" pInputText/>
+
+                    </div>
+                    <div class="ui-g-12 ui-md-10">
+                      <label for="input">{{'frmHubunganPesertaAsuransi_kodeExternal'| translate | splitCharT }}</label>
+                      <input id="input" type="text" formControlName="kodeExternal" pInputText/>
+                    </div>
+                    <div class="ui-g-12 ui-md-10">
+                      <label for="input">{{'frmHubunganPesertaAsuransi_namaExternal'| translate | splitCharT }}</label>
+                      <input id="input" type="text" formControlName="namaExternal" pInputText/>
+                    </div>
+                  </form>
+                </p-fieldset>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-7"></div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmHubunganPesertaAsuransi_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="submit" label="{{'frmHubunganPesertaAsuransi_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmHubunganPesertaAsuransi_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmHubunganPesertaAsuransi_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <p-splitButton label="{{'frmHubunganPesertaAsuransi_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="ui-g-12 ui-fluid">
+          <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+            [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+            [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" scrollable="true" expandableRows="true">
+            <p-header>
+              <div class="ui-helper-clearfix">
+                <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                <input type="text" pInputText size="50" placeholder="{{'frmHubunganPesertaAsuransi_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+                  (keypress)="cari()" style="width: 20%;float:right;">
+                <span style="float: left;padding:0.3em;">{{'frmHubunganPesertaAsuransi_tableTitle'| translate | splitCharT}}</span>
+              </div>
+            </p-header>
+            <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+            <!-- <p-column field="kdhubunganPesertaAsuransi" header="{{'kdhubunganPesertaAsuransi '| translate | splitCharT }}"></p-column> -->
+            <!-- <p-column field="kdProfile" header="{{'kdProfile '| translate | splitCharT }} "></p-column> -->
+            <p-column field="hubunganPeserta" header="{{'frmHubunganPesertaAsuransi_tableHubunganPeserta'| translate | splitCharT }}"></p-column>
+            <!-- <p-column field="reportDisplay" header="{{'reportDisplay'| translate | splitCharT }}"></p-column> -->
+            <!-- <p-column field="kdDepartemen" header="{{'kdDepartemen'| translate | splitCharT }}"></p-column> -->
+            <!-- <p-column field="kdExternal" header="{{'kdExternal'| translate | splitCharT }}"></p-column> -->
+            <!-- <p-column field="namaExternal" header="{{'namaExternal'| translate | splitCharT }}"></p-column> -->
+            <p-column field="statusEnabled" header="{{'frmHubunganPesertaAsuransi_tableStatus'| translate | splitCharT }}">
+              <ng-template let-col="rowData" pTemplate type="body">
+                {{col.statusEnabled | truefalse | translate | splitCharT }}
+            </ng-template> 
+            </p-column>
+            <!-- <p-column field="noRec" header="{{'noRec'| translate | splitCharT }}"></p-column> -->
+            <ng-template let-hubunganPesertaAsuransi pTemplate="rowexpansion">
+              <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                  <div class="ui-grid-col-12">
+                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                      <div class="ui-grid-row">
+                        <div class="ui-grid-col-2 label">
+                          <span style="color:black">{{ 'frmHubunganPesertaAsuransi_optional' | translate | splitCharT }}</span>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid label">{{'frmHubunganPesertaAsuransi_reportDisplay'| translate | splitCharT }} </div>
+                        <div class="ui-grid-col-4"> {{hubunganPesertaAsuransi.reportDisplay}}</div>
+                      </div>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid label">{{'frmHubunganPesertaAsuransi_kodeExternal' | translate | splitCharT}} </div>
+                        <div class="ui-grid-col-4">{{hubunganPesertaAsuransi.kodeExternal}}</div>
+                      </div>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid label">{{'frmHubunganPesertaAsuransi_namaExternal'| translate | splitCharT}} </div>
+                        <div class="ui-grid-col-4">{{hubunganPesertaAsuransi.namaExternal}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-dataTable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,259 @@
+<!-- {{ 'frmLoginUtama_informasi' | translate | splitCharT  }} -->
+<p-dialog header="Informasi" [(visible)]="sudahLogin" [modal]="true" [responsive]="true" [width]="350" [minWidth]="150">
+    <span>Anda sudah login, jika ingin login ulang, pastikan logout terlebih dahulu lewat menu logout.</span>
+    <p-footer>
+        <button type="button" pButton icon="fa-check-square-o" (click)="keHalamanUtama()" label="Tutup"></button>
+    </p-footer>
+</p-dialog>
+<div class="login-bg">
+    <img class="img-responsive img-fluid" src="assets/layout/images/bg-login.jpg" />
+</div>
+<div class="login-bg-overlay"></div>
+<div class="ui-g ui-fluid" *ngIf="!sudahLogin">
+    <!-- <div ui-g> -->
+    <!-- <div class="ui-g-8">
+            <div *ngIf="pilModApp && showModul" class="borderBot">{{ 'modulaplikasi' | translate | splitCharT  }}</div>
+            <div class="ui-g" *ngIf="pilModApp">
+                <div *ngFor="let modulAppImg of modAppImg; let i = index; trackBy: trackByFn">
+                    <img src="{{ modulAppImg.modulIconImage }}" class="{{ modulAppImg.classBorder }}" /><br/>
+                    <span>{{ modulAppImg.modulAplikasi }}</span>
+                </div>    
+            </div>
+        </div> -->
+
+    <!-- <div class="ui-g-4 login-informasi">
+            <img src="assets/layout/images/logo-login.png"/>
+            <h1>Sentral Link Solutions - HCM</h1>
+        </div>
+        <div class="ui-g-5 login-title">
+            <h2>LOGIN</h2>
+        </div> -->
+
+    <div class="ui-g-2 ui-g-offset-5">
+        <div class="login-pilih-bahasa">
+            <p-dropdown [options]="bahasa" [(ngModel)]="bahasaTerpilih" (onChange)="pilihBahasa()">
+                <ng-template let-bhs pTemplate="item">
+                    <div class="ui-helper-clearfix">
+                        <span [class]="classBahasa(bhs.value)"></span>
+                        {{bhs.label}}
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+    </div>
+
+    <div class="ui-g-12" *ngIf="pilAll">
+        <!-- wrapper-bahasa-form-login -->
+        <div class="login-body">
+            <div class="login-panel">
+                <div class="ui-g login-container">
+                    <div class="ui-g-12 logo-container">
+                        <a class="morpheus-logo-login" href="#/dashboard">
+                            <img src="assets/layout/images/logo-bottis.png" class="morpheus-logo" />
+                        </a>
+                    </div>
+                    <!-- <div class="ui-g-10 ui-g-offset-1 divbiru">
+                     <p-dropdown [style]="{'color':'#ff0000 !important'}" [options]="bahasa" [(ngModel)]="bahasaTerpilih" (onChange)="pilihBahasa()" [autoWidth]="false" class="dropdown-login">
+                        <ng-template let-bhs pTemplate="item">
+                            <div class="ui-helper-clearfix">
+                                <span [class]="classBahasa(bhs.value)"></span>
+                                    {{bhs.label}}
+                                </div>
+                        </ng-template>
+                    </p-dropdown>
+               </div>
+               <div class="clearfix"></div> -->
+                    <!-- <div class="ui-g form-group"> -->
+
+                    <!-- <div class="ui-g-12 logo-container">
+                        <a class="morpheus-logo-link" href="#/dashboard">
+                            <span class="morpheus-logo-text">
+                                <div class="icon-login">
+                                    <i class="fa fa-user-circle"></i>
+                                </div>
+                            </span>
+                        </a>
+                    </div> -->
+
+                    <!-- Profile -->
+                    <div class="ui-g-12 login-body-text" *ngIf="!pilProfile">
+                        Selamat Datang Di
+                        <!-- {{ 'frmLoginUtama_selamatdatang' | translate | splitCharT  }}
+                        {{ 'frmLoginUtama_di' | translate | splitCharT  }} -->
+                        <br />
+                        <span class="login-body-text-perusahaan">{{ perusahaan }}</span>
+                        <div class="ui-g-12 hr-border"></div>
+                    </div>
+                    <div class="ui-g-10 divLogin" *ngIf="pilProfile">
+                            <!-- {{ 'frmLoginUtama_perusahaan' | translate | splitCharT  }} -->
+                        <label class="login-body-text" for="per">Perusahaan</label>
+                        <p-dropdown id="per" [style]="{'color':'#ff0000 !important'}" [options]="profile"
+                            [(ngModel)]="profileTerpilih" [disabled]="loading" [autoWidth]="false">
+                        </p-dropdown>
+                        <img *ngIf="loading" src="{{ imgLoading }}" />
+                    </div>
+                    <div class="ui-g-2" *ngIf="pilProfile">
+                        <button pButton type="button" icon="fa-check-square-o" (click)="selectProfile()"></button>
+                    </div>
+
+                    <!-- Modul Aplikasi -->
+                    <div class="ui-g-12 login-body-text" *ngIf="!pilModApp && !pilProfile && showModul">
+                            <!-- {{ 'frmLoginUtama_modulaplikasi' | translate | splitCharT  }} -->
+                        <span width="100%">Modul Aplikasi</span>
+                        <br>
+                        <span style="color:yellow; font-weight: bolder; text-transform: uppercase;">{{ modul }}</span>
+                    </div>
+                    <div class="ui-g-10 divLogin" *ngIf="pilModApp && !pilProfile && !showModul">
+                            <!-- {{ 'frmLoginUtama_modulAplikasi' | translate | splitCharT  }} -->
+                        <label class="login-body-text" for="mod">Modul Aplikasi</label>
+                        <p-dropdown id="mod" [style]="{'color':'#ff0000 !important'}" (onChange)="pilihModApp()"
+                            [options]="modApp" [(ngModel)]="modAppTerpilih" [disabled]="loading" [autoWidth]="false" filter="filter">
+                        </p-dropdown>
+                        <img *ngIf="loading" src="" />
+                    </div>
+                    <!-- <div class="ui-g-10 divLogin" *ngIf="pilModApp && !pilProfile && !showModul">
+                        <label class="login-body-text" for="mod">{{ 'Language Version' | translate | splitCharT  }}</label>
+                        <p-dropdown id="version" [style]="{'color':'#ff0000 !important'}"
+                            [options]="listVersion" [(ngModel)]="versionLang" [disabled]="loading" [autoWidth]="false" filter="filter" (onChange)="pilihVersionLang()">
+                        </p-dropdown>
+                        <img *ngIf="loading" src="" />
+                    </div> -->
+                    <div class="ui-g-2" *ngIf="pilModApp && !pilProfile && !showModul">
+                        <br />
+                        <button pButton type="button" icon="fa-check-square-o" (click)="selectModApp()"></button>
+                    </div>
+
+                    <!-- Lokasi -->
+                    <div class="ui-g-12 login-body-text" *ngIf="!pilLokasi && !pilModApp && !pilProfile">
+                            <!-- {{ 'frmLoginUtama_lokasi' | translate | splitCharT  }} -->
+                        <span width="100%">Lokasi</span>
+                        <br>
+                        <span class="dynamic-label">{{ namalokasi }}</span>
+                    </div>
+                    <div class="ui-g-10 divLogin" *ngIf="pilLokasi && !pilModApp && !pilProfile">
+                            <!-- {{ 'frmLoginUtama_lokasi' | translate | splitCharT  }} -->
+                        <label class="login-body-text-lokasi" for="ru">Lokasi</label>
+                        <p-dropdown class="dropdown-pilih-lokasi" id="lo" [style]="{'color':'#ff0000'}"
+                            [options]="lokasi" [(ngModel)]="lokasiTerpilih" [autoWidth]="false"></p-dropdown>
+                        <img *ngIf="loading" src="{{ imgLoading }}" />
+                    </div>
+                    <div class="ui-g-2" *ngIf="pilLokasi && !pilModApp && !pilProfile">
+                        <br />
+                        <button pButton type="button" icon="fa-check" class="button-pilih-lokasi"
+                            (click)="selectLokasi()"></button>
+                    </div>
+
+                    <!-- Ruangan -->
+                    <div class="ui-g-12 login-body-text" *ngIf="!pilRuangan && !pilLokasi && !pilModApp && !pilProfile">
+                            <!-- {{ 'frmLoginUtama_unitkerja' | translate | splitCharT  }} -->
+                        <span width="100%">Unit Kerja</span>
+                        <br />
+                        <span class="dynamic-label">{{ unitKerja }}</span>
+                    </div>
+                    <div class="ui-g-10 divLogin" *ngIf="pilRuangan && !pilLokasi && !pilModApp && !pilProfile">
+                            <!-- {{ 'frmLoginUtama_unitkerja' | translate | splitCharT  }} -->
+                        <label class="login-body-text" for="ru">Unit Kerja</label>
+                        <p-dropdown id="ru" [style]="{'color':'#ff0000'}" [options]="ruangan"
+                            [(ngModel)]="ruanganTerpilih" [autoWidth]="false"></p-dropdown>
+                        <img *ngIf="loading" src="{{ imgLoading }}" />
+                    </div>
+                    <div class="ui-g-2" *ngIf="pilRuangan && !pillokasi && !pilModApp && !pilProfile">
+                        <br />
+                        <button pButton type="button" icon="fa-check-square-o" (click)="selectRuangan()"></button>
+                    </div>
+
+                    <!-- Komputer Name -->
+                    <!-- <div class="ui-g-12 login-body-text" *ngIf="pilihNamaKomputer">
+                            <span width="100%">{{ 'Nama Komputer' | translate | splitCharT  }}</span>
+                            <br />
+                            <span class="dynamic-label">{{ namaKomputer }}</span>
+                        </div>
+                    <div class="ui-g-10 divLogin"  *ngIf="!pilihNamaKomputer">
+                        <label class="login-body-text" for="ru">{{ 'Nama Komputer' | translate | splitCharT  }}</label>
+                        <input type="text" autocomplete="off" placeholder="" [disabled]="loading" id="namaKomputer"
+                            name="namaKomputer" [(ngModel)]="namaKomputer"required pInputText (keyup)="changeNamaKomputer($event)">
+                        <img *ngIf="loading" src="{{ imgLoading }}" />
+                    </div>
+                    <div class="ui-g-2" *ngIf="!pilihNamaKomputer">
+                        <br />
+                        <button pButton type="button" icon="fa-check-square-o" (click)="selectKomputer()"></button>
+                    </div> -->
+
+                    <!-- Tombol -->
+                    <div class="ui-g-12 ui-md-12">
+                        <div class="button-separator"></div>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                            <!-- {{ 'frmLoginUtama_kembali' | translate | splitCharT  }} -->
+                        <button (click)="kembali()" pButton class="button-kembali" type="button" icon="fa-close"
+                            label="Kembali" [disabled]="loading"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                            <!-- {{ 'frmLoginUtama_selanjutnya' | translate | splitCharT  }} -->
+                        <button (click)="masuk()" pButton class="button-lanjut" type="button"
+                            icon="fa-chevron-circle-right" label="Selanjutnya"
+                            [disabled]="loading || !pilLanjut"></button>
+                    </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui-g-12" *ngIf="!pilAll">
+        <!-- wrapper-bahasa-form-login -->
+        <!-- <div class="ui-g-10 ui-g-offset-1 divbiru">
+				 <p-dropdown [style]="{'color':'#ff0000 !important'}" [options]="bahasa" [(ngModel)]="bahasaTerpilih" (onChange)="pilihBahasa()" [autoWidth]="false" class="dropdown-login">
+					<ng-template let-bhs pTemplate="item">
+						<div class="ui-helper-clearfix">
+							<span [class]="classBahasa(bhs.value)"></span>
+								{{bhs.label}}
+							</div>
+					</ng-template>
+				</p-dropdown>
+			</div> -->
+        <!-- <div class="clearfix"></div> -->
+        <form (ngSubmit)="f.form.valid" #f="ngForm" novalidate (keydown)="keyboardLogin($event,f)">
+            <div class="login-body">
+                <div class="login-panel">
+                    <div class="ui-g login-container">
+                        <div class="ui-g-12 logo-container">
+                            <a class="morpheus-logo-login" href="#/dashboard">
+                                <img src="assets/layout/images/logo-bottis.png" class="morpheus-logo" />
+                                <!-- <span class="morpheus-logo-text">
+                                        ADMIN <span>BOTTIS</span>
+                                    </span> -->
+                            </a>
+                            <h1>BOTTIS <span>LOGIN</span></h1>
+                        </div>
+                        <div class="ui-g-12">
+                            <span class="ui-float-label">
+                                <input type="text" autocomplete="off" placeholder="" [disabled]="loading" id="username"
+                                    name="username" [(ngModel)]="model.username" #username="ngModel" required
+                                    pInputText>
+                                    <!-- {{'frmLoginUtama_username' | translate | splitCharT }} -->
+                                <label class="label-login" for="username">Username</label>
+                            </span>
+                        </div>
+                        <div class="ui-g-12">
+                            <span class="ui-float-label">
+                                <input type="password" autocomplete="off" [disabled]="loading" id="password"
+                                    name="password" [(ngModel)]="model.password" #password="ngModel" required
+                                    pInputText>
+                                    <!-- {{'frmLoginUtama_password' | translate | splitCharT }} -->
+                                <label class="label-login" for="password">Password</label>
+                            </span>
+                        </div>
+                        <div class="ui-g-12 button-container">
+                                <!-- {{ 'frmLoginUtama_signin' | translate | splitCharT  }} -->
+                            <button (click)="loginUser()" pButton type="button" label="Signin"
+                                icon="" iconPos="left" [disabled]="loading || !f.form.valid" class="button-login">
+                            </button>
+                            <img *ngIf="loading" src="{{ imgLoading }}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- </div> -->
+</div>

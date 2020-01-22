@@ -1,0 +1,330 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+
+				<p-dialog header="{{'registrasiAset'| translate | splitCharT }}" [resizable]="false" responsive="true" showEffect="fade" modal="modal" [(visible)]="dialogRegistrasiAset" width="930">
+					<div class="ui-g form-group">
+						<form [formGroup]="formRegistAset">
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-3">
+								<label for="input">{{'statusKepemilikan '| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!formRegistAset.get('kdStatusAset').valid && formRegistAset.get('kdStatusAset').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+								</label>
+								<p-dropdown  filterBy="label" [filter]="true" [options]="listStatusAset" formControlName="kdStatusAset" [autoWidth]="false" (onChange)="statKepemilikan($event)" ></p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-3">
+								<label for="input">{{'noRegistrasiAset'| translate | splitCharT }}</label>
+								<input type="text" formControlName="noRegisterAsetInt" maxlength="30" pInputText/>
+							</div>
+							<div class="ui-g-12 ui-md-3">
+								<label for="input">{{'tanggalRegistrasiAset '| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!formRegistAset.get('tglRegisterAset').valid && formRegistAset.get('tglRegisterAset').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+								</label>
+								<app-calender dateFormat="dd M yy" [showIcon]="true" formControlName="tglRegisterAset" monthNavigator="true" yearNavigator="true"
+								yearRange="1850:2050"></app-calender>
+							</div>
+							<div class="ui-g-12 ui-md-3">
+								<label for="input">{{'kelompokAset'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!formRegistAset.get('kdKelompokAset').valid && formRegistAset.get('kdKelompokAset').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+								</label>
+								<p-dropdown id="dropdownLevel" filterBy="label" [filter]="true" [options]="kelompokAset" formControlName="kdKelompokAset" [autoWidth]="false"></p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-3">
+								<label for="input">{{'namaBarang'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!formRegistAset.get('kdProduk').valid && formRegistAset.get('kdProduk').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+								</label>
+								<p-dropdown id="dropdownLevel" filterBy="label" [filter]="true" [options]="namaBarang" formControlName="kdProduk" [autoWidth]="false"></p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-3">
+								<label for="input">{{'asalBarang'| translate | splitCharT }}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!formRegistAset.get('kdAsalProduk').valid && formRegistAset.get('kdAsalProduk').touched" style="color: red">{{'required'| translate | splitCharT}}</span>
+								</label>
+								<p-dropdown id="dropdownLevel" filterBy="label" [filter]="true" [options]="asalBarang" formControlName="kdAsalProduk" [autoWidth]="false"></p-dropdown>
+							</div>
+							<div class="ui-g-12 ui-md-3">
+								<label for="input">{{'kondisiBarangSaatIni'| translate | splitCharT }}</label>
+								<p-dropdown  filterBy="label" [filter]="true" [options]="kondisiBarangSaatIni" formControlName="kdKondisiProdukCurrent" [autoWidth]="false"></p-dropdown>
+							</div>	
+							<div class="ui-g-12 ui-md-3">
+								<label for="input">{{'tahun'| translate | splitCharT }}</label>
+								<input type="number" formControlName="tahunProduksiBangun"  pInputText/>
+							</div>	
+							<div class="ui-g-12 ui-md-3">
+								<label>{{'keteranganLainnya' | translate | splitCharT }}</label>
+								<textarea formControlName = "keteranganLainnya" rows="5" cols="30" maxlength="500" pInputTextarea></textarea>
+							</div>
+						</div>
+						</form>
+					</div>
+					<div class="ui-g-4"></div>
+					<div class="ui-g-8 form-group">
+						<form [formGroup]="formRegistAset" (ngSubmit)="onSubmitRegistAset()">
+							<div class="ui-g-12 ui-md-2 ui-md-offset-2">
+								<button pButton type="button" label="{{'batal'| translate | splitCharT}}" icon="fa-close" (click)="resetRegistAset()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-2">
+								<button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"></button>
+							</div>
+							<div class="ui-g-12 ui-md-2">
+								<button pButton type="button" label="{{'hapus' | translate | splitCharT }}" icon="fa-trash" (click)="confirmDeleteRegistAset()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-2">
+								<button pButton type="button" label="{{'cetak' | translate | splitCharT }}" icon="fa-print" (click)="cetakRegistAset()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-2">
+								<p-splitButton label="{{'export'| translate | splitCharT }}" icon="fa-external-link" [model]="itemsRegistAset"></p-splitButton>
+								<!-- <button pButton type="button" label="{{'export' | translate | splitCharT }}" icon="fa-external-link"></button> -->
+							</div>
+						</form>
+					</div>
+
+					<div class="ui-g-12">
+						<p-dataTable [value]="listDataRegistAset"  selectionMode="single" [totalRecords]="totalRecordsRegistAset" (onLazyLoad)="loadPageRegistAset($event)"[lazy]="true" [rows]="5" [paginator]="true" [pageLinks]="3"  scrollable="true" resizableColumns="true" [(selection)]="selectedRegistAset" (onRowSelect)="onRowSelectRegistAset($event)" >
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50" placeholder="{{'pencarianNamaBarang'| translate | splitCharT}}" [(ngModel)]="pencarianRegistAset" (keyup)="cariRegistAset()"
+									style="width: 20%;float:right;">
+									<span style="float: left;padding:0.3em;">{{'daftarRegisterAset'| translate | splitCharT}}</span>
+								</div>
+							</p-header>
+							<p-column field="namaStatusAset" header="{{'statusKepemilikan '| translate | splitCharT }}" [style]="{'width':'120px'}"></p-column>
+							<p-column field="noRegisterAsetInt" header="{{'nomorRegistrasiAset'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="tglRegisterAset" header="{{'tglRegisterAset'| translate | splitCharT }}" [style]="{'width':'150px'}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									{{pick.tglRegisterAset * 1000 | date: 'dd MMM yyyy'}}
+								</ng-template>
+							</p-column>
+							<p-column field="namaKelompokAset" header="{{'kelompokAset'| translate | splitCharT }}" [style]="{'width':'120px'}"></p-column>
+							<p-column field="namaProduk" header="{{'namaBarang'| translate | splitCharT }}" [style]="{'width':'120px'}"></p-column>
+							<p-column field="namaAsalProduk" header="{{'asalBarang'| translate | splitCharT }}" [style]="{'width':'120px'}"></p-column>
+							<!-- <p-column field="qtyProdukAset" header="{{'qtyProdukAset'| translate | splitCharT }}" [style]="{'width':'120px'}"></p-column> -->
+							<!-- <p-column field="namaTypeProduk" header="{{'tipeBarang'| translate | splitCharT }}" [style]="{'width':'120px'}"></p-column> -->
+							<!-- <p-column field="namaKategoryAset" header="{{'kategoriAset'| translate | splitCharT }}" [style]="{'width':'120px'}"></p-column> -->
+							<!-- <p-column field="namaUnitKerjaCurrent" header="{{'ruanganUnitKerjaCurrent'| translate | splitCharT }}" [style]="{'width':'200px'}"> </p-column> -->
+							<p-column field="namaKondisiProdukCurrent" header="{{'kondisiBarangSaatIni'| translate | splitCharT }}" [style]="{'width':'200px'}"> </p-column>
+							<p-column field="tahunProduksiBangun" header="{{'tahun'| translate | splitCharT }}" [style]="{'width':'100px'}"> </p-column>
+							<p-column field="keteranganLainnya" header="{{'keteranganLainnya'| translate | splitCharT }}" [style]="{'width':'200px'}"> </p-column>
+							<p-column field="statusEnabled" header="{{'statusEnabled'| translate | splitCharT }}" [style]="{'width':'100px'}"> 
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template> 
+							</p-column>
+						</p-dataTable>
+					</div>
+
+				</p-dialog>
+
+
+
+				<h1>{{'frmMasterPegawaiSkFasilitas_title' | translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-12">
+						<div class="ui-g-12">
+							<form [formGroup]="form" (ngSubmit)="onSubmit()">
+								<div class="ui-g-5">
+									<div class="ui-g-9">
+										<label>{{'frmMasterPegawaiSkFasilitas_namaSK' | translate | splitCharT }}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span *ngIf="!form.get('namaSK').valid && form.get('namaSK').touched" style="color: red">required</span>
+										</label>
+                    <!-- <p-autoComplete formControlName="namaSK" [suggestions]="dataSK" field="namaSK" [size]="30" [minLength]="1" [style]="{'width':'100%'}"
+                      [dropdown]="true" (completeMethod)="filterSk($event)" (onSelect)="pilihSK($event)" class="ui-inputwrapper-filled"
+                      [inputStyle]="{'padding': '0.36em 1.5em 0.36em 0'}"></p-autoComplete> -->
+                      <p-dropdown formControlName="namaSK" (onChange)="ambilSK($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+                      [filter]="true" filterBy="label"></p-dropdown>
+                  </div>
+                  <div class="ui-g-3" style="margin: 19px 0px 0px;">
+                  	<button pButton type="button" (click)="getKelompokTransaksi()" label="{{'frmMasterPegawaiSkFasilitas_btnBuatSk'| translate | splitCharT }}"></button>
+                  </div>
+                  <div class="ui-g-12">
+                  	<label>{{'frmMasterPegawaiSkFasilitas_noSK'| translate | splitCharT }}</label>
+                  	<input id="input" type="text" formControlName="noSK" class="ui-inputwrapper-filled" disabled pInputText/>
+                  	<!-- <span *ngIf="!form.get('noSK').valid && form.get('noSK').touched" style="color: red">*</span> -->
+                  </div>
+                  <div class="ui-g-5">
+                  	<label>{{'frmMasterPegawaiSkFasilitas_tglBerlakuAwal' | translate | splitCharT }}</label>
+                  	<app-calender formControlName="tglBerlakuSkDari" dateFormat="dd M yy" [monthNavigator]="true" [yearNavigator]="true" yearRange="1850:2050"
+                  	[showIcon]="true" class="ui-inputwrapper-filled" disabled="true"></app-calender>
+                  	<!-- <span *ngIf="!form.get('tglBerlakuSkDari').valid && form.get('tglBerlakuSkDari').touched" style="color: red">*</span> -->
+                  </div>
+                  <div class="ui-g-2" style=" margin: 19px 0px 0px 0px; text-align:  center;">s/d</div>
+                  <div class="ui-g-5">
+                  	<label>{{'frmMasterPegawaiSkFasilitas_tglBerlakuAkhir' | translate | splitCharT }}</label>
+                  	<app-calender formControlName="tglBerlakuSkSampai" dateFormat="dd M yy" [monthNavigator]="true" [yearNavigator]="true" yearRange="1850:2050"
+                  	[showIcon]="true" class="ui-inputwrapper-filled" disabled="true"></app-calender>
+                  	<!-- <span *ngIf="!form.get('tglBerlakuSkSampai').valid && form.get('tglBerlakuSkSampai').touched" style="color: red">*</span> -->
+                  </div>
+                  <div class="ui-g-12">
+                  	<label>{{'frmMasterPegawaiSkFasilitas_kategoriPegawai'| translate | splitCharT }}
+                  		<span style="color: red;font-weight: bolder;">*</span>
+                  		<span *ngIf="!form.get('kategoriPegawai').valid && form.get('kategoriPegawai').touched" style="color: red">required</span>
+                  	</label>
+                  	<p-dropdown formControlName="kategoriPegawai" filter="filter" class="ui-inputwrapper-filled" [options]="kategoriPegawai"
+                  	[autoWidth]="false"></p-dropdown>
+                  </div>
+                  <div class="ui-g-12">
+                  	<label for="input">{{'frmMasterPegawaiSkFasilitas_masaKerja' | translate | splitCharT }}
+                  		<span style="color: red;font-weight: bolder;">*</span>
+                  		<span *ngIf="!form.get('masaKerja').valid && form.get('masaKerja').touched" style="color: red">required</span>
+                  	</label>
+                  	<p-dropdown formControlName="masaKerja" filter="filter" class="ui-inputwrapper-filled" [options]="masaKerja" [autoWidth]="false"></p-dropdown>
+                  </div>
+                  <div class="ui-g-12">
+                  	<label for="input">{{'frmMasterPegawaiSkFasilitas_jabatan' | translate | splitCharT }}
+                  		<span style="color: red;font-weight: bolder;">*</span>
+                  		<span *ngIf="!form.get('jabatan').valid && form.get('jabatan').touched" style="color: red">required</span>
+                  	</label>
+                  	<p-dropdown formControlName="jabatan" filter="filter" class="ui-inputwrapper-filled" [options]="jabatan" [autoWidth]="false"></p-dropdown>
+                  </div>
+              </div>
+          </form>
+          <div class="ui-g-7">
+          	<p-fieldset legend="{{'frmMasterPegawaiSkFasilitas_fasilitas'| translate | splitCharT }}" [toggleable]="true">
+          		<div class="ui-g form-group">
+          			<div class="ui-g-12">
+                      <!-- <p-toolbar>
+                        <div class="ui-toolbar-group-left">
+                          <button pButton type="button" label="Tambah" icon="fa-plus" (click)="tambahKomponen()"></button>
+                        </div>
+                    </p-toolbar> -->
+                    <p-dataTable [value]="listFasilitas" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true"
+                    scrollable="true" [responsive]="true">
+                    <p-header>
+                    	<div class="ui-helper-clearfix">
+                    		<button type="button" pButton icon="fa-plus" (click)="tambahKomponen()" style="float:left; font-size: 13px !important;"></button>
+                    	</div>
+                    </p-header>
+                    <p-column field="nama" header="{{'frmMasterPegawaiSkFasilitas_namaProduk'| translate | splitCharT}}" [editable]="true"  [style]="{'width':'100px'}">
+                    	<ng-template let-col let-produk="rowData" pTemplate="body">
+                    		{{produk[col.field].namaProduk}}
+                    	</ng-template>
+                    	<ng-template let-col let-produk="rowData" pTemplate="editor">
+                    		<p-dropdown [(ngModel)]="produk[col.field]" [options]="namaProduk" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                    		appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    	</ng-template>
+                          <!-- <ng-template let-col let-produk="rowData" pTemplate="editor">
+                            <div *ngIf="produk.noSK != null">
+                              {{produk[col.field].namaProduk}}
+                            </div>
+                            <div *ngIf="produk.noSK == null">
+                              <p-dropdown [(ngModel)]="produk[col.field]" [options]="namaProduk" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                                appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                            </div>
+                        </ng-template> -->
+                    </p-column>
+                    <p-column field="qtyProduk" header="{{'frmMasterPegawaiSkFasilitas_qtyProduk'| translate | splitCharT}}" [editable]="true"  [style]="{'width':'70px'}">
+                    	<ng-template let-col let-komponen="rowData" pTemplate="editor">
+                    		<input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                    	</ng-template>
+                    </p-column>
+                    <p-column field="kondisi" header="{{'frmMasterPegawaiSkFasilitas_kondisiProduk'| translate | splitCharT}}" [editable]="true"  [style]="{'width':'100px'}">
+                    	<ng-template let-col let-kondisi="rowData" pTemplate="body">
+                    		{{kondisi[col.field].namaKondisiProduk}}
+                    	</ng-template>
+                    	<ng-template let-col let-kondisi="rowData" pTemplate="editor">
+                    		<p-dropdown [(ngModel)]="kondisi[col.field]" [options]="kondisiProduk" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                    		appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    	</ng-template>
+                          <!-- <ng-template let-col let-kondisi="rowData" pTemplate="editor">
+                            <div *ngIf="kondisi.noSK != null">
+                              {{kondisi[col.field].namaKondisiProduk}}
+                            </div>
+                            <div *ngIf="kondisi.noSK == null">
+                              <p-dropdown [(ngModel)]="kondisi[col.field]" [options]="kondisiProduk" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                                appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                            </div>
+                        </ng-template> -->
+                    </p-column>
+                    <p-column field="resumeSpesifikasi" header="{{'frmMasterPegawaiSkFasilitas_resumeSpesifikasi'| translate | splitCharT}}" [editable]="true" [style]="{'width':'100px'}"></p-column>
+                    <p-column field="keteranganLainnya" header="{{'frmMasterPegawaiSkFasilitas_keteranganLainnya'| translate | splitCharT}}" [editable]="true" [style]="{'width':'100px'}"></p-column>
+                    <p-column field="statusAktif" header="{{'frmMasterPegawaiSkFasilitas_statusAktif'| translate | splitCharT}}" [style]="{'width':'30px'}">
+                    	<ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                    		<p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                    	</ng-template>
+                    </p-column>
+                    <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                    	<ng-template pTemplate="header"></ng-template>
+                    	<ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                    		<div *ngIf="data.noSK == null">
+                    			<button type="button" pButton icon="fa-trash" (click)="hapusRow(i)"></button>
+                    		</div>
+                    	</ng-template>
+                    </p-column>
+                </p-dataTable>
+            </div>
+        </div>
+    </p-fieldset>
+</div>
+</div>
+
+<div class="ui-g-12 form-group">
+	<div class="ui-g-12 ui-md-5"></div>
+	<form [formGroup]="form" (ngSubmit)="onSubmit()">
+		<div class="ui-g-12 ui-md-2">
+			<button pButton type="button" label="{{'frmMasterPegawaiSkFasilitas_btnRegistrasiAset'| translate | splitCharT }}" (click)="registrasiAset()"></button>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<button pButton type="button" label="{{'frmMasterPegawaiSkFasilitas_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<button pButton type="submit" label="{{'frmMasterPegawaiSkFasilitas_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<button pButton type="button" label="{{'frmMasterPegawaiSkFasilitas_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<button pButton type="button" label="{{'frmMasterPegawaiSkFasilitas_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetak()"></button>
+		</div>
+		<div class="ui-g-12 ui-md-1">
+			<p-splitButton label="{{'frmMasterPegawaiSkFasilitas_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+		</div>
+	</form>
+</div>
+</div>
+
+<div class="ui-g-12">
+	<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+	[(selection)]="selected" (onRowSelect)="onRowSelect($event)" scrollable="true" resizableColumns="true" expandableRows="true"
+	[totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" [lazy]="true">
+	<p-header>
+		<div class="ui-helper-clearfix">
+			<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+			<input type="text" pInputText size="50" placeholder="{{'frmMasterPegawaiSkFasilitas_tablePencarianKategoriPegawai'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+			style="width: 20%;float:right;">
+			<span style="float: left;padding:0.3em;">{{'frmMasterPegawaiSkFasilitas_tableDaftarMasterPegawaiSKFasilitas'| translate | splitCharT }}</span>
+		</div>
+	</p-header>
+	<p-column field="noSK" header="{{'frmMasterPegawaiSkFasilitas_tableNoSk' | translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+	<p-column field="namaSK" header="{{'frmMasterPegawaiSkFasilitas_tableNamaSk' | translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+	<p-column field="tglBerlakuAwal" header="{{'frmMasterPegawaiSkFasilitas_tableTglBerlakuSkAwal' | translate | splitCharT }}" [style]="{'width':'150px'}">
+		<ng-template let-pick="rowData" pTemplate type="body">
+			{{pick.tglBerlakuAwal * 1000 | date: 'dd MMM yyyy'}}
+		</ng-template>
+	</p-column>
+	<p-column field="tglBerlakuAkhir" header="{{'frmMasterPegawaiSkFasilitas_tableTglBerlakuSkAkhir' | translate | splitCharT }}" [style]="{'width':'150px'}">
+		<ng-template let-pick="rowData" pTemplate type="body">
+			<span *ngIf="pick.tglBerlakuAkhir == null">-</span>
+			<span *ngIf="pick.tglBerlakuAkhir != null">
+				{{pick.tglBerlakuAkhir * 1000 | date: 'dd MMM yyyy'}}                    
+			</span>
+		</ng-template>
+	</p-column>
+	<p-column field="namaKategoryPegawai" header="{{'frmMasterPegawaiSkFasilitas_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+	<p-column field="namaRange" header="{{'frmMasterPegawaiSkFasilitas_tableMasaKerja'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+	<p-column field="namaJabatan" header="{{'frmMasterPegawaiSkFasilitas_tableJabatan'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+</p-dataTable>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

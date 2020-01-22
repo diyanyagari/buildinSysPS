@@ -1,0 +1,137 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>Master {{'jenisKomponenHargaIndex'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-12">
+						<form [formGroup]="form" (ngSubmit)="onSubmit()">
+								<div class="ui-g-6">
+									<div class="ui-g-12 ui-md-10" hidden>
+										<span class="ui-float-label" hidden>
+										<input id="input" type="text" hidden formControlName="kode" pInputText disabled />
+										<label for="input" hidden>{{'kode'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<span class="ui-float-label">
+									   	  <p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled"  formControlName="kdJenisKomponenHead" [options]="listJenisKomponen"  [autoWidth]="false"></p-dropdown>
+										 
+									  	</span>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<span class="ui-float-label">
+										<input id="input" type="text" formControlName="namaJenisKomponen" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)"  pInputText/>
+										<label for="input">{{'namaJenisKomponenIndex'| translate | splitCharT }}</label>
+										 </span>
+										<span *ngIf="!form.get('namaJenisKomponen').valid && form.get('namaJenisKomponen').touched" style="color: red"> {{'namaJenisKomponen'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<span class="ui-float-label">
+										<input  type="text" formControlName="noUrut" pInputText/>
+										<label for="input">{{'noUrut'| translate | splitCharT}}</label>
+									</span>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<label for="input">{{'statusEnabled'| translate | splitCharT }}</label>
+									</div>
+									<div class="ui-g-12 ui-md-10">
+										<p-checkbox binary="true" label="Aktif" formControlName="statusEnabled"></p-checkbox>
+										<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red"> {{'statusEnabled'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+									</div>
+								</div>
+
+								<div class="ui-g-6">
+									<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+										<form [formGroup]="form" (ngSubmit)="onSubmit()">
+											<div class="ui-g-12 ui-md-10">
+												<span class="ui-float-label">
+												<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+												<label for="input">{{'reportDisplay'| translate | splitCharT }}</label>
+												</span>
+												<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red"> {{'reportDisplay'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<span class="ui-float-label">
+													<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+													<label for="input">{{'kodeEksternal'| translate | splitCharT }}</label>
+													</span>
+												<!-- <span *ngIf="!form.get('kodeExternal').valid && form.get('kodeExternal').touched" style="color: red"> {{'kodeEksternal'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<span class="ui-float-label">
+												<input id="input" type="text" formControlName="namaExternal" pInputText/>
+												<label for="input">{{'namaEksternal'| translate | splitCharT }}</label>
+												</span>
+												<!-- <span *ngIf="!form.get('namaExternal').valid && form.get('namaExternal').touched" style="color: red"> {{'namaEksternal'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span> -->
+											</div>
+										</form>
+									</p-fieldset>
+								</div>
+
+								<div class="ui-g-12">
+									<div class="ui-g-12 ui-md-8"></div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'hapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'batal'| translate | splitCharT}}" icon="fa-close" (click)="reset()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<p-splitButton label="{{'cetak'| translate | splitCharT }}" icon="fa-print" [model]="items"></p-splitButton>
+									</div>
+								</div>
+						</form>
+						</div>
+						<div class="ui-g-12">
+							<div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none;">
+								<i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+								<input type="text" pInputText size="50" placeholder="{{'pencarianNama'| translate | splitCharT}}" [(ngModel)]="pencarian" (keypress)="cari()" style="width: 20%">
+							</div>
+							<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							 scrollable="true" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" expandableRows="true">
+								<p-header>{{'daftarMasterJenisKomponenHargaIndex'| translate | splitCharT}}</p-header>
+								<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+								<p-column field="namaJenisKomponenHead" header="{{'dataParentJenisKomponenIndex'| translate | splitCharT }}"></p-column>
+								<p-column field="namaJenisKomponen" header="{{'namaJenisKomponenIndex'| translate | splitCharT }}"></p-column>
+								<p-column field="noUrut" header="{{'noUrut'| translate | splitCharT }}"></p-column>
+								<p-column field="statusEnabled" header="{{'statusEnabled'| translate | splitCharT }}">
+									<ng-template let-col="rowData" pTemplate type="body">
+										{{col.statusEnabled | truefalse | translate | splitCharT }}
+									</ng-template> 
+								</p-column>
+								<ng-template let-detail pTemplate="rowexpansion">
+									<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+										<div class="ui-grid ui-grid-responsive ui-grid-pad">
+											<div class="ui-grid-col-12">
+												<div class="ui-grid ui-grid-responsive ui-grid-pad">
+													<div class="ui-grid-row">
+														<div class="ui-grid-col-2 label"><span style="color:black">{{ 'optional' | translate | splitCharT }}</span></div>
+													</div>
+													<hr>
+													<div class="ui-grid-row">
+														 <div class="ui-grid label">{{'reportDisplay'| translate | splitCharT }} </div>
+														<div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+													</div>
+													<div class="ui-grid-row">
+														<div class="ui-grid label">{{'kodeExternal' | translate | splitCharT}} </div>
+														<div class="ui-grid-col-4">{{detail.kodeExternal}}</div>
+													</div>
+													<div class="ui-grid-row">
+														<div class="ui-grid label">{{'namaExternal '| translate | splitCharT}} </div>
+														<div class="ui-grid-col-4">{{detail.namaExternal}}</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</ng-template>
+							</p-dataTable>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>

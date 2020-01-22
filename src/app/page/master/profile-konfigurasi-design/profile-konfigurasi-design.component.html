@@ -1,0 +1,195 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+                <h1>{{'frmProfileKonfigurasiDesign_title'| translate | splitCharT }}</h1>
+                <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="ui-g form-group">
+                                <div class="ui-g-12 ui-md-12 ui-lg-3">
+                                    <label>{{'frmProfileKonfigurasiDesign_Profile'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span
+                                            *ngIf="!form.get('kdProfile').valid && form.get('kdProfile').touched"
+                                            style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+                                        formControlName="kdProfile" [options]="listDropdownProfile"
+                                        [autoWidth]="false"></p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-12 ui-lg-3">
+                                    <label>{{'frmProfileKonfigurasiDesign_ModulAplikasi'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched"
+                                            style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+                                        formControlName="kdModulAplikasi" [options]="listDropdownModulAplikasi" [autoWidth]="false">
+                                    </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-12 ui-lg-3">
+                                    <label>{{'frmProfileKonfigurasiDesign_Version'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <!-- <span *ngIf="!form.get('kdVersion').valid && form.get('kdVersion').touched"
+                                            style="color: red"> {{'required'| translate | splitCharT}}</span> -->
+                                    </label>
+                                    <!-- <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+                                        formControlName="kdVersion" [options]="listDropdownVersion" [autoWidth]="false">
+                                    </p-dropdown> -->
+                                    
+                                    <div class="ui-g-12 ui-md-12" 
+                        style="border: 1px solid #cfcfcf; width: 100%;height: 24px;background: #ffffff;padding: 0em;">
+                        <div class="ui-g-12 ui-md-11" (click)="openDropdown()" style="cursor: pointer;
+                        overflow: hidden;
+                        height: 23px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;" *ngIf="selectedVersion != null">
+                          <label>{{selectedVersion}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-11" (click)="openDropdown()" style="cursor: pointer;
+                        overflow: hidden;
+                        height: 23px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;" *ngIf="selectedVersion == null">
+                          <label>{{'-- Pilih Version --' | translate | splitCharT }}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-1" style="text-align: right" style="cursor: pointer;"
+                          (click)="openDropdown()">
+                          <span class="ui-clickable fa fa-fw fa-caret-down" ng-reflect-klass="ui-clickable"
+                            ng-reflect-ng-class="fa fa-fw fa-caret-down"></span>
+                        </div>
+                        
+                        <div class="ui-g-12 ui-md-12"
+                          style="z-index: 1;border:1px solid #cfcfcf; width: 22vw;background: #ffffff;display: none;position: relative; margin: 1.368px 1.4px 1.4px -1px;max-height: 20vh;overflow-y: scroll;"
+                          id="dropdownTree" appendTo="body">
+                          
+                          <p-tree [style]="{'border':'0px','background': '#ffffff'}" [value]="listVersion"
+                            selectionMode="single" [(selection)]="selectedFilesVersion" (onNodeSelect)="nodeSelect($event)"
+                            (onNodeUnselect)="nodeUnselect($event)">
+                          </p-tree>
+                         
+                        </div>
+                        
+                      </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-12 ui-lg-3">
+                                    <label>{{'frmProfileKonfigurasiDesign_DesignTheme'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdDesignTheme').valid && form.get('kdDesignTheme').touched"
+                                            style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+                                        formControlName="kdDesignTheme" [options]="listDropdownDesignTheme" [autoWidth]="false">
+                                    </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-12 ui-lg-3">
+                                    <label>{{'frmProfileKonfigurasiDesign_DesignHome'| translate | splitCharT}}
+                                    </label>
+                                    <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+                                        formControlName="kdDesignHome" [options]="listDropdownDesignHome" [autoWidth]="false">
+                                    </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-12 ui-lg-3">
+                                    <label>{{'frmProfileKonfigurasiDesign_DesignHomeContent'| translate | splitCharT}}
+                                    </label>
+                                    <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+                                        formControlName="kdDesignHomeContent" [options]="listDropdownDesignHomeContent" [autoWidth]="false">
+                                    </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-12 ui-lg-3">
+                                    <label>{{'frmProfileKonfigurasiDesign_Bahasa'| translate | splitCharT}}
+                                    </label>
+                                    <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+                                        formControlName="kdBahasa" [options]="listDropdownBahasa" [autoWidth]="false">
+                                    </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-3">
+                                    <label>{{'frmProfileKonfigurasiDesign_FileRegionalSetting' | translate | splitCharT }}</label>
+                                    <div style="display: flex; padding: 0px; margin: 0px">
+                                        <p-fileUpload #fubauto mode="basic" (onUpload)="imageUpload($event)"
+                                            accept="image/*" name="file" maxFileSize="1000000"
+                                            (onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()"
+                                            auto="true" chooseLabel="Browse" withCredentials="true"></p-fileUpload>
+                                        <input id="imagePath" type="text" formControlName="pathFileRegionalSetting"
+                                            [(ngModel)]="pathFileRegionalSetting" disabled pInputText />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <p-checkbox binary="true" label="{{'frmProfileKonfigurasiDesign_StatusEnable'| translate | splitCharT }}"
+                                            formControlName="statusEnabled"> </p-checkbox>
+                                        <span
+                                            *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                                            style="color: red">*</span>
+                                        <span
+                                            *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                                            style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12">
+                                    <div class="ui-g-12 ui-md-7"></div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmProfileKonfigurasiDesign_btnBatal'| translate | splitCharT}}"
+                                            icon="fa-refresh" (click)="reset()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="submit" label="{{'frmProfileKonfigurasiDesign_btnSimpan'| translate | splitCharT}}"
+                                            icon="fa-save"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmProfileKonfigurasiDesign_btnHapus'| translate | splitCharT}}"
+                                            icon="fa-trash" (click)="confirmDelete()" [disabled]="formAktif"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmProfileKonfigurasiDesign_btnCetak'| translate | splitCharT}}"
+                                            icon="fa-print" (click)="cetak()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <p-splitButton label="{{'frmProfileKonfigurasiDesign_btnExport'| translate | splitCharT }}"
+                                            icon="fa-external-link" [model]="items"></p-splitButton>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ui-g-12 ui-fluid">
+                        <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+                            [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected"
+                            (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="Loading"
+                            loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)"
+                            expandableRows="true">
+                            <p-header>
+                                <div class="ui-helper-clearfix">
+                                    <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                    <input type="text" pInputText size="50"
+                                        placeholder="{{'frmProfileKonfigurasiDesign_Pencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+                                        (keyup)="cari()" style="width: 20%;float:right;">
+                                    <span style="float: left;padding:0.3em;">{{'frmProfileKonfigurasiDesign_titleTable'| translate | splitCharT}}</span>
+                                </div>
+                            </p-header>
+                            <p-column header="{{'frmProfileKonfigurasiDesign_TableNo'| translate | splitCharT }}" [style]="{'width':'50px'}">
+                                <ng-template let-col="rowData" let-i="rowIndex" pTemplate type="body">
+                                    {{i + 1}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="namaLengkap" header="{{'frmProfileKonfigurasiDesign_TableNamaProfile'| translate | splitCharT }}"></p-column>
+                            <p-column field="namaModulAplikasi" header="{{'frmProfileKonfigurasiDesign_TableModulAplikasi'| translate | splitCharT }}"></p-column>
+                            <p-column field="namaVersionSystem" header="{{'frmProfileKonfigurasiDesign_TableVersion'| translate | splitCharT }}"></p-column>
+                            <p-column field="namaDesignTheme" header="{{'frmProfileKonfigurasiDesign_TableDesignTheme'| translate | splitCharT }}"></p-column>
+                            <p-column field="namaDesignHome" header="{{'frmProfileKonfigurasiDesign_TableDesignHome'| translate | splitCharT }}"></p-column>
+                            <p-column field="namaDesignHomeContent" header="{{'frmProfileKonfigurasiDesign_TableDesignHomeContent'| translate | splitCharT }}"></p-column>
+                            <p-column field="namaBahasa" header="{{'frmProfileKonfigurasiDesign_TableBahasa'| translate | splitCharT }}"></p-column>
+                            <p-column field="pathFileRegionalSetting" header="{{'frmProfileKonfigurasiDesign_TablePathFileRegionalSetting'| translate | splitCharT }}"></p-column>
+                            <p-column field="statusEnabled" header="{{'frmProfileKonfigurasiDesign_TableStatusEnable'| translate | splitCharT }}">
+                                <ng-template let-col="rowData" pTemplate type="body">
+                                    {{col.statusEnabled | truefalse | translate | splitCharT }}
+                                </ng-template>
+                            </p-column>
+                        </p-dataTable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

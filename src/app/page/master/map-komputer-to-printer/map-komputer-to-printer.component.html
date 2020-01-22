@@ -1,0 +1,127 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'' | translate | splitCharT }}</h1>
+        <form [formGroup]="form">
+          <div class="ui-g form-group">
+            <div class="ui-g-12 ui-md-8">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>{{'Host' | translate | splitCharT }}<span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('host').valid && form.get('host').touched" style="color: red">
+                    {{'required'| translate | splitCharT}}</span></label>
+                <input id="input" type="text" formControlName="host" pInputText />
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>{{'Nama Printer' | translate | splitCharT }}<span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('namaPrinter').valid && form.get('namaPrinter').touched" style="color: red">
+                    {{'required'| translate | splitCharT}}</span></label>
+                <p-dropdown id="namaPrinter" filter="filter" class="ui-inputwrapper-filled"
+                  formControlName="namaPrinter" [options]="listPrinter" [autoWidth]="false">
+                </p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>{{'Printer Action' | translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('printerAction').valid && form.get('printerAction').touched"
+                    style="color: red">
+                    {{'required'| translate | splitCharT}}</span></label>
+                <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="-- Pilih Aksi Printer --"
+                  formControlName="printerAction" [options]="listPrinterAction" [autoWidth]="false"></p-dropdown>
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>{{'Shortcut' | translate | splitCharT }}<span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('shoutcart').valid && form.get('shoutcart').touched" style="color: red">
+                    {{'required'| translate | splitCharT}}</span></label>
+                <input id="input" type="text" formControlName="shoutcart" pInputText />
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <label>{{'keterangan' | translate | splitCharT }}</label>
+                <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize"
+                  formControlName="keterangan"></textarea>
+              </div>
+              <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <p-checkbox binary="true" label="{{'Status'| translate | splitCharT }}" formControlName="statusEnabled">
+                </p-checkbox>
+                <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                  style="color: red">*</span>
+                <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">
+                  {{'required'| translate | splitCharT}}</span>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-7"></div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" (click)="onSubmit()" label="{{'Simpan'| translate | splitCharT }}"
+                  icon="fa-save"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" (click)="confirmDelete()" [disabled]="buttonAktif"
+                  label="{{'Hapus'| translate | splitCharT }}" icon="fa-trash"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" (click)="reset()" label="{{'Batal'| translate | splitCharT }}"
+                  icon="fa-refresh"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="submit" label="{{'Cetak'| translate | splitCharT }}" icon="fa-print"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <p-splitButton label="{{'Export'| translate | splitCharT }}" icon="fa-external-link" [model]="items">
+                </p-splitButton>
+
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <!-- <h1>{{'daftar' | translate | splitCharT }}</h1> -->
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                  <!-- <input type="text" pInputText size="50" placeholder="{{'tablePencarian'| translate | splitCharT}}"
+                    [(ngModel)]="pencarianSlogan" (keyup)="cari()" [ngModelOptions]="{standalone: true}"
+                    appendTo="body"> -->
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-4 ui-lg-4 ui-md-offset-2" style="background:darkgrey">
+                <button pButton icon="fa fa-close" style="padding:0.5em 0.5em;float:right;width: 30px;height: 30px;"
+                  appendTo="body" (click)="reset()"></button>
+                <button pButton icon="fa fa-search" style="padding:0.5em 0.5em;float:right;width: 30px;height: 30px;"
+                  (click)="cari()" appendTo="body"></button>
+                <div class="ui-g-12 ui-md-5" style="width: 79%;float: right">
+                  <input type="text" pInputText size="50" placeholder="{{'tablePencarian'| translate | splitCharT}}"
+                    [(ngModel)]="pencarian" (keyup)="cari()" [ngModelOptions]="{standalone: true}" appendTo="body">
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+                [rowsPerPageOptions]="[5,10,20]" (onLazyLoad)="loadPage($event)" [lazy]="true"
+                (onRowSelect)="onRowSelect($event)" [(selection)]="selected" [rows]="10" [paginator]="true"
+                [rowsPerPageOptions]="[5,10,20]" selectionMode="single" scrollable="true">
+                <p-header>
+                </p-header>
+                <p-column field="number" header="{{'No.' | translate | splitCharT }}" [style]="{'width': '50px'}"></p-column>
+                <p-column field="kode.host" header="{{'Host' | translate | splitCharT }}" [style]="{'width': '150px'}">
+                </p-column>
+                <p-column field="namaPrinter" header="{{'Nama Printer' | translate | splitCharT }}" [style]="{'width': '150px'}">
+                </p-column>
+                <p-column field="kode.shoutcart" header="{{'Shortcut' | translate | splitCharT }}" [style]="{'width': '150px'}">
+                </p-column>
+                <p-column field="printerAction" header="{{'Printer Action' | translate | splitCharT }}" [style]="{'width': '150px'}">
+                </p-column>
+                <p-column field="keterangan" header="{{'Keterangan' | translate | splitCharT }}" [style]="{'width': '150px'}">
+                </p-column>
+                <p-column field="statusEnabled" header="{{'Aktif' | translate | splitCharT }}" [style]="{'width': '80px'}">
+                  <ng-template let-col="rowData" pTemplate type="body">
+                    {{col.statusEnabled | truefalse | translate | splitCharT }}
+                  </ng-template>
+                </p-column>
+              </p-dataTable>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

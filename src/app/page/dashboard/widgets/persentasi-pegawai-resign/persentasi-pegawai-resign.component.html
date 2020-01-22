@@ -1,0 +1,32 @@
+<div class="cicing-content activity-feed">
+	<div class="overview-chart-top">
+		<p-toolbar>
+			<div class="ui-toolbar-group-left">
+				<span class="overview-box-name">{{'PERSENTASI PEGAWAI RESIGN' | translate | splitCharT | splitCharT }}</span>
+			</div>
+			<div class="ui-toolbar-group-right" style="margin-right: 55px">
+				<p-dropdown [options]="listTampilan" [autoWidth]="false" [(ngModel)]="tampilanPersentasiPegawaiResign"></p-dropdown>
+			</div>
+		</p-toolbar>
+	</div>
+	<div id="dataResign" style="overflow: auto; height: 274px">
+		<p-chart type="polarArea" [data]="" *ngIf="tampilanPersentasiPegawaiResign == 4"></p-chart>
+		<p-chart type="bar" [data]="" *ngIf="tampilanPersentasiPegawaiResign == 2"></p-chart>
+		<p-chart type="line" [data]="" *ngIf="tampilanPersentasiPegawaiResign == 3"></p-chart>
+		<p-dataTable *ngIf="tampilanPersentasiPegawaiResign == 1" [value]="dataPegawaiResign" [rows]="10" [paginator]="true" [pageLinks]="3">
+			<p-column header="Nomor" [style]="{'width':'60px'}">
+				<ng-template let-index="rowIndex+1" pTemplate="body">
+					{{index}}
+				</ng-template>
+			</p-column>
+			<p-column field="nIKIntern" header="NIK" [style]="{'text-align':'left'}"></p-column>
+			<p-column field="namaLengkap" header="{{'Nama Pegawai' | translate | splitCharT | splitCharT }}" [style]="{'text-align':'left'}"></p-column>
+			<p-column field="namaRuangan" header="Unit Kerja" [style]="{'text-align':'left'}"></p-column>
+			<p-column field="tglBerlakuAwal" header="Tanggal Efektif Resign" [style]="{'text-align':'left'}">
+				<ng-template let-pick="rowData" pTemplate type="body">
+					{{pick.tglBerlakuAwal * 1000 | date: 'dd MMM yyyy'}}
+				</ng-template>
+			</p-column>
+		</p-dataTable>
+	</div>
+</div>

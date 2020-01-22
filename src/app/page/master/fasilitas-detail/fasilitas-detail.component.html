@@ -1,0 +1,223 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+                <h1>{{ 'frmFasilitasDetail_title' | translate | splitCharT  }}</h1>
+                <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="ui-g form-group">
+                                <div class="ui-g-12 ui-md-5">
+                                    <div class="ui-g-12 ui-md-5">
+                                        <label>{{'frmFasilitasDetail_kdFasilitas'| translate | splitCharT }}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span
+                                                *ngIf="!form.get('kdFasilitas').valid && form.get('kdFasilitas').touched"
+                                                style="color: red">{{'required'| translate | splitCharT}}</span>
+                                        </label> 
+                                        <p-dropdown #da filter="filter" class="ui-inputwrapper-filled"
+                                            formControlName="kdFasilitas" [options]="dropdownFasilitas"
+                                            [autoWidth]="false" resetFilterOnHide="true"></p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-7">
+                                        <label>{{'frmFasilitasDetail_namaFasilitasDetail'| translate | splitCharT }}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span
+                                                *ngIf="!form.get('naNoFasilitasDetail').valid && form.get('naNoFasilitasDetail').touched"
+                                                style="color: red">{{'required'| translate | splitCharT}}</span>
+                                        </label>
+                                        <input id="input" type="text" formControlName="naNoFasilitasDetail"
+                                            [(ngModel)]="naNoFasilitasDetail" (ngModelChange)="valuechange($event)" maxlength="100" 
+                                            pInputText />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-2">
+                                        <label>{{'frmFasilitasDetail_qtyBed'| translate | splitCharT }}
+                                             <span style="color: red;font-weight: bolder;">*</span>
+                                            <span
+                                                *ngIf="!form.get('qtyBed').valid && form.get('qtyBed').touched"
+                                                style="color: red">{{'required'| translate | splitCharT}}</span>
+                                        </label>
+                                        <input id="input" type="number" min="0" formControlName="qtyBed" onkeypress="return event.charCode != 45"
+                                            [(ngModel)]="qtyBed" pInputText />
+                                    </div>
+                                   
+                                    <div class="ui-g-12 ui-md-5">
+                                        <label>{{'frmFasilitasDetail_kdRuangan'| translate | splitCharT }}
+                                        </label>
+                                        <p-dropdown #db filter="filter" class="ui-inputwrapper-filled"
+                                            formControlName="kdRuangan" [options]="dropdownRuangan" (onChange)="getKelasByRuangan(form.get('kdRuangan').value,'')"
+                                            [autoWidth]="false" resetFilterOnHide="true"></p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-5">
+                                        <label>{{'frmFasilitasDetail_kdKelas'| translate | splitCharT }}
+                                        </label>
+                                        <p-dropdown #dc filter="filter" class="ui-inputwrapper-filled"
+                                            formControlName="kdKelas" [options]="dropdownKelas"
+                                            [autoWidth]="false" resetFilterOnHide="true"></p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-7">
+                                        <label>{{'frmFasilitasDetail_noRegisterAset'| translate | splitCharT }}
+                                        </label>
+                                        <p-dropdown #dd filter="filter" class="ui-inputwrapper-filled"
+                                            formControlName="noRegisterAset" [options]="dropdownRegisterAset"
+                                            [autoWidth]="false" resetFilterOnHide="true"></p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-5">
+                                        <br>
+                                        <p-checkbox binary="true" label="{{'frmFasilitasDetail_statusAktif'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12 ui-md-3">
+                                    <label>{{'frmFasilitasDetail_deskripsiDetailFasilitas'| translate | splitCharT }}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span
+                                            *ngIf="!form.get('deskripsiFasilitasDetail').valid && form.get('deskripsiFasilitasDetail').touched"
+                                            style="color: red">{{'required'| translate | splitCharT}}
+                                        </span>
+                                    </label>
+                                    <!-- width: 57.3vh -->
+                                    <textarea style="height: 18vh" [rows]="4" [cols]="60"
+                                        id="deskripsiFasilitasDetail" type="text"
+                                        formControlName="deskripsiFasilitasDetail"
+                                        [(ngModel)]="deskripsiFasilitasDetail" pInputTextarea
+                                        autoResize="autoResize" [maxlength]="300" required></textarea>
+                                </div>
+                                <div class="ui-g-12 ui-md-4">
+                                    <p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+                                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                            <div class="ui-g form-group">
+                                                <div class="ui-g-12 ui-md-11">
+                                                    <label>{{'frmFasilitasDetail_reportDisplay'| translate | splitCharT }}
+                                                        <span
+                                                            *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched"
+                                                            style="color: red">*</span>
+                                                        <span
+                                                            *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched"
+                                                            style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                                    </label>
+                                                    <input id="input" formControlName="reportDisplay"
+                                                        [(ngModel)]="report" maxlength="100" pInputText />
+
+                                                </div>
+                                                <div class="ui-g-12 ui-md-11">
+                                                    <label>{{'frmFasilitasDetail_kodeExternal'| translate | splitCharT }}</label>
+                                                    <input id="input" type="text" formControlName="kodeExternal"
+                                                        [(ngModel)]="kodeExternal" maxlength="15" pInputText />
+                                                </div>
+                                                <div class="ui-g-12 ui-md-11">
+                                                    <label>{{'frmFasilitasDetail_namaExternal'| translate | splitCharT }}</label>
+                                                    <input id="input" type="text" formControlName="namaExternal"
+                                                        [(ngModel)]="namaExternal" maxlength="100" pInputText />
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </p-fieldset>
+                                </div>
+                                <div class="ui-g-12">
+                                    <div class="ui-g-12 ui-md-7"></div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmFasilitasDetail_btnBatal'| translate | splitCharT}}"
+                                            icon="fa-refresh" (click)="reset();clearFilter(da,db,dc,dd)"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmFasilitasDetail_btnSimpan'| translate | splitCharT}}"
+                                            icon="fa-save" (click)="onSubmit();clearFilter(da,db,dc,dd)"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmFasilitasDetail_btnHapus'| translate | splitCharT}}"
+                                            icon="fa-trash" (click)="confirmDelete()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmFasilitasDetail_btnCetak'| translate | splitCharT}}"
+                                            icon="fa-print" (click)="cetak()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <p-splitButton label="{{'frmFasilitasDetail_btnExport'| translate | splitCharT }}" icon="fa-external-link"
+                                            [model]="items"></p-splitButton>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ui-g-12">
+                        <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+                            [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected"
+                            (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading"
+                            loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)"
+                            expandableRows="true">
+                            <p-header>
+                                <div class="ui-helper-clearfix">
+                                    <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                    <input type="text" pInputText size="50"
+                                        placeholder="{{'frmFasilitasDetail__DaftarnamaFasilitasPencarian'| translate | splitCharT}}"
+                                        [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+                                    <span
+                                        style="float: left;padding:0.3em;">{{'frmFasilitasDetail__DaftarFasilitasTitle'| translate | splitCharT }}</span>
+                                </div>
+                            </p-header>
+                            <p-column expander="true" styleClass="col-icon" [style]="{'width':'30px'}"> </p-column>
+                            <p-column header="{{'frmFasilitasDetail_tableNo' | translate | splitCharT }}" [style]="{'width':'30px'}">
+                                <ng-template pTemplate="body" let-i="rowIndex">
+                                    {{i+1}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="namaFasilitas" header="{{'frmFasilitasDetail_kdFasilitas'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                            <p-column field="naNoFasilitasDetail" header="{{'frmFasilitasDetail_namaFasilitasDetail'| translate | splitCharT}}" [style]="{'width':'220px'}"></p-column>
+                            <p-column field="qtyBed" header="{{'frmFasilitasDetail_qtyBed'| translate | splitCharT}}" [style]="{'width':'80px'}"></p-column>
+                            <p-column field="namaRuangan" header="{{'frmFasilitasDetail_kdRuangan'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                            <p-column field="namaKelas" header="{{'frmFasilitasDetail_kdKelas'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                            <p-column field="noRegisterAset" header="{{'frmFasilitasDetail_noRegisterAset'| translate | splitCharT}}" [style]="{'width':'200px'}">
+                                <ng-template let-col="rowData" pTemplate type="body">
+                                    {{col.noRegisterAset}} -  {{col.namaProduk}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="statusEnabled" header="{{'frmFasilitasDetail__tableStatus'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                                <ng-template let-col="rowData" pTemplate type="body">
+                                    {{col.statusEnabled | truefalse | translate | splitCharT }}
+                                </ng-template>
+                            </p-column>
+                            <ng-template let-fasilitasdetail pTemplate="rowexpansion">
+                                <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                        <div class="ui-grid-col-12">
+                                            <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid-col-2 label">
+                                                        <span style="color:black">{{ 'frmFasilitasDetail_optional' | translate | splitCharT }}</span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">
+                                                        {{'frmFasilitasDetail_deskripsiDetailFasilitas'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{fasilitasdetail.deskripsiFasilitasDetail}}
+                                                    </div>
+                                                </div>                                                
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmFasilitasDetail_reportDisplay'| translate | splitCharT }}
+                                                    </div>
+                                                    <div class="ui-grid-col-4"> {{fasilitasdetail.reportDisplay}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmFasilitasDetail_kodeExternal' | translate | splitCharT}}
+                                                    </div>
+                                                    <div class="ui-grid-col-4">{{fasilitasdetail.kodeExternal}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmFasilitasDetail_namaExternal'| translate | splitCharT}}
+                                                    </div>
+                                                    <div class="ui-grid-col-4">{{fasilitasdetail.namaExternal}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dataTable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

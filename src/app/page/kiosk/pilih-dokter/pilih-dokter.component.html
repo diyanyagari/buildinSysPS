@@ -1,0 +1,85 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<p-dialog header="" [(visible)]="pilihDialog" 
+modal="modal" width="306" [responsive]="true">
+    <div class="ui-g form-group">
+        <div class="ui-g-12">
+            <app-calender [monthNavigator]="true" [yearNavigator]="true" [showIcon]="false"
+                dateFormat="dd M yy" appendTo="body" id="tglPelayananPilih"
+                [(ngModel)]="tglPelayananPilih" yearRange="{{rangeTahun}}"
+                (onSelect)="pilihTanggal($event)" [minDate]="minDate">
+            </app-calender>
+            <p-dropdown [style]="{'position':'fixed','width': '122px'}" class="ui-inputwrapper-filled" (onChange)="pilihJamPopUp($event)" id="dropdownJamPopUp" [(ngModel)]="dataJamPop" filter="filter" [options]="listDataJamPop" [autoWidth]="false"></p-dropdown>
+        </div>
+    </div>
+</p-dialog>
+
+<div class="kiosk-main">
+    <div class="header-title">
+        <div class="container">
+            <div class="header-item action">
+                <img src="../../../../assets/layout/images/kiosk/home.svg" [routerLink]="['/kiosk']" alt="home">
+            </div>
+            <div id="infoTglKunjungan">
+                <h4>
+                    {{'frmKiosKAntrian_TanggalKunjungan' | translate | splitCharT }} :
+                </h4>
+                <label for="infoTgl">{{tglKunjungan * 1000 | date:'dd MMM yyyy'}}</label>
+            </div>
+            <div class="header-item-khusus">
+                <img src="../../../../assets/layout/images/kiosk/icon-antrian.png" alt="icon">
+                <h2>{{'frmKiosKAntrian_antrianPasien' | translate | splitCharT }} {{jenisAsalPasien.nama}} - {{'frmKiosKAntrian_pilihDokter' | translate | splitCharT }}</h2>
+            </div>
+            <div class="header-item action">
+                <img src="../../../../assets/layout/images/kiosk/power-button.svg" alt="logout"
+                    (click)="logout($event)">
+            </div>
+        </div>
+        <div class="container-grid">
+            <div class="main-content" id="mainContent">
+                <!-- <div></div>
+                <div></div> -->
+                <div *ngFor="let dat of listData; let i = index" style="padding: 10px;" id="dok-{{i}}">
+                    <img *ngIf="listData[i].gambarIcon !== null" [src]="(listData[i].gambarIcon | imgsec) | async"
+                        width="35" height="35" border="3" alig (click)="clickDokter(listData[i],i)" style="    margin-top: 30px;
+                        margin: 0 auto;
+                        border: 10px solid rgba(0, 0, 0, 0.2);
+                        display: block;
+                        height: 200px;
+                        width: 180px;" />
+                    <!-- <a href="#" class="underlined" (click)="clickDokter(listData[i],i)">{{listData[i].namaLengkap}}</a> -->
+                    <p style="font-size:16px" (click)="clickDokter(listData[i],i)">{{listData[i].namaLengkap}}</p>
+                    <p style="font-size: 14px;">({{listData[i].jamAwal}}-{{listData[i].jamAkhir}})</p>
+                    <div *ngIf="this.isRuangan != 'true' && this.jenisAsalPasien.statusPasien != this.kdStatusSetting">
+                            <p style="font-size:13px">{{dat.counter}} dari {{dat.qtyPasienMax}}</p>
+                            <app-calender (onFocus)="focusTglPelayanan()" [monthNavigator]="true" [yearNavigator]="true" [showIcon]="false"
+                            dateFormat="dd M yy" appendTo="body" id="tglPelayananPilih"
+                            [(ngModel)]="dat.tglSekarang" yearRange="{{rangeTahun}}"
+                            (onSelect)="pilihTanggal2($event,listData[i],i)" [minDate]="minDate" [style]="{'height':'29px'}">
+                            </app-calender>
+                            <p-dropdown class="ui-inputwrapper-filled" (onChange)="pilihJam($event,listData[i],i)" id="dropdownJam" [(ngModel)]="selectedJam" filter="filter" [options]="dat.arrayJam" [autoWidth]="false">
+                            </p-dropdown>
+                            <!-- <button class="btn-kalender fa fa-calendar" (click)="popUpPilihKalender(dat.kdPegawai,i)" ></button> -->
+                    </div>
+                   
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="informasi-action">
+        <div class="container">
+            <div class="ui-g-6">
+                <button class="btn-kembali" style="float: right;margin-right: 25px;cursor: pointer;"
+                (click)="kembali()">{{'frmKiosKAntrian_Kembali' | translate | splitCharT }}</button>
+            </div>
+            <div class="ui-g-6" *ngIf="buttonAktif == true">
+                <button class="btn-cetak-nomor" style="float: left;margin-left: 25px;opacity: 0.4;"
+                    (click)="cetakNoAntrian()" [disabled]="buttonAktif">{{'frmKiosKAntrian_CetakNomorAntrian' | translate | splitCharT }}</button>
+            </div>
+            <div class="ui-g-6" *ngIf="buttonAktif == false">
+                <button class="btn-cetak-nomor" style="float: left;margin-left: 25px;cursor: pointer;"
+                    (click)="cetakNoAntrian()" [disabled]="buttonAktif">{{'frmKiosKAntrian_CetakNomorAntrian' | translate | splitCharT }}</button>
+            </div>
+        </div>
+    </div>
+</div>

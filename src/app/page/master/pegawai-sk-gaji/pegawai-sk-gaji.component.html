@@ -1,0 +1,149 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1> {{'frmPegawaiSKGaji_title'| translate | splitCharT }}</h1>
+        <div class="ui-g form-group">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="ui-g-6">
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'frmPegawaiSKGaji_pegawai'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownPegawai" [options]="kodePegawai" formControlName="kdPegawai" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('kdPegawai').valid && form.get('kdPegawai').touched" style="color: red"> {{'frmPegawaiSKGaji_pegawai'| translate | splitCharT}} {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'frmPegawaiSKGaji_noSK'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="kode" pInputText/>
+                <span *ngIf="!form.get('kode').valid && form.get('kode').touched" style="color: red"> {{'kode'| translate | splitCharT}} {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'frmPegawaiSKGaji_komponenHarga'| translate | splitCharT }} </label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownKomponenHarga" [options]="kodeKomponenHarga" formControlName="kdKomponenHarga" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('kdKomponenHarga').valid && form.get('kdKomponenHarga').touched" style="color: red"> {{'frmPegawaiSKGaji_komponenHarga'| translate | splitCharT}} {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'frmPegawaiSKGaji_hargaSatuan'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="hargaSatuan" pInputText/>
+                <span *ngIf="!form.get('hargaSatuan').valid && form.get('hargaSatuan').touched" style="color: red"> {{'frmPegawaiSKGaji_hargaSatuan'| translate | splitCharT}} {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'frmPegawaiSKGaji_persenHargaSatuan'| translate | splitCharT }} </label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="persenHargaSatuan" pInputText/>
+                <span *ngIf="!form.get('persenHargaSatuan').valid && form.get('persenHargaSatuan').touched" style="color: red"> {{'frmPegawaiSKGaji_persenHargaSatuan'| translate | splitCharT}} {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'frmPegawaiSKGaji_faktorRate'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="faktorRate" pInputText/>
+                <span *ngIf="!form.get('faktorRate').valid && form.get('faktorRate').touched" style="color: red"> {{'frmPegawaiSKGaji_faktorRate'| translate | splitCharT}} {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'frmPegawaiSKGaji_operatorFaktorRate'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownOperatorRate" [options]="kodeOperatorRate" formControlName="kdOperatorRate" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('kdOperatorRate').valid && form.get('kdOperatorRate').touched" style="color: red"> {{'frmPegawaiSKGaji_operatorFaktorRate'| translate | splitCharT}} {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+            </div>
+            <div class="ui-g-6">
+              <div class="ui-g-12 ui-md-4"></div>
+              <div class="ui-g-12 ui-md-4">
+                <p-checkbox binary="true" label="Is By Day" formControlName="status1"></p-checkbox>
+                <span *ngIf="!form.get('status1').valid && form.get('status1').touched" style="color: red"> {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <p-checkbox binary="true" label="Is By Week" formControlName="status2"></p-checkbox>
+                <span *ngIf="!form.get('status2').valid && form.get('status2').touched" style="color: red"> {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4"></div>
+              <div class="ui-g-12 ui-md-4">
+                <p-checkbox binary="true" label="Is By Month" formControlName="status3"></p-checkbox>
+                <span *ngIf="!form.get('status3').valid && form.get('status3').touched" style="color: red"> {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <p-checkbox binary="true" label="Is By Year" formControlName="status4"></p-checkbox>
+                <span *ngIf="!form.get('status4').valid && form.get('status4').touched" style="color: red"> {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'frmPegawaiSKGaji_metodePembayaran'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownMetode" [options]="kodeMetodePembayaran" formControlName="kdMetodePembayaran" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('kdMetodePembayaran').valid && form.get('kdMetodePembayaran').touched" style="color: red"> {{'frmPegawaiSKGaji_metodePembayaran'| translate | splitCharT}} {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'frmPegawaiSKGaji_mataUang' | translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownMataUang" [options]="kodeMataUang" formControlName="kdMataUang" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('kdMataUang').valid && form.get('kdMataUang').touched" style="color: red"> {{'frmPegawaiSKGaji_mataUang'| translate | splitCharT}} {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'frmPegawaiSKGaji_keteranganLainnya'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="keterangan" pInputText/>
+                <span *ngIf="!form.get('keterangan').valid && form.get('keterangan').touched" style="color: red"> {{'frmPegawaiSKGaji_keterangan'| translate | splitCharT}} {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'frmPegawaiSKGaji_nomorRec'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="noRec" pInputText/>
+                <span *ngIf="!form.get('noRec').valid && form.get('noRec').touched" style="color: red"> {{'frmPegawaiSKGaji_noRec'| translate | splitCharT}} {{'frmPegawaiSKGaji_isRequired'| translate | splitCharT}}.</span>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="submit" label="{{'frmPegawaiSKGaji_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmPegawaiSKGaji_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmPegawaiSKGaji_btnBatal'| translate | splitCharT }}" icon="fa-close" (click)="reset()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmPegawaiSKGaji_btnCetak'| translate | splitCharT }}" icon="fa-print"></button>
+              </div>
+            </div>
+          </form>
+          <div class="ui-g-12">
+            <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none; width: 98%">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" [(ngModel)]="pencarian" (keypress)="cari()" style="width: 20%">
+            </div>
+            <p-dataTable [value]="listData" [rows]="10" [paginator]="true" scrollable="true" frozenWidth="150px" unfrozenWidth="1200px"
+              [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)">
+              <p-header>{{'frmPegawaiSKGaji_tableListPegawaiSKGaji'| translate | splitCharT }}</p-header>
+              <p-column field="pegawai" header="{{'frmPegawaiSKGaji_tablePegawai'| translate | splitCharT }}" [style]="{'width':'100px'}" frozen="true"></p-column>
+              <p-column field="id.kode" header="{{'frmPegawaiSKGaji_tableNoSK'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="namaKomponenHarga" header="{{'frmPegawaiSKGaji_tableKomponenHarga'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="hargaSatuan" header="{{'frmPegawaiSKGaji_tableHargaSatuan'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="persenHargaSatuan" header="{{'frmPegawaiSKGaji_tablePersenHargaSatuan'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="faktorRate" header="{{'frmPegawaiSKGaji_tableFaktorRate'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="operatorFaktorRate" header="{{'frmPegawaiSKGaji_tableOperatorFaktorRate'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="metodePembayaran" header="{{'frmPegawaiSKGaji_tableMetodePembayaran'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="mataUang" header="{{'frmPegawaiSKGaji_tableMataUang'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="keteranganLainnya" header="{{'frmPegawaiSKGaji_tableKeteranganLainnya'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="noRec" header="{{'frmPegawaiSKGaji_tableNoRec'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

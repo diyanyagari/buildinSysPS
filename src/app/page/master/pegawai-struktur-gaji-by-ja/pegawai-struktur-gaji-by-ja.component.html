@@ -1,0 +1,100 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1> {{'pegawaiStrukturGajiByJa'| translate | splitCharT }}</h1>
+        <div class="ui-g form-group">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="ui-g-6">
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'noSK'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="kode" pInputText readonly="true" />
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'jabatan'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownjabatan" [options]="kodejabatan" formControlName="kdjabatan" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('kdjabatan').valid && form.get('kdjabatan').touched" style="color: red"> {{'jabatan'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'komponenHarga'| translate | splitCharT }} </label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownKomponenHarga" [options]="kodeKomponenHarga" formControlName="kdKomponenHarga" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('kdKomponenHarga').valid && form.get('kdKomponenHarga').touched" style="color: red"> {{'komponenHarga'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'hargaSatuan'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="hargaSatuan" pInputText/>
+                <span *ngIf="!form.get('hargaSatuan').valid && form.get('hargaSatuan').touched" style="color: red"> {{'hargaSatuan'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+              </div>
+
+            </div>
+            <div class="ui-g-6">
+              <div class="ui-g-12 ui-md-4">
+                <label for="input">{{'faktorRate'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="faktorRate" pInputText/>
+                <span *ngIf="!form.get('faktorRate').valid && form.get('faktorRate').touched" style="color: red"> {{'faktorRate'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'operatorFaktorRate'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownoperatorFaktorRate" [options]="kodeoperatorFaktorRate" formControlName="kdoperatorFaktorRate" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('kdoperatorFaktorRate').valid && form.get('kdoperatorFaktorRate').touched" style="color: red"> {{'operatorFaktorRate'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                <label for="input"> {{'nomorRec'| translate | splitCharT }}</label>
+              </div>
+              <div class="ui-g-12 ui-md-8">
+                <input id="input" type="text" formControlName="noRec" pInputText/>
+                <span *ngIf="!form.get('noRec').valid && form.get('noRec').touched" style="color: red"> {{'nomorRec'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+              </div>
+
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="submit" label="{{'simpan'| translate | splitCharT }}" icon="fa-save"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'hapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'batal'| translate | splitCharT }}" icon="fa-close" (click)="reset()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'cetak'| translate | splitCharT }}" icon="fa-print"></button>
+              </div>
+            </div>
+          </form>
+          <div class="ui-g-12">
+            <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none; width: 98%">
+              <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+              <input type="text" pInputText size="50" [(ngModel)]="pencarian" (keypress)="cari()" style="width: 20%">
+            </div>
+            <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+              [(selection)]="selected" (onRowSelect)="onRowSelect($event)">
+              <p-header>{{'listPegawaiStrukturGajiByJa'| translate | splitCharT }}</p-header>
+              <p-column field="id.kode" header="{{'noSK'| translate | splitCharT }}"></p-column>
+              <p-column field="jabatan" header="{{'jabatan'| translate | splitCharT }}"></p-column>
+              <p-column field="namakomponenHarga" header="{{'komponenHarga'| translate | splitCharT }}"></p-column>
+              <p-column field="hargaSatuan" header="{{'hargaSatuan'| translate | splitCharT }}"></p-column>
+              <p-column field="faktorRate" header="{{'faktorRate'| translate | splitCharT }}"></p-column>
+              <p-column field="operatorFaktorRate" header="{{'operatorFaktorRate'| translate | splitCharT }}"></p-column>
+              <p-column field="noRec" header="{{'noRec'| translate | splitCharT }}"></p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

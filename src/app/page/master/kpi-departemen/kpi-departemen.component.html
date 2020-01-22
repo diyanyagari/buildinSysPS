@@ -1,0 +1,135 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmKPIDepartemen_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+						<p-dialog header="{{'frmKPIDepartemen_inputKPI'| translate | splitCharT }}" [resizable]="false" responsive="true"
+						showEffect="fade" [modal]="true" [(visible)]="inputKPIPOP" width="1024">
+						   <div class="ui-g form-group" style="margin-bottom: 5px;">
+							   <div class="ui-g-12">
+								   <p-dataTable [value]="dataInputKPI" [rows]="5" [paginator]="true" [pageLinks]="3" [editable]="true">
+									    <p-header>
+											<div class="ui-helper-clearfix">
+            						<button pButton type="button" icon="fa-plus" (click)="tambahKPI()" style="float:left;"></button>
+											</div>
+										</p-header>
+									   <p-column field="nomor" header="{{'No'| translate | splitCharT }}" [style]="{'width':'50px'}">
+											<ng-template pTemplate="body" let-i="rowIndex">
+												{{i+1}}
+											</ng-template>
+									   </p-column>
+									   <p-column [editable]="true" field="kpi" header="{{'frmKPIDepartemen_tableNamaKPI'| translate | splitCharT}}" [style]="{'width':'100px'}">
+										 <ng-template let-col let-kpi="rowData" pTemplate="body">
+											{{kpi[col.field].namaKPI}}
+										 </ng-template>
+										 <ng-template let-col let-kpi="rowData" pTemplate="editor">
+											<p-dropdown id="dropdown" class="ui-inputwrapper-filled" filter="filter" [options]="listKPI" [(ngModel)]="kpi[col.field]"
+											[autoWidth]="false" [ngModelOptions]="{standalone: true}" appendTo="body" ></p-dropdown>
+										 </ng-template>
+									   </p-column>
+									   <p-column [editable]="true" field="bobot" header="{{'frmKPIDepartemen_tableBobot'| translate | splitCharT}}" [style]="{'width':'100px'}">
+										    <ng-template let-col let-data="rowData" pTemplate="body">
+												{{data[col.field]}}
+											</ng-template>
+											<ng-template let-col let-data="rowData" pTemplate="editor">
+												<input type="text" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" />
+											</ng-template>
+									   </p-column>
+									   <p-column [editable]="false" field="kpi.namaSatuanHasil" header="{{'frmKPIDepartemen_tableSatuanHasil'| translate | splitCharT}}" [style]="{'width':'100px'}">
+										    <ng-template let-col let-data="rowData" pTemplate="body">
+												{{data.kpi.namaSatuanHasil}}
+											</ng-template>
+									   </p-column>
+									   <p-column [editable]="false" field="kpi.namaTypeDataObjek" header="{{'frmKPIDepartemen_tableTypeData'| translate | splitCharT}}" [style]="{'width':'100px'}">
+										    <ng-template let-col let-data="rowData" pTemplate="body">
+												{{data.kpi.namaTypeDataObjek}}
+											</ng-template>
+									   </p-column>
+									   <p-column [editable]="true" field="target" header="{{'frmKPIDepartemen_tableTarget'| translate | splitCharT}}" [style]="{'width':'100px'}">
+										    <ng-template let-col let-data="rowData" pTemplate="body">
+												{{data[col.field]}}
+											</ng-template>
+											<ng-template let-col let-data="rowData" pTemplate="editor">
+												<input type="text" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" />
+											</ng-template>
+									   </p-column>
+									   <p-column [editable]="false" field="kpi.namaMetodeHitung" header="{{'frmKPIDepartemen_tableMetodePerhitungan'| translate | splitCharT}}" [style]="{'width':'100px'}">
+										    <ng-template let-col let-data="rowData" pTemplate="body">
+												{{data.kpi.namaMetodeHitung}}
+											</ng-template>
+									   </p-column>
+									   <p-column styleClass="col-button" [style]="{'width':'50px'}">
+											<ng-template pTemplate="header">
+											</ng-template>	
+											<ng-template pTemplate type="body" let-col let-kpi="rowData" let-ri="rowIndex">
+												<button type="button" pButton (click)="hapusKpi(ri)" icon="fa-trash"></button>
+											</ng-template>
+									   </p-column>
+									</p-dataTable>
+							   </div>
+							   <div class="ui-g-12">
+									<div class="ui-g-12 ui-md-10"></div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmKpi_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="batal()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmKpi_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="simpanInputKPI()"></button>
+									</div>
+							   </div>
+						   </div>
+					   </p-dialog>
+
+				<div class="ui-g-12 ui-md-2">
+					<label>{{'frmKPIDepartemen_periodeAwal'| translate | splitCharT}}</label>
+					<app-calender (onSelect)="getTglAwal()" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAwal" [showIcon]="true"
+					  dateFormat="dd M yy"></app-calender>
+				</div>
+				<div>
+					<br>
+					<label>-</label>
+				</div>
+				<div class="ui-g-12 ui-md-2">
+					<label>{{'frmKPIDepartemen_periodeAkhir'| translate | splitCharT}}</label>
+					<app-calender (onSelect)="getTglAkhir()" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAkhir" [showIcon]="true"
+					  dateFormat="dd M yy"></app-calender>
+				</div>
+				<div class="ui-g-12 ui-md-1">
+					<br>
+					<button pButton type="button" icon="fa-search" (click)="cariPeriode()"></button>
+					<button pButton type="button" icon="fa-refresh" (click)="refreshData()"></button>
+				</div>
+        <div class="ui-g-12">
+          <div class="ui-g-12 ui-md-2">
+              <label for="input">{{'Departemen'| translate | splitCharT }}</label>
+              <p-dropdown id="dropdownDepartemen" filter="filter" class="ui-inputwrapper-filled" [(ngModel)]="kdDepartemen" (ngModelChange)="valueDepartemen($event)"
+              [options]="Departemen" [autoWidth]="false"></p-dropdown>
+          </div>
+        </div>
+				<div class="ui-g-12">
+					<div class="ui-g-12 ui-md-2">
+						<h1>PERSPEKTIF</h1>
+						<p-listbox [options]="perspektif" (onChange)="getKodePerspektif($event)" [listStyle]="{'max-height':'250px','width':'280px'}" [(ngModel)]="selectedPerspective" ></p-listbox>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<h1>SASARAN KERJA STRATEGIS</h1>
+						<p-listbox [options]="strategis" (onDblClick)="getKodeStrategis($event)" (onChange)="setKPI($event)" [listStyle]="{'max-height':'250px','width':'270px'}" [(ngModel)]="selectedStrategis" ></p-listbox>
+					</div>
+
+					<div class="ui-g-12 ui-md-8">
+						<h1>DATA KPI</h1>
+						<p-dataTable [value]="listGridKPI" [rows]="5" [pageLinks]="3" [paginator]="true" selectionMode="single" scrollable="true" [(selection)]="selected" >
+							<p-column field="namaKPI" header="{{'frmKPIDepartemen_tableNamaKPI'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="bobotKPI" header="{{'frmKPIDepartemen_tableBobot'| translate | splitCharT}}" [style]="{'width':'100px'}"></p-column>
+							<p-column field="namaSatuanHasil" header="{{'frmKPIDepartemen_tableSatuanHasil'| translate | splitCharT}}" [style]="{'width':'100px'}"></p-column>
+							<p-column field="targetKPIMin" header="{{'frmKPIDepartemen_tableTarget'| translate | splitCharT}}" [style]="{'width':'100px'}"></p-column>
+						</p-dataTable>
+					</div>
+				</div>
+
+			</div>
+			</div>
+		</div>
+	</div>
+</div>

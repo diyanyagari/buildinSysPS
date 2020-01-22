@@ -1,0 +1,98 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <h2>Informasi - Tarif Pelayanan</h2>
+      </div>
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/power-button.svg" (click)="logout($event)"
+          alt="logout">
+      </div>
+    </div>
+
+  </div>
+  <div class="container-table">
+    <table class="big-table">
+      <thead>
+        <tr class="row-head">
+          <th>Paket <span class="text-info">(Tap untuk detail paket)</span></th>
+          <th>Tarif Kelas III</th>
+          <th>Tarif Kelas II</th>
+          <th>Tarif Kelas I</th>
+          <th>Tarif Kelas VIP</th>
+          <th>Tarif Kelas VVIP</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+
+      <!-- <tr>Empty</tr> -->
+      <!-- <tr>
+        <td>Paket Screening Prostat</td>
+        <td>Rp. 400.000</td>
+        <td>Rp. 500.000</td>
+        <td>Rp. 750.000</td>
+        <td>Rp. 1.000.000</td>
+        <td>Rp. 2.000.000</td>
+      </tr>
+      <tr>
+        <td>Paket 1B</td>
+        <td>Rp. 200.000</td>
+        <td>Rp. 300.000</td>
+        <td>Rp. 550.000</td>
+        <td>Rp. 800.000</td>
+        <td>Rp. 1.800.000</td>
+      </tr> -->
+    </table>
+    <p class="empty-message" *ngIf="data.length === 0">No Record Found</p>
+    <hr width="50%" style="margin:10px auto">
+    <table class="big-table">
+      <thead>
+        <tr class="row-head">
+          <th>
+            <p-dropdown></p-dropdown>
+          </th>
+          <th>Tarif Kelas III</th>
+          <th>Tarif Kelas II</th>
+          <th>Tarif Kelas I</th>
+          <th>Tarif Kelas VIP</th>
+          <th>Tarif Kelas VVIP</th>
+        </tr>
+      </thead>
+      <!-- <tr>
+        <td>Paket Screening Prostat</td>
+        <td>Rp. 400.000</td>
+        <td>Rp. 500.000</td>
+        <td>Rp. 750.000</td>
+        <td>Rp. 1.000.000</td>
+        <td>Rp. 2.000.000</td>
+      </tr>
+      <tr>
+        <td>Paket 1B</td>
+        <td>Rp. 200.000</td>
+        <td>Rp. 300.000</td>
+        <td>Rp. 550.000</td>
+        <td>Rp. 800.000</td>
+        <td>Rp. 1.800.000</td>
+      </tr> -->
+    </table>
+    <p class="empty-message" *ngIf="data.length === 0">No Record Found</p>
+    <hr width="50%" style="margin:10px auto">
+  </div>
+  <div class="informasi-action" style="margin-top: 100px;">
+    <!-- <hr> -->
+    <div class="container">
+      <button class="btn-subscribe bg-violet"
+        [routerLink]="['/kiosk/informasi/pelayanan']">Kembali</button>
+    </div>
+
+  </div>
+</div>

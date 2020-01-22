@@ -1,0 +1,27 @@
+<div class="cicing-content activity-feed">
+	<div class="overview-chart-top">
+		<p-toolbar>
+			<div class="ui-toolbar-group-left">
+				<span class="overview-box-name">{{'PERSENTASI SISA PINJAMAN PEGAWAI' | translate | splitCharT | splitCharT }}</span>
+			</div>
+			<div class="ui-toolbar-group-right" style="margin-right: 55px">
+				<p-dropdown [options]="listTampilan" [autoWidth]="false" [(ngModel)]="tampilanPersentasiSisaPinjamanPegawai" (onChange)="getDataSisaPinjamanPegawai(tampilanPersentasiSisaPinjamanPegawai)"></p-dropdown>
+			</div>
+		</p-toolbar>
+	</div>
+	<div id="dataSisaPinjamanPegawai" style="overflow: auto; height: 274px">
+		<p-chart type="polarArea" [data]="SisaPinjamanPegawai" *ngIf="tampilanPersentasiSisaPinjamanPegawai == 4"></p-chart>
+		<p-chart type="bar" [data]="SisaPinjamanPegawai" *ngIf="tampilanPersentasiSisaPinjamanPegawai == 2"></p-chart>
+		<p-chart type="line" [data]="SisaPinjamanPegawai" *ngIf="tampilanPersentasiSisaPinjamanPegawai == 3"></p-chart>
+		<p-dataTable *ngIf="tampilanPersentasiSisaPinjamanPegawai == 1" [value]="SisaPinjamanPegawai" [rows]="10" [paginator]="true"
+		[pageLinks]="3">
+		<p-column field="" header="No." [style]="{'width':'60px'}"></p-column>
+		<p-column field="" header="Tipe Pinjaman" [style]="{'text-align':'left'}"></p-column>
+		<p-column field="" header="Total Pinjaman" [style]="{'text-align':'left'}"></p-column>
+		<p-column field="" header="Yang Sudah Dibayar" [style]="{'text-align':'left'}"></p-column>
+		<p-column field="" header="Cicilan Ke-" [style]="{'text-align':'left'}"></p-column>
+		<p-column field="" header="Sisa Pinjaman" [style]="{'text-align':'left'}"></p-column>
+		<p-column field="" header="Akhir Bayar Cicilan" [style]="{'text-align':'left'}"></p-column>
+	</p-dataTable>
+</div>
+</div>

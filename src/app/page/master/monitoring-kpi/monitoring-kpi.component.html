@@ -1,0 +1,295 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmMonitoringKPI_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+
+						<p-dialog header="{{'frmKPIPegawai_inputKPI'| translate | splitCharT }}" [resizable]="false" responsive="true"
+						showEffect="fade" [modal]="true" [(visible)]="inputKPIPOP" width="1220">
+						   <div class="ui-g form-group" style="position: relative;overflow: hidden;">
+							   
+							<div class="ui-g-12 ui-md-2">
+								<label>{{'frmMonitoringKPI_tanggalPosting'| translate | splitCharT}}</label>
+								<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalPosting" [showIcon]="true"
+								dateFormat="dd M yy" [minDate]="minDate" [maxDate]="maxDate" placeholder="Tanggal Posting"></app-calender>
+							</div>
+							<div class="ui-g-12 ui-md-12" style="width:auto">
+								   <p-dataTable [value]="dataInputKPI" [rows]="5" [rowsPerPageOptions]="[5,10,20]" [paginator]="true" [pageLinks]="3" [editable]="true">
+										<p-header>
+										<div class="ui-helper-clearfix">
+											<button pButton type="button" icon="fa-plus" (click)="tambahKPIPegawai()" style="float:left;"></button>
+										</div>
+										</p-header>
+										<p-column field="nomor" header="{{'No'| translate | splitCharT }}" [style]="{'width':'40px'}">
+											<ng-template pTemplate="body" let-i="rowIndex">
+												{{i+1}}
+											</ng-template>
+									   </p-column>
+									   <p-column [editable]="true" field="perspective" header="{{'frmMonitoringKPI_tablePerspective'| translate | splitCharT}}" [style]="{'width':'150px'}">
+										<ng-template let-col let-perspective="rowData" pTemplate="body">
+											{{perspective[col.field].namaPerspective}}
+										</ng-template>
+										<ng-template let-col let-perspective="rowData" pTemplate="editor">
+											<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listPerspective" [(ngModel)]="perspective[col.field]" [autoWidth]="false"
+											 [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+										</ng-template>   
+									   </p-column>
+									   <p-column [editable]="true" field="strategi" header="{{'frmMonitoringKPI_tableStrategy'| translate | splitCharT}}" [style]="{'width':'150px'}">
+										<ng-template let-col let-strategi="rowData" pTemplate="body">
+											{{strategi[col.field].namaStrategy}}
+										</ng-template>
+										<ng-template let-col let-strategi="rowData" pTemplate="editor">
+											<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listStrategi" [(ngModel)]="strategi[col.field]" [autoWidth]="false"
+											 [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+										</ng-template>   
+									   </p-column>
+									   <p-column [editable]="true" field="kpi" header="{{'frmKPIPegawai_tableNamaKPI'| translate | splitCharT}}" [style]="{'width':'150px'}">
+										<ng-template let-col let-kpi="rowData" pTemplate="body">
+											{{kpi[col.field].namaKPI}}
+										</ng-template>
+										<ng-template let-col let-kpi="rowData" pTemplate="editor">
+											<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listKPI" [(ngModel)]="kpi[col.field]" [autoWidth]="false"
+											 [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+										</ng-template>   
+									   </p-column>
+									   <p-column [editable]="true" field="bobotKPI" header="{{'frmKPIPegawai_tableBobot'| translate | splitCharT}}" [style]="{'width':'80px'}">
+											<ng-template let-col let-data="rowData" pTemplate="body">
+												{{data[col.field]}}
+											</ng-template>
+											<ng-template let-col let-data="rowData" pTemplate="editor">
+												<input type="text" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" />
+											</ng-template>
+									   </p-column>
+									   <p-column [editable]="false" field="namaSatuanHasil" header="{{'frmKPIPegawai_tableSatuanHasil'| translate | splitCharT}}" [style]="{'width':'80px'}">
+										<ng-template let-col let-data="rowData" pTemplate="body">
+											{{data.kpi.namaSatuanHasil}}
+										</ng-template>
+										<!-- <ng-template let-col let-data="rowData" pTemplate="editor">
+											<input type="text" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" />
+										</ng-template> -->
+									   </p-column>
+									   <p-column [editable]="false" field="namaTypeDataObjek" header="{{'frmKPIPegawai_tableTypeData'| translate | splitCharT}}" [style]="{'width':'80px'}">
+										 <ng-template let-col let-data="rowData" pTemplate="body">
+											{{data.kpi.namaTypeDataObjek}}
+										 </ng-template>
+										 <!-- <ng-template let-col let-data="rowData" pTemplate="editor">
+											<input type="text" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" />
+										</ng-template> -->
+									   </p-column>
+									   <p-column [editable]="true" field="targetKPIMin" header="{{'frmKPIPegawai_tableTarget'| translate | splitCharT}}" [style]="{'width':'80px'}">
+											<ng-template let-col let-data="rowData" pTemplate="body">
+												{{data[col.field]}}
+											</ng-template>
+											<ng-template let-col let-data="rowData" pTemplate="editor">
+												<input type="text" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" />
+											</ng-template>
+									   </p-column>
+									   <p-column [editable]="true" field="asal" header="{{'frmKPIPegawai_tableSumberData'| translate | splitCharT}}" [style]="{'width':'150px'}">
+										<ng-template let-col let-asal="rowData" pTemplate="body">
+											{{asal[col.field].namaAsal}}
+										</ng-template>
+										<ng-template let-col let-asal="rowData" pTemplate="editor">
+											<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listDdlAsalData" [(ngModel)]="asal[col.field]" [autoWidth]="false"
+											[ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+										</ng-template>
+									   </p-column>
+									   <p-column [editable]="true" field="periodeData" header="{{'frmKPIPegawai_tablePeriodeData'| translate | splitCharT}}" [style]="{'width':'100px'}">
+										<ng-template let-col let-periodeData="rowData" pTemplate="body">
+											{{periodeData[col.field].namaPeriode}}
+										</ng-template>
+										<ng-template let-col let-periodeData="rowData" pTemplate="editor">
+											<p-dropdown class="ui-inputwrapper-filled" filter="filter" [options]="listPeriodeData" [(ngModel)]="periodeData[col.field]" [autoWidth]="false"
+											 [ngModelOptions]="{standalone: true}" appendTo="body"></p-dropdown>
+										</ng-template>
+									   </p-column>
+									   <p-column [editable]="false" field="namaMetodeHitung" header="{{'frmKPIPegawai_tableMetodePerhitungan'| translate | splitCharT}}" [style]="{'width':'80px'}">
+										<ng-template let-col let-data="rowData" pTemplate="body">
+											{{data.kpi.namaMetodeHitung}}
+										</ng-template>
+										<!-- <ng-template let-col let-data="rowData" pTemplate="editor">
+											<input type="text" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" />
+										</ng-template> -->
+									   </p-column>
+									   <p-column hidden="true" field="kdPerspective" header="{{'frmKPIPegawai_tableMetodePerhitungan'| translate | splitCharT}}" [style]="{'width':'80px'}">
+										</p-column>
+									   <p-column styleClass="col-button" [style]="{'width':'50px'}">
+										<ng-template pTemplate="header">
+										</ng-template>	
+										<ng-template pTemplate type="body" let-col let-kpi="rowData" let-ri="rowIndex">
+											<button type="button" pButton (click)="hapusKpiPegawai(ri)" icon="fa-trash"></button>
+										</ng-template>
+								   	   </p-column>  
+									   <!-- <p-column [editable]="true" field="realisasi" header="{{'frmKPIPegawai_tableRealisasi'| translate | splitCharT}}">
+										    <ng-template let-col let-data="rowData" pTemplate="body">
+												{{data[col.field]}}
+											</ng-template>
+											<ng-template let-col let-data="rowData" pTemplate="editor">
+												<input type="text" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" />
+											</ng-template>
+									   </p-column> -->
+									   <!-- <p-column [editable]="false" field="skor" header="{{'frmKPIPegawai_tableSkor'| translate | splitCharT}}"></p-column>
+									   <p-column [editable]="false" field="skorAkhir" header="{{'frmKPIPegawai_tableSkorAkhir'| translate | splitCharT}}"></p-column> -->
+									</p-dataTable>
+							   </div>
+							   <!-- <div class="ui-g-12">
+									<div class="ui-g-12 ui-md-10"></div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmKpi_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="batalKPIPegawai()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmKpi_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="simpanKPIPegawai()"></button>
+									</div>
+							   </div> -->
+						   </div>
+						   <p-footer>
+							<div class="ui-g-12 ui-md-9">
+
+							</div>
+							<div class="ui-g-12 ui-md-1" style="padding-left:50px">
+								<button pButton type="button" label="{{'frmKpi_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="batalKPIPegawai()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmKpi_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="simpanKPIPegawai()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1"></div>
+						   </p-footer>
+					   </p-dialog>
+
+					<div class="ui-g-12 ui-md-2">
+						<!-- <div class="treePeriode">
+							<label>{{'frmBSC_periode'| translate | splitCharT }}</label>
+							<p-tree [value]="periodeTree" selectionMode="single" [(selection)]="selectedPeriodeNode" (onNodeSelect)="nodeSelectPeriode($event)">
+							</p-tree>
+						</div> -->
+						<div>
+							<label>{{'frmBSC_periode'| translate | splitCharT}}</label>
+							<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" [options]="listPeriodeHead"
+							[autoWidth]="false" (onChange)="getKode($event)" [(ngModel)]="kodeHeadPeriode"></p-dropdown>
+						</div>
+						<div>
+							<p-dataTable [value]="listPeriode" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+								[(selection)]="selectedPeriode" [pageLinks]="3" [lazy]="true" [loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecordsPeriode" 
+								(onLazyLoad)="loadPagePeriode($event)" scrollable="true" (onRowSelect)="pilihPeriode($event)">
+								<p-column field="nomorUrut" header="{{'frmBSC_no'| translate | splitCharT}}" [style]="{'width':'50px','text-align': 'center'}">
+									<ng-template pTemplate="body" let-i="rowIndex">
+										{{i+1}}
+									  </ng-template>
+								</p-column>
+								<p-column field="namaPeriode" header="{{'frmBSC_namaPeriode'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+							</p-dataTable>
+						</div>
+						<div class="treeDepartemen">
+							<label>{{'Departemen'| translate | splitCharT }}</label>
+							<p-tree [value]="departemenTree" selectionMode="single" [(selection)]="selectedDepartemenNode" (onNodeSelect)="nodeSelectDepartemen($event)">
+							</p-tree>
+						</div>
+					</div>
+					<div class="ui-g-12 ui-md-8">
+						<p-panel header="KPI">
+						<div>
+							<p-dataTable [value]="listFinancial" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							  [(selection)]="selectedF" [pageLinks]="3" [lazy]="true" [loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecordsFinancial" 
+							  (onLazyLoad)="loadPageF($event)" scrollable="true" (onRowSelect)="pilihDataF($event)">
+								<p-header>
+									<div class="ui-helper-clearfix">
+                                    	<span style="float: left;padding:0.3em;">{{'frmMonitoringKPI_titleFinancial'| translate | splitCharT}}</span>
+                                	</div>	
+								</p-header>
+								<p-column field="namaStrategy" header="{{'frmMonitoringKPI_tableNamaStrategy'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+								<p-column field="kpi" header="{{'frmMonitoringKPI_tableKpi'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+								<p-column field="bobot" header="{{'frmMonitoringKPI_tableBobot'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+								<p-column field="satuanHasil" header="{{'frmMonitoringKPI_tableSatuanHasil'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+								<p-column field="tipeDataObjek" header="{{'frmMonitoringKPI_tableTipeDataObjek'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+								<p-column field="target" header="{{'frmMonitoringKPI_tableTarget'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+								<p-column field="sumberData" header="{{'frmMonitoringKPI_tableSumberData'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+								<p-column field="namaPeriodeData" header="{{'frmMonitoringKPI_tablePeriodeData'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+								<p-column field="metodePerhitungan" header="{{'frmMonitoringKPI_tableMetodePerhitungan'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							</p-dataTable>
+						</div>
+						<div>
+							<p-dataTable [value]="listCustomer" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							[(selection)]="selectedC" [pageLinks]="3" [lazy]="true" [loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecordsCustomer" 
+							(onLazyLoad)="loadPageC($event)" scrollable="true" (onRowSelect)="pilihDataC($event)">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<span style="float: left;padding:0.3em;">{{'frmMonitoringKPI_titleCustomer'| translate | splitCharT}}</span>
+								</div>	
+							</p-header>
+							<p-column field="namaStrategy" header="{{'frmMonitoringKPI_tableNamaStrategy'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="kpi" header="{{'frmMonitoringKPI_tableKpi'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="bobot" header="{{'frmMonitoringKPI_tableBobot'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="satuanHasil" header="{{'frmMonitoringKPI_tableSatuanHasil'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="tipeDataObjek" header="{{'frmMonitoringKPI_tableTipeDataObjek'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="target" header="{{'frmMonitoringKPI_tableTarget'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="sumberData" header="{{'frmMonitoringKPI_tableSumberData'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="namaPeriodeData" header="{{'frmMonitoringKPI_tablePeriodeData'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+							<p-column field="metodePerhitungan" header="{{'frmMonitoringKPI_tableMetodePerhitungan'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							</p-dataTable>
+						</div>
+						<div>
+							<p-dataTable [value]="listBusiness" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							[(selection)]="selectedB" [pageLinks]="3" [lazy]="true" [loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecordsBusiness" 
+							(onLazyLoad)="loadPageB($event)" scrollable="true" (onRowSelect)="pilihDataB($event)">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<span style="float: left;padding:0.3em;">{{'frmMonitoringKPI_titleBusiness'| translate | splitCharT}}</span>
+								</div>	
+							</p-header>
+							<p-column field="namaStrategy" header="{{'frmMonitoringKPI_tableNamaStrategy'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="kpi" header="{{'frmMonitoringKPI_tableKpi'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="bobot" header="{{'frmMonitoringKPI_tableBobot'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="satuanHasil" header="{{'frmMonitoringKPI_tableSatuanHasil'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="tipeDataObjek" header="{{'frmMonitoringKPI_tableTipeDataObjek'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="target" header="{{'frmMonitoringKPI_tableTarget'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="sumberData" header="{{'frmMonitoringKPI_tableSumberData'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="namaPeriodeData" header="{{'frmMonitoringKPI_tablePeriodeData'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+							<p-column field="metodePerhitungan" header="{{'frmMonitoringKPI_tableMetodePerhitungan'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							</p-dataTable>
+						</div>
+						<div>
+							<p-dataTable [value]="listLearning" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							[(selection)]="selectedL" [pageLinks]="3" [lazy]="true" [loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecordsLearning" 
+							(onLazyLoad)="loadPageL($event)" scrollable="true" (onRowSelect)="pilihDataL($event)">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<span style="float: left;padding:0.3em;">{{'frmMonitoringKPI_titleLearning'| translate | splitCharT}}</span>
+								</div>	
+							</p-header>
+							<p-column field="namaStrategy" header="{{'frmMonitoringKPI_tableNamaStrategy'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="kpi" header="{{'frmMonitoringKPI_tableKpi'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="bobot" header="{{'frmMonitoringKPI_tableBobot'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="satuanHasil" header="{{'frmMonitoringKPI_tableSatuanHasil'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="tipeDataObjek" header="{{'frmMonitoringKPI_tableTipeDataObjek'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="target" header="{{'frmMonitoringKPI_tableTarget'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							<p-column field="sumberData" header="{{'frmMonitoringKPI_tableSumberData'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="namaPeriodeData" header="{{'frmMonitoringKPI_tablePeriodeData'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+							<p-column field="metodePerhitungan" header="{{'frmMonitoringKPI_tableMetodePerhitungan'| translate | splitCharT }}" [style]="{'width':'80px'}"></p-column>
+							</p-dataTable>
+						</div>
+						
+						</p-panel>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+							<p-dataTable [value]="listPegawai" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							[(selection)]="selectedPegawai" [pageLinks]="3" [lazy]="true" [loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecordsPegawai" 
+							(onLazyLoad)="loadPageP($event)" scrollable="true" (onRowSelect)="pilihPegawai($event)">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<span style="float: left;padding:0.3em;">{{'frmMonitoringKPI_titlePegawai'| translate | splitCharT}}</span>
+								</div>	
+							</p-header>
+							<p-column field="nomorUrut" header="{{'frmBSC_no'| translate | splitCharT}}" [style]="{'width':'50px','text-align': 'center'}">
+								<ng-template pTemplate="body" let-i="rowIndex">
+									{{i+1}}
+								  </ng-template>
+							</p-column>
+							<p-column field="namaLengkap" header="{{'frmMonitoringKPI_tableNamaPegawai'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

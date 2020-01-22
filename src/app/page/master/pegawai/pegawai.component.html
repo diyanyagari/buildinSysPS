@@ -1,0 +1,358 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<h1>Master Pegawai</h1>
+				<p-tabView>
+					<p-tabPanel header="Datar Pegawai">
+						<div class="ui-g">
+							<div class="ui-g-6">
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">Cari Pegawai</label>
+								</div>
+								<div class="ui-g-12 ui-md-8">
+									<div class="ui-inputgroup">
+										<button pButton type="button" label="Search"></button>
+										<input type="text" pInputText placeholder="Nama/Kode Pegawai">         
+									</div>
+								</div>
+
+							</div>
+							<div class="ui-g-6"></div>
+							<div class="ui-g-12">
+								<p-dataTable [value]="dataPegawai" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+									<p-header>Data Event</p-header>
+									<p-column field="kodeEvent" header="Kode Event"></p-column>
+									<p-column field="namaEvent" header="Nama Event"></p-column>
+									<p-column field="reportDisplay" header="Report Display"></p-column>
+									<p-column field="kodeEventHead" header="Kode Event Head"></p-column>
+									<p-column field="departemen" header="Departemen"></p-column>
+									<p-column field="kodeEksternal" header="Kode Eksternal"></p-column>
+									<p-column field="namaEksternal" header="Nama Eksternal"></p-column>
+								</p-dataTable>
+							</div>
+						</div>
+					</p-tabPanel>
+					<p-tabPanel header="Input Pegawai">
+						<div class="ui-g">
+							<p-tabView>
+								<p-tabPanel header="Data Awal">
+									<div class="ui-g">
+										<div class="ui-g-6">
+											<div class="ui-g-12 ui-md-4">
+											<label for="input">Kode Pegawai</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<input id="input" type="text" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Nama Pegawai</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<input id="input" type="text" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Jenis Kelamin</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownJenisKelamin" [options]="jenisKelamin"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Tempat Lahir</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<input id="input" type="text" pInputText/>
+											</div>
+										</div>
+
+										<div class="ui-g-6">
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Tanggal Lahir</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-inputMask mask="99/99/9999" slotChar="dd/mm/yyyy" [(ngModel)]="tanggalLahir" placeholder="Date"></p-inputMask>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Jenis Pegawai</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownJenisPegawai" [options]="jenisPegawai"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Negara</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownNegara" [options]="negara"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Status Aktif</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<div class="ui-g-12"><p-checkbox name="cg" value="1" label="Aktif" [(ngModel)]="checkboxValues"></p-checkbox></div>
+											</div>
+										</div>
+									</div>
+								</p-tabPanel>
+								<p-tabPanel header="Data Detail">
+									<div class="ui-g">
+										<div class="ui-g-6">
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Title</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownTitle" [options]="title"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Nama Keluarga</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<input id="input" type="text" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Nama Panggilan</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<input id="input" type="text" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Jenis Identitas</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<div class="ui-g-12 ui-md-3"><p-radioButton name="rg" value="SIM" label="SIM" [(ngModel)]="radioValue"></p-radioButton></div>
+								                <div class="ui-g-12 ui-md-3"><p-radioButton name="rg" value="KTP" label="KTP" [(ngModel)]="radioValue"></p-radioButton></div>
+								                <div class="ui-g-12 ui-md-3"><p-radioButton name="rg" value="KTM/KTS" label="KTM/KTS" [(ngModel)]="radioValue"></p-radioButton></div>
+								                <div class="ui-g-12 ui-md-3"><p-radioButton name="rg" value="Passpor" label="Passpor" [(ngModel)]="radioValue"></p-radioButton></div>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">No Identitas</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<input id="input" type="text" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">NIP PNS</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<input id="input" type="text" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">NIK Intern</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<input id="input" type="text" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Tanggal Masuk</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-inputMask mask="99/99/9999" slotChar="dd/mm/yyyy" [(ngModel)]="tanggalMasuk" placeholder="Date"></p-inputMask>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Tanggal Keluar</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-inputMask mask="99/99/9999" slotChar="dd/mm/yyyy" [(ngModel)]="tanggalKeluar" placeholder="Date"></p-inputMask>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Status Perkawinan</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownStatusPerkawinan" [options]="statusPerkawinan"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Kualifikasi Jurusan</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownKualifikasiJurusan" [options]="kualifikasiJurusan"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Jabatan Struktural</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownJabatanStruktural" [options]="jabatanStruktural"  [autoWidth]="false"></p-dropdown>
+											</div>
+										</div>
+
+										<div class="ui-g-6">
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Jabatan Fungsional</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownJabatanFungsional" [options]="jabatanFungsional"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Suku</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownSuku" [options]="suku"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Status Rhesus</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<div class="ui-g-12 ui-md-3"><p-radioButton name="rg" value="+" label="+" [(ngModel)]="radioValue"></p-radioButton></div>
+								                <div class="ui-g-12 ui-md-3"><p-radioButton name="rg" value="-" label="-" [(ngModel)]="radioValue"></p-radioButton></div>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Golongan Darah</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownGolonganDarah" [options]="golonganDarah"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Golongan Pegawai</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownGolonganPegawai" [options]="golonganPegawai"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Status Pegawai</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownStatusPegawai" [options]="statusPegawai"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Tipe Pegawai</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownTipePegawai" [options]="tipePegawai"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Detail Kategori Pegawai</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownDetailKategoriPegawai" [options]="detailKategoriPegawai"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Ruangan Kerja</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownRuanganKerja" [options]="ruanganKerja"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Agama</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownAgama" [options]="agama"  [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Pendidikan Terakhir</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-dropdown id="dropdownPendidikanTerakhir" [options]="pendidikanTerakhir"  [autoWidth]="false"></p-dropdown>
+											</div>
+										</div>
+									</div>
+								</p-tabPanel>
+								<p-tabPanel header="Rekening & Lainnya">
+									<div class="ui-g">
+										<div class="ui-g-6">
+											<div class="card card-w-title">
+									            <h1>Rekening</h1>
+									            <div class="ui-g form-group">
+									                <div class="ui-g-12 ui-md-4">
+														<label for="input">Nama Bank</label>
+													</div>
+													<div class="ui-g-12 ui-md-8">
+														<input id="input" type="text" pInputText/>
+													</div>
+													<div class="ui-g-12 ui-md-4">
+														<label for="input">Nomor Rekening</label>
+													</div>
+													<div class="ui-g-12 ui-md-8">
+														<input id="input" type="text" pInputText/>
+													</div>
+													<div class="ui-g-12 ui-md-4">
+														<label for="input">Atas Nama</label>
+													</div>
+													<div class="ui-g-12 ui-md-8">
+														<input id="input" type="text" pInputText/>
+													</div>
+									            </div>
+									        </div>
+										</div>
+										<div class="ui-g-6">
+											<div class="card card-w-title">
+									            <h1>Data Lain - Lain</h1>
+									            <div class="ui-g form-group">
+									                <div class="ui-g-12 ui-md-4">
+														<label for="input">Jumlah Anak</label>
+													</div>
+													<div class="ui-g-12 ui-md-8">
+														<input id="input" type="text" pInputText/>
+													</div>
+													<div class="ui-g-12 ui-md-4">
+														<label for="input">Jumlah Tangungan</label>
+													</div>
+													<div class="ui-g-12 ui-md-8">
+														<input id="input" type="text" pInputText/>
+													</div>
+													<div class="ui-g-12 ui-md-4">
+														<label for="input">Jumlah Total Jiwa</label>
+													</div>
+													<div class="ui-g-12 ui-md-8">
+														<input id="input" type="text" pInputText/>
+													</div>
+													<div class="ui-g-12 ui-md-4">
+														<label for="input">NPWP</label>
+													</div>
+													<div class="ui-g-12 ui-md-8">
+														<input id="input" type="text" pInputText/>
+													</div>
+									            </div>
+									        </div>
+										</div>
+									</div>
+								</p-tabPanel>
+								<p-tabPanel header="Photo & Finger Print">
+									<div class="ui-g">
+										<div class="ui-g-6">
+											<div class="ui-g-12 ui-md-4">
+											<label for="input">Fingerprint ID</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<input id="input" type="text" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Tanggal Daftar Fingerprint</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-inputMask mask="99/99/9999" slotChar="dd/mm/yyyy" [(ngModel)]="tanggalLahir" placeholder="Date"></p-inputMask>
+											</div>
+										</div>
+
+										<div class="ui-g-6">
+											<div class="ui-g-12 ui-md-4">
+												<label for="input">Photo</label>
+											</div>
+											<div class="ui-g-12 ui-md-8">
+												<p-fileUpload mode="basic" name="demo[]" url="./upload.php" accept="image/*" maxFileSize="1000000" (onUpload)="onBasicUpload($event)"></p-fileUpload>
+											</div>
+										</div>
+									</div>
+								</p-tabPanel>
+								<p-tabPanel header="Riwayat">
+								</p-tabPanel>
+							</p-tabView>
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-4"></div>
+								<div class="ui-g-12 ui-md-2">
+									<button pButton type="submit" label="Simpan" icon="fa-save"></button>
+								</div>
+								<div class="ui-g-12 ui-md-2">
+									<button pButton type="button" label="Hapus" icon="fa-close"></button>
+								</div>
+								<div class="ui-g-12 ui-md-2">
+									<button pButton type="button" label="Batal" icon="fa-close"></button>
+								</div>
+								<div class="ui-g-12 ui-md-2">
+									<button pButton type="button" label="Tutup" icon="fa-close"></button>
+								</div>
+							</div>
+						</div>
+					</p-tabPanel>
+				</p-tabView>
+			</div>
+		</div>
+	</div>
+</div>

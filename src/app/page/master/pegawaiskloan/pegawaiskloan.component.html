@@ -1,0 +1,586 @@
+<style type="text/css">
+.clear {
+  display: table;
+  content: '';
+  clear: both;
+}
+
+.lock-grid {
+  position: absolute;
+  top: 25%;
+  left: 45%
+}
+</style>
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmMasterPegawaiSKLoan_title'| translate | splitCharT }}</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-4">
+                <p-fieldset legend="">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-12">
+                      <div class="ui-g-12 ui-md-9">
+                        <label>{{'frmMasterPegawaiSKLoan_namaSK'| translate | splitCharT}}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('namaSuratKeputusan').valid && form.get('namaSuratKeputusan').touched" style="color: red;font-weight: bolder;">
+                          {{'frmMasterPegawaiSKLoan_required'| translate | splitCharT}}</span>
+                        </label>
+                        <!-- <p-autoComplete formControlName="namaSK" [suggestions]="dataSK" field="namaSK" [size]="30" [minLength]="1" [style]="{'width':'100%'}"
+                          [dropdown]="true" (completeMethod)="filterSk($event)" (onSelect)="pilihSK($event)" class="ui-inputwrapper-filled"
+                          [inputStyle]="{'padding': '0.36em 1.5em 0.36em 0'}"></p-autoComplete> -->
+                          <p-dropdown formControlName="namaSuratKeputusan" (onChange)="ambilSK($event)" class="ui-inputwrapper-filled" [options]="namaSK"
+                          [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+                        </div>
+                        <div class="ui-g-12 ui-md-3">
+                          <br>
+                          <button pButton (click)="getKelompokTransaksi()" type="button" label="{{'frmMasterPegawaiSKLoan_buatSk'| translate | splitCharT }}"></button>
+                        </div>
+                        <div class="ui-g-12 ui-md-9" hidden="true">
+                          <label>{{'frmMasterPegawaiSKLoan_noSK'| translate | splitCharT}}
+                          </label>
+                          <input id="input" type="text" pInputText formControlName="noSK" disabled />
+                        </div>
+
+                        <div class="ui-g-12 ui-md-12">
+                          <label>{{'frmMasterPegawaiSKLoan_noSKInternal'| translate | splitCharT}}
+                          </label>
+                          <input id="input" type="text" pInputText formControlName="noSkIntern" disabled />
+                        </div>
+
+                        
+                        <div class="ui-g-12 ui-md-12">
+                          <label>{{'frmMasterPegawaiSKLoan_periodeBerlakuSk'| translate | splitCharT}}
+                          </label>
+                        </div>
+                        <div class="ui-g-12 ui-md-5">
+                          <app-calender dateFormat="dd M yy" dateFormat="dd M yy" formControlName="tglBerlakuAwal" [monthNavigator]="true" [yearNavigator]="true"
+                          yearRange="2000:2030" [showIcon]="true"></app-calender>
+                        </div>
+                        <div class="ui-g-12 ui-md-1" style="text-align:  center;">
+                          <label>-</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-5">
+                          <app-calender dateFormat="dd M yy" formControlName="tglBerlakuAkhir" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+                          [showIcon]="true"></app-calender>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  <!-- <div class="ui-g-12 ui-md-3">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-12">
+                        <label>{{'periodeBerlakuSk'| translate | splitCharT}}
+                          <span *ngIf="!form.get('tglBerlakuAwal').valid && form.get('tglBerlakuAwal').touched" style="color: red;font-weight: bolder;">*</span>
+                        </label>
+                      </div>
+                      <div class="ui-g-12 ui-md-5">
+                        <app-calender dateFormat="dd M yy" dateFormat="dd M yy" formControlName="tglBerlakuAwal" [monthNavigator]="true" [yearNavigator]="true"
+                          yearRange="2000:2030" [showIcon]="true"></app-calender>
+                      </div>
+                      <div>
+                        <label>-</label>
+                      </div>
+                      <div class="ui-g-12 ui-md-5">
+                        <app-calender dateFormat="dd M yy" formControlName="tglBerlakuAkhir" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+                          [showIcon]="true"></app-calender>
+                      </div>
+                    </div>
+                  </div> -->
+                </p-fieldset>
+              </div>
+              <div class="ui-g-4">
+                <p-fieldset legend="">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-12">
+                      <div class="ui-g-12 ui-md-12">
+                        <label>
+                          {{'frmMasterPegawaiSKLoan_range'| translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('kdRangeMasaKerja').valid && form.get('kdRangeMasaKerja').touched" style="color: red;font-weight: bolder;">
+                          {{'frmMasterPegawaiSKLoan_required'| translate | splitCharT }}</span>
+                        </label>
+                        <p-multiSelect [options]="kodeRangeMasaKerja" formControlName="kdRangeMasaKerja" [(ngModel)]="selectedRange" multiple="multiple"
+                        checkbox="checkbox" filter="filter" optionLabel="label">
+                      </p-multiSelect>
+                    </div>
+                  </div>
+                </div>
+              </p-fieldset>
+            </div>
+            <div class="ui-g-4">
+              <p-fieldset legend="">
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-12">
+                    <div class="ui-g-12 ui-md-12">
+                      <label>
+                        {{'frmMasterPegawaiSKLoan_kategoriPegawai'| translate | splitCharT }}
+                        <span style="color: red;font-weight: bolder;">*</span>
+                        <span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red;font-weight: bolder;">
+                          {{'frmMasterPegawaiSKLoan_required'| translate | splitCharT }}</span>
+                      </label>
+                      <p-dropdown id="dropdown" filter="filter" [options]="kodeKategoryPegawai" formControlName="kdKategoryPegawai" [(ngModel)]="selectedKategori"
+                      [autoWidth]="false" (onChange)="valueKategoriPegawai(selectedKategori)"></p-dropdown>
+                        <!-- <p-multiSelect [options]="kodeKategoryPegawai" formControlName="kdKategoryPegawai" [(ngModel)]="selectedKategori" multiple="multiple"
+                          checkbox="checkbox" filter="filter" optionLabel="label">
+                        </p-multiSelect> -->
+                      </div>
+                    </div>
+                  </div>
+                </p-fieldset>
+              </div>
+              <div class="ui-g-12">
+                <p-fieldset legend="">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-3">
+                      <div class="ui-g-12">
+                        <label>{{'frmMasterPegawaiSKLoan_tipePinjaman' | translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('kdProdukLoan').valid && form.get('kdProdukLoan').touched" style="color: red;font-weight: bolder;">
+                            {{'frmMasterPegawaiSKLoan_required'| translate | splitCharT }}</span>
+                        </label>
+                        <p-dropdown id="dropdown" filter="filter" [options]="tipePinjaman" formControlName="kdProdukLoan" [autoWidth]="false" placeholder="{{'frmMasterPegawaiSKLoan_pilihTipePinjaman' | translate | splitCharT }}"></p-dropdown>
+                      </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-3">
+                      <br>
+                      <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g-4">
+                          <p-radioButton value="Nominal" [(ngModel)]="type" [ngModelOptions]="{standalone: true}" label="Nominal" (ngModelChange)="valueRadio($event)"
+                          [disabled]="btnResponse"></p-radioButton>
+                        </div>
+                        <div class="ui-g-4">
+                          <p-radioButton value="Perkalian" [(ngModel)]="type" [ngModelOptions]="{standalone: true}" label="Perkalian" (ngModelChange)="valueRadio($event)"
+                          [disabled]="btnResponse"></p-radioButton>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-3" style="margin-left: -110px;">
+                      <div class="ui-g-12 ui-md-12" *ngIf="type == 'Nominal' || !type ">
+                        <div class="ui-g-12">
+                          <label>{{'frmMasterPegawaiSKLoan_maxTotalPinjaman' | translate | splitCharT }}</label>
+                          <p-spinner id="input" [min]="0" type="text" formControlName="maxTotalLoan"></p-spinner>
+                        </div>
+                      </div>
+                      <div class="ui-g-12 ui-md-12" *ngIf="type == 'Perkalian'">
+                        <div class="ui-g-12">
+                          <label hidden>{{'frmMasterPegawaiSKLoan_faktorRateMaxTotalPinjaman' | translate | splitCharT }}</label>
+                          <input id="input" type="text" formControlName="factorRateMaxTotalLoan" pInputText hidden/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-3" style="margin-left: 10px;">
+                      <div class="ui-g-12 ui-md-12" *ngIf="type == 'Nominal' || !type ">
+                        <div class="ui-g-12">
+                          <label>{{'frmMasterPegawaiSKLoan_maxTotalCicilan' | translate | splitCharT }}</label>
+                          <p-spinner id="input" [min]="0" type="text" formControlName="maxTotalCicilan" (ngModelChange)="getMaxTotalCicilan($event)"></p-spinner>
+                          <!-- <input id="input" type="text" formControlName="maxTotalCicilan" pInputText (ngModelChange)="getMaxTotalCicilan($event)" /> -->
+                        </div>
+                      </div>
+                      <div class="ui-g-12 ui-md-12" *ngIf="type == 'Perkalian'">
+                        <div class="ui-g-12">
+                          <label hidden>{{'frmMasterPegawaiSKLoan_factorRateMaxTotalCicilan' | translate | splitCharT }}</label>
+                          <input id="input" type="text" formControlName="factorRateMaxTotalCicilanKomponenGaji" pInputText hidden/>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12">
+                      <p-blockUI [target]="gridKomponenBiaya" [blocked]="cekKomponenBiaya" [baseZIndex]=10 [autoZIndex]="false">
+                        <i class="fa fa-lock fa-5x lock-grid"></i>
+                      </p-blockUI>
+                      <div class="ui-g-8">
+                        <!-- <p-toolbar>
+                        <div class="ui-g-3">
+                          <button type="button" pButton label="{{'tambahData' | translate | splitCharT }}" [disabled]="btnKomponenBiaya" (click)="tambahDataKomponenBiaya()"></button>
+                        </div>
+                      </p-toolbar> -->
+                      <p-dataTable #gridKomponenBiaya [value]="listDataKomponenBiaya" [rows]="5" [paginator]="true" [editable]="true">
+                        <p-header>
+                          <div class="ui-helper-clearfix">
+                            <label style="float:center;">{{'frmMasterPegawaiSKLoan_komponenBiaya'| translate | splitCharT }}</label>
+                            <button type="button" pButton icon="fa-plus" [disabled]="btnKomponenBiaya" (click)="tambahDataKomponenBiaya()" style="float:left; font-size: 13px !important;"></button>
+                            <!-- <button pButton type="button" icon="fa-plus" (click)="tambahPengajuan()" style="float:right; font-size: 13px !important;"></button> -->
+                          </div>
+                        </p-header>
+                        <p-column field="komponenBiaya" header="{{'frmMasterPegawaiSKLoan_tblKomponenBiaya'| translate | splitCharT }}" [editable]="true">
+                          <ng-template let-col let-data="rowData" pTemplate="body">
+                            {{data[col.field].namaKomponen}}
+                          </ng-template>
+                          <ng-template let-col let-data="rowData" pTemplate="editor">
+                            <p-dropdown [options]="datakomponenBiaya" filter="filter" [autoWidth]="false" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+                            appendTo="body" placeholder="--Pilih Komponen Biaya--"></p-dropdown>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="factorRateMaxTotalLoan" header="{{'frmMasterPegawaiSKLoan_tblFaktorRateMaxTotalPinjaman'| translate | splitCharT }}">
+                          <ng-template let-col let-data="rowData" pTemplate="body">
+                            <!-- {{ data[col.field] }} -->
+                            <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" (keyup)="getTotalLoan(data)">
+                          </ng-template>
+                          <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor">
+                            <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" (keyup)="getTotalLoan(data)">
+                          </ng-template>
+                        </p-column>
+                        <p-column field="factorRateMaxTotalCicilan" header="{{'frmMasterPegawaiSKLoan_tblFactorRateMaxTotalCicilan'| translate | splitCharT }}">
+                          <ng-template let-col let-data="rowData" pTemplate="body">
+                            <!-- {{data[col.field]}} -->
+                            <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" (keyup)="getTotalCicilan(data)">
+                          </ng-template>
+                          <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor">
+                            <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" (keyup)="getTotalCicilan(data)">
+                          </ng-template>
+                        </p-column>
+                        <p-column field="statusEnabled" header="{{'frmMasterPegawaiSKLoan_tblStatusAktif'| translate | splitCharT }}">
+                          <ng-template let-col let-data="rowData" pTemplate="body">
+                            <p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"></p-checkbox>
+                          </ng-template>
+                        </p-column>
+                        <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                          <ng-template pTemplate="header"></ng-template>
+                          <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                            <div *ngIf="data.noSK == null">
+                              <button type="button" pButton icon="fa-trash" (click)="hapusRowDataKomponenBiaya(i)"></button>
+                            </div>
+                          </ng-template>
+                        </p-column>
+                      </p-dataTable>
+                    </div>
+                  </div>
+                </div>
+              </p-fieldset>
+            </div>
+            <div class="ui-g-12">
+              <p-fieldset legend="">
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-3">
+                    <div class="ui-g-12">
+                      <label>{{'frmMasterPegawaiSKLoan_carabayar' | translate | splitCharT }}
+                        <span style="color: red;font-weight: bolder;">*</span>
+                        <span *ngIf="!form.get('kdCaraBayar').valid && form.get('kdCaraBayar').touched" style="color: red;font-weight: bolder;">
+                          {{'frmMasterPegawaiSKLoan_required'| translate | splitCharT }}</span>
+                      </label>
+                      <p-dropdown id="dropdown" filter="filter" [options]="kodeCaraBayar" formControlName="kdCaraBayar" [autoWidth]="false" placeholder="--Pilih Cara Bayar--"></p-dropdown>
+                    </div>
+                    <div class="ui-g-12">
+                      <label>{{'frmMasterPegawaiSKLoan_jenisBunga' | translate | splitCharT }}</label>
+                      <p-dropdown id="dropdown" filter="filter" [options]="kodeJenisBunga" formControlName="kdJenisBunga" [autoWidth]="false" placeholder="--Pilih Jenis Bunga--"></p-dropdown>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 ui-md-3">
+                    <div class="ui-g-12">
+                      <label>{{'frmMasterPegawaiSKLoan_jenisSukuBunga' | translate | splitCharT }}</label>
+                      <p-dropdown id="dropdown" filter="filter" [options]="kodeJenisSukuBunga" formControlName="kdJenisSukuBunga" [autoWidth]="false"
+                      placeholder="--Pilih Jenis Suku Bunga--"></p-dropdown>
+                    </div>
+                    <div class="ui-g-12">
+                      <label>{{'frmMasterPegawaiSKLoan_metodeHitungBunga' | translate | splitCharT }}</label>
+                      <p-dropdown id="dropdown" filter="filter" [options]="kodeMetodeHitungBunga" formControlName="kdMetodeHitungBunga" [autoWidth]="false"
+                      placeholder="--Pilih Metode Hitung Bunga--"></p-dropdown>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 ui-md-3">
+                    <div class="ui-g-12">
+                      <label>{{'frmMasterPegawaiSKLoan_metodePembayaran' | translate | splitCharT }}</label>
+                      <p-dropdown id="dropdown" filter="filter" [options]="kodeMetodePembayaran" formControlName="kdMetodePembayaran" [autoWidth]="false"
+                      placeholder="--Pilih Metode Pembayaran--"></p-dropdown>
+                    </div>
+                    <div class="ui-g-12">
+                      <label>{{'frmMasterPegawaiSKLoan_maxQtyCicilan' | translate | splitCharT }}
+                        <span style="color: red;font-weight: bolder;">*</span>
+                        <span *ngIf="!form.get('maxQtyCicilan').valid && form.get('maxQtyCicilan').touched" style="color: red;font-weight: bolder;">
+                        {{'frmMasterPegawaiSKLoan_required'| translate | splitCharT }}</span>
+                      </label>
+                      <p-spinner id="input" [min]="0" [max]="10000" type="text" formControlName="maxQtyCicilan" (ngModelChange)="getQtyCicilan($event)"></p-spinner>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 ui-md-3">
+                    <div class="ui-g-12">
+                      <br>
+                      <p-checkbox binary="true" label="{{'frmMasterPegawaiSKLoan_statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                      <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red;font-weight: bolder;">* {{'frmMasterPegawaiSKLoan_required'| translate | splitCharT }}</span>
+                    </div>
+                  </div>
+                  <div class="ui-g-12 ui-md-12">
+                    <p-blockUI [target]="gridBiayaLainnya" [blocked]="cekBiayaLainnya" [baseZIndex]=10 [autoZIndex]="false">
+                      <i class="fa fa-lock fa-5x lock-grid"></i>
+                    </p-blockUI>
+                    <div class="ui-g-12 ui-md-4">
+                      <form [formGroup]="form">
+                        <p-checkbox label="{{'frmMasterPegawaiSKLoan_biayaLainnya'| translate | splitCharT }}" binary="true" formControlName="statusBiaya" (onChange)="getBiayaLainnya($event)"></p-checkbox>
+                      </form>
+                    </div>
+                    <div class="ui-g-12">
+                        <!-- <p-toolbar>
+                      <div class="ui-g-3">
+                        <button type="button" pButton label="{{'tambahData' | translate | splitCharT }}" [disabled]="btnBiayaLainnya" (click)="tambahDataBiayaLainnya()"></button>
+                      </div>
+                    </p-toolbar> -->
+                    <p-dataTable #gridBiayaLainnya [value]="listDataBiayaLainnya" [rows]="5" [paginator]="true" [editable]="true" scrollable="true">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <label style="float:center;">{{'frmMasterPegawaiSKLoan_dataBiayaLainnya'| translate | splitCharT }}</label>
+                          <button type="button" pButton icon="fa-plus" [disabled]="btnBiayaLainnya" (click)="tambahDataBiayaLainnya()" style="float:left; font-size: 13px !important;"></button>
+                          <!-- <button pButton type="button" icon="fa-plus" (click)="tambahPengajuan()" style="float:right; font-size: 13px !important;"></button> -->
+                        </div>
+                      </p-header>
+                      <p-column field="biayaLainnya" header="{{'frmMasterPegawaiSKLoan_tblBiayaLainnya'| translate | splitCharT }}" [editable]="true" [style]="{'width':'150px'}">
+                        <ng-template let-col let-data="rowData" pTemplate="body">
+                          {{data[col.field].namaProduk}}
+                        </ng-template>
+                        <ng-template let-col let-data="rowData" pTemplate="editor">
+                          <p-dropdown filter="filter" [options]="tipeBiayaLainnya" [autoWidth]="false" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+                          appendTo="body" placeholder="--Pilih Biaya Lainnya--"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="hargaSatuan" header="{{'frmMasterPegawaiSKLoan_tblHargaSatuan'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                        <ng-template let-col let-data="rowData" pTemplate="body">
+                          <!-- {{ setHarga(data[col.field]) }} -->
+                          <div *ngIf="dataEditHarga !== true">
+                            {{data.hargaSatuan | number}}
+                          </div>
+                          <div *ngIf="data.persenHargaSatuan == null">                            
+                           <p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                         </div>
+                       </ng-template>
+                       <!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+                        <!-- <div *ngIf="data.persenHargaSatuan == null"> -->
+                          <!-- <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                          <!-- </div> -->
+                          <!-- </ng-template> -->
+                        </p-column>
+                        <p-column field="persenHargaSatuan" header="{{'frmMasterPegawaiSKLoan_tblPersenHargaSatuan'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                          <ng-template let-col let-data="rowData" pTemplate="body">
+                            <!-- {{data[col.field]}} -->
+                            <div *ngIf="dataEditPersen !== true">
+                              {{data.persenHargaSatuan | number}}
+                            </div>
+                            <div *ngIf="data.hargaSatuan == null">                            
+                             <p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                           </div>
+                         </ng-template>
+                         <!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+                          <!-- <div *ngIf="data.hargaSatuan == null"> -->
+                            <!-- <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                            <!-- </div> -->
+                            <!-- </ng-template> -->
+                          </p-column>
+                          <p-column field="persenDiscount" header="{{'frmMasterPegawaiSKLoan_tblPersenDiscount'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              <!-- {{data[col.field]}} -->                        
+                              <p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor">
+                              <!-- <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body">         -->
+                              <p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                            </ng-template>
+                          </p-column>
+                          <p-column field="qtyProduk" header="{{'frmMasterPegawaiSKLoan_tblQtyProduk'| translate | splitCharT }}" [editable]="true" [style]="{'width':'100px'}">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              <!-- {{data[col.field]}} -->
+                              <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body">
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor">
+                              <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body">
+                            </ng-template>
+                          </p-column>
+                          <p-column field="factorRate" header="{{'frmMasterPegawaiSKLoan_tblFactorRate'| translate | splitCharT }}" [editable]="true" [style]="{'width':'100px'}">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              <!-- {{data[col.field]}} -->
+                              <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body">
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor">
+                              <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body">
+                            </ng-template>
+                          </p-column>
+                          <p-column field="operatorFactorRate" header="{{'frmMasterPegawaiSKLoan_tblOperatorFactorRate'| translate | splitCharT }}" [editable]="true" [style]="{'width':'200px'}">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              {{data[col.field]}}
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" pTemplate="editor">
+                              <p-dropdown filter="filter" [options]="kodeOperatorFactorRate" [autoWidth]="false" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+                              appendTo="body" placeholder="--Pilih Operator Factor Rate--"></p-dropdown>
+                            </ng-template>
+                          </p-column>
+                          <p-column field="status" header="{{'frmMasterPegawaiSKLoan_tblStatus'| translate | splitCharT }}" [editable]="true" [style]="{'width':'150px'}">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              {{data[col.field].nama}}
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor">
+                              <p-dropdown filter="filter" [options]="statusAdded" [autoWidth]="false" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+                              appendTo="body" placeholder="--Pilih Status Added--"></p-dropdown>
+                            </ng-template>
+                          </p-column>
+                          <p-column field="statusEnabled" header="{{'frmMasterPegawaiSKLoan_tblStatusAktif'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              <p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"></p-checkbox>
+                            </ng-template>
+                          </p-column>
+
+                          <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                            <ng-template pTemplate="header"></ng-template>
+                            <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                              <div *ngIf="data.noSK == null">
+                                <button type="button" pButton icon="fa-trash" (click)="hapusRowDataBiayaLainnya(i)"></button>
+                              </div>
+                            </ng-template>
+                          </p-column>
+                        </p-dataTable>
+                      </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-12">
+                      <!-- block -->
+                      <p-blockUI [target]="gridDokumen" [blocked]="cekDokumen" [baseZIndex]=10 [autoZIndex]="false">
+                        <i class="fa fa-lock fa-5x lock-grid"></i>
+                      </p-blockUI>
+                      <div class="ui-g-12 ui-md-12">
+                        <!-- checkbox -->
+                        <form [formGroup]="form">
+                          <p-checkbox label="{{'frmMasterPegawaiSKLoan_dokumen'| translate | splitCharT }}" binary="true" formControlName="statusDokumen" (onChange)="getDokumen($event)"></p-checkbox>
+                        </form>
+                      </div>
+                      <div class="ui-g-7">
+                        <!-- grid -->
+                        <!-- <p-toolbar>
+                          <div class="ui-g-3">
+                            <button type="button" pButton label="{{'tambahData' | translate | splitCharT }}" [disabled]="btnDokumen" (click)="tambahDataDokumen()"></button>
+                          </div>
+                        </p-toolbar> -->
+                        <p-dataTable #gridDokumen [value]="listDataDokumen" [rows]="5" [paginator]="true" [editable]="true">
+                          <p-header>
+                            <div class="ui-helper-clearfix">
+                              <label style="float:center;">{{'frmMasterPegawaiSKLoan_dataDokumen'| translate | splitCharT }}</label>
+                              <button type="button" pButton icon="fa-plus" [disabled]="btnDokumen" (click)="tambahDataDokumen()" style="float:left; font-size: 13px !important;"></button>
+                              <!-- <button pButton type="button" icon="fa-plus" (click)="tambahPengajuan()" style="float:right; font-size: 13px !important;"></button> -->
+                            </div>
+                          </p-header>
+                          <p-column field="kategoryDokumen" header="{{'frmMasterPegawaiSKLoan_tblKategoryDokumen'| translate | splitCharT }}">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              {{data[col.field].namaKategoryDokumen}}
+                            </ng-template>
+                          </p-column>
+                          <p-column field="jenisDokumen" header="{{'frmMasterPegawaiSKLoan_tblJenisDokumen'| translate | splitCharT }}" [editable]="true">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              {{data[col.field].namaJenisDokumen}}
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" pTemplate="editor">
+                              <p-dropdown filter="filter" [options]="jenisDokumen" [autoWidth]="false" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"
+                              appendTo="body" placeholder="{{'frmMasterPegawaiSKLoan_pilihJenisDokumen'| translate | splitCharT }}"></p-dropdown>
+                            </ng-template>
+                          </p-column>
+                          <p-column field="judulDokumen" header="{{'frmMasterPegawaiSKLoan_judulDokumen'| translate | splitCharT }}">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              <!-- {{ data[col.field] }} -->
+                              <input type="text" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body">
+                            </ng-template>
+                            <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor">
+                              <input type="text" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body">
+                            </ng-template>
+                          </p-column>
+                          <p-column field="statusEnabled" header="{{'frmMasterPegawaiSKLoan_statusAktif'| translate | splitCharT }}">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              <p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"></p-checkbox>
+                            </ng-template>
+                          </p-column>
+                          <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                            <ng-template pTemplate="header"></ng-template>
+                            <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                              <div *ngIf="data.noSK == null">
+                                <button type="button" pButton icon="fa-trash" (click)="hapusRowDataDokumen(i)"></button>
+                              </div>
+                            </ng-template>
+                          </p-column>
+                        </p-dataTable>
+                      </div>
+                    </div>
+                  </div>
+                </p-fieldset>
+              </div>
+            </form>
+
+            <div class="clear"></div>
+
+            <div class="clear"></div>
+
+            <div class="clear"></div>
+
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-12">
+                <div class="ui-g-12 ui-md-7"></div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmMasterPegawaiSKLoan_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="submit" label="{{'frmMasterPegawaiSKLoan_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmMasterPegawaiSKLoan_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmMasterPegawaiSKLoan_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetak()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <p-splitButton label="{{'frmMasterPegawaiSKLoan_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="ui-g-12">
+            <p-dataTable [value]="listData" expandableRows="true" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+            selectionMode="single" scrollable="true" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [totalRecords]="totalRecords"
+            (onLazyLoad)="loadPage($event)">
+            <p-header>
+              <div class="ui-helper-clearfix">
+                <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                <input type="text" pInputText size="50" placeholder="{{'frmMasterPegawaiSKLoan_pencarianTipePinjaman'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+                style="width: 20%;float:right;">
+                <span style="float: left;padding:0.3em;">{{'frmMasterPegawaiSKLoan_dataPegawaiSKLoan'| translate | splitCharT }}</span>
+              </div>
+            </p-header>
+            <!--  <p-column expander="true" styleClass="col-icon" [style]="{'width':'30px'}"></p-column>  -->
+            <p-column hidden="true" field="noSK" header="{{'frmMasterPegawaiSKLoan_tblNoSK'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+            <p-column field="noSKIntern" header="{{'frmMasterPegawaiSKLoan_tblNoSKInternal'| translate | splitCharT }}"[style]="{'width':'150px'}"></p-column>
+            <p-column field="namaSK" header="{{'frmMasterPegawaiSKLoan_tblNamaSK'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+            <p-column field="tglBerlakuAwal" header="{{'frmMasterPegawaiSKLoan_tblTglBerlakuAwal' | translate | splitCharT }}" [style]="{'width':'150px'}">
+              <ng-template let-pick="rowData" pTemplate type="body">
+                {{pick.tglBerlakuAwal * 1000 | date: 'dd MMM yyyy'}}
+              </ng-template>
+            </p-column>
+            <p-column field="tglBerlakuAkhir" header="{{'frmMasterPegawaiSKLoan_tblTglBerlakuAkhir' | translate | splitCharT }}" [style]="{'width':'150px'}">
+              <ng-template let-pick="rowData" pTemplate type="body">
+                <span *ngIf="pick.tglBerlakuAkhir == null">
+                  -
+                </span>
+                <span *ngIf="pick.tglBerlakuAkhir != null">
+                  {{pick.tglBerlakuAkhir * 1000 | date: 'dd MMM yyyy'}}
+                </span>
+              </ng-template>
+            </p-column>
+            <p-column field="namaKategoryPegawai" header="{{'frmMasterPegawaiSKLoan_tblKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+            <p-column field="namaRangeMasaKerja" header="{{'frmMasterPegawaiSKLoan_tblRangeMasaKerja'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+            <p-column field="namaProdukLoan" header="{{'frmMasterPegawaiSKLoan_tblTipePinjaman'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+            <p-column field="maxTotalLoan" header="{{'frmMasterPegawaiSKLoan_tblMaxTotalPinjaman'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+            <p-column field="factorRateMaxTotalLoan" header="{{'frmMasterPegawaiSKLoan_tblFaktorRateMaxTotalPinjaman'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+            <p-column field="maxTotalCicilan" header="{{'frmMasterPegawaiSKLoan_tblMaxTotalCicilan'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+            <p-column field="factorRateMaxTotalCicilan" header="{{'frmMasterPegawaiSKLoan_tblFactorRateMaxTotalCicilan'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+            <p-column field="namaCaraBayar" header="{{'frmMasterPegawaiSKLoan_tblCarabayar'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+            <p-column field="namaJenisBunga" header="{{'frmMasterPegawaiSKLoan_tblJenisBunga'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+            <p-column field="namaJenisSukuBunga" header="{{'frmMasterPegawaiSKLoan_tblJenisSukuBunga'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+            <p-column field="namaMetodeHitungBunga" header="{{'frmMasterPegawaiSKLoan_tblMetodeHitungBunga'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+            <p-column field="namaMetodePembayaran" header="{{'frmMasterPegawaiSKLoan_tblMetodePembayaran'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+            <p-column field="maxQtyCicilan" header="{{'frmMasterPegawaiSKLoan_tblMaxQtyCicilan'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+            <p-column field="statusEnabled" header="{{'frmMasterPegawaiSKLoan_tblStatusAktif'| translate | splitCharT }}" [style]="{'width':'200px'}">
+              <ng-template let-col="rowData" pTemplate type="body">
+                {{col.statusEnabled | truefalse | translate | splitCharT }}
+              </ng-template> 
+            </p-column>
+          </p-dataTable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,408 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>Master {{'pegawaiStrukturGaji' | translate | splitCharT }}</h1>
+        <div class="ui-g form-group">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="ui-g-5">
+              <div class="ui-g-12">
+                <span class="ui-float-label">
+                  <input id="input" type="text" pInputText formControlName="noSK" readonly="true" />
+                  <label for="input">{{'noSK' | translate | splitCharT }}</label>
+                </span>
+              </div>
+              <div class="ui-g-12">
+                <span class="ui-float-label">
+                  <input id="input" type="text" formControlName="namaSK" pInputText/>
+                  <label for="input">{{'namaSK' | translate | splitCharT }}</label>
+                </span>
+              </div>
+
+            </div>
+            <div class="ui-g-1">
+            </div>
+            <div class="ui-g-5">
+              <div class="ui-g-12">
+                <span class="ui-float-label">
+                  <app-calender formControlName="tglAwalBerlakuSk" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true"
+                    ></app-calender>
+                  <label for="input">{{'tanggalAwalBerlakuSK' | translate | splitCharT }}</label>
+                </span>
+              </div>
+              <div class="ui-g-12">
+                <!-- <label for="input">{{'tanggalAwalBerlakuSK' | translate | splitCharT }}</label> -->
+                <p-checkbox binary="true" label="" formControlName="AktifTanggal" label="{{'berlakuSeterusnya'| translate | splitCharT }}" (onChange)="disabledTgl($event)"></p-checkbox>
+              </div>
+              <div class="ui-g-12">
+                <span class="ui-float-label">
+                  <app-calender formControlName="tglAkhirBerlakuSk" [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [showIcon]="true"
+                    ></app-calender>
+                  <label for="input">{{'tanggalAkhirBerlakuSK' | translate | splitCharT }}</label>
+                </span>
+              </div>
+            </div>
+          </form>
+          <!-- berdasarkanGolonganPegawai -->
+          <div class="ui-g-12">
+            <p-fieldset legend="{{'berdasarkanGolonganPegawai' | translate | splitCharT }}">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="ui-g-3">
+                  <div class="ui-g-12">
+                    <span class="ui-float-label">
+                      <p-dropdown [filter]="true" filterBy="label" class="ui-inputwrapper-filled"  formControlName="kdGolonganPegawai" [options]="listDurasi" [autoWidth]="false" ></p-dropdown>
+                      <label for="golonganPegawai">{{'golonganPegawai'| translate | splitCharT}}</label>
+									  </span>
+                  </div>
+                </div>
+              </form>
+              <div class="ui-g-12">
+                <p-toolbar>
+                  <div class="ui-toolbar-group-left">
+                    <button pButton type="button" label="Tambah" icon="fa-plus" (click)="tambahBerdasarkanGologanPegawai()"></button>
+                  </div>
+                </p-toolbar>
+                <p-dataTable [value]="listBerdasarkanGologanPegawai" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+                  [editable]="true" scrollable="true">
+                  <p-header>{{'anggaran'| translate | splitCharT }}</p-header>
+                  <p-column field="komponenGaji" header="{{'komponenGaji'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-komponenGaji="rowData" pTemplate="body">
+                      {{komponenGaji[col.field].namaKomponenGaji}}
+                    </ng-template>
+                    <ng-template let-col let-komponenGaji="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="komponenGaji[col.field]" [options]="listKomponenGaji" [autoWidth]="false" [style]="{'width':'100%'}"
+                        required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="hargaSatuan" header="{{'hargaSatuan'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-hargaSatuan="rowData" pTemplate="body">
+                      {{hargaSatuan[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-hargaSatuan="rowData" pTemplate="editor">
+                      <input type="number" [(ngModel)]="hargaSatuan[col.field]" appendTo="body" pInputText />
+                    </ng-template>
+                  </p-column>
+                  <p-column field="durasi" header="{{'durasi'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-durasi="rowData" pTemplate="body">
+                      {{durasi[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-durasi="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="durasi[col.field]" [options]="listDurasi" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                        appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="factorRate" header="{{'factorRate'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-factorRate="rowData" pTemplate="body">
+                      {{factorRate[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-factorRate="rowData" pTemplate="editor">
+                      <input type="number" [(ngModel)]="factorRate[col.field]" appendTo="body" pInputText />
+                    </ng-template>
+                  </p-column>
+                  <p-column field="operatorFactorRate" header="{{'operatorFactorRate'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-operatorFactorRate="rowData" pTemplate="body">
+                      {{operatorFactorRate[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-operatorFactorRate="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="operatorFactorRate[col.field]" [options]="listOperator" [autoWidth]="false" [style]="{'width':'100%'}"
+                        required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column styleClass="col-button" [style]="{'width':'50px'}">
+                    <ng-template pTemplate="header">
+                    </ng-template>
+                    <ng-template pTemplate type="body" let-col let-pegawai="rowData" let-ri="rowIndex">
+                      <button type="button" pButton (click)="hapusGolonganPegawai(ri)" icon="fa-trash"></button>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
+              </div>
+            </p-fieldset>
+          </div>
+          <!-- berdasarkanJabatanPegawai -->
+          <div class="ui-g-12"><br />
+            <p-checkbox [(ngModel)]="jabatanPegawai" binary="true" label="{{'berdasarkanJabatanPegawai'| translate | splitCharT }}" (onChange)="clearJabatanPegawai($event)"></p-checkbox>
+          </div>
+          <p-blockUI [target]="berdasarkanJabatanPegawai" [blocked]="!jabatanPegawai">
+            <i class="fa fa-lock fa-5x" style="position:absolute;top:25%;left:45%"></i>
+          </p-blockUI>
+          <div class="ui-g-12">
+            <p-fieldset #berdasarkanJabatanPegawai legend="{{'berdasarkanJabatanPegawai' | translate | splitCharT }}">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="ui-g-3">
+                  <div class="ui-g-12">
+                    <span class="ui-float-label">
+                      <p-dropdown [filter]="true" filterBy="label" class="ui-inputwrapper-filled"  formControlName="kdJabatanPegawai" [options]="listDurasi" [autoWidth]="false" ></p-dropdown>
+                      <label for="JabatanPegawai">{{'JabatanPegawai'| translate | splitCharT}}</label>
+									  </span>
+                  </div>
+                </div>
+
+              </form>
+
+              <div class="ui-g-12">
+                <p-toolbar>
+                  <div class="ui-toolbar-group-left">
+                    <button pButton type="button" label="Tambah" icon="fa-plus" (click)="tambahBerdasarkanJabatanPegawai()"></button>
+                  </div>
+                </p-toolbar>
+                <p-dataTable [value]="listBerdasarkanJabatanPegawai" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+                  [editable]="true" scrollable="true">
+                  <p-header>{{'anggaran'| translate | splitCharT }}</p-header>
+                  <p-column field="komponenGaji" header="{{'komponenGaji'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-komponenGaji="rowData" pTemplate="body">
+                      {{komponenGaji[col.field].namaKomponenGaji}}
+                    </ng-template>
+                    <ng-template let-col let-komponenGaji="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="komponenGaji[col.field]" [options]="listKomponenGaji" [autoWidth]="false" [style]="{'width':'100%'}"
+                        required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="hargaSatuan" header="{{'hargaSatuan'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-hargaSatuan="rowData" pTemplate="body">
+                      {{hargaSatuan[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-hargaSatuan="rowData" pTemplate="editor">
+                      <input type="number" [(ngModel)]="hargaSatuan[col.field]" appendTo="body" pInputText />
+                    </ng-template>
+                  </p-column>
+                  <p-column field="durasi" header="{{'durasi'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-durasi="rowData" pTemplate="body">
+                      {{durasi[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-durasi="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="durasi[col.field]" [options]="listDurasi" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                        appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="factorRate" header="{{'factorRate'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-factorRate="rowData" pTemplate="body">
+                      {{factorRate[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-factorRate="rowData" pTemplate="editor">
+                      <input type="number" [(ngModel)]="factorRate[col.field]" appendTo="body" pInputText />
+                    </ng-template>
+                  </p-column>
+                  <p-column field="operatorFactorRate" header="{{'operatorFactorRate'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-operatorFactorRate="rowData" pTemplate="body">
+                      {{operatorFactorRate[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-operatorFactorRate="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="operatorFactorRate[col.field]" [options]="listOperator" [autoWidth]="false" [style]="{'width':'100%'}"
+                        required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column styleClass="col-button" [style]="{'width':'50px'}">
+                    <ng-template pTemplate="header">
+                    </ng-template>
+                    <ng-template pTemplate type="body" let-col let-pegawai="rowData" let-ri="rowIndex">
+                      <button type="button" pButton (click)="hapusJabatanPegawai(ri)" icon="fa-trash"></button>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
+              </div>
+            </p-fieldset>
+          </div>
+          <!-- berdasarkanJabatanDanPendidikanPegawai -->
+          <div class="ui-g-12"><br />
+            <p-checkbox [(ngModel)]="jabatanPendidikanPegawai" binary="true" label="{{'berdasarkanJabatanDanPendidikanPegawai'| translate | splitCharT }}"
+              (onChange)="clearJabatanPendidikanPegawai($event)"></p-checkbox>
+          </div>
+          <p-blockUI [target]="berdasarkanJabatanDanPendidikanPegawai" [blocked]="!jabatanPendidikanPegawai">
+            <i class="fa fa-lock fa-5x" style="position:absolute;top:25%;left:45%"></i>
+          </p-blockUI>
+          <div class="ui-g-12">
+            <p-fieldset #berdasarkanJabatanDanPendidikanPegawai legend="{{'berdasarkanJabatanDanPendidikanPegawai' | translate | splitCharT }}">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="ui-g-3">
+                  <div class="ui-g-12">
+                    <span class="ui-float-label">
+                      <p-dropdown [filter]="true" filterBy="label" class="ui-inputwrapper-filled"  formControlName="kdJabatanPegawai2" [options]="listDurasi" [autoWidth]="false" ></p-dropdown>
+                      <label for="jabatanPagawai">{{'jabatanPagawai'| translate | splitCharT}}</label>
+									  </span>
+                  </div>
+                  <div class="ui-g-12">
+                    <span class="ui-float-label">
+                      <p-dropdown [filter]="true" filterBy="label" class="ui-inputwrapper-filled"  formControlName="kdPendidikan" [options]="listDurasi" [autoWidth]="false" ></p-dropdown>
+                      <label for="pendidikan">{{'pendidikan'| translate | splitCharT}}</label>
+									  </span>
+                  </div>
+                </div>
+              </form>
+              <div class="ui-g-12">
+                <p-toolbar>
+                  <div class="ui-toolbar-group-left">
+                    <button pButton type="button" label="Tambah" icon="fa-plus" (click)="tambahBerdasarkanJabatanDanPendidikanPegawai()"></button>
+                  </div>
+                </p-toolbar>
+                <p-dataTable [value]="listBerdasarkanJabatanDanPendidikanPegawai" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+                  [editable]="true" scrollable="true">
+                  <p-header>{{'anggaran'| translate | splitCharT }}</p-header>
+                  <p-column field="komponenGaji" header="{{'komponenGaji'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-komponenGaji="rowData" pTemplate="body">
+                      {{komponenGaji[col.field].namaKomponenGaji}}
+                    </ng-template>
+                    <ng-template let-col let-komponenGaji="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="komponenGaji[col.field]" [options]="listKomponenGaji" [autoWidth]="false" [style]="{'width':'100%'}"
+                        required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="hargaSatuan" header="{{'hargaSatuan'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-hargaSatuan="rowData" pTemplate="body">
+                      {{hargaSatuan[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-hargaSatuan="rowData" pTemplate="editor">
+                      <input type="number" [(ngModel)]="hargaSatuan[col.field]" appendTo="body" pInputText />
+                    </ng-template>
+                  </p-column>
+                  <p-column field="durasi" header="{{'durasi'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-durasi="rowData" pTemplate="body">
+                      {{durasi[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-durasi="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="durasi[col.field]" [options]="listDurasi" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                        appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="factorRate" header="{{'factorRate'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-factorRate="rowData" pTemplate="body">
+                      {{factorRate[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-factorRate="rowData" pTemplate="editor">
+                      <input type="number" [(ngModel)]="factorRate[col.field]" appendTo="body" pInputText />
+                    </ng-template>
+                  </p-column>
+                  <p-column field="operatorFactorRate" header="{{'operatorFactorRate'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-operatorFactorRate="rowData" pTemplate="body">
+                      {{operatorFactorRate[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-operatorFactorRate="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="operatorFactorRate[col.field]" [options]="listOperator" [autoWidth]="false" [style]="{'width':'100%'}"
+                        required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column styleClass="col-button" [style]="{'width':'50px'}">
+                    <ng-template pTemplate="header">
+                    </ng-template>
+                    <ng-template pTemplate type="body" let-col let-pegawai="rowData" let-ri="rowIndex">
+                      <button type="button" pButton (click)="hapusJabatanPendidikanPegawai(ri)" icon="fa-trash"></button>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
+              </div>
+            </p-fieldset>
+          </div>
+          <!-- berdasarkanMasaKerjaDanPendidikanPegawai -->
+          <div class="ui-g-12"><br />
+            <p-checkbox [(ngModel)]="masaKerjaPendidikanPegawai" binary="true" label="{{'berdasarkanMasaKerjaDanPendidikanPegawai'| translate | splitCharT }}"
+              (onChange)="clearMasaKerjaPendidikanPegawai($event)"></p-checkbox>
+          </div>
+          <p-blockUI [target]="berdasarkanMasaKerjaDanPendidikanPegawai" [blocked]="!masaKerjaPendidikanPegawai">
+            <i class="fa fa-lock fa-5x" style="position:absolute;top:25%;left:45%"></i>
+          </p-blockUI>
+          <div class="ui-g-12">
+            <p-fieldset #berdasarkanMasaKerjaDanPendidikanPegawai legend="{{'berdasarkanMasaKerjaDanPendidikanPegawai' | translate | splitCharT }}">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="ui-g-3">
+                  <div class="ui-g-12">
+                    <span class="ui-float-label">
+                        <p-dropdown [filter]="true" filterBy="label" class="ui-inputwrapper-filled"  formControlName="kdMasaKerja" [options]="listDurasi" [autoWidth]="false" ></p-dropdown>
+                        <label for="masaKerja">{{'masaKerja'| translate | splitCharT}}</label>
+                      </span>
+                  </div>
+                  <div class="ui-g-12">
+                    <span class="ui-float-label">
+                        <p-dropdown [filter]="true" filterBy="label" class="ui-inputwrapper-filled"  formControlName="kdPendidikan2" [options]="listDurasi" [autoWidth]="false" ></p-dropdown>
+                        <label for="pendidikan">{{'pendidikan'| translate | splitCharT}}</label>
+									     </span>
+                  </div>
+                </div>
+              </form>
+              <div class="ui-g-12">
+                <p-toolbar>
+                  <div class="ui-toolbar-group-left">
+                    <button pButton type="button" label="Tambah" icon="fa-plus" (click)="tambahBerdasarkanMasaKerjaDanPendidikanPegawai()"></button>
+                  </div>
+                </p-toolbar>
+                <p-dataTable [value]="listBerdasarkanMasaKerjaDanPendidikanPegawai" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+                  [editable]="true" scrollable="true">
+                  <p-header>{{'anggaran'| translate | splitCharT }}</p-header>
+                  <p-column field="komponenGaji" header="{{'komponenGaji'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-komponenGaji="rowData" pTemplate="body">
+                      {{komponenGaji[col.field].namaKomponenGaji}}
+                    </ng-template>
+                    <ng-template let-col let-komponenGaji="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="komponenGaji[col.field]" [options]="listKomponenGaji" [autoWidth]="false" [style]="{'width':'100%'}"
+                        required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="hargaSatuan" header="{{'hargaSatuan'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-hargaSatuan="rowData" pTemplate="body">
+                      {{hargaSatuan[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-hargaSatuan="rowData" pTemplate="editor">
+                      <input type="number" [(ngModel)]="hargaSatuan[col.field]" appendTo="body" pInputText />
+                    </ng-template>
+                  </p-column>
+                  <p-column field="durasi" header="{{'durasi'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-durasi="rowData" pTemplate="body">
+                      {{durasi[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-durasi="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="durasi[col.field]" [options]="listDurasi" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                        appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="factorRate" header="{{'factorRate'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-factorRate="rowData" pTemplate="body">
+                      {{factorRate[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-factorRate="rowData" pTemplate="editor">
+                      <input type="number" [(ngModel)]="factorRate[col.field]" appendTo="body" pInputText />
+                    </ng-template>
+                  </p-column>
+                  <p-column field="operatorFactorRate" header="{{'operatorFactorRate'| translate | splitCharT}}" [editable]="true">
+                    <ng-template let-col let-operatorFactorRate="rowData" pTemplate="body">
+                      {{operatorFactorRate[col.field]}}
+                    </ng-template>
+                    <ng-template let-col let-operatorFactorRate="rowData" pTemplate="editor">
+                      <p-dropdown [(ngModel)]="operatorFactorRate[col.field]" [options]="listOperator" [autoWidth]="false" [style]="{'width':'100%'}"
+                        required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                    </ng-template>
+                  </p-column>
+                  <p-column styleClass="col-button" [style]="{'width':'50px'}">
+                    <ng-template pTemplate="header">
+                    </ng-template>
+                    <ng-template pTemplate type="body" let-col let-pegawai="rowData" let-ri="rowIndex">
+                      <button type="button" pButton (click)="hapusMasaKerjaPendidikanPegawai(ri)" icon="fa-trash"></button>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
+              </div>
+            </p-fieldset>
+          </div>
+          <div class="ui-g-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-12">
+                <div class="ui-g-12 ui-md-8"></div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'hapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'batal'| translate | splitCharT}}" icon="fa-close" (click)="reset()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <p-splitButton label="{{'cetak'| translate | splitCharT }}" icon="fa-print" [model]="items"></p-splitButton>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

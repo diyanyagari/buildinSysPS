@@ -1,0 +1,144 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<form [formGroup]="form" (ngSubmit)="onSubmit()">
+					<h1>{{'frmMasterPrinter_title'| translate | splitCharT }}</h1>
+					<div class="ui-g form-group">
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-6">
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizeFull1'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizeFull1" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizeFull1" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizeFull2'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizeFull2" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizeFull2" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizeHalf1'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizeHalf1" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizeHalf1" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizeHalf2'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizeHalf2" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizeHalf2" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizePer4 1'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizePer41" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizePer41" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizePer4 2'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizePer42" class="ui-inputwrapper-filled"
+										formControlName="printerSizePer42" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizeCard'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizeCard" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizeCard" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerDefault'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizeCard" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerDefault" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+							</div>
+							<div class="ui-g-12 ui-md-6">
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizePer8 1'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizePer81" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizePer81" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizePer8 2'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizePer82" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizePer82" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizePer16 1'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizePer161" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizePer161" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizePer16 2'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizePer162" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizePer162" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizePer32 1'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizePer321" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizePer321" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizePer32 2'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizePer322" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizePer322" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizePer64 1'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizePer641" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizePer641" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmMasterPrinter_printerSizePer64 2'| translate | splitCharT }}</label>
+									<p-dropdown id="dropdownSizePer642" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="printerSizePer642" [options]="listPrinter" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<!-- <div class="ui-g-12 ui-md-10">
+									<p-checkbox binary="true" label="Status Aktif" formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<div class="ui-g-12">
+					<div class="ui-g-12 ui-md-10"></div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmMasterPrinter_btnSimpan'| translate | splitCharT}}" icon="fa-save"
+							(click)="onSubmit()"></button>
+					</div>
+					<!-- <div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'hapus'| translate | splitCharT}}" icon="fa-trash"
+							(click)="confirmDelete()"></button>
+					</div> -->
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmMasterPrinter_btnBatal'| translate | splitCharT}}" icon="fa-close"
+							(click)="reset()"></button>
+					</div>
+					<!-- <div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'cetak'| translate | splitCharT }}" icon="fa-print"
+							(click)="cetak()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<p-splitButton label="{{'export'| translate | splitCharT }}" icon="fa-external-link" [model]="items">
+						</p-splitButton>
+					</div> -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

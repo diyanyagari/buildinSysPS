@@ -1,0 +1,1157 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmPegawaiSkStatusRevtab_title' | translate | splitCharT }}</h1>
+				<p-tabView [activeIndex]="tabIndex">
+					<p-tabPanel header="{{'frmPegawaiSkStatusRevtab_settingMasterCuti'| translate | splitCharT}}">
+						<h1> {{'frmPegawaiSkStatusRevtab_settingMasterCuti'| translate | splitCharT}} </h1>
+						<div class="ui-g form-group">
+							<form [formGroup]="form" (ngSubmit)="onSubmit()">
+								<div class="ui-g-12">
+									<p-fieldset legend="">
+										<div class="ui-g form-group">
+											<div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+												<div class="ui-g-12 ui-md-8">
+													<label>{{'frmPegawaiSkStatusRevtab_nama'| translate | splitCharT }}
+														<span style="color: red;font-weight: bolder;">*</span>
+														<span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}</span>
+													</label>
+													<p-dropdown formControlName="namaSk" (onChange)="ambilSK($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+													[filter]="true" filterBy="label"></p-dropdown>
+												</div>
+												<div class="ui-g-12 ui-md-3">
+													<br/>
+													<button pButton type="button" (click)="getKelompokTransaksi()" label="{{'frmPegawaiSkStatusRevtab_buatSk'| translate | splitCharT }}"></button>
+												</div>
+
+												<div class="ui-g-12 ui-md-11" hidden>
+													<label>{{'frmPegawaiSkStatusRevtab_nomor'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-11">
+													<label>{{'frmPegawaiSkStatusRevtab_noSkIntern'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="noSKIntern" class="ui-inputwrapper-filled" disabled pInputText/>
+												</div>
+
+											</div>
+
+											<!-- <div class="ui-g-12 ui-md-3" style="margin-top: 9px;">
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-7" hidden>
+														<label>{{'frmPegawaiSkStatusRevtab_nomor'| translate | splitCharT }}</label>
+														<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+													</div>
+													<div class="ui-g-12 ui-md-7">
+														<label>{{'frmPegawaiSkStatusRevtab_noSkIntern'| translate | splitCharT }}</label>
+														<input id="input" type="text" formControlName="noSKIntern" class="ui-inputwrapper-filled" disabled pInputText/>
+													</div>
+												</div>
+											</div> -->
+
+											<div class="ui-g-12 ui-md-6" style="margin-top: 9px;">
+												<!-- <div class="ui-g-12 ui-md-4" style="margin-top: 6px; margin-left: -90px;"> -->
+													<div class="ui-g form-group">
+														<div class="ui-g-12 ui-md-10">
+															<label>{{'frmPegawaiSkStatusRevtab_periodeBerlakuSk'| translate | splitCharT}}
+															</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAwal" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+														</div>
+														<div class="ui-g-12 ui-md-1" style="text-align:  center;">
+															<label>-</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAkhir" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</p-fieldset>
+									</div>
+
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-3">
+													<div class="ui-g-12 ui-md-12">
+														<label>
+															{{'frmPegawaiSkStatusRevtab_kategoriPegawai'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red;font-weight: bolder;">
+															{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+														</label>
+														<p-multiSelect [options]="listKategoryPegawai" formControlName="kdKategoryPegawai" [(ngModel)]="selectedKategori" multiple="multiple"
+														checkbox="checkbox" filter="filter" optionLabel="label">
+													</p-multiSelect>
+												</div>
+											</div>
+											<div class="ui-g-12 ui-md-3">
+												<div class="ui-g-12 ui-md-12">
+													<label>
+														{{'frmPegawaiSkStatusRevtab_masaKerja'| translate | splitCharT }}
+														<span style="color: red;font-weight: bolder;">*</span>
+														<span *ngIf="!form.get('masaKerja').valid && form.get('masaKerja').touched" style="color: red;font-weight: bolder;">{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+													</label>
+													<p-multiSelect [options]="listMasaKerja" formControlName="masaKerja" [(ngModel)]="selectedMasaKerja" multiple="multiple"
+													checkbox="checkbox" filter="filter" optionLabel="label">
+												</p-multiSelect>
+											</div>
+										</div>
+										<div class="ui-g-12 ui-md-3">
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_statusKehadiran'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('kdStatusPegawai').valid && form.get('kdStatusPegawai').touched" style="color: red;font-weight: bolder;">
+														{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+												</label>
+												<p-dropdown formControlName="kdStatusPegawai" [options]="listStatusPegawai" [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+											</div>
+										</div>
+									</div>
+								</p-fieldset>
+							</div>
+							<div class="ui-g-12">
+								<p-fieldset legend="">
+									<div class="ui-g form-group">
+										<div class="ui-g-12 ui-md-3">
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_durasi'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('durasi').valid && form.get('durasi').touched" style="color: red;font-weight: bolder;">{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+												</label>
+												<p-dropdown formControlName="durasi" [options]="listDurasi" [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-7">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_bisaDiakumulasikan' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-5">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT}}" formControlName="allowAccumulated" (onChange)="changeAccumulated($event)"></p-checkbox>
+												<!-- <p-checkbox value="1" label="{{'ya' | translate | splitCharT }}" formControlName="allowAccumulated" [(ngModel)]="CekAllowAccumulated"></p-checkbox> -->
+											</div>
+
+											<div class="ui-g-12 ui-md-7">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_proRata' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-5">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT}}" formControlName="proRate" (onChange)="changeProRate($event)"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-7">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_isIncludeHariLibur' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-5">
+												<p-checkbox binary="true" label="{{'ya'| translate | splitCharT}}" formControlName="isIncludeHariLibur" (onChange)="changeHariLibur($event)"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-7" hidden="true">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_isPresensiByMaps' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-5" hidden="true">
+												<p-checkbox binary="true" label="{{'ya'| translate | splitCharT}}" formControlName="isPresensiByMaps" (onChange)="changePresensi($event)"></p-checkbox>
+											</div>
+
+											<div class="ui-g-12 ui-md-7">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_kuotaBolehMinus' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-5">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT}}" formControlName="allowToMinusKuota" (onChange)="changeMinusKuota($event)"></p-checkbox>
+											</div>
+
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_statusKuotaCutiMin'| translate | splitCharT}}
+												</label>
+												<p-dropdown formControlName="statusSaldoKuotaMin" [options]="listStatusSaldoKuotaMin" [autoWidth]="false" [filter]="true"
+												filterBy="label"></p-dropdown>
+											</div>		
+
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_statusKuotaCutiPlus'| translate | splitCharT}}
+
+												</label>
+												<p-dropdown formControlName="statusSaldoKuotaPlus" [options]="listStatusSaldoKuotaPlus" [autoWidth]="false" [filter]="true"
+												filterBy="label"></p-dropdown>
+											</div>									
+											
+										</div>
+										<div class="ui-g-12 ui-md-3">
+											<div class="ui-g-12 ui-md-12" hidden="true">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyHariOverAllow'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('qtyHariOverAllow').valid && form.get('qtyHariOverAllow').touched" style="color: red;font-weight: bolder;">
+													{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+												</label>
+												<input id="input" type="number" formControlName="qtyHariOverAllow" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_totalQtyHariKuota'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="totalQtyHariKuota" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyHariMinTake'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="qtyHariMinTake" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyHatiMaxTake'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="qtyHariMaxTake" pInputText/>
+											</div>
+
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyHariExpAcc'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="qtyHariExpiredAccumulated" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyHariExpAccExtend'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="qtyHariExpiredAccumulatedExtend" pInputText/>
+											</div>
+
+
+										</div>
+										<div class="ui-g-12 ui-md-3">
+
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_minHariSebelumPosting'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('qtyHariMinPostingBefore').valid && form.get('qtyHariMinPostingBefore').touched" style="color: red;font-weight: bolder;">
+														{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+												</label>
+												<input id="input" type="number" formControlName="qtyHariMinPostingBefore" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyJamMaxPostingBefore'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('qtyJamMaxPostingBefore').valid && form.get('qtyJamMaxPostingBefore').touched" style="color: red;font-weight: bolder;">
+														{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+												</label>
+												<input id="input" type="number" formControlName="qtyJamMaxPostingBefore" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyJamMaxPostingExpired'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="qtyJamMaxPostingExpired" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyHariMaxPostingExpired'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="qtyHariMaxPostingExpired" pInputText/>
+											</div>
+
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_jenisKelamin'| translate | splitCharT}}
+												</label>
+												<p-dropdown formControlName="kdJenisKelamin" [options]="listJenisKelamin" [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+											</div>
+
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_statusAbsensi'| translate | splitCharT}}
+
+												</label>
+												<p-dropdown formControlName="statusAbsensi" [options]="listStatusAbsensi" [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+											</div>
+										</div>
+										<div class="ui-g-12 ui-md-3">
+
+											<div class="ui-g-12">
+												<div class="ui-g-6">
+													<p-radioButton value="tanggalkuota" label="{{'frmPegawaiSkStatusRevtab_tanggalBulanResetResetTotalKuota' | translate | splitCharT }}" [(ngModel)]="isTanggalReset" formControlName="isTanggalReset"
+													(ngModelChange)="getTanggalReset($event)"></p-radioButton>
+												</div>
+												<div class="ui-g-6">
+													<!-- <label>{{'frmPegawaiSkStatusRevtab_tanggalBulanResetResetTotalKuota'| translate | splitCharT}} -->
+														<!-- <span style="color: red;font-weight: bolder;">*</span>
+														<span *ngIf="!form.get('tglBlnResetTotalKuota').valid && form.get('tglBlnResetTotalKuota').touched" style="color: red;font-weight: bolder;">
+														required</span> -->
+													<!-- </label> -->
+													<app-calender dateFormat="dd M yy" formControlName="tglBlnResetTotalKuota" [monthNavigator]="true"  [yearNavigator]="true" yearRange="1945:2042" [showIcon]="true" ></app-calender>
+												</div>
+											</div>
+											<div class="ui-g-12">
+												<p-radioButton value="tanggaljoin" label="{{'frmPegawaiSkStatusRevtab_tanggalBulanResetResetTotalKuotaJoinDate' | translate | splitCharT }}" [(ngModel)]="isTanggalReset"
+												formControlName="isTanggalJoin" (ngModelChange)="getTanggalReset($event)"></p-radioButton>
+											</div>
+
+
+											<!-- <div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_tanggalBulanResetResetTotalKuota'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('tglBlnResetTotalKuota').valid && form.get('tglBlnResetTotalKuota').touched" style="color: red;font-weight: bolder;">
+													required</span>
+												</label>
+												<app-calender dateFormat="dd M yy" formControlName="tglBlnResetTotalKuota" [monthNavigator]="true"  [yearNavigator]="true" yearRange="1945:2042" [showIcon]="true" ></app-calender>
+											</div> -->	
+
+											<div class="ui-g-12 ui-md-6">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_dibayar' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT}}" formControlName="isPaid" (onChange)="changePaid($event)"></p-checkbox>
+												<!-- <p-checkbox value="1" label="{{'frmPegawaiSkStatusRevtab_ya' | translate | splitCharT }}" formControlName="allowAccumulated" [(ngModel)]="CekAllowAccumulated"></p-checkbox> -->
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_bayarPenalti' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT}}" formControlName="isPaidPinalty" (onChange)="changeisPaidPinalty($event)"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_isResetKuota' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT }}" formControlName="isResetKuota" (onChange)="changeIsResetKuota($event)"></p-checkbox>
+											</div>
+
+
+											<!-- //////////////// -->
+
+											<div class="ui-g-12">
+												<p-radioButton value="potongcuti" label="{{'frmPegawaiSkStatusRevtab_potongCuti' | translate | splitCharT }}" [(ngModel)]="isPaidRB" formControlName="isPaidPotongCuti"
+												(ngModelChange)="getIsPaid($event)"></p-radioButton>
+												<span *ngIf="!form.get('isPaidPotongCuti').valid && form.get('isPaidPotongCuti').touched" style="color: red;font-weight: bolder;">
+												* {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}</span>
+											</div>
+											<div class="ui-g-12">
+												<p-radioButton value="potonggaji" label="{{'frmPegawaiSkStatusRevtab_potongGaji' | translate | splitCharT }}" [(ngModel)]="isPaidRB"
+												formControlName="isPaidPotongGaji" (ngModelChange)="getIsPaid($event)"></p-radioButton>
+												<span *ngIf="!form.get('isPaidPotongGaji').valid && form.get('isPaidPotongGaji').touched" style="color: red;font-weight: bolder;">
+												* {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}</span>
+											</div>
+											<div class="ui-g-12">
+												<p-radioButton value="dibayar" label="{{'frmPegawaiSkStatusRevtab_Dibayar' | translate | splitCharT }}" [(ngModel)]="isPaidRB" formControlName="isPaidDibayar"
+												(ngModelChange)="getIsPaid($event)"></p-radioButton>
+												<span *ngIf="!form.get('isPaidDibayar').valid && form.get('isPaidDibayar').touched" style="color: red;font-weight: bolder;">
+												* {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}</span>
+											</div>
+											<div class="ui-g-12">
+												<p-radioButton value="tidakdibayartidakpotonggaji" label="{{'frmPegawaiSkStatusRevtab_tidakDibayarTidakPotongGaji' | translate | splitCharT }}" [(ngModel)]="isPaidRB" formControlName="isPaidTidakTidak"
+												(ngModelChange)="getIsPaid($event)"></p-radioButton>
+												<span *ngIf="!form.get('isPaidTidakTidak').valid && form.get('isPaidTidakTidak').touched" style="color: red;font-weight: bolder;">
+												*{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}</span>
+											</div>
+
+<!-- 
+	///////////////// -->
+
+
+
+	<div class="ui-g-12">
+		<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+		<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">* {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}</span>
+	</div>
+											<!-- <div class="ui-g-12">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_isResetKuota'| translate | splitCharT }}" formControlName="isResetKuota" (onChange)="changeIsResetKuota($event)"></p-checkbox>
+												<!-- <span *ngIf="!form.get('isResetKuota').valid && form.get('isResetKuota').touched" style="color: red">* {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}.</span> -->
+												<!-- </div>  -->
+											</div>
+										</div>
+									</p-fieldset>
+								</div>
+								<div class="ui-g-12">
+									<div class="ui-g-12 ui-md-7"></div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmPegawaiSkStatusRevtab_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="submit" label="{{'frmPegawaiSkStatusRevtab_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmPegawaiSkStatusRevtab_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmPegawaiSkStatusRevtab_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetak()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<p-splitButton label="{{'frmPegawaiSkStatusRevtab_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+									</div>
+								</div>
+							</form>
+							<div class="ui-g-12 ui-fluid">
+								<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" [lazy]="true" scrollable="true">
+									<!-- <p-header>{{'frmPegawaiSkStatusRevtab_listPegawaiSkStatus'| translate | splitCharT }}</p-header> -->
+									<p-header>
+										<div class="ui-helper-clearfix">
+											<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+											<input type="text" pInputText size="50" placeholder="{{'frmPegawaiSkStatusRevtab_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+											(keyup)="cari()" style="width: 20%;float:right;">
+											<span style="float: left;padding:0.3em;">{{'frmPegawaiSkStatusRevtab_tableTitle'| translate | splitCharT }}</span>
+										</div>
+									</p-header>
+									<!-- <p-column field="noSK" header="{{'frmPegawaiSkStatusRevtab_tableNomor'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column> -->
+									<p-column field="noSKIntern" header="{{'frmPegawaiSkStatusRevtab_tableNomorSKIntern'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+									<p-column field="namaSK" header="{{'frmPegawaiSkStatusRevtab_tableNama'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+									<p-column field="tglBerlakuAwal" header="{{'frmPegawaiSkStatusRevtab_tableTanggalBerlakuAwal'| translate | splitCharT }}" [style]="{'width':'150px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.tglBerlakuAwal != null">{{StatusSK.tglBerlakuAwal * 1000 | date:'dd MMM yyyy'}}</span>
+											<span *ngIf="StatusSK.tglBerlakuAwal == null">-</span>
+										</ng-template>
+									</p-column>
+									<p-column field="tglBerlakuAkhir" header="{{'frmPegawaiSkStatusRevtab_tableTanggalBerlakuAkhir'| translate | splitCharT }}" [style]="{'width':'150px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.tglBerlakuAkhir != null">{{StatusSK.tglBerlakuAkhir * 1000 | date:'dd MMM yyyy'}}</span>
+											<span *ngIf="StatusSK.tglBerlakuAkhir == null">-</span>
+										</ng-template>
+									</p-column>
+									<p-column field="namaKategoryPegawai" header="{{'frmPegawaiSkStatusRevtab_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="namaRange" header="{{'frmPegawaiSkStatusRevtab_tableMasaKerja'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+									<p-column field="namaStatusPegawai" header="{{'frmPegawaiSkStatusRevtab_tableStatusPegawai'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+									<p-column field="isAllowAccumulated" header="{{'frmPegawaiSkStatusRevtab_tableBisaDiakumulasikan'| translate | splitCharT }}" [style]="{'width':'150px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isAllowAccumulated == 1">Ya</span>
+											<span *ngIf="StatusSK.isAllowAccumulated == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<p-column field="isAllowToMinusKuota" header="{{'frmPegawaiSkStatusRevtab_tableKuotaBolehMinus'| translate | splitCharT }}" [style]="{'width':'150px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isAllowToMinusKuota == 1">Ya</span>
+											<span *ngIf="StatusSK.isAllowToMinusKuota == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<!-- <p-column field="qtyHariOverAllow" header="{{'frmPegawaiSkStatusRevtab_tableQtyHariOverAllow'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column> -->
+									<p-column field="namaDurasi" header="{{'frmPegawaiSkStatusRevtab_tableDurasi'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="isProRate" header="{{'frmPegawaiSkStatusRevtab_tableProRata'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+									<p-column field="totalQtyHariKuota" header="{{'frmPegawaiSkStatusRevtab_tableTotalQtyHariKuota'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="qtyHariMinTake" header="{{'frmPegawaiSkStatusRevtab_tableQtyHariMinTake'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="qtyHariMaxTake" header="{{'frmPegawaiSkStatusRevtab_tableQtyHatiMaxTake'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="tglBlnResetTotalKuota" header="{{'frmPegawaiSkStatusRevtab_tableTanggalBulanResetTotalKuota'| translate | splitCharT }}" [style]="{'width':'250px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.tglBlnResetTotalKuota == 0">-</span> 
+											<span *ngIf="StatusSK.tglBlnResetTotalKuota != 0 ">{{StatusSK.tglBlnResetTotalKuota * 1000 | date:'dd MM'}}</span>
+										</ng-template>
+									</p-column>
+									<p-column field="qtyHariMinPostingBefore" header="{{'frmPegawaiSkStatusRevtab_tableMinHariSebelumPosting'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="qtyJamMaxPostingBefore" header="{{'frmPegawaiSkStatusRevtab_tableQtyJamMaxPostingBefore'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="qtyJamMaxPostingExpired" header="{{'frmPegawaiSkStatusRevtab_tableQtyJamMaxPostingExpired'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="qtyHariMaxPostingExpired" header="{{'frmPegawaiSkStatusRevtab_tableQtyHariMaxPostingExpired'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="namaStatusAbsensi" header="{{'frmPegawaiSkStatusRevtab_tableStatusAbsensi'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+									<p-column field="statusSaldoKuotaMin" header="{{'frmPegawaiSkStatusRevtab_tableStatusSaldoKuotaMin'| translate | splitCharT }}" [style]="{'width':'200px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.statusSaldoKuotaMin == 0">Tidak Dipotong</span>
+											<span *ngIf="StatusSK.statusSaldoKuotaMin == 1">Dipotong</span>
+										</ng-template>
+									</p-column>
+									<p-column field="statusSaldoKuotaPlus" header="{{'frmPegawaiSkStatusRevtab_tableStatusSaldoKuotaPlus'| translate | splitCharT }}" [style]="{'width':'200px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.statusSaldoKuotaPlus == 2">Dibayar</span>
+											<span *ngIf="StatusSK.statusSaldoKuotaPlus == 3">Tidak Dibayar</span>
+										</ng-template>
+									</p-column>
+									<p-column field="isPaid" header="{{'frmPegawaiSkStatusRevtab_tableIsPaid'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isPaid == 1">Dibayar</span>
+											<span *ngIf="StatusSK.isPaid == 0">Potong Gaji</span>
+											<span *ngIf="StatusSK.isPaid == 2">Potong Cuti</span>
+											<span *ngIf="StatusSK.isPaid == 3">Tidak Dibayar, Tidak Potong Gaji</span>
+
+										</ng-template>
+									</p-column>
+									<p-column field="isPaidPinalty" header="{{'frmPegawaiSkStatusRevtab_tableIsPaidPinalty'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isPaidPinalty == 1">Ya</span>
+											<span *ngIf="StatusSK.isPaidPinalty == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<!-- <p-column field="isPresensiByMaps" header="{{'isPresensiByMaps'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isPresensiByMaps == 1">Ya</span>
+											<span *ngIf="StatusSK.isPresensiByMaps == 0">Tidak</span>
+										</ng-template>
+									</p-column> -->
+									<p-column field="isIncludeHariLibur" header="{{'frmPegawaiSkStatusRevtab_tableIsIncludeHariLibur'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isIncludeHariLibur == 1">Ya</span>
+											<span *ngIf="StatusSK.isIncludeHariLibur == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<p-column field="kodeExternalJenisKelamin" header="{{'frmPegawaiSkStatusRevtab_tableJenisKelamin'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="isResetKuota" header="{{'frmPegawaiSkStatusRevtab_tableIsResetKuota'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isResetKuota == 1">Ya</span>
+											<span *ngIf="StatusSK.isResetKuota == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<p-column field="statusEnabled" header="{{'frmPegawaiSkStatusRevtab_tablestatusEnabled'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template let-col="rowData" pTemplate type="body">
+											{{col.statusEnabled | truefalse | translate | splitCharT }}
+										</ng-template> 
+									</p-column>
+								</p-dataTable>
+							</div>
+						</div>
+					</p-tabPanel>
+
+<!-- 
+
+
+
+					<p-tabPanel header="{{'pegawaiSKStatusPotonganAbsen'| translate | splitCharT}}">
+						<h1> {{'pegawaiSKStatusPotonganAbsen'| translate | splitCharT}} </h1>
+						<div class="ui-g form-group">
+							<form [formGroup]="formAbsen" (ngSubmit)="onSubmitAbsen()">
+								<div class="ui-g-12">
+									<p-fieldset legend="">
+										<div class="ui-g form-group">
+											<div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+												<div class="ui-g-12 ui-md-8">
+													<label>{{'frmPegawaiSkStatusRevtab_nama'| translate | splitCharT }}
+														<span style="color: red;font-weight: bolder;">*</span>
+														<span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}</span>
+													</label>
+													<p-dropdown formControlName="namaSk" (onChange)="ambilSKAbsen($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+													[filter]="true" filterBy="label"></p-dropdown>
+												</div>
+												<div class="ui-g-12 ui-md-3">
+													<br/>
+													<button pButton type="button" (click)="getKelompokTransaksiAbsen()" label="{{'frmPegawaiSkStatusRevtab_buatSk'| translate | splitCharT }}"></button>
+												</div>
+
+												<div class="ui-g-12 ui-md-11" hidden>
+													<label>{{'frmPegawaiSkStatusRevtab_nomor'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-11">
+													<label>{{'frmPegawaiSkStatusRevtab_noSkIntern'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="noSKIntern" class="ui-inputwrapper-filled" disabled pInputText/>
+												</div>
+
+											</div>
+
+											///////////<div class="ui-g-12 ui-md-3" style="margin-top: 9px;">
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-7" hidden>
+														<label>{{'frmPegawaiSkStatusRevtab_nomor'| translate | splitCharT }}</label>
+														<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+													</div>
+													<div class="ui-g-12 ui-md-7">
+														<label>{{'frmPegawaiSkStatusRevtab_noSkIntern'| translate | splitCharT }}</label>
+														<input id="input" type="text" formControlName="noSKIntern" class="ui-inputwrapper-filled" disabled pInputText/>
+													</div>
+												</div>
+											//////////////</div>
+
+											<div class="ui-g-12 ui-md-6" style="margin-top: 9px;">
+												//////////<div class="ui-g-12 ui-md-4" style="margin-top: 6px; margin-left: -90px;">
+													<div class="ui-g form-group">
+														<div class="ui-g-12 ui-md-10">
+															<label>{{'frmPegawaiSkStatusRevtab_periodeBerlakuSk'| translate | splitCharT}}
+															</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAwal" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true"></app-calender>
+														</div>
+														<div class="ui-g-12 ui-md-1" style="text-align:  center;">
+															<label>-</label>
+														</div>
+														<div class="ui-g-12 ui-md-4">
+															<app-calender formControlName="tanggalAkhir" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true"></app-calender>
+														</div>
+													</div>
+												</div>
+
+											</div>
+										</p-fieldset>
+									</div>
+
+									<div class="ui-g-12">
+										<p-fieldset legend="">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-3">
+													<div class="ui-g-12 ui-md-12">
+														<label>
+															{{'frmPegawaiSkStatusRevtab_kategoriPegawai'| translate | splitCharT }}
+															<span style="color: red;font-weight: bolder;">*</span>
+															<span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red;font-weight: bolder;">
+															required</span>
+														</label>
+														<p-multiSelect [options]="listKategoryPegawai" formControlName="kdKategoryPegawai" [(ngModel)]="selectedKategoriAbsen" multiple="multiple"
+														checkbox="checkbox" filter="filter" optionLabel="label">
+													</p-multiSelect>
+												</div>
+											</div>
+											<div class="ui-g-12 ui-md-3">
+												<div class="ui-g-12 ui-md-12">
+													<label>
+														{{'frmPegawaiSkStatusRevtab_masaKerja'| translate | splitCharT }}
+														<span style="color: red;font-weight: bolder;">*</span>
+														<span *ngIf="!form.get('masaKerja').valid && form.get('masaKerja').touched" style="color: red;font-weight: bolder;"> required</span>
+													</label>
+													<p-multiSelect [options]="listMasaKerjaAbsen" formControlName="masaKerja" [(ngModel)]="selectedMasaKerjaAbsen" multiple="multiple"
+													checkbox="checkbox" filter="filter" optionLabel="label">
+												</p-multiSelect>
+											</div>
+										</div>
+										<div class="ui-g-12 ui-md-3">
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_statusPegawai'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('kdStatusPegawai').valid && form.get('kdStatusPegawai').touched" style="color: red;font-weight: bolder;">
+													required</span>
+												</label>
+												<p-dropdown formControlName="kdStatusPegawai" [options]="listStatusPegawaiAbsen" [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+											</div>
+										</div>
+									</div>
+								</p-fieldset>
+							</div>
+							<div class="ui-g-12">
+								<p-fieldset legend="">
+									<div class="ui-g form-group">
+										<div class="ui-g-12 ui-md-3">
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_durasi'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('durasi').valid && form.get('durasi').touched" style="color: red;font-weight: bolder;"> required</span>
+												</label>
+												<p-dropdown formControlName="durasi" [options]="listDurasi" [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-7">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_bisaDiakumulasikan' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-5">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT}}" formControlName="allowAccumulated" (onChange)="changeAccumulated($event)"></p-checkbox>
+												/////////////<p-checkbox value="1" label="{{'ya' | translate | splitCharT }}" formControlName="allowAccumulated" [(ngModel)]="CekAllowAccumulated"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-7">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_kuotaBolehMinus' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-5">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT}}" formControlName="allowToMinusKuota" (onChange)="changeMinusKuota($event)"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-7">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_proRata' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-5">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT}}" formControlName="proRate" (onChange)="changeProRate($event)"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-7">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_isIncludeHariLibur' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-5">
+												<p-checkbox binary="true" label="{{'ya'| translate | splitCharT}}" formControlName="isIncludeHariLibur" (onChange)="changeHariLibur($event)"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-7">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_isPresensiByMaps' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-5">
+												<p-checkbox binary="true" label="{{'ya'| translate | splitCharT}}" formControlName="isPresensiByMaps" (onChange)="changePresensi($event)"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'Jenis Kelamin'| translate | splitCharT}}
+												</label>
+												<p-dropdown formControlName="kdJenisKelamin" [options]="listJenisKelamin" [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+											</div>
+										</div>
+										<div class="ui-g-12 ui-md-3">
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyHariOverAllow'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('qtyHariOverAllow').valid && form.get('qtyHariOverAllow').touched" style="color: red;font-weight: bolder;">
+													required</span>
+												</label>
+												<input id="input" type="number" formControlName="qtyHariOverAllow" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_totalQtyHariKuota'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="totalQtyHariKuota" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyHariMinTake'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="qtyHariMinTake" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyHatiMaxTake'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="qtyHariMaxTake" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_tanggalBulanResetResetTotalKuota'| translate | splitCharT}}
+													////<span style="color: red;font-weight: bolder;">*</span>
+												/////	<span *ngIf="!form.get('tglBlnResetTotalKuota').valid && form.get('tglBlnResetTotalKuota').touched" style="color: red;font-weight: bolder;">
+													required</span>
+												</label>
+												<app-calender dateFormat="dd M yy" formControlName="tglBlnResetTotalKuota" [monthNavigator]="true"  [yearNavigator]="true" yearRange="1945:2042" [showIcon]="true" dateFormat="dd/MM"></app-calender>
+											</div>
+										</div>
+										<div class="ui-g-12 ui-md-3">
+
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_minHariSebelumPosting'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('qtyHariMinPostingBefore').valid && form.get('qtyHariMinPostingBefore').touched" style="color: red;font-weight: bolder;">
+													required</span>
+												</label>
+												<input id="input" type="number" formControlName="qtyHariMinPostingBefore" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyJamMaxPostingBefore'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('qtyJamMaxPostingBefore').valid && form.get('qtyJamMaxPostingBefore').touched" style="color: red;font-weight: bolder;">
+													required</span>
+												</label>
+												<input id="input" type="number" formControlName="qtyJamMaxPostingBefore" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyJamMaxPostingExpired'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="qtyJamMaxPostingExpired" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_qtyHariMaxPostingExpired'| translate | splitCharT}}</label>
+												<input id="input" type="number" formControlName="qtyHariMaxPostingExpired" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_statusAbsensi'| translate | splitCharT}}
+
+												</label>
+												<p-dropdown formControlName="statusAbsensi" [options]="listStatusAbsensiPotongAbsen" [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+											</div>
+
+										</div>
+										<div class="ui-g-12 ui-md-3">
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_statusKuotaCutiMin'| translate | splitCharT}}
+
+												</label>
+												<p-dropdown formControlName="statusSaldoKuotaMin" [options]="listStatusSaldoKuotaMin" [autoWidth]="false" [filter]="true"
+												filterBy="label"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkStatusRevtab_statusKuotaCutiPlus'| translate | splitCharT}}
+
+												</label>
+												<p-dropdown formControlName="statusSaldoKuotaPlus" [options]="listStatusSaldoKuotaPlus" [autoWidth]="false" [filter]="true"
+												filterBy="label"></p-dropdown>
+											</div>
+
+											<div class="ui-g-12 ui-md-6">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_dibayar' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT}}" formControlName="isPaid" (onChange)="changePaid($event)"></p-checkbox>
+												//////////////<p-checkbox value="1" label="{{'frmPegawaiSkStatusRevtab_ya' | translate | splitCharT }}" formControlName="allowAccumulated" [(ngModel)]="CekAllowAccumulated"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_bayarPenalti' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT}}" formControlName="isPaidPinalty" (onChange)="changeisPaidPinalty($event)"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<label for="input">{{'frmPegawaiSkStatusRevtab_isResetKuota' | translate | splitCharT }}</label>
+											</div>
+											<div class="ui-g-12 ui-md-6">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_ya'| translate | splitCharT }}" formControlName="isResetKuota" (onChange)="changeIsResetKuota($event)"></p-checkbox>
+											</div>
+											<div class="ui-g-12">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+												<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">* {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}.</span>
+											</div>
+											<div class="ui-g-12">
+												//////<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_isResetKuota'| translate | splitCharT }}" formControlName="isResetKuota" (onChange)="changeIsResetKuota($event)"></p-checkbox>
+												////////<span *ngIf="!form.get('isResetKuota').valid && form.get('isResetKuota').touched" style="color: red">* {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}.</span>
+												</div> 
+											</div>
+										</div>
+									</p-fieldset>
+								</div>
+								<div class="ui-g-12">
+									<div class="ui-g-12 ui-md-7"></div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmPegawaiSkStatusRevtab_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="resetAbsen()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="submit" label="{{'frmPegawaiSkStatusRevtab_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmPegawaiSkStatusRevtab_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDeleteAbsen()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<button pButton type="button" label="{{'frmPegawaiSkStatusRevtab_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetakAbsen()"></button>
+									</div>
+									<div class="ui-g-12 ui-md-1">
+										<p-splitButton label="{{'frmPegawaiSkStatusRevtab_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="itemsAbsen"></p-splitButton>
+									</div>
+								</div>
+							</form>
+							<div class="ui-g-12 ui-fluid">
+								<p-dataTable [value]="listDataAbsen" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selectedAbsen" (onRowSelect)="onRowSelectAbsen($event)" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecordsAbsen" (onLazyLoad)="loadPageAbsen($event)" [lazy]="true" scrollable="true">
+									////////<p-header>{{'frmPegawaiSkStatusRevtab_listPegawaiSkStatus'| translate | splitCharT }}</p-header>
+									<p-header>
+										<div class="ui-helper-clearfix">
+											<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+											<input type="text" pInputText size="50" placeholder="{{'frmPegawaiSkStatusRevtab_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+											(keyup)="cariAbsen()" style="width: 20%;float:right;">
+											<span style="float: left;padding:0.3em;">{{'frmPegawaiSkStatusRevtab_tableTitle'| translate | splitCharT }}</span>
+										</div>
+									</p-header>
+									//////////<p-column field="noSK" header="{{'frmPegawaiSkStatusRevtab_tableNomor'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+									<p-column field="noSKIntern" header="{{'frmPegawaiSkStatusRevtab_tableNomorSKIntern'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+									<p-column field="namaSK" header="{{'frmPegawaiSkStatusRevtab_tableNama'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+									<p-column field="tglBerlakuAwal" header="{{'frmPegawaiSkStatusRevtab_tableTanggalBerlakuAwal'| translate | splitCharT }}" [style]="{'width':'150px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.tglBerlakuAwal != null">{{StatusSK.tglBerlakuAwal * 1000 | date:'dd/MM/yyyy'}}</span>
+											<span *ngIf="StatusSK.tglBerlakuAwal == null">-</span>
+										</ng-template>
+									</p-column>
+									<p-column field="tglBerlakuAkhir" header="{{'frmPegawaiSkStatusRevtab_tableTanggalBerlakuAkhir'| translate | splitCharT }}" [style]="{'width':'150px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.tglBerlakuAkhir != null">{{StatusSK.tglBerlakuAkhir * 1000 | date:'dd/MM/yyyy'}}</span>
+											<span *ngIf="StatusSK.tglBerlakuAkhir == null">-</span>
+										</ng-template>
+									</p-column>
+									<p-column field="namaKategoryPegawai" header="{{'frmPegawaiSkStatusRevtab_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="namaRange" header="{{'frmPegawaiSkStatusRevtab_tableMasaKerja'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+									<p-column field="namaStatusPegawai" header="{{'frmPegawaiSkStatusRevtab_tableStatusPegawai'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+									<p-column field="isAllowAccumulated" header="{{'frmPegawaiSkStatusRevtab_tableBisaDiakumulasikan'| translate | splitCharT }}" [style]="{'width':'150px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isAllowAccumulated == 1">Ya</span>
+											<span *ngIf="StatusSK.isAllowAccumulated == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<p-column field="isAllowToMinusKuota" header="{{'frmPegawaiSkStatusRevtab_tableKuotaBolehMinus'| translate | splitCharT }}" [style]="{'width':'150px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isAllowToMinusKuota == 1">Ya</span>
+											<span *ngIf="StatusSK.isAllowToMinusKuota == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<p-column field="qtyHariOverAllow" header="{{'frmPegawaiSkStatusRevtab_tableQtyHariOverAllow'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="namaDurasi" header="{{'frmPegawaiSkStatusRevtab_tableDurasi'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="isProRate" header="{{'frmPegawaiSkStatusRevtab_tableProRata'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+									<p-column field="totalQtyHariKuota" header="{{'frmPegawaiSkStatusRevtab_tableTotalQtyHariKuota'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="qtyHariMinTake" header="{{'frmPegawaiSkStatusRevtab_tableQtyHariMinTake'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="qtyHariMaxTake" header="{{'frmPegawaiSkStatusRevtab_tableQtyHatiMaxTake'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="tglBlnResetTotalKuota" header="{{'frmPegawaiSkStatusRevtab_tableTanggalBulanResetTotalKuota'| translate | splitCharT }}" [style]="{'width':'250px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.tglBlnResetTotalKuota == 0">-</span> 
+											<span *ngIf="StatusSK.tglBlnResetTotalKuota != 0 ">{{StatusSK.tglBlnResetTotalKuota * 1000 | date:'dd/MM'}}</span>
+										</ng-template>
+									</p-column>
+									<p-column field="qtyHariMinPostingBefore" header="{{'frmPegawaiSkStatusRevtab_tableMinHariSebelumPosting'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="qtyJamMaxPostingBefore" header="{{'frmPegawaiSkStatusRevtab_tableQtyJamMaxPostingBefore'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="qtyJamMaxPostingExpired" header="{{'frmPegawaiSkStatusRevtab_tableQtyJamMaxPostingExpired'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="qtyHariMaxPostingExpired" header="{{'frmPegawaiSkStatusRevtab_tableQtyHariMaxPostingExpired'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="namaStatusAbsensi" header="{{'frmPegawaiSkStatusRevtab_tableStatusAbsensi'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+									<p-column field="statusSaldoKuotaMin" header="{{'frmPegawaiSkStatusRevtab_tableStatusSaldoKuotaMin'| translate | splitCharT }}" [style]="{'width':'200px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.statusSaldoKuotaMin == 0">Tidak Dipotong</span>
+											<span *ngIf="StatusSK.statusSaldoKuotaMin == 1">Dipotong</span>
+										</ng-template>
+									</p-column>
+									<p-column field="statusSaldoKuotaPlus" header="{{'frmPegawaiSkStatusRevtab_tableStatusSaldoKuotaPlus'| translate | splitCharT }}" [style]="{'width':'200px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.statusSaldoKuotaPlus == 2">Dibayar</span>
+											<span *ngIf="StatusSK.statusSaldoKuotaPlus == 3">Tidak Dibayar</span>
+										</ng-template>
+									</p-column>
+									<p-column field="isPaid" header="{{'frmPegawaiSkStatusRevtab_tableIsPaid'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isPaid == 1">Ya</span>
+											<span *ngIf="StatusSK.isPaid == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<p-column field="isPaidPinalty" header="{{'frmPegawaiSkStatusRevtab_tableIsPaidPinalty'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isPaidPinalty == 1">Ya</span>
+											<span *ngIf="StatusSK.isPaidPinalty == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<p-column field="isPresensiByMaps" header="{{'isPresensiByMaps'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isPresensiByMaps == 1">Ya</span>
+											<span *ngIf="StatusSK.isPresensiByMaps == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<p-column field="isIncludeHariLibur" header="{{'isIncludeHariLibur'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isIncludeHariLibur == 1">Ya</span>
+											<span *ngIf="StatusSK.isIncludeHariLibur == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<p-column field="kodeExternalJenisKelamin" header="{{'Jenis Kelamin'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+									<p-column field="isResetKuota" header="{{'isResetKuota'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template pTemplate="body" let-StatusSK="rowData">
+											<span *ngIf="StatusSK.isResetKuota == 1">Ya</span>
+											<span *ngIf="StatusSK.isResetKuota == 0">Tidak</span>
+										</ng-template>
+									</p-column>
+									<p-column field="statusEnabled" header="{{'frmPegawaiSkStatusRevtab_statusEnabled'| translate | splitCharT }}" [style]="{'width':'100px'}">
+										<ng-template let-col="rowData" pTemplate type="body">
+											{{col.statusEnabled | truefalse | translate | splitCharT }}
+										</ng-template> 
+									</p-column>
+								</p-dataTable>
+							</div>
+						</div>
+					</p-tabPanel>
+				-->
+
+				<p-tabPanel header="{{'frmPegawaiSkStatusRevtab_pegawaiSKStatusPensiun'| translate | splitCharT}}">
+					<h1> {{'frmPegawaiSkStatusRevtab_pegawaiSKStatusPensiun'| translate | splitCharT}} </h1>
+					<div class="ui-g form-group">
+						<form [formGroup]="formPensiun" (ngSubmit)="onSubmitPensiun()">
+							<div class="ui-g-12">
+								<p-fieldset legend="">
+									<div class="ui-g form-group">
+										<div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+											<div class="ui-g-12 ui-md-8">
+												<label>{{'frmPegawaiSkStatusRevtab_pegawaiSKStatusNamaPensiun'| translate | splitCharT }}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}</span>
+												</label>
+												<p-dropdown formControlName="namaSk" (onChange)="ambilSKPensiun($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+												[filter]="true" filterBy="label"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-3">
+												<br/>
+												<button pButton type="button" (click)="getKelompokTransaksiPensiun()" label="{{'frmPegawaiSkStatusRevtab_buatSk'| translate | splitCharT }}"></button>
+											</div>
+
+											<div class="ui-g-12 ui-md-11" hidden>
+												<label>{{'frmPegawaiSkStatusRevtab_nomor'| translate | splitCharT }}</label>
+												<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-11">
+												<label>{{'frmPegawaiSkStatusRevtab_noSKIntern'| translate | splitCharT }}</label>
+												<input id="input" type="text" formControlName="noSKIntern" class="ui-inputwrapper-filled" disabled pInputText/>
+											</div>
+
+										</div>
+
+										<!-- <div class="ui-g-12 ui-md-3" style="margin-top: 9px;">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-7" hidden>
+													<label>{{'frmPegawaiSkStatusRevtab_nomor'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-7">
+													<label>{{'frmPegawaiSkStatusRevtab_noSKIntern'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="noSKIntern" class="ui-inputwrapper-filled" disabled pInputText/>
+												</div>
+											</div>
+										</div> -->
+
+										<div class="ui-g-12 ui-md-6" style="margin-top: 9px;">
+											<!-- <div class="ui-g-12 ui-md-4" style="margin-top: 6px; margin-left: -90px;"> -->
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-10">
+														<label>{{'frmPegawaiSkStatusRevtab_periodeBerlakuSk'| translate | splitCharT}}
+														</label>
+													</div>
+													<div class="ui-g-12 ui-md-4">
+														<app-calender formControlName="tanggalAwal" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+													</div>
+													<div class="ui-g-12 ui-md-1" style="text-align:  center;">
+														<label>-</label>
+													</div>
+													<div class="ui-g-12 ui-md-4">
+														<app-calender formControlName="tanggalAkhir" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</p-fieldset>
+								</div>
+
+								<div class="ui-g-12">
+									<p-fieldset legend="">
+										<div class="ui-g form-group">
+											<div class="ui-g-12 ui-md-3">
+												<div class="ui-g-12 ui-md-12">
+													<label>
+														{{'frmPegawaiSkStatusRevtab_kategoriPegawai'| translate | splitCharT }}
+														<span style="color: red;font-weight: bolder;">*</span>
+														<span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red;font-weight: bolder;">
+															{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+													</label>
+													<p-multiSelect [options]="listKategoryPegawai" formControlName="kdKategoryPegawai" [(ngModel)]="selectedKategoriPensiun" multiple="multiple"
+													checkbox="checkbox" filter="filter" optionLabel="label">
+												</p-multiSelect>
+											</div>
+										</div>
+										<div class="ui-g-12 ui-md-3">
+											<div class="ui-g-12 ui-md-12">
+												<label>
+													{{'frmPegawaiSkStatusRevtab_masaKerja'| translate | splitCharT }}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('masaKerja').valid && form.get('masaKerja').touched" style="color: red;font-weight: bolder;"> {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+												</label>
+												<p-multiSelect [options]="listMasaKerjaPensiun" formControlName="masaKerja" [(ngModel)]="selectedMasaKerjaPensiun" multiple="multiple"
+												checkbox="checkbox" filter="filter" optionLabel="label">
+											</p-multiSelect>
+										</div>
+									</div>
+									<div class="ui-g-12 ui-md-3">
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmPegawaiSkStatusRevtab_statusKehadiran'| translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!form.get('kdStatusPegawai').valid && form.get('kdStatusPegawai').touched" style="color: red;font-weight: bolder;">
+													{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+											</label>
+											<p-dropdown formControlName="kdStatusPegawai" [options]="listStatusPegawaiPensiun" [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+										</div>
+									</div>
+								</div>
+							</p-fieldset>
+						</div>
+						<div class="ui-g-12">
+							<p-fieldset legend="">
+								<div class="ui-g form-group">
+									<div class="ui-g-12 ui-md-3" hidden="true">
+										<div class="ui-g-12 ui-md-12" >
+											<label>{{'frmPegawaiSkStatusRevtab_durasi'| translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!form.get('durasi').valid && form.get('durasi').touched" style="color: red;font-weight: bolder;"> {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+											</label>
+											<p-dropdown formControlName="durasi" [options]="listDurasi" [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+										</div>								
+									</div>
+									<div class="ui-g-12 ui-md-3">
+										<div class="ui-g-12 ui-md-12" hidden="true">
+											<label>{{'frmPegawaiSkStatusRevtab_qtyHariOverAllow'| translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!form.get('qtyHariOverAllow').valid && form.get('qtyHariOverAllow').touched" style="color: red;font-weight: bolder;">
+												required</span>
+											</label>
+											<input id="input" type="number" formControlName="qtyHariOverAllow" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmPegawaiSkStatusPensiun_totalQtyHariKuota'| translate | splitCharT}}</label>
+											<input id="input" type="number" formControlName="totalQtyHariKuota" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmPegawaiSkStatusPensiun_qtyHariMinTake'| translate | splitCharT}}</label>
+											<input id="input" type="number" formControlName="qtyHariMinTake" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmPegawaiSkStatusPensiun_qtyHatiMaxTake'| translate | splitCharT}}</label>
+											<input id="input" type="number" formControlName="qtyHariMaxTake" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-12" hidden="true">
+											<label>{{'frmPegawaiSkStatusRevtab_tanggalBulanResetTotalKuota'| translate | splitCharT}}
+											<!-- <span style="color: red;font-weight: bolder;">*</span>
+											<span *ngIf="!form.get('tglBlnResetTotalKuota').valid && form.get('tglBlnResetTotalKuota').touched" style="color: red;font-weight: bolder;">
+											required</span> -->
+										</label>
+										<app-calender dateFormat="dd M yy" formControlName="tglBlnResetTotalKuota" [monthNavigator]="true"  [yearNavigator]="true" yearRange="1945:2042" [showIcon]="true" ></app-calender>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+
+									<div class="ui-g-12 ui-md-12">
+										<label>{{'frmPegawaiSkStatusRevtab_minHariSebelumPosting'| translate | splitCharT}}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span *ngIf="!form.get('qtyHariMinPostingBefore').valid && form.get('qtyHariMinPostingBefore').touched" style="color: red;font-weight: bolder;">
+												{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+										</label>
+										<input id="input" type="number" formControlName="qtyHariMinPostingBefore" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-12">
+										<label>{{'frmPegawaiSkStatusRevtab_qtyJamMaxPostingBefore'| translate | splitCharT}}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span *ngIf="!form.get('qtyJamMaxPostingBefore').valid && form.get('qtyJamMaxPostingBefore').touched" style="color: red;font-weight: bolder;">
+												{{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT }}</span>
+										</label>
+										<input id="input" type="number" formControlName="qtyJamMaxPostingBefore" pInputText/>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<div class="ui-g-12">
+										<br>
+										<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+										<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">* {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}.</span>
+									</div>
+									<!-- <div class="ui-g-12">
+										<p-checkbox binary="true" label="{{'frmPegawaiSkStatusRevtab_isResetKuota'| translate | splitCharT }}" formControlName="isResetKuota"></p-checkbox>
+										<!-- <span *ngIf="!form.get('isResetKuota').valid && form.get('isResetKuota').touched" style="color: red">* {{'frmPegawaiSkStatusRevtab_required'| translate | splitCharT}}.</span> -->
+										<!-- </div> -->
+									</div>
+								</div>
+							</p-fieldset>
+						</div>
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-7"></div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmPegawaiSkStatusRevtab_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="resetPensiun()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="submit" label="{{'frmPegawaiSkStatusRevtab_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmPegawaiSkStatusRevtab_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDeletePensiun()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'frmPegawaiSkStatusRevtab_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetakPensiun()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<p-splitButton label="{{'frmPegawaiSkStatusRevtab_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="itemsPensiun"></p-splitButton>
+							</div>
+						</div>
+					</form>
+					<div class="ui-g-12 ui-fluid">
+						<p-dataTable [value]="listDataPensiun" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+						[(selection)]="selectedPensiun" (onRowSelect)="onRowSelectPensiun($event)" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecordsPensiun"
+						(onLazyLoad)="loadPagePensiun($event)" [lazy]="true" scrollable="true">
+						<!-- <p-header>{{'frmPegawaiSkStatusRevtab_listPegawaiSkStatus'| translate | splitCharT }}</p-header> -->
+						<p-header>
+							<div class="ui-helper-clearfix">
+								<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+								<input type="text" pInputText size="50" placeholder="{{'frmPegawaiSkStatusRevtab_pencarian'| translate | splitCharT }}" [(ngModel)]="pencarian"
+								(keyup)="cariPensiun()" style="width: 20%;float:right;">
+								<span style="float: left;padding:0.3em;">{{'frmPegawaiSkStatusRevtab_pegawaiSKStatusPensiun'| translate | splitCharT }}</span>
+							</div>
+						</p-header>
+						<!-- <p-column field="noSK" header="{{'frmPegawaiSkStatusRevtab_tableNomor'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column> -->
+						<p-column field="noSKIntern" header="{{'frmPegawaiSkStatusRevtab_tableNomorSKIntern'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+						<p-column field="namaSK" header="{{'frmPegawaiSkStatusRevtab_tableNama'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+						<p-column field="tglBerlakuAwal" header="{{'frmPegawaiSkStatusRevtab_tableTanggalBerlakuAwal'| translate | splitCharT }}" [style]="{'width':'150px'}">
+							<ng-template pTemplate="body" let-StatusSK="rowData">
+								<span *ngIf="StatusSK.tglBerlakuAwal != null">{{StatusSK.tglBerlakuAwal * 1000 | date:'dd MMM yyyy'}}</span>
+								<span *ngIf="StatusSK.tglBerlakuAwal == null">-</span>
+							</ng-template>
+						</p-column>
+						<p-column field="tglBerlakuAkhir" header="{{'frmPegawaiSkStatusRevtab_tableTanggalBerlakuAkhir'| translate | splitCharT }}" [style]="{'width':'150px'}">
+							<ng-template pTemplate="body" let-StatusSK="rowData">
+								<span *ngIf="StatusSK.tglBerlakuAkhir != null">{{StatusSK.tglBerlakuAkhir * 1000 | date:'dd MMM yyyy'}}</span>
+								<span *ngIf="StatusSK.tglBerlakuAkhir == null">-</span>
+							</ng-template>
+						</p-column>
+						<p-column field="namaKategoryPegawai" header="{{'frmPegawaiSkStatusRevtab_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+						<p-column field="namaRange" header="{{'frmPegawaiSkStatusRevtab_tableMasaKerja'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+						<p-column field="namaStatusPegawai" header="{{'frmPegawaiSkStatusRevtab_tableStatusPegawai'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+						<p-column field="isAllowAccumulated" header="{{'frmPegawaiSkStatusRevtab_tableBisaDiakumulasikan'| translate | splitCharT }}" [style]="{'width':'150px'}">
+							<ng-template pTemplate="body" let-StatusSK="rowData">
+								<span *ngIf="StatusSK.isAllowAccumulated == 1">Ya</span>
+								<span *ngIf="StatusSK.isAllowAccumulated == 0">Tidak</span>
+							</ng-template>
+						</p-column>
+						<p-column field="isAllowToMinusKuota" header="{{'frmPegawaiSkStatusRevtab_tableKuotaBolehMinus'| translate | splitCharT }}" [style]="{'width':'150px'}">
+							<ng-template pTemplate="body" let-StatusSK="rowData">
+								<span *ngIf="StatusSK.isAllowToMinusKuota == 1">Ya</span>
+								<span *ngIf="StatusSK.isAllowToMinusKuota == 0">Tidak</span>
+							</ng-template>
+						</p-column>
+						<!-- <p-column field="qtyHariOverAllow" header="{{'frmPegawaiSkStatusRevtab_tableQtyHariOverAllow'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column> -->
+						<p-column field="namaDurasi" header="{{'frmPegawaiSkStatusRevtab_tableDurasi'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+						<p-column field="isProRate" header="{{'frmPegawaiSkStatusRevtab_tableProRata'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+						<p-column field="totalQtyHariKuota" header="{{'frmPegawaiSkStatusRevtab_tableTotalQtyHariKuota'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+						<p-column field="qtyHariMinTake" header="{{'frmPegawaiSkStatusRevtab_tableQtyHariMinTake'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+						<p-column field="qtyHariMaxTake" header="{{'frmPegawaiSkStatusRevtab_tableQtyHatiMaxTake'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+					<!-- <p-column field="tglBlnResetTotalKuota" header="{{'frmPegawaiSkStatusRevtab_tableTanggalBulanResetTotalKuota'| translate | splitCharT }}" [style]="{'width':'250px'}">
+						<ng-template pTemplate="body" let-StatusSK="rowData">
+							{{StatusSK.tglBlnResetTotalKuota * 1000 | date:'dd/MM'}}
+						</ng-template>
+					</p-column> -->
+					<p-column field="qtyHariMinPostingBefore" header="{{'frmPegawaiSkStatusRevtab_tableMinHariSebelumPosting'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+					<p-column field="qtyJamMaxPostingBefore" header="{{'frmPegawaiSkStatusRevtab_tableQtyJamMaxPostingBefore'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+					<p-column field="statusEnabled" header="{{'frmPegawaiSkStatusRevtab_tableStatusEnabled'| translate | splitCharT }}" [style]="{'width':'100px'}">
+						<ng-template let-col="rowData" pTemplate type="body">
+							{{col.statusEnabled | truefalse | translate | splitCharT }}
+						</ng-template> 
+					</p-column>
+				</p-dataTable>
+			</div>
+		</div>
+	</p-tabPanel>
+
+
+</p-tabView>
+</div>
+</div>
+</div>
+</div>

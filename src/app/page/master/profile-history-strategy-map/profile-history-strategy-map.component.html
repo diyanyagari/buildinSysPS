@@ -1,0 +1,205 @@
+<!-- <div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>Master {{'frmProfileHistoryStrategyMap_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					
+					<p-dialog header="{{'frmProfileHistoryStrategyMap_createSasaranKerjaStrategisPerusahaan' | translate | splitCharT }}" [(visible)]="displayDialogCreateNewStrategyMap"
+					 [modal]="true" [responsive]="true" [width]="1000" [height]="400" [minWidth]="500" [minHeight]="300" [autoZIndex]="true"
+					 [dismissableMask]="true" [closeOnEscape]="true">
+						<div class="card card-w-title">
+							<div class="ui-g-offset-10">
+								<button pButton type="button" icon="fa-minus" [disabled]="!isDisabledButton" (click)="confirmDelete()"></button>
+								<button pButton type="button" icon="fa-plus" [disabled]="!isDisabledButtonTambah" (click)="showDialogInsert()"></button>
+							</div>
+							<div class="ui-g-3">
+								<p-listbox [options]="menuStrategyPerspective" [(ngModel)]="selectedPerspectiveDialog" (click)="getProfileHistoryStrategyMapDialog()">
+									<p-header>
+										{{'frmProfileHistoryStrategyMap_perspective'| translate | splitCharT}}
+									</p-header>
+								</p-listbox>
+							</div>
+							<div class="ui-g-9">
+								<p-dataTable [value]="dataProfileHistoryStrategyMapDialog" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5, 10, 20]"
+								 selectionMode="single" scrollabel="true" [(selection)]="selected" (onRowSelect)="onRowSelected($event)" 
+								 [lazy]="true">
+									<p-column field="namaStrategy" header="{{'frmProfileHistoryStrategyMap_listNamaStrategy' | translate | splitCharT }}">
+										<ng-template pTemplate="body" let-data="rowData">
+											{{data.namaStrategy}}
+										</ng-template>
+									</p-column>
+								</p-dataTable>
+							</div>
+						</div>
+						<p-footer>
+							<button pButton type="button" label="{{'frmProfileHistoryStrategyMap_batal' | translate | splitCharT  }}" icon="fa-close" (click)="closeDialogCreate()"></button>
+						</p-footer>
+					</p-dialog>
+
+					
+					<p-dialog header="{{'frmProfileHistoryStrategyMap_createSasaranKerjaStrategisPerusahaan' | translate | splitCharT }}" [(visible)]="displayDialogInsertNewStrategyMap"
+					 [modal]="true" [responsive]="true" responsive="true" showEffect="fade" [modal]="true" width="1024" [autoZIndex]="true">
+						<div class="card card-w-title">
+							<div class="ui-g form-group">
+								<div class="ui-g-12 ui-md-2">
+									<label>{{'frmProfileHistoryStrategyMap_periodeAwal' | translate | splitCharT }}</label>
+									<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="inputTanggalAwal" [showIcon]="true"
+									 dateFormat="dd M yy"></app-calender>
+								</div>
+								<div>
+									<br>
+									<label>-</label>
+								</div>
+								<div class="ui-g-12 ui-md-2">
+									<label>{{'frmProfileHistoryStrategyMap_periodeAkhir' | translate | splitCharT }}</label>
+									<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="inputTanggalAkhir" [showIcon]="true"
+									 dateFormat="dd M yy"></app-calender>
+								</div>
+							</div>
+							<div class="ui-g-12 ui-md-12">
+								<label>{{this.namaPerspective}}</label>
+							</div>
+							<div class="ui-g-12 ui-md-12">
+								<p-dataTable [value]="listDdlDataStrategy" [rows]="10" [paginator]="true" [pageLinks]="3" [editable]="true">
+									<p-header>
+										<div class="ui-helper-clearfix">
+											<button pButton type="button" icon="fa-plus" (click)="tambahDataPerspective()" style="float: left"></button>
+											<span style="float: left;padding: 0.3em;">Tambah Data Perspective</span>
+										</div>
+									</p-header>
+									<p-column header="No." [style]="{'width':'50px'}">
+										<ng-template pTemplate="body" let-i="rowIndex">
+											{{i+1}}
+										</ng-template>
+									</p-column>
+									<p-column [editable]="true" field="data" header="{{'frmProfileHistoryStrategyMap_namaStrategy' | translate | splitCharT }}" [style]="{'width':'100px','overflow':'visible'}">
+										<ng-template let-col let-datas="rowData" pTemplate="body">
+											{{datas[col.field].namaStrategy}}
+										</ng-template>
+										<ng-template let-col let-datas="rowData" pTemplate="editor">
+											<p-dropdown [options]="listAsalDdlDataStrategy" class="ui-inputwrapper-filled" filter="filter" [ngModelOptions]="{standalone: true}"
+											 [(ngModel)]="datas[col.field]"></p-dropdown>
+										</ng-template>
+
+									</p-column>
+									<p-column header="{{'frmProfileHistoryStrategyMap_hapusRow' | translate | splitCharT }}" [style]="{'width':'50px'}">
+										<ng-template pTemplate type="body" let-col let-row="rowData" let-ri="rowIndex">
+											<button type="button" pButton (click)="hapusRow(row)" icon="fa-trash"></button>
+										</ng-template>
+									</p-column>
+
+								</p-dataTable>
+
+							</div>
+						</div>
+						<p-footer>
+							<button pButton type="button" label="{{'frmProfileHistoryStrategyMap_batal' | translate | splitCharT  }}" icon="fa-close" (click)="closeDialogInsert()"></button>
+							<button pButton type="button" label="{{'frmProfileHistoryStrategyMap_simpan' | translate | splitCharT  }}" icon="fa-save" (click)="simpanData()"></button>
+						</p-footer>
+					</p-dialog>
+					<div class="ui-g-12 ui-md-2">
+						<label>{{'frmProfileHistoryStrategyMap_periodeAwal' | translate | splitCharT }}</label>
+						<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAwal" [showIcon]="true"
+						 dateFormat="dd M yy"></app-calender>
+					</div>
+					<div>
+						<br>
+						<label>-</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<label>{{'frmProfileHistoryStrategyMap_periodeAkhir' | translate | splitCharT }}</label>
+						<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAkhir" [showIcon]="true"
+						 dateFormat="dd M yy"></app-calender>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<br>
+						<button pButton type="button" icon="fa-search" (click)="cariOld()"></button>
+						<button pButton type="button" icon="fa-refresh" (click)="getAllProfileHistoryStrategyMap()"></button>
+					</div>
+				</div>
+				<div class="ui-g-2">
+					<p-listbox [options]="menuStrategyPerspective" [(ngModel)]="selectedPerspective" (click)="getProfileHistoryStrategyMap()">
+						<p-header>
+							{{'frmProfileHistoryStrategyMap_perspective'| translate | splitCharT}}
+						</p-header>
+					</p-listbox>
+				</div>
+				<div class="ui-g-10">
+					<div class="card card-w-title">
+						<div class="ui-g-12">
+							<div class="ui-g-3 box-perspective" *ngFor="let data of dataProfileHistoryStrategyMap" style="margin: .5em">
+								<div class="content-box">
+									{{data.namaStrategy}}
+							</div>
+				<div class="ui-g-12 ui-md-1 ui-md-offset-9">
+					<button pButton type="button" label="{{'frmProfileHistoryStrategyMap_tambah'| translate | splitCharT}}" icon="fa-plus" (click)="showDialogCreate()"></button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmBSC_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-12 ui-md-2">
+						<label>{{'frmKPI_periodeAwal'| translate | splitCharT}}</label>
+						<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAwal" [showIcon]="true"
+						 dateFormat="dd M yy"></app-calender>
+					</div>
+					<div>
+						<br>
+						<label>-</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<label>{{'frmKPI_periodeAkhir'| translate | splitCharT}}</label>
+						<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAkhir" [showIcon]="true"
+						 dateFormat="dd M yy"></app-calender>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<br>
+						<button pButton type="button" icon="fa-search" (click)="cariPeriode()"></button>
+						<button pButton type="button" icon="fa-refresh" (click)="refreshData()"></button>
+					</div>
+					<div class="ui-g-12">
+						<div class="ui-g-12 ui-md-2">
+							<label for="input">{{'Departemen'| translate | splitCharT }}</label>
+							<p-dropdown id="dropdownDepartemen" filter="filter" class="ui-inputwrapper-filled" [(ngModel)]="kdDepartemen" [options]="Departemen"
+							 [autoWidth]="false"></p-dropdown>
+						</div>
+					</div>
+
+
+					<div class="ui-g-12 ui-md-9">
+						<!-- <div class="ngx-dnd-container overdrive-test" ngxDroppable>
+					  <div *ngFor="let item of strategyAll">
+						<div class="ngx-dnd-item" ngxDraggable="['tes']">{{item.label}}</div>
+					  </div>
+					</div> -->
+						<div class="overdrive-perspective">
+							<ngx-dnd-container [model]='perspective' [moves]="false" dropZone="nested-oneway-target" (click)="tesEvent($event)" (drop)="onDrop($event)">
+							</ngx-dnd-container>
+						</div>
+					</div>
+					<div class="ui-g-12 ui-md-3">
+					
+						<div class="overdrive-strategy">
+							<ngx-dnd-container [model]='strategyAll' [dropZones]="['nested-oneway-target']" [copy]="true"></ngx-dnd-container>
+						</div>
+
+					</div>
+
+
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="simpan" icon="fa-save" (click)="simpanM()"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

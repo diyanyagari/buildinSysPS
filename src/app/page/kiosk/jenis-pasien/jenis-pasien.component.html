@@ -1,0 +1,35 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+    <div class="header-title">
+        <div class="container">
+            <div class="header-item action">
+                <img src="../../../../assets/layout/images/kiosk/home.svg" [routerLink]="['/kiosk']" alt="home">
+            </div>
+            <div class="header-item">
+                <img src="../../../../assets/layout/images/kiosk/icon-antrian.png" alt="icon">
+                <h2>{{'frmKiosKAntrian_antrianPasien' | translate | splitCharT }} {{jenisAsalPasien.nama}} - {{'frmKiosKAntrian_pilihJenisPasien' | translate | splitCharT }}</h2>
+            </div>
+            <div class="header-item action">
+                <img src="../../../../assets/layout/images/kiosk/power-button.svg" alt="logout"
+                    (click)="logout($event)">
+            </div>
+        </div>
+        <div class="container-grid">
+            <div class="main-content" id="mainContent">
+                <!-- <div></div>
+                <div></div> 
+            "../../../../assets/layout/images/kiosk/pasien-baru.png-->
+                <div *ngFor="let dat of listData; let i = index">
+                    <img [src]="dat.iconImage" (click)="clickJenisPasien(listData[i])">
+                    <a href="#" class="underlined" (click)="clickJenisPasien(listData[i])">{{listData[i].namaStatus}}</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="informasi-action">
+        <div class="container">
+            <button class="btn-kembali" style="cursor: pointer;" [routerLink]="['/kiosk/antrian']">{{'frmKiosKAntrian_Kembali' | translate | splitCharT }}</button>
+        </div>
+    </div>
+</div>

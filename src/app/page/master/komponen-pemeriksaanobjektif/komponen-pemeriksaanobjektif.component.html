@@ -1,0 +1,205 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<!-- {{'frmKomponenPemeriksaanObjektif_title'| translate | splitCharT }} -->
+				<h1>{{'frmKomponenPemeriksaanObjektif_title'| translate | splitCharT }}</h1>
+						<form [formGroup]="formKomponen">
+							<div class="ui-g form-group">
+								<div class="ui-g-12 ui-md-8 ui-g-nopad">
+									<div class="ui-g">
+										<div class="ui-g-12 ui-md-6">
+											<label>{{'frmKomponenPemeriksaanObjektif_nama'| translate | splitCharT }}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!formKomponen.get('namaKomponen').valid && formKomponen.get('namaKomponen').touched" style="color: red">
+													{{'frmKomponenPemeriksaanObjektif_required'| translate | splitCharT}}</span>
+											</label>
+											<input type="text" formControlName="namaKomponen" [(ngModel)]="toReportKomponen" (ngModelChange)="valuechangeKomponen($event)"
+											 pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-6">
+											<label>{{'frmKomponenPemeriksaanObjektif_faktorRate' | translate | splitCharT }}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!formKomponen.get('factorRate').valid && formKomponen.get('factorRate').touched" style="color: red">
+													{{'frmKomponenPemeriksaanObjektif_required'| translate | splitCharT}}</span>
+											</label>
+											<input type="text" formControlName="factorRate" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-6">
+											<label>{{'frmKomponenPemeriksaanObjektif_noUrut'| translate | splitCharT }}</label>
+											<input type="number" formControlName="noUrut" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-6">
+													<label for="satuanHasil">{{'frmKomponenPemeriksaanObjektif_satuanHasil'| translate | splitCharT }}</label>
+													<p-dropdown id="satuanHasil" filter="filter" formControlName="kdSatuanHasil" [options]="listSatuanHasil" [autoWidth]="false"></p-dropdown>
+												</div>
+										<!-- <div class="ui-g-12 ui-md-4" hidden="true">
+											<label for="produk">{{'frmKomponenPemeriksaanObjektif_produk'| translate | splitCharT }}</label>
+											<p-dropdown id="produk" filter="filter" formControlName="kdProduk" [options]="listProduk" [autoWidth]="false"></p-dropdown>
+										</div> -->
+										<div class="ui-g-12 ui-md-6" >
+											<!-- <br> -->
+											<span hidden="true">
+												<p-checkbox binary="true" label="{{'frmKomponenPemeriksaanObjektif_taxed'| translate | splitCharT}}" formControlName="isTaxed" (onChange)="changeConvertTaxed($event)"></p-checkbox>
+											</span>
+											<span hidden="true">
+												<p-checkbox binary="true" label="{{'frmKomponenPemeriksaanObjektif_payroll'| translate | splitCharT}}" formControlName="isPayroll" (onChange)="changeConvertPayroll($event)"></p-checkbox>
+											</span>
+											<span>
+												<p-checkbox binary="true" label="{{'frmKomponenPemeriksaanObjektif_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+												<span *ngIf="!formKomponen.get('statusEnabled').valid && formKomponen.get('statusEnabled').touched" style="color: red"> *</span>
+												<span *ngIf="!formKomponen.get('statusEnabled').valid && formKomponen.get('statusEnabled').touched" style="color: red"> {{'frmKomponenPemeriksaanObjektif_required'| translate | splitCharT}}</span>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-g-nopad">
+									<p-fieldset legend="{{'frmKomponenPemeriksaanObjektif_optional' | translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+										<form [formGroup]="formKomponen" class="ui-g form-group">
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmKomponenPemeriksaanObjektif_operatorFaktorTingkat' | translate | splitCharT }}</label>
+												<p-dropdown formControlName="operatorFactorRate" placeholder="{{'frmKomponenPemeriksaanObjektif_operatorFactorRate'| translate | splitCharT }}" [options]="listOperatorFactorRate"
+												 [autoWidth]="false"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmKomponenPemeriksaanObjektif_reportDisplay'| translate | splitCharT }}
+													<span *ngIf="!formKomponen.get('reportDisplay').valid && formKomponen.get('reportDisplay').touched" style="color: red"></span>
+													<span *ngIf="!formKomponen.get('reportDisplay').valid && formKomponen.get('reportDisplay').touched" style="color: red">* {{'frmKomponenPemeriksaanObjektif_required'| translate | splitCharT}}</span>
+												</label>
+												<input type="text" formControlName="reportDisplay" [(ngModel)]="reportKomponen" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmKomponenPemeriksaanObjektif_kodeExternal'| translate | splitCharT }}</label>
+												<input type="text" formControlName="kodeExternal" pInputText/>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmKomponenPemeriksaanObjektif_namaExternal'| translate | splitCharT }}</label>
+												<input type="text" formControlName="namaExternal" pInputText/>
+											</div>
+										</form>
+									</p-fieldset>
+								</div>
+								<div class="ui-g-12 ui-md-12" hidden="true" >
+									<p-fieldset legend="{{'frmKomponenPemeriksaanObjektif_komponenEvaluasi'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+										<form [formGroup]="formKomponen" class="ui-g form-group">
+											<div class="ui-g-12 ui-md-6" hidden="true">
+												<div class="ui-g-12 ui-md-10" hidden="true">
+													<label>{{'frmKomponenPemeriksaanObjektif_nilaiTerendah'| translate | splitCharT }}</label>
+													<input type="number" formControlName="nilaiMin" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-10" hidden="true">
+													<label>{{'frmKomponenPemeriksaanObjektif_nilaiNormal'| translate | splitCharT }}</label>
+													<input type="number" formControlName="nilaiNormal" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-10" hidden="true">
+													<label>{{'frmKomponenPemeriksaanObjektif_nilaiTertinggi'| translate | splitCharT }}</label>
+													<input type="number" formControlName="nilaiMax" pInputText/>
+												</div>
+											</div>
+											<div class="ui-g-12 ui-md-6" >
+												<!-- style="margin-left: -90px;" -->
+												<div class="ui-g-12 ui-md-10" hidden="true">
+													<label for="kelompokEvaluasi">{{'frmKomponenPemeriksaanObjektif_typeDataObjek'| translate | splitCharT }}</label>
+													<p-dropdown id="typeDataObjek" filter="filter" formControlName="kdTypeDataObjek" [options]="listTypeDataObjek" [autoWidth]="false"></p-dropdown>
+												</div>
+												<div class="ui-g-12 ui-md-10">
+													<label for="satuanHasil">{{'frmKomponenPemeriksaanObjektif_satuanHasil'| translate | splitCharT }}</label>
+													<p-dropdown id="satuanHasil" filter="filter" formControlName="kdSatuanHasil" [options]="listSatuanHasil" [autoWidth]="false"></p-dropdown>
+												</div>
+
+												<div class="ui-g-12 ui-md-10" hidden="true">
+													<label for="kelompokEvaluasi">{{'frmKomponenPemeriksaanObjektif_kelompokEvaluasi'| translate | splitCharT }}</label>
+													<p-dropdown id="kelompokEvaluasi" filter="filter" formControlName="kdKelompokEvaluasi" [options]="listKelompokEvaluasi" [autoWidth]="false"></p-dropdown>
+												</div>
+											</div>
+										</form>
+									</p-fieldset>
+								</div>
+								<div class="ui-g-12 ui-md-1 ui-md-offset-7">
+									<button pButton type="button" label="{{'frmKomponenPemeriksaanObjektif_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="resetKomponen()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmKomponenPemeriksaanObjektif_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmitKomponen()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmKomponenPemeriksaanObjektif_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDeleteKomponen()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmKomponenPemeriksaanObjektif_btncetak'| translate | splitCharT}}" icon="fa-print" (click)="cetakKomponen()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmKomponenPemeriksaanObjektif_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+								</div>
+							</div>
+						</form>
+				<div class="ui-g form-group">
+					
+					<div class="ui-g-12">
+						<p-dataTable [value]="listDataKomponen" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+						 [(selection)]="selected" scrollable="true" (onRowSelect)="onRowSelectKomponen($event)" [lazy]="true" [loading]="Loading"
+						 loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPageKomponen($event)" expandableRows="true">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50" placeholder="{{'frmKomponenPemeriksaanObjektif_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+									 (keyup)="cariKomponen()" style="width: 20%;float:right;">
+									<span style="float: left;padding:0.3em;">{{'frmKomponenPemeriksaanObjektif_title'| translate | splitCharT }}</span>
+								</div>
+							</p-header>
+							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+							<p-column field="namaKomponen" header="{{'frmKomponenPemeriksaanObjektif_tableNama'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="noUrut" header="{{'frmKomponenPemeriksaanObjektif_tableNoUrut'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="kdJenisKomponen" header="{{'frmKomponenPemeriksaanObjektif_tableJenisKomponen'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+							<p-column field="nilaiMin" header="{{'frmKomponenPemeriksaanObjektif_tableNilaiTerendah'| translate | splitCharT }}" [style]="{'width':'150px'}" hidden="true"></p-column>
+							<p-column field="nilaiNormal" header="{{'frmKomponenPemeriksaanObjektif_tableNilaiNormal'| translate | splitCharT }}" [style]="{'width':'150px'}" hidden="true"></p-column>
+							<p-column field="nilaiMax" header="{{'frmKomponenPemeriksaanObjektif_tableNilaiTertinggi'| translate | splitCharT }}" [style]="{'width':'150px'}" hidden="true"></p-column>
+							<p-column field="namaSatuanHasil" header="{{'frmKomponenPemeriksaanObjektif_tableSatuanHasil'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+							<p-column field="namaTypeDataObjek" header="{{'frmKomponenPemeriksaanObjektif_tableTypeDataObjek'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+							<p-column field="factorRate" header="{{'frmKomponenPemeriksaanObjektif_tableFaktorRate'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="namaProduk" header="{{'frmKomponenPemeriksaanObjektif_tableProduk'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+							<p-column field="namaKelompokEvaluasi" header="{{'frmKomponenPemeriksaanObjektif_tableKelompokEvaluasi'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+							<p-column field="statusEnabled" header="{{'frmKomponenPemeriksaanObjektif_tableStatus'| translate | splitCharT }}" [style]="{'width':'150px'}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template> 
+							</p-column>
+							<ng-template let-detail pTemplate="rowexpansion">
+								<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+										<div class="ui-grid-col-12">
+											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+												<div class="ui-grid-row">
+													<div class="ui-grid-col-2 label">
+														<span style="color:black">{{ 'frmKomponenPemeriksaanObjektif_tableOptional' | translate | splitCharT }}</span>
+													</div>
+												</div>
+												<hr>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmKomponenPemeriksaanObjektif_operatorFactorRate'| translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{detail.operatorFactorRate}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmKomponenPemeriksaanObjektif_tableReportDisplay'| translate | splitCharT }} </div>
+													<div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmKomponenPemeriksaanObjektif_tableKodeExternal' | translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{detail.kodeExternal}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmKomponenPemeriksaanObjektif_tableNamaExternal'| translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{detail.namaExternal}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

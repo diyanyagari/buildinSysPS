@@ -1,0 +1,151 @@
+    <div class="ui-fluid">
+    	<div class="ui-g">
+    		<div class="ui-g-12">
+    			<div class="card card-w-title">
+    				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+    				<h1>{{ 'frmBentuk_title' | translate | splitCharT  }}</h1>
+    				<div class="ui-g form-group">
+    					<div class="ui-g-12">
+    						<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    							<div class="ui-g form-group">
+    								<div class="ui-g-6">
+    									<div class="ui-g-12 ui-md-10" hidden>
+    										<span class="ui-float-label" hidden>
+    											<input id="input" hidden type="text" formControlName="kode" pInputText readonly="true" />
+    										</span>
+    									</div>
+                                        <div class="ui-g-12 ui-md-10">
+                                            <label>{{'frmBentuk_kdBentukHead'| translate | splitCharT }} 
+                                            </label>
+                                            <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="{{'frmBentuk_pilih'| translate | splitCharT }}" formControlName="kdBentukHead" [options]="dropdownbentukHead" [autoWidth]="false"></p-dropdown>
+                                        </div>
+    									<div class="ui-g-12 ui-md-10">
+    										<label>{{'frmBentuk_namaBentuk'| translate | splitCharT }}
+    											<span style="color: red;font-weight: bolder;">*</span>
+    											<span *ngIf="!form.get('namaBentuk').valid && form.get('namaBentuk').touched" style="color: red">{{'frmBentuk_required'| translate | splitCharT}}</span>
+    										</label>
+    						                  <input id="input" type="text" formControlName="namaBentuk" [(ngModel)]="namaBentuk" (ngModelChange)="valuechange($event)" pInputText/>
+    									</div>
+    									<div class="ui-g-12 ui-md-10">
+    										<label>{{'frmBentuk_kdKelompokProduk'| translate | splitCharT }}
+    										</label>
+                                            <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="{{'frmBentuk_pilih'| translate | splitCharT }}" formControlName="kdKelompokProduk" [options]="dropdownkelompokProduk" [autoWidth]="false"></p-dropdown>
+    									</div>
+    									<div class="ui-g-12 ui-md-12">
+    										<p-checkbox binary="true" label="{{'frmBentuk_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+    										<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red"> *</span>
+    										<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red"> {{'frmBentuk_required'| translate | splitCharT}}</span>
+    									</div>
+    								</div>
+    								<div class="ui-g-6">
+    									<p-fieldset legend="{{'frmBentuk_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+    										<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    											<div class="ui-g form-group">
+    												<div class="ui-g-12 ui-md-10">
+    													<label>{{'frmBentuk_reportDisplay'| translate | splitCharT }}
+    														<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">*</span>
+    														<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red"> {{'frmBentuk_required'| translate | splitCharT}}</span>
+    													</label>
+    													<input id="input" formControlName="reportDisplay" [(ngModel)]="report" pInputText />
+    
+    												</div>
+    												<div class="ui-g-12 ui-md-10">
+    													<label>{{'frmBentuk_kodeExternal'| translate | splitCharT }}</label>
+    													<input id="input" type="text" formControlName="kodeExternal" [(ngModel)]="kodeExternal" pInputText/>
+    												</div>
+    												<div class="ui-g-12 ui-md-10">
+    													<label>{{'frmBentuk_namaExternal'| translate | splitCharT }}</label>
+    													<input id="input" type="text" formControlName="namaExternal" [(ngModel)]="namaExternal" pInputText/>
+    												</div>
+    											</div>
+    										</form>
+    									</p-fieldset>
+    								</div>
+    
+    
+    								<div class="ui-g-12">
+    									<div class="ui-g-12 ui-md-7"></div>
+    									<div class="ui-g-12 ui-md-1">
+    										<button pButton type="button" label="{{'frmBentuk_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+    									</div>
+    									<div class="ui-g-12 ui-md-1">
+    										<button pButton type="submit" label="{{'frmBentuk_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+    									</div>
+    									<div class="ui-g-12 ui-md-1">
+    										<button pButton type="button" label="{{'frmBentuk_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+    									</div>
+    									<div class="ui-g-12 ui-md-1">
+    										<button pButton type="button" label="{{'frmBentuk_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+    									</div>
+    									<div class="ui-g-12 ui-md-1">
+    										<p-splitButton label="{{'frmBentuk_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+    
+    									</div>
+    								</div>
+    
+    
+    
+    							</div>
+    						</form>
+    					</div>
+    					<div class="ui-g-12">
+    						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+     [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+     [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+    						 [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+    
+    							<p-header>
+    								<div class="ui-helper-clearfix">
+    									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+    									<input type="text" pInputText size="50" placeholder="{{'frmBentuk_tablePencarian'| translate | splitCharT}}"
+    	[(ngModel)]="pencarian" (keyup)="cari()"
+    									 style="width: 20%;float:right;">
+    									<span style="float: left;padding:0.3em;">{{'frmBentuk_BentukTitle'| translate | splitCharT }}</span>
+    								</div>
+    							</p-header>
+    							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+                                <p-column field="namaBentukHead" header="{{'frmBentuk_tablekdBentukHead'| translate | splitCharT}}"></p-column>
+    							<p-column field="namaBentuk" header="{{'frmBentuk_tableNamaBentuk'| translate | splitCharT}}"></p-column>
+    							<p-column field="namaKelompokProduk" header="{{'frmBentuk_tableKdelompokProduk'| translate | splitCharT}}"></p-column>
+    							<p-column field="statusEnabled" header="{{'frmBentuk_tableStatus'| translate | splitCharT }}">
+    								<ng-template let-col="rowData" pTemplate type="body">
+    									{{col.statusEnabled | truefalse | translate | splitCharT }}
+    								</ng-template>
+    							</p-column>
+    							<ng-template let-bentuk pTemplate="rowexpansion">
+    								<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+    									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+    										<div class="ui-grid-col-12">
+    											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+    												<div class="ui-grid-row">
+    													<div class="ui-grid-col-2 label">
+    														<span style="color:black">{{ 'frmBentuk_optional' | translate | splitCharT }}</span>
+    													</div>
+    												</div>
+    												<hr>
+    												<div class="ui-grid-row">
+    													<div class="ui-grid label">{{'frmBentuk_tableReportDisplay'| translate | splitCharT }} </div>
+    													<div class="ui-grid-col-4"> {{bentuk.reportDisplay}}</div>
+    												</div>
+    												<div class="ui-grid-row">
+    													<div class="ui-grid label">{{'frmBentuk_tableKodeExternal' | translate | splitCharT}} </div>
+    													<div class="ui-grid-col-4">{{bentuk.kodeExternal}}</div>
+    												</div>
+    												<div class="ui-grid-row">
+    													<div class="ui-grid label">{{'frmBentuk_tableNamaExternal'| translate | splitCharT}} </div>
+    													<div class="ui-grid-col-4">{{bentuk.namaExternal}}</div>
+    												</div>
+    											</div>
+    										</div>
+    									</div>
+    								</div>
+    							</ng-template>
+    						</p-dataTable>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+     
+

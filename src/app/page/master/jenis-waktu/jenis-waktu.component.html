@@ -1,0 +1,202 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmJenisWaktu_title'| translate | splitCharT }}</h1>
+				<p-tabView (onChange)="onTabChange($event)" [activeIndex]="tabIndex">
+					<p-tabPanel header="Jenis Waktu">
+						<h1>{{'frmJenisWaktu_jenisWaktuHead'| translate | splitCharT }}</h1>
+						<form [formGroup]="form">
+							<div class="ui-g form-group">
+								<div class="ui-g-12 ui-md-8 ui-g-nopad">
+									<div class="ui-g-12 ui-md-6">
+										<label for="input">{{'frmJenisWaktu_kelompokProduk'| translate | splitCharT }}</label>
+										<p-dropdown filter="filter" [options]="kdKelompokProduk" [autoWidth]="false" formControlName="kdKelompokProduk"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label for="input">{{'frmJenisWaktu_nama'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span> <span *ngIf="!form.get('namaJenisWaktu').valid && form.get('namaJenisWaktu').touched" style="color: red"> {{'frmJenisWaktu_required'| translate | splitCharT}}</span></label>
+										<input id="input" type="text" formControlName="namaJenisWaktu" (keyup)="setReportDisplay()" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label for="input">{{'frmJenisWaktu_noUrut'| translate | splitCharT }} </label>
+										<input type="text" formControlName="noUrut" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label for="input">{{'frmJenisWaktu_jamAwal'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span> <span *ngIf="!form.get('jamAwal').valid && form.get('jamAwal').touched" style="color: red"> {{'frmJenisWaktu_required'| translate | splitCharT}}</span></label>
+										<p-dropdown [options]="jamAwal" [autoWidth]="false" formControlName="jamAwal"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label for="input">{{'frmJenisWaktu_jamAkhir'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span> <span *ngIf="!form.get('jamAkhir').valid && form.get('jamAkhir').touched" style="color: red"> {{'frmJenisWaktu_required'| translate | splitCharT}}</span></label>
+										<p-dropdown [options]="jamAkhir" [autoWidth]="false" formControlName="jamAkhir"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<br>
+										<p-checkbox binary="true" label="{{'frmJenisWaktu_status'| translate | splitCharT}}" formControlName="statusEnabled"></p-checkbox>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<p-fieldset legend="{{'frmJenisWaktu_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+										<form [formGroup]="form">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisWaktu_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span><span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'frmJenisWaktu_required'| translate | splitCharT}}</span></label>
+													<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisWaktu_kodeExternal'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisWaktu_namaExternal'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="namaExternal" pInputText/>
+												</div>
+											</div>
+										</form>
+									</p-fieldset>
+								</div>
+								<div class="ui-g-12 ui-md-1 ui-md-offset-7">
+									<button pButton type="button" label="{{'frmJenisWaktu_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmJenisWaktu_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmJenisWaktu_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmJenisWaktu_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmJenisWaktu_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+								</div>
+							</div>
+						</form>
+					</p-tabPanel>
+					<!-- Tab Child -->
+					<p-tabPanel *ngFor="let item of listTab" [header]="item.namaJenisWaktu">
+						<h1>{{item.namaJenisWaktu}}</h1>
+						<form [formGroup]="form">
+							<div class="ui-g form-group">
+								<div class="ui-g-12 ui-md-8 ui-g-nopad">
+									<div class="ui-g-12 ui-md-6">
+										<label for="input">{{'frmJenisWaktu_kelompokProduk'| translate | splitCharT }}</label>
+										<p-dropdown filter="filter" [options]="kdKelompokProduk" [autoWidth]="false" formControlName="kdKelompokProduk"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label for="input">{{'frmJenisWaktu_nama'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span> <span *ngIf="!form.get('namaJenisWaktu').valid && form.get('namaJenisWaktu').touched" style="color: red"> {{'frmJenisWaktu_required'| translate | splitCharT}}</span></label>
+										<input id="input" type="text" formControlName="namaJenisWaktu" (keyup)="setReportDisplay()" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label for="input">{{'frmJenisWaktu_noUrut'| translate | splitCharT }} </label>
+										<input type="text" formControlName="noUrut" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label for="input">{{'frmJenisWaktu_jamAwal'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span> <span *ngIf="!form.get('jamAwal').valid && form.get('jamAwal').touched" style="color: red"> {{'frmJenisWaktu_required'| translate | splitCharT}}</span></label>
+										<p-dropdown [options]="jamAwal" [autoWidth]="false" formControlName="jamAwal"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<label for="input">{{'frmJenisWaktu_jamAkhir'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span> <span *ngIf="!form.get('jamAkhir').valid && form.get('jamAkhir').touched" style="color: red"> {{'frmJenisWaktu_required'| translate | splitCharT}}</span></label>
+										<p-dropdown [options]="jamAkhir" [autoWidth]="false" formControlName="jamAkhir"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-6">
+										<br>
+										<p-checkbox binary="true" label="{{'frmJenisWaktu_status'| translate | splitCharT}}" formControlName="statusEnabled"></p-checkbox>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+										<form [formGroup]="form">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisWaktu_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span><span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'frmJenisWaktu_required'| translate | splitCharT}}</span></label>
+													<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisWaktu_kodeExternal'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+												</div>
+												<div class="ui-g-12 ui-md-12">
+													<label for="input">{{'frmJenisWaktu_namaExternal'| translate | splitCharT }}</label>
+													<input id="input" type="text" formControlName="namaExternal" pInputText/>
+												</div>
+											</div>
+										</form>
+									</p-fieldset>
+								</div>
+								<div class="ui-g-12 ui-md-1 ui-md-offset-7">
+									<button pButton type="button" label="{{'frmJenisWaktu_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmJenisWaktu_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmJenisWaktu_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmJenisWaktu_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetakChild()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmJenisWaktu_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="itemsChild"></p-splitButton>
+								</div>
+							</div>
+						</form>
+					</p-tabPanel>
+				</p-tabView>
+				<div class="ui-g form-group">
+					<div class="ui-g-12">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" scrollable="true" expandableRows="true">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50" placeholder="{{'frmJenisWaktu_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+									(keypress)="cari()" style="width: 20%;float:right;">
+									<span style="float: left;padding:0.3em;">{{'frmJenisWaktu_tableTitle'| translate | splitCharT}}</span>
+								</div>
+							</p-header>
+							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+							<p-column field="namaJenisWaktuHead" header="{{'frmJenisWaktu_parentJenisWaktu'| translate | splitCharT }}"></p-column>
+							<p-column field="namaJenisWaktu" header="{{'frmJenisWaktu_tableNama'| translate | splitCharT }}"></p-column>
+							<p-column field="noUrut" header="{{'frmJenisWaktu_tableNoUrut'| translate | splitCharT }}"></p-column>
+							<p-column field="jamAwal" header="{{'frmJenisWaktu_tableJamAwal'| translate | splitCharT }}"></p-column>
+							<p-column field="jamAkhir" header="{{'frmJenisWaktu_tableJamAkhir'| translate | splitCharT }}"></p-column>
+							<p-column field="statusEnabled" header="{{'statusEnabled'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template> 
+							</p-column>
+							<ng-template let-jenisWaktu pTemplate="rowexpansion">
+								<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+										<div class="ui-grid-col-12">
+											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+												<div class="ui-grid-row">
+													<div class="ui-grid-col-2 label">
+														<span style="color:black">{{ 'frmJenisWaktu_optional' | translate | splitCharT }}</span>
+													</div>
+												</div>
+												<hr>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmJenisWaktu_tableReportDisplay'| translate | splitCharT }} </div>
+													<div class="ui-grid-col-4"> {{jenisWaktu.reportDisplay}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmJenisWaktu_tableKodeExternal' | translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{jenisWaktu.kodeExternal}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmJenisWaktu_tableNamaExternal'| translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{jenisWaktu.namaExternal}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

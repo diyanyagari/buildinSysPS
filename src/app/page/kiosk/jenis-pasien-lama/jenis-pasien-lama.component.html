@@ -1,0 +1,350 @@
+<div class="ui-fluid">
+    <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true">
+    </p-confirmDialog>
+    <p-dialog header="{{'frmKiosKAntrian_DataIdentitas' | translate | splitCharT }}" [(visible)]="dataIdentitasDialog" modal="modal"
+        width="900" id="dialogDataKtp">
+        <div class="ui-g form-group">
+            <div class="ui-g-12 ui-md-12 ui-lg-12" style="padding: 0px">
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <label>{{'frmKiosKAntrian_TanggalKunjungan'| translate | splitCharT }}</label>
+                    <app-calender [monthNavigator]="true" [yearNavigator]="true" [showIcon]="false" dateFormat="dd M yy"
+                        appendTo="body" id="dialogTglPelayanan"
+                        placeholder="{{'frmKiosKAntrian_TanggalKunjungan' | translate | splitCharT }}"
+                        (onFocus)="focusKomponen('tglPelayanan')" yearRange="{{rangeTahun}}"
+                        (onClose)="focusOutKomponen('tglPelayanan')" [(ngModel)]="tglPelayanan"
+                        (onSelect)="counterPasienByDay($event)" [minDate]="minDate" [showTime]="true" disabled="true">
+                    </app-calender>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <label>{{'frmKiosKAntrian_NomorIdentitas'| translate | splitCharT }}</label>
+                    <div class="dialogInput">
+                        <span>
+                            <input type="text" class="dialog-kiosk-data-input"
+                                style="height: 4.9vh !important; width: 100%;"
+                                placeholder="{{'frmKiosKAntrian_NomorIdentitas' | translate | splitCharT }}"
+                                [(ngModel)]="noIdentitas"
+                                (focus)="focusKomponen('noIdentitas','frmKiosKAntrian_NomorIdentitas','frmKiosKAntrian_MasukkanNomorIdentitasAnda')"
+                                (focusout)="focusOutKomponen('noIdentitas')" maxlength="25" disabled="true">
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <label>{{'frmKiosKAntrian_NamaLengkap'| translate | splitCharT }}</label>
+                    <div class="dialogInput">
+                        <span>
+                            <input type="text" class="dialog-kiosk-data-input"
+                                style="height: 4.9vh !important; width: 100%;"
+                                placeholder="{{'frmKiosKAntrian_NamaLengkap' | translate | splitCharT }}"
+                                [(ngModel)]="namaLengkap"
+                                (focus)="focusKomponen('namaLengkap','frmKiosKAntrian_NamaLengkap','frmKiosKAntrian_NamaLengkap')"
+                                (focusout)="focusOutKomponen('namaLengkap')" disabled="true">
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <label>{{'frmKiosKAntrian_TempatLahir'| translate | splitCharT }}</label>
+                    <div class="dialogInput">
+                        <span>
+                            <input type="text" class="dialog-kiosk-data-input"
+                                style="height: 4.9vh !important; width: 100%;"
+                                placeholder="{{'frmKiosKAntrian_TempatLahir' | translate | splitCharT }}"
+                                [(ngModel)]="tempatLahir"
+                                (focus)="focusKomponen('tempatLahir','frmKiosKAntrian_TempatLahir','frmKiosKAntrian_TempatLahir')"
+                                (focusout)="focusOutKomponen('tempatLahir')" disabled="true">
+                        </span>
+                    </div>
+
+                </div>
+
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <label>{{'frmKiosKAntrian_TanggalLahir'| translate | splitCharT }}</label>
+                    <app-calender [monthNavigator]="true" [yearNavigator]="true" [showIcon]="false" dateFormat="dd M yy"
+                        appendTo="body" placeholder="{{'frmKiosKAntrian_TanggalLahir' | translate | splitCharT }}"
+                        id="dialogTglLahir" [(ngModel)]="tglLahir" (onFocus)="focusKomponen('tglLahir')"
+                        (onClose)="focusOutKomponen('tglLahir')" yearRange="{{rangeTahunLahir}}" disabled="true">
+                    </app-calender>
+                </div>
+
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <label>{{'frmKiosKAntrian_JenisKelamin'| translate | splitCharT }}</label>
+                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                        <label>
+                            <p-radioButton appendTo="body" name="groupname" value="1" [(ngModel)]="kdJenisKelamin"
+                                label="Laki-Laki" disabled="true">
+                            </p-radioButton>
+                            <!-- <img class="img-jk" style="margin-bottom: -30px;"
+                                src="../../../../assets/layout/images/kiosk/jk-laki2.png" width="20px"> -->
+                        </label>
+                        <label style="padding: 20px;">
+                            <p-radioButton appendTo="body" name="groupname" value="2" [(ngModel)]="kdJenisKelamin"
+                                label="Perempuan" disabled="true">
+                            </p-radioButton>
+                            <!-- <img class="img-jk" style="margin-bottom: -30px;"
+                                src="../../../../assets/layout/images/kiosk/jk-perempuan.png" width="20px"> -->
+                        </label>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui-g-6 ui-md-12 ui-lg-12" style="padding: 0 !important;">
+                <div class="ui-g-12 ui-md-12 ui-lg-3">
+                    <label>{{'frmKiosKAntrian_JenisAlamat'| translate | splitCharT }}</label>
+                    <div class="dialogInput">
+                        <span>
+                            <p-dropdown id="dropdownListJenisAlamat" filter="filter" class="ui-inputwrapper-filled"
+                                [options]="listJenisAlamat" [(ngModel)]="kdJenisAlamat" [autoWidth]="false"
+                                (focus)="focusKomponen('kdJenisAlamat')" (focusout)="focusOutKomponen('kdJenisAlamat')" disabled="true">
+                            </p-dropdown>
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-12" style="width: 62%;">
+                    <label>{{'frmKiosKAntrian_Alamat'| translate | splitCharT }}</label>
+                    <div id="dialogAlamat">
+                        <span>
+                            <input type="text" class="dialog-kiosk-data-input"
+                                style="height: 4.9vh !important; width: 100%;"
+                                placeholder="{{'frmKiosKAntrian_Alamat' | translate | splitCharT }}"
+                                [(ngModel)]="alamatLengkap"
+                                (focus)="focusKomponen('alamatLengkap','frmKiosKAntrian_Alamat','frmKiosKAntrian_Alamat')"
+                                (focusout)="focusOutKomponen('alamatLengkap')" maxlength="25" disabled="true">
+                            <!-- <textarea rows="5" cols="30" pInputTextarea style="border: 0;font-size: 18px !important;"
+                                    autoResize="autoResize" [(ngModel)]="alamatLengkap"
+                                    (focus)="focusKomponen('alamatLengkap')"
+                                    (focusout)="focusOutKomponen('alamatLengkap')"></textarea> -->
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-3" style="width: 13%;">
+                    <label>{{'frmKiosKAntrian_rt/rw'| translate | splitCharT }}</label>
+                    <div class="dialogInput">
+                        <span>
+                            <!-- <input type="text" class="dialog-kiosk-data-input"
+                                style="height: 4.9vh !important; width: 100%;"
+                                placeholder="{{'frmKiosKAntrian_Nomor Identitas' | translate | splitCharT }}" [(ngModel)]="rtrw"
+                                (focus)="focusKomponen('noIdentitas')" (focusout)="focusOutKomponen('noIdentitas')"
+                                maxlength="25"> -->
+                            <p-inputMask id="inputRTRW" type="text" [(ngModel)]="rtrw" mask="999/999"
+                                placeholder="___/___" [style]="{'height': '4.9vh !important', 'width': '100%'}"
+                                (onFocus)="focusKomponen('rtrw','frmKiosKAntrian_rt/rw','frmKiosKAntrian_rt/rw')" disabled="true">
+                            </p-inputMask>
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <label>{{'frmKiosKAntrian_Negara'| translate | splitCharT }}</label>
+                    <div class="dialogInput">
+                        <span>
+
+                            <p-dropdown id="dropdownListNegara" filter="filter" class="ui-inputwrapper-filled"
+                                [options]="listNegara" [(ngModel)]="kdNegara" [autoWidth]="false"
+                                (focus)="focusKomponen('kdNegara')" (focusout)="focusOutKomponen('kdNegara')"
+                                (onChange)="changeNegara($event,'negara')" (keyup)="onKeyUpFilterNegara($event)" disabled="true">
+                            </p-dropdown>
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <label>{{'frmKiosKAntrian_Provinsi'| translate | splitCharT }}</label>
+                    <div class="dialogInput">
+                        <span>
+                            <p-dropdown id="dropdownListPropinsi" filter="filter" class="ui-inputwrapper-filled"
+                                [options]="listPropinsi" [(ngModel)]="kdPropinsi" [autoWidth]="false"
+                                (focus)="focusKomponen('kdPropinsi')" (focusout)="focusOutKomponen('kdPropinsi')"
+                                (onChange)="changePropinsi($event,'propinsi')" (keyup)="onKeyUpFilterPropinsi($event)" disabled="true">
+                            </p-dropdown>
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <label>{{'frmKiosKAntrian_kota/kabupaten'| translate | splitCharT }}</label>
+                    <div class="dialogInput">
+                        <span>
+                            <p-dropdown id="dropdownListKotaKabupaten" filter="filter" class="ui-inputwrapper-filled"
+                                [options]="listKotaKabupaten" [(ngModel)]="kdKotaKabupaten" [autoWidth]="false"
+                                (focus)="focusKomponen('kdKotaKabupaten')"
+                                (focusout)="focusOutKomponen('kdKotaKabupaten')"
+                                (onChange)="changeKotaKabupaten($event,'kotaKabupaten')"
+                                (keyup)="onKeyUpFilterKotaKabupaten($event)" disabled="true">
+                            </p-dropdown>
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <label>{{'frmKiosKAntrian_kecamatan'| translate | splitCharT }}</label>
+                    <div class="dialogInput">
+                        <span>
+                            <p-dropdown id="dropdownListKecamatan" filter="filter" class="ui-inputwrapper-filled"
+                                [options]="listKecamatan" [(ngModel)]="kdKecamatan" [autoWidth]="false"
+                                (focus)="focusKomponen('kdKecamatan')" (focusout)="focusOutKomponen('kdKecamatan')"
+                                (onChange)="changeKecamatan($event,'kecamatan')"
+                                (keyup)="onKeyUpFilterKecamatan($event)" disabled="true">
+                            </p-dropdown>
+                        </span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <label>{{'frmKiosKAntrian_desa/kelurahan'| translate | splitCharT }}</label>
+                    <div class="dialogInput">
+                        <span>
+                            <p-dropdown id="dropdownListDesaKelurahan" filter="filter" class="ui-inputwrapper-filled"
+                                [options]="listDesaKelurahan" [(ngModel)]="kdDesaKelurahan" [autoWidth]="false"
+                                (focus)="focusKomponen('kdDesaKelurahan')"
+                                (focusout)="focusOutKomponen('kdDesaKelurahan')"
+                                (onChange)="changeDesaKelurahan($event,'desa')"
+                                (keyup)="onKeyUpFilterDesaKelurahan($event)" disabled="true">
+                            </p-dropdown>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="ui-g-12 ui-md-12 ui-lg-2">
+                    <label>{{'frmKiosKAntrian_kodepos'| translate | splitCharT }}</label>
+                    <div class="dialogInput">
+                        <span>
+                            <input type="text" class="dialog-kiosk-data-input"
+                                style="height: 4.9vh !important; width: 100%;"
+                                placeholder="{{'frmKiosKAntrian_kodepos' | translate | splitCharT }}" [(ngModel)]="kodePos"
+                                (focus)="focusKomponen('kodePos','frmKiosKAntrian_kodepos','frmKiosKAntrian_kodepos')"
+                                (focusout)="focusOutKomponen('kodePos')" maxlength="25" disabled="true">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <div class="ui-g-6">
+                    <!-- <button class="btn-cetak-nomor" style="float: right;
+                        margin-left: 25px;
+                        width: 80%;
+                        font-size: 20px;
+                        height: 62px;"
+                        (click)="cetakNoAntrianDataIdentitas()">{{'frmKiosKAntrian_CetakNomorAntrian' | translate | splitCharT }}</button> -->
+                </div>
+                <div class="ui-g-6">
+                    <button class="btn-subscribe" style="float: left;
+                        margin-left: 25px;
+                        width: 80%;
+                        font-size: 20px;
+                        height: 62px;"
+                        (click)="selanjutnya()">{{'frmKiosKAntrian_Selanjutnya' | translate | splitCharT }}</button>
+                </div>
+            </div>
+        </div>
+    </p-dialog>
+    <div class="kiosk-main">
+
+        <div class="header-title">
+            <div class="container">
+                <div class="header-item action">
+                    <img src="../../../../assets/layout/images/kiosk/home.svg" [routerLink]="['/kiosk']" alt="home">
+                </div>
+                <div class="header-item">
+                    <img src="../../../../assets/layout/images/kiosk/icon-antrian.png" alt="icon">
+                    <h2>{{'frmKiosKAntrian_antrianPasien' | translate | splitCharT }} {{jenisAsalPasien.nama}} - {{'frmKiosKAntrian_pasienLama' | translate | splitCharT }}</h2>
+                </div>
+                <div class="header-item action">
+                    <img src="../../../../assets/layout/images/kiosk/power-button.svg" alt="logout"
+                        (click)="logout($event)">
+                </div>
+            </div>
+        </div>
+        <div class="informasi-action">
+            <div class="container">
+                <h1 style="color: white; text-align: center;margin-top: 15px;font-size: 30px;color: whitesmoke;">
+                    {{'frmKiosKAntrian_NomorRM' | translate | splitCharT }}
+                </h1>
+                <input type="text" class="input input-big" id="nomorKtp"
+                    placeholder="{{'frmKiosKAntrian_MasukkanNomorRMAnda' | translate | splitCharT }}" (focus)="focusKomponen('noRm','frmKiosKAntrian_NomorRM','frmKiosKAntrian_MasukkanNomorRMAnda')"
+                    (focusout)="focusOutKomponen('noRm')" [(ngModel)]="noRm">
+                <h1 style="color: white; text-align: center;margin-top: 15px;font-size: 30px;color: whitesmoke;">
+                    {{'frmKiosKAntrian_TanggalKunjungan' | translate | splitCharT }}
+                </h1>
+                <div id="tglPelayanan" class="tglPasienLama">
+                    <div style="width: 50%;">
+                        <app-calender #myCalendar [monthNavigator]="true" [yearNavigator]="true" [showIcon]="false"
+                            dateFormat="dd M yy" appendTo="body" id="tglPelayanan1"
+                            placeholder="{{'frmKiosKAntrian_TanggalKunjungan' | translate | splitCharT }}" (onFocus)="focusTglPelayanan()"
+                            (onClose)="focusOutTglPelayanan()" [(ngModel)]="tglPelayanan" yearRange="{{rangeTahun}}"
+                            (onSelect)="counterPasienByDay($event)" [minDate]="minDate" [showTime]="true">
+                        </app-calender>
+                    </div>
+
+                    <!-- <div> -->
+                    <div *ngFor="let dat of listCounterPasien; let i = index"
+                        style="    border: 1px solid gray;width: 23.33%; display: grid;text-align: center;">
+                        <a style="color: #777777;
+                        font-size: large;">{{dat.hari}}</a>
+                        <a style="    color: #777777;
+                        font-size: larger;
+                        font-weight: bolder;">{{dat.counter}}</a>
+                    </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+            <div class="containerButton">
+                    <div *ngIf="buttonAktif == true" style="float:left;width: 32%;margin: 5px;">
+                        <!-- style="float: right;margin-right: 25px;opacity: 0.4;width: 390px;" -->
+                        <button class="btn-ktp" style="width:100%;cursor: pointer;"
+                            (click)="cetakNoAntrian()" [disabled]="buttonAktif">{{'frmKiosKAntrian_DataIdentitas' | translate | splitCharT }}</button>
+                    </div>
+                    <div *ngIf="buttonAktif == false" style="float:left;width: 32%;margin: 5px;">
+                            <!-- style="float: right;margin-right: 25px;width: 390px;" -->
+                        <button class="btn-ktp" style="width:100%;"  (click)="dataKtp()"
+                            [disabled]="buttonAktif">{{'frmKiosKAntrian_DataIdentitas' | translate | splitCharT }}</button>
+                    </div>
+                    <!-- <div class="ui-g-6" *ngIf="buttonAktif == true">
+                        <button class="btn-cetak-nomor" style="float: left;margin-left: 25px;opacity: 0.4;"
+                            (click)="dataKtp()" [disabled]="buttonAktif">{{'frmKiosKAntrian_CetakNomorAntrian' | translate | splitCharT }}</button>
+                    </div> -->
+                    <!-- <div class="ui-g-5" *ngIf="buttonAktif == false">
+                        <button class="btn-cetak-nomor" style="float: left;margin-left: 0px;width: 390px;" (click)="cetakNoAntrian()"
+                            [disabled]="buttonAktif">{{'frmKiosKAntrian_CetakNomorAntrian' | translate | splitCharT }}</button>
+                    </div> -->
+                    <div style="float:left;width: 32%;margin: 5px;">
+                            <!-- style="float: right;margin-right: 25px;width: 390px;" -->
+                        <button class="btn-kembali" style="width:100%;cursor: pointer;"
+                            (click)="kembali()">{{'frmKiosKAntrian_Kembali' | translate | splitCharT }}</button>
+                    </div>
+                    <div *ngIf="buttonAktif == true" style="float:left;width: 32%;margin: 5px;">
+                            <!-- style="float: left;margin-left: 25px;opacity: 0.4;width: 390px;" -->
+                        <button class="btn-subscribe" style="width:100%;cursor: pointer;"
+                            (click)="selanjutnya()" [disabled]="buttonAktif">{{'frmKiosKAntrian_Selanjutnya' | translate | splitCharT }}</button>
+                    </div>
+                    <div *ngIf="buttonAktif == false" style="float:left;width: 32%;margin: 5px;">
+                            <!-- style="float: left;margin-left: 30px;width: 390px;" -->
+                        <button class="btn-subscribe" style="width:100%;cursor: pointer;"  (click)="selanjutnya()"
+                            [disabled]="buttonAktif">{{'frmKiosKAntrian_Selanjutnya' | translate | splitCharT }}</button>
+                    </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<div style="position: absolute;z-index: 1094;width: 100vw;">
+    <div class="nav-keyboard" id="navKeyboard">
+        <label id="labelKeyboard" style="
+        display: none;
+      "></label>
+        <input id="placeHolderKeyboard" type="text" placeholder="{{placeHolderKeyboard | translate | splitCharT }}"
+            [(ngModel)]="keyboardText" style="
+                width: 80%;
+    height: 6vh;
+    margin: 4px 5px 1px;
+    display: none;
+    background: #f0f8ff !important;
+    border: 0px;
+    border-radius: 10px;
+    padding: 0px 20px;
+        " readonly>
+        <a class="fa fa-angle-up" style="font-size: 4em;font-family: FontAwesome;display: block;float: right;"
+            id="keyboardOpenId" (click)="keyboardOpen()"
+            title="{{'frmKiosKAntrian_VirtualKeyboard' | translate | splitCharT}}"></a>
+        <a class="fa fa-angle-down" style="font-size: 4em;font-family: FontAwesome;display: none;float: right;"
+            id="keyboardCloseId" (click)="keyboardClose()"
+            title="{{'frmKiosKAntrian_TutupVirtualKeyboard' | translate | splitCharT}}"></a>
+    </div>
+    <div class="simple-keyboard" appendTo="body"></div>
+</div>

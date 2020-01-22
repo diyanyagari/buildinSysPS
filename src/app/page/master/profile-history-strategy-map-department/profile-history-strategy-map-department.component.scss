@@ -1,0 +1,21 @@
+.box-perspective{
+    border: solid rgba(175, 172, 172, 0.302) thin;
+    height: 60px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    background-color: #1b273dde;
+    color: #ffffff;
+    
+}
+.box-perspective:hover{
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.446);
+    background-color: #1b273d;
+}
+.content-box{
+    text-align: center;
+    vertical-align: center;
+    line-height: inherit;
+}
+.ui-listbox{
+    width:100%;
+}

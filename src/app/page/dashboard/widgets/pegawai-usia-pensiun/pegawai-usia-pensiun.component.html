@@ -1,0 +1,55 @@
+<div class="cicing-content activity-feed">
+	<div class="overview-chart-top">
+		<p-toolbar>
+			<div class="ui-toolbar-group-left">
+				<span class="overview-box-name">{{'PEGAWAI MENCAPAI BATAS USIA PENSIUN' | translate | splitCharT | splitCharT }}</span>
+			</div>
+			<div class="ui-toolbar-group-right" style="margin-right: 55px">
+			</div>
+		</p-toolbar>
+	</div>
+	<div class="ui-g" id="pegawaiUsiaPensiun" style="height: 452px">
+		<div class="ui-g-12 ui-md-12" style="background-color: lightskyblue; padding: 0px">
+			{{'Tahun' | translate | splitCharT | splitCharT }} {{ dataPegawaiUsiaPensiunHeader1 }}
+		</div>
+		<div class="ui-g-12 ui-md-12" *ngIf="dataPegawaiUsiaPensiun1.length == 0; else showItem1">
+			{{'Tidak Ada Data Pegawai' | translate | splitCharT | splitCharT }}
+		</div>
+		<ng-template #showItem1>
+			<div class="employee-contact" *ngFor="let item1 of dataPegawaiUsiaPensiun1">
+				<div class="ui-g-4 ui-md-4">
+					<img [src]="(item1.photoDiri | imgsec) | async" style="width:80px; height: 80px; border-radius: 50%" onerror="this.onerror=null;this.src='assets/layout/images/profile-image.png';"
+					/>
+				</div>
+				<div class="ui-g-8 ui-md-8" style="text-align: left;">
+					<p>{{'Nama Pegawai' | translate | splitCharT | splitCharT }}: {{item1.namaLengkap}}</p>
+					<p>{{'NIK' | translate | splitCharT | splitCharT }}: {{item1.nik}}</p>
+					<p>{{'Jabatan' | translate | splitCharT | splitCharT }}: {{item1.namaJabatan}}</p>
+					<p>{{'Tanggal Lahir' | translate | splitCharT | splitCharT }}: {{item1.tglLahir * 1000 | date: 'dd MMM yyyy'}}</p>
+					<p>{{'Umur' | translate | splitCharT | splitCharT }}: {{item1.umur}} Tahun</p>
+				</div>
+			</div>
+		</ng-template>
+		<div class="ui-g-12 ui-md-12" style="background-color: lightskyblue; padding: 0px">
+			{{'Tahun' | translate | splitCharT | splitCharT }} {{ dataPegawaiUsiaPensiunHeader2 }}
+		</div>
+		<div class="ui-g-12 ui-md-12" *ngIf="dataPegawaiUsiaPensiun2.length == 0; else showItem2">
+			{{'Tidak Ada Data Pegawai' | translate | splitCharT | splitCharT }}
+		</div>
+		<ng-template #showItem2>
+			<div class="employee-contact" *ngFor="let item2 of dataPegawaiUsiaPensiun2">
+				<div class="ui-g-4 ui-md-4">
+					<img [src]="(item2.photoDiri | imgsec) | async" style="width:80px; height: 80px; border-radius: 50%" onerror="this.onerror=null;this.src='assets/layout/images/profile-image.png';"
+					/>
+				</div>
+				<div class="ui-g-8 ui-md-8" style="text-align: left;">
+					<p>{{'Nama Pegawai' | translate | splitCharT | splitCharT }}: {{item2.namaLengkap}}</p>
+					<p>{{'NIK' | translate | splitCharT | splitCharT }}: {{item2.nik}}</p>
+					<p>{{'Jabatan' | translate | splitCharT | splitCharT }}: {{item2.namaJabatan}}</p>
+					<p>{{'Tanggal Lahir' | translate | splitCharT | splitCharT }}: {{item2.tglLahir * 1000 | date: 'dd MMM yyyy'}}</p>
+					<p>{{'Umur' | translate | splitCharT | splitCharT }}: {{item2.umur}} Tahun</p>
+				</div>
+			</div>
+		</ng-template>
+	</div>
+</div>

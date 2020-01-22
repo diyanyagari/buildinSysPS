@@ -1,0 +1,275 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1> {{'frmPegawaiSKMedical_title'| translate | splitCharT }}</h1>
+        <div class="ui-g form-group">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+            <div class="ui-g-12"> 
+              <div class="ui-g-12 ui-md-5">
+                <div class="ui-g">
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_noSK'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <input id="input" type="text" formControlName="kode" pInputText  />
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_namaSK'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <input id="input" type="text" formControlName="nama" pInputText  />
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label>{{'frmPegawaiSKMedical_tglBerlakuSK'| translate | splitCharT}}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <app-calender formControlName="tanggalAwal" [showIcon]="true"></app-calender>
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      {{'frmPegawaiSKMedical_s/d'| translate | splitCharT}}
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <app-calender formControlName="tanggalAkhir" [showIcon]="true"></app-calender>
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_kategoriPegawai'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <p-dropdown id="dropdownkategoriPegawai" [options]="kodekategoriPegawai" formControlName="kdKategoriPegawai" [autoWidth]="false"></p-dropdown>
+                      <span *ngIf="!form.get('kdKategoriPegawai').valid && form.get('kdKategoriPegawai').touched" style="color: red"> {{'frmPegawaiSKMedical_kategoriPegawai'| translate | splitCharT}} {{'frmPegawaiSKMedical_isRequired'| translate | splitCharT}}.</span>
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input">{{'frmPegawaiSKMedical_masaKerja'| translate | splitCharT }} </label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <p-dropdown id="dropdownMasaKerja" [options]="kodeMasaKerja" formControlName="kdMasaKerja" [autoWidth]="false"></p-dropdown>
+                      <span *ngIf="!form.get('kdMasaKerja').valid && form.get('kdMasaKerja').touched" style="color: red"> {{'frmPegawaiSKMedical_masaKerja'| translate | splitCharT}} {{'frmPegawaiSKMedical_isRequired'| translate | splitCharT}}.</span>
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input">{{'frmPegawaiSKMedical_jabatanStruktural'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <p-dropdown id="dropdownJabatan" [options]="kodeJabatanStruktural" formControlName="kdJabatanStruktural" [autoWidth]="false"></p-dropdown>
+                      <span *ngIf="!form.get('kdJabatanStruktural').valid && form.get('kdJabatanStruktural').touched" style="color: red"> {{'frmPegawaiSKMedical_jabatanStruktural'| translate | splitCharT}} {{'frmPegawaiSKMedical_isRequired'| translate | splitCharT}}.</span>
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input">{{'frmPegawaiSKMedical_hubunganKeluarga'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <p-dropdown id="dropdownJabatan" [options]="kodeJabatanStruktural" formControlName="kdJabatanStruktural" [autoWidth]="false"></p-dropdown>
+                      <span *ngIf="!form.get('kdJabatanStruktural').valid && form.get('kdJabatanStruktural').touched" style="color: red"> {{'frmPegawaiSKMedical_jabatanStruktural'| translate | splitCharT}} {{'frmPegawaiSKMedical_isRequired'| translate | splitCharT}}.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ui-g-12 ui-md-7">
+                <div class="ui-g">
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_persenPlafonPerPeriode'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-2">
+                      <input id="input" type="text" formControlName="persenPlafonPerPeriode" pInputText  />
+                  </div>
+                  <div class="ui-g-12 ui-md-1">
+                        %
+                  </div>
+                  <div class="ui-g-12 ui-md-5"></div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_maxPlafonPerPeriode'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-2">
+                      <input id="input" type="text" formControlName="maxPlafonPerPeriode" pInputText  />
+                  </div>
+                  <div class="ui-g-12 ui-md-6"></div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_allowPerPlafon'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <p-checkbox binary="true"  formControlName="allowPerPlafon" (onChange)="changePerPlafon($event)"></p-checkbox> <label> {{'frmPegawaiSKMedical_ya'| translate | splitCharT }}</label>                     
+                  </div>
+                  <div class="ui-g-12 ui-md-4"></div>
+                    <div class="ui-g-12 ui-md-4">
+                        <div class="ui-g-12"><p-radioButton ng-disabled="true" name="group1" value="Option 1" label="Persen Over Plafon" formControlName="persenOverPlafon" [(ngModel)]="val1" (onChange)="changePersen($event)" inputId="opt1"></p-radioButton></div>
+                        <div class="ui-g-12"><input disabled id="input" type="text" formControlName="persenOverPlafonInput" pInputText  /></div>                      
+                    </div>
+                    <div class="ui-g-12 ui-md-4">
+                        <div class="ui-g-12"><p-radioButton ng-disabled="true" name="group1" value="Option 1" label="Max Over Plafon" formControlName="maxOverPlafon" [(ngModel)]="val1" (onChange)="changeMax($event)" inputId="opt1"></p-radioButton></div>
+                        <div class="ui-g-12"><input disabled id="input" type="text" formControlName="maxOverPlafonInput" pInputText  /></div>                       
+                    </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input">{{'frmPegawaiSKMedical_durasiPeriode'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-3">
+                      <p-dropdown id="dropdownJabatan" [options]="kodeJabatanStruktural" formControlName="kdJabatanStruktural" [autoWidth]="false"></p-dropdown>
+                      <span *ngIf="!form.get('kdJabatanStruktural').valid && form.get('kdJabatanStruktural').touched" style="color: red"> {{'frmPegawaiSKMedical_jabatanStruktural'| translate | splitCharT}} {{'frmPegawaiSKMedical_isRequired'| translate | splitCharT}}.</span>
+                  </div>
+                  <div class="ui-g-12 ui-md-5"></div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_proRate'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <p-checkbox binary="true"  formControlName="proRate"></p-checkbox><label> {{'frmPegawaiSKMedical_ya'| translate | splitCharT }}</label>                      
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_akumulasi'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <p-checkbox binary="true"  formControlName="akumulasi"></p-checkbox><label> {{'frmPegawaiSKMedical_ya'| translate | splitCharT }}</label>                      
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_collectivePlafon'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <p-checkbox binary="true"  formControlName="collectivePlafon"></p-checkbox><label> {{'frmPegawaiSKMedical_ya'| translate | splitCharT }}</label>                      
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_kuotaPerHariPeriode'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-2">
+                      <input id="input" type="text" formControlName="kuotaPerHariPeriode" pInputText  />
+                  </div>
+                  <div class="ui-g-12 ui-md-6"></div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_batasHariUntukMengajukanPermohonan'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-2">
+                      <input id="input" type="text" formControlName="batasHariUntukMengajukanPermohonan" pInputText  />
+                  </div>
+                  <div class="ui-g-12 ui-md-6"></div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_klaimDisatukanDenganGaji'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                      <p-checkbox binary="true"  formControlName="klaimDisatukanDenganGaji"></p-checkbox><label> {{'frmPegawaiSKMedical_ya'| translate | splitCharT }}</label>                      
+                  </div>
+                  <div class="ui-g-12 ui-md-4">
+                      <label for="input"> {{'frmPegawaiSKMedical_tanggalBulanPlafonReset'| translate | splitCharT }}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-8">
+                  </div>
+              </div>
+            </div>
+          </div>
+         
+        
+          <div class="ui-g-12"> 
+            <div class="ui-g-12 ui-md-5">
+                <p-fieldset legend="{{'komponenHarga'| translate | splitCharT}}">
+                    <div class="ui-g form-group">
+                        <div class="ui-g-12">
+                            <p-checkbox binary="true"  formControlName="allowPerPlafon" (onChange)="changeKomponenHarga($event)"></p-checkbox>
+                            <label>{{'frmPegawaiSKMedical_activeDeactive'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label>{{'frmPegawaiSKMedical_namaKomponenHarga'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p-dropdown disabled id="dropdownJabatan" [options]="kodeJabatanStruktural" formControlName="namaKomponenHarga" [autoWidth]="false"></p-dropdown>
+                            <span *ngIf="!form.get('kdJabatanStruktural').valid && form.get('kdJabatanStruktural').touched" style="color: red"> {{'frmPegawaiSKMedical_jabatanStruktural'| translate | splitCharT}} {{'frmPegawaiSKMedical_isRequired'| translate | splitCharT}}.</span>                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label>{{'frmPegawaiSKMedical_factorRateMaxPlafon'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <input disabled id="input" type="text" formControlName="factorRateMaxPlafon" pInputText/>                                
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label>{{'frmPegawaiSKMedical_factorRateMaxOverPlafon'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <input disabled id="input" type="text" formControlName="factorRateMaxOverPlafon" pInputText/>                                
+                        </div>
+                    </div>
+                </p-fieldset>
+            </div>    
+            <div class="ui-g-12 ui-md-5"></div>  
+          </div>
+
+            <div class="ui-g-12"> 
+                <p-fieldset legend="{{'paket'| translate | splitCharT}}">
+                    <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                        <p-checkbox binary="true"  formControlName="allowPerPlafon" (onChange)="changePaket($event)"></p-checkbox>
+                        <label>{{'frmPegawaiSKMedical_activeDeactive'| translate | splitCharT}}</label>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                        <div class="ui-g-12 ui-md-4">
+                            <label>{{'frmPegawaiSKMedical_namaPaket'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p-dropdown disabled id="dropdownJabatan" [options]="kodeJabatanStruktural" formControlName="namaPaket" [autoWidth]="false"></p-dropdown>
+                            <span *ngIf="!form.get('namaPaket').valid && form.get('namaPaket').touched" style="color: red"> {{'frmPegawaiSKMedical_namaPaket'| translate | splitCharT}} {{'frmPegawaiSKMedical_isRequired'| translate | splitCharT}}.</span>                        
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <label>{{'frmPegawaiSKMedical_hargaTanggunganProfile'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                            <label>{{'frmPegawaiSKMedical_persenTanggunganProfile'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label>{{'frmPegawaiSKMedical_factorRate'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <input disabled id="input" type="text" formControlName="factorRate" pInputText/>                                
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label>{{'frmPegawaiSKMedical_operatorfactorRate'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <p-dropdown disabled id="dropdownJabatan" [options]="kodeJabatanStruktural" formControlName="operatorfactorRate" [autoWidth]="false"></p-dropdown>
+                            <span *ngIf="!form.get('operatorfactorRate').valid && form.get('operatorfactorRate').touched" style="color: red"> {{'frmPegawaiSKMedical_operatorfactorRate'| translate | splitCharT}} {{'frmPegawaiSKMedical_isRequired'| translate | splitCharT}}.</span>                                
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                        <div class="ui-g-12 ui-md-4">
+                            <label>{{'frmPegawaiSKMedical_maxPlafonPerPeriode'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <input disabled id="input" type="text" formControlName="maxPlafonPerPeriode2" pInputText/>                                
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label>{{'frmPegawaiSKMedical_persenPlafonYangDigunakanPerProduk'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <input disabled id="input" type="text" formControlName="persenPlafonYangDigunakanPerProduk" pInputText/> %                               
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label>{{'frmPegawaiSKMedical_maxQtyPaketPerPeriode'| translate | splitCharT}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                            <input disabled id="input" type="text" formControlName="maxQtyPaketPerPeriode" pInputText/>                                
+                        </div>
+                    </div>
+                    </div>
+                </p-fieldset>
+            </div>
+        </form>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="submit" label="{{'frmPegawaiSKMedical_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmPegawaiSKMedical_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmPegawaiSKMedical_btnBatal'| translate | splitCharT }}" icon="fa-close" (click)="reset()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmPegawaiSKMedical_btnCetak'| translate | splitCharT }}" icon="fa-print"></button>
+              </div>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

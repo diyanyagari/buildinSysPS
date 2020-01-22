@@ -1,0 +1,184 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmDesignConfig_title' | translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<form [formGroup]="form">
+						<div class="ui-g form-group">
+							<div class="ui-g-9">
+								<!-- <div class="ui-g-12 ui-md-10" hidden>
+									<span class="ui-float-label" hidden>
+										<input id="input" type="text" hidden formControlName="kode" pInputText
+											disabled />
+										<label for="input" hidden>kode Pelayanan Profile</label>
+									</span>
+								</div> -->
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'frmDesignConfig_mdlAplikasi' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched"
+											style="color: red">{{'frmDesignConfig_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="kdModulAplikasi" [options]="modulAplikasi" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'frmDesignConfig_versi' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdVersion').valid && form.get('kdVersion').touched"
+											style="color: red">{{'frmDesignConfig_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="kdVersion" [options]="modulVersi" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'frmDesignConfig_designTheme' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('kdDesignTheme').valid && form.get('kdDesignTheme').touched"
+											style="color: red">{{'frmDesignConfig_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="kdDesignTheme" [options]="designTheme" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'frmDesignConfig_designHome' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('kdDesignHome').valid && form.get('kdDesignHome').touched"
+											style="color: red">{{'frmDesignConfig_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="kdDesignHome" [options]="designHome" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'frmDesignConfig_designHomeContent' | translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('kdDesignHomeContent').valid && form.get('kdDesignHomeContent').touched"
+											style="color: red">{{'frmDesignConfig_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled"
+										formControlName="kdDesignHomeContent" [options]="designHomeContent"
+										[autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label>{{'frmDesignConfig_imgDesign' | translate | splitCharT }}</label>
+									<div style="display: flex; padding: 0px; margin: 0px">
+										<p-fileUpload #fubauto mode="basic" (onUpload)="imageUpload($event)"
+											accept="image/*" name="file" maxFileSize="1000000"
+											(onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()"
+											auto="true" chooseLabel="Browse" withCredentials="true"></p-fileUpload>
+										<input id="imagePath" type="text" formControlName="imageCover"
+											[(ngModel)]="namaImage" disabled pInputText />
+									</div>
+								</div>
+								<div class="ui-g-4">
+									<p-checkbox binary="true" label="{{'frmDesignConfig_statusEnabled'| translate | splitCharT }}"
+										formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+										style="color: red">*</span>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+										style="color: red">{{'frmDesignConfig_required'| translate | splitCharT}}</span>
+								</div>
+							</div>
+							<div class="ui-g-3">
+								<p-fieldset legend="View Image Desain" [toggleable]="true" [collapsed]="true">
+									<div class="ui-g-12 ui-md-10">
+										<img *ngIf="smbrImage !== null" [src]="(smbrImage | imgsec) | async" width="40%"
+											height="auto" class="img-responsive" />
+									</div>
+								</p-fieldset>
+							</div>
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmDesignConfig_btnBatal'| translate | splitCharT}}" icon="fa-refresh"
+										(click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmDesignConfig_btnSimpan'| translate | splitCharT}}" icon="fa-save"
+										(click)="onSubmit()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmDesignConfig_btnHapus'| translate | splitCharT}}" icon="fa-trash"
+										(click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmDesignConfig_btnCetak'| translate | splitCharT}}" icon="fa-print"
+										(click)="cetak()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmDesignConfig_btnExport'| translate | splitCharT }}" icon="fa-external-link"
+										[style]="{'width':'93px'}" [model]="items"></p-splitButton>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<div class="ui-g-12">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+							[rowsPerPageOptions]="[5,10,20]" selectionMode="single" scrollable="true"
+							[(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true"
+							[loading]="Loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords"
+							(onLazyLoad)="loadPage($event)" expandableRows="true">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50"
+										placeholder="{{'frmDesignConfig_tablePencarian' | translate | splitCharT }}"
+										[(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+									<span
+										style="float: left;padding:0.3em;">{{'frmDesignConfig_tableTitle' | translate | splitCharT }}</span>
+								</div>
+							</p-header>
+							<p-column header="{{'frmDesignConfig_tableNo' | translate | splitCharT }}" [style]="{'width':'50px'}">
+								<ng-template pTemplate="body" let-i="rowIndex">
+									{{i+1}}
+								</ng-template>
+							</p-column>
+							<p-column field="namaModulAplikasi" [style]="{'width':'150px'}"
+								header="{{'frmDesignConfig_tableMdlAplikasi' | translate | splitCharT }}">
+							</p-column>
+							<p-column field="namaVersion" [style]="{'width':'150px'}"
+								header="{{'frmDesignConfig_tableVersi' | translate | splitCharT }}">
+							</p-column>
+							<p-column field="namaDesignTheme" [style]="{'width':'150px'}"
+								header="{{'frmDesignConfig_tableDesignTheme' | translate | splitCharT }}">
+							</p-column>
+							<p-column field="namaDesignHome" [style]="{'width':'150px'}"
+								header="{{'frmDesignConfig_tableDesignHome' | translate | splitCharT }}">
+							</p-column>
+							<p-column field="namaDesignHomeContent" [style]="{'width':'150px'}"
+								header="{{'frmDesignConfig_tableDesignHomeContent' | translate | splitCharT }}">
+							</p-column>
+							<p-column [style]="{'width':'150px'}"
+								header="{{'frmDesignConfig_tableImgDesign' | translate | splitCharT }}">
+								<ng-template let-pick="rowData" pTemplate type="body">
+									<img style="border-radius: 50%;" [src]="(pick.imageCoverPathFile | imgsec) | async"
+										width="30%" height="auto" class="img-responsive" />
+								</ng-template>
+							</p-column>
+							<p-column field="imageCover" [style]="{'width':'150px'}"
+								header="{{'frmDesignConfig_tablePath' | translate | splitCharT }}">
+							</p-column>
+							<p-column field="statusEnabled" [style]="{'width':'150px'}"
+								header="{{'frmDesignConfig_tableStatus'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template>
+							</p-column>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

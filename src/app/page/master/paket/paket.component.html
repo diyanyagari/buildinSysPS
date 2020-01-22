@@ -1,0 +1,217 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmPaket_title'| translate | splitCharT }}</h1>
+        <p-tabView (onChange)="onTabChange($event)" [activeIndex]="tabIndex">
+          <p-tabPanel header="Jenis Paket">
+            <h1> {{'frmPaket_jenisPaket'| translate | splitCharT }}</h1>
+            <form [formGroup]="formJenisPaket">
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-4">
+                  <label>{{'frmPaket_nama'| translate | splitCharT }} <span *ngIf="!formJenisPaket.get('namaJenisPaket').valid && formJenisPaket.get('namaJenisPaket').touched" style="color: red"> {{'frmPaket_namaJenisPaket'| translate | splitCharT}} {{'frmPaket_isRequired'| translate | splitCharT}} </span></label>
+                  <input type="text" formControlName="namaJenisPaket" (ngModelChange)="valuechangeJenisPaket($event)" pInputText />
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <br>
+                  <p-checkbox binary="true" label="{{'frmPaket_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                  <span *ngIf="!formJenisPaket.get('statusEnabled').valid && formJenisPaket.get('statusEnabled').touched" style="color: red"> {{'frmPaket_statusEnabled'| translate | splitCharT}} {{'frmPaket_isRequired'| translate | splitCharT}}.</span>
+                </div>
+                <div class="ui-g-12 ui-md-4">
+                  <p-fieldset legend="{{'frmPaket_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+                    <form [formGroup]="formJenisPaket">
+                      <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmPaket_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span><span *ngIf="!formJenisPaket.get('reportDisplay').valid && formJenisPaket.get('reportDisplay').touched" style="color: red">* {{'frmPaket_required'| translate | splitCharT}}</span></label>
+                          <input type="text" formControlName="reportDisplay" [(ngModel)]="report" pInputText/>
+                        </div>
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmPaket_kodeExternal'| translate | splitCharT }}</label>
+                          <input type="text" formControlName="kodeExternal" pInputText/>
+                        </div>
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmPaket_namaExternal'| translate | splitCharT }}</label>
+                          <input type="text" formControlName="namaExternal" pInputText/>
+                        </div>
+                      </div>
+                    </form>
+                  </p-fieldset>
+                </div>
+                <div class="ui-g-12 ui-md-1 ui-md-offset-7">
+                  <button pButton type="button" label="{{'frmPaket_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="resetJenisPaket()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="submit" label="{{'frmPaket_btnSimpan'| translate | splitCharT}}" (click)="onSubmitJenisPaket()" icon="fa-save"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmPaket_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDeleteJenisPaket()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmPaket_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <p-splitButton label="{{'frmPaket_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+                </div>
+              </div>
+            </form>
+          </p-tabPanel>
+          <!-- Tab Child -->
+          <p-tabPanel *ngFor="let item of listTab" [header]="item.namaJenisPaket">
+            <h1>{{item.namaUnitLaporan}}</h1>
+            <form [formGroup]="formPaket" (ngSubmit)="onSubmitPaket()">
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-4">
+                  <label>{{'frmPaket_nama'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span> <span *ngIf="!formPaket.get('namaPaket').valid && formPaket.get('namaPaket').touched" style="color: red"> {{'frmPaket_required'| translate | splitCharT}}</span></label>
+                  <input type="text" formControlName="namaPaket" (ngModelChange)="valuechange($event)" pInputText/>
+                </div>
+                <div class="ui-g-12 ui-md-3">
+                  <label for="input">{{'frmPaket_jenisTransaksi'| translate | splitCharT }} <span style="color: red;font-weight: bolder;">*</span> <span *ngIf="!formPaket.get('kdJenisTransaksi').valid && formPaket.get('kdJenisTransaksi').touched" style="color: red"> {{'frmPaket_required'| translate | splitCharT}}</span> </label> 
+                  <p-dropdown id="dropdownTitle" filter="filter" [options]="jenisTransaksi" formControlName="kdJenisTransaksi" [autoWidth]="false"></p-dropdown> 
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <br>
+                  <p-checkbox binary="true" label="{{'frmPaket_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                </div>
+                <div class="ui-g-12 ui-md-4 ui-g-nopad">
+                  <p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+                    <form [formGroup]="formPaket">
+                      <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmPaket_reportDisplay'| translate | splitCharT }} <span style="color: red;font-weight: bolder;"></span><span *ngIf="!formPaket.get('reportDisplay').valid && formPaket.get('reportDisplay').touched" style="color: red">* {{'frmPaket_required'| translate | splitCharT}}</span></label>
+                          <input type="text" formControlName="reportDisplay" [(ngModel)]="reportChild" pInputText/>
+                        </div>
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmPaket_kodeExternal'| translate | splitCharT }}</label>
+                          <input type="text" formControlName="kodeExternal" pInputText/>
+                        </div>
+                        <div class="ui-g-12 ui-md-12">
+                          <label for="input">{{'frmPaket_namaExternal'| translate | splitCharT }}</label>
+                          <input type="text" formControlName="namaExternal" pInputText/>
+                        </div>
+                      </div>
+                    </form>
+                  </p-fieldset>
+                </div>
+              </div>
+            </form>
+            <div class="ui-g-12 ui-md-12">
+              <form [formGroup]="formPaket" class="ui-g form-group">
+                <div class="ui-g-12 ui-md-1 ui-md-offset-7">
+                  <button pButton type="button" label="{{'frmPaket_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="resetPaket()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="submit" label="{{'frmPaket_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmitPaket()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmPaket_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDeletePaket()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmPaket_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetakChild()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <p-splitButton label="{{'frmPaket_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="itemsChild"></p-splitButton>
+                </div>
+              </form>
+            </div>
+          </p-tabPanel>
+        </p-tabView>
+        <div class="ui-g-12" *ngIf="formPaket.get('kdJenisPaket').value == null">
+          <p-dataTable [value]="listDataJenisPaket" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelectJenisPaket($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecordsJenisPaket" (onLazyLoad)="loadPageJenisPaket($event)" scrollable="true" expandableRows="true">
+            <p-header>
+              <div class="ui-helper-clearfix">
+                <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                <input type="text" pInputText size="50" placeholder="{{'frmPaket_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarianJenisPaket"
+                (keypress)="cariJenisPaket()" style="width: 20%;float:right;">
+                <span style="float: left;padding:0.3em;">{{'frmPaket_titleJenisPaket'| translate | splitCharT}}</span>
+              </div>
+            </p-header>
+            <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column>
+            <p-column field="namaJenisPaket" header="{{'frmPaket_tableNama'| translate | splitCharT }}"></p-column>
+            <p-column field="statusEnabled" header="{{'frmPaket_tableStatus'| translate | splitCharT }}">
+              <ng-template let-col="rowData" pTemplate type="body">
+                {{col.statusEnabled | truefalse | translate | splitCharT }}
+            </ng-template> 
+            </p-column>
+            <ng-template let-jenisPaket pTemplate="rowexpansion">
+              <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                  <div class="ui-grid-col-12">
+                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                      <div class="ui-grid-row">
+                        <div class="ui-grid-col-2 label">
+                          <span style="color:black">{{ 'frmPaket_optional' | translate | splitCharT }}</span>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid label">{{'frmPaket_tableReportDisplay'| translate | splitCharT }} </div>
+                        <div class="ui-grid-col-4"> {{jenisPaket.reportDisplay}}</div>
+                      </div>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid label">{{'frmPaket_tableKodeExternal' | translate | splitCharT}} </div>
+                        <div class="ui-grid-col-4">{{jenisPaket.kodeExternal}}</div>
+                      </div>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid label">{{'frmPaket_tableNamaExternal'| translate | splitCharT}} </div>
+                        <div class="ui-grid-col-4">{{jenisPaket.namaExternal}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-dataTable>
+        </div>
+        <div class="ui-g-12" *ngIf="formPaket.get('kdJenisPaket').value != null">
+          <p-dataTable [value]="listDataPaket" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+            <p-header>
+              <div class="ui-helper-clearfix">
+                <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                <input type="text" pInputText size="50" placeholder="{{'frmPaket_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keypress)="cariPaket()"
+                style="width: 20%;float:right;">
+                <span style="float: left;padding:0.3em;">{{'frmPaket_titleDaftarMasterPaket'| translate | splitCharT}}</span>
+              </div>
+            </p-header>
+            <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+            <p-column field="namaPaket" header="{{'frmPaket_tableNama'| translate | splitCharT }}"></p-column>
+            <p-column field="namaJenisTransaksi" header="{{'frmPaket_tableJenisTransaksi'| translate | splitCharT }}"></p-column>
+            <p-column field="statusEnabled" header="{{'frmPaket_tableStatus'| translate | splitCharT }}">
+              <ng-template let-col="rowData" pTemplate type="body">
+                {{col.statusEnabled | truefalse | translate | splitCharT }}
+            </ng-template> 
+            </p-column>
+            <ng-template let-detail pTemplate="rowexpansion">
+              <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                  <div class="ui-grid-col-12">
+                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                      <div class="ui-grid-row">
+                        <div class="ui-grid-col-2 label">
+                          <span style="color:black">{{ 'frmPaket_optional' | translate | splitCharT }}</span>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid label">{{'frmPaket_tableReportDisplay'| translate | splitCharT }} </div>
+                        <div class="ui-grid-col-4"> {{detail.reportDisplay}}</div>
+                      </div>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid label">{{'frmPaket_tableKodeExternal' | translate | splitCharT}} </div>
+                        <div class="ui-grid-col-4">{{detail.kodeExternal}}</div>
+                      </div>
+                      <div class="ui-grid-row">
+                        <div class="ui-grid label">{{'frmPaket_tableNamaExternal'| translate | splitCharT}} </div>
+                        <div class="ui-grid-col-4">{{detail.namaExternal}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-dataTable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

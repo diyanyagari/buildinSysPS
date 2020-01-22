@@ -1,0 +1,391 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_title'| translate | splitCharT}}</h1>
+        <div class="ui-g form-group">
+
+            <p-dialog header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_keputusan'| translate | splitCharT }}" [resizable]="false" responsive="true" showEffect="fade"
+            modal="modal" [(visible)]="dialogKeputusan" width="800" (onHide)="tutupPopUp()">
+              <div class="ui-g form-group" style="position: relative;height: 350px;">
+                <div class="ui-g-12 ui-md-12">
+                    <form [formGroup]="formKeputusan">
+                        <div class="ui-g form-group" style="margin-bottom: 16px;">
+                              <div class="ui-g-12 ui-md-6" hidden="true">
+                                <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_noPengajuan'| translate | splitCharT}}</label>
+                                <input type="text" pInputText formControlName="noPengajuan" />
+                              </div>
+                              <div class="ui-g-12 ui-md-6">
+                                <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_namaPegawai'| translate | splitCharT}}</label>
+                                <input type="text" pInputText formControlName="namaPegawai" />
+                              </div>
+                              <div class="ui-g-12 ui-md-6">
+                                <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_nik'| translate | splitCharT}}</label>
+                                <input type="text" pInputText formControlName="nik" />
+                              </div>
+                              <div class="ui-g-12 ui-md-6">
+                                <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_jenisKelamin'| translate | splitCharT}}</label>
+                                <input type="text" pInputText formControlName="jenisKelamin" />
+                              </div>
+                              <div class="ui-g-12 ui-md-6">
+                                <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_jenisPegawai'| translate | splitCharT}}</label>
+                                <input type="text" pInputText formControlName="jenisPegawai" />
+                              </div>
+                              <div class="ui-g-12 ui-md-6">
+                                <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_jabatan'| translate | splitCharT}}</label>
+                                <input type="text" pInputText formControlName="jabatan" />
+                              </div>
+                              <div class="ui-g-12 ui-md-6">
+                                <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_unitKerja'| translate | splitCharT}}</label>
+                                <input type="text" pInputText formControlName="unitKerja" />
+                              </div>
+                              <div class="ui-g-12 ui-md-6">
+                                <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tanggalVerifikasi'| translate | splitCharT}}
+                                  <span *ngIf="!formKeputusan.get('tanggalVerifikasi').valid && formKeputusan.get('tanggalVerifikasi').touched" style="color: red">*</span>
+                                </label>
+                                <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" formControlName="tanggalVerifikasi" [showIcon]="true"
+                                  appendTo="body" dateFormat="dd M yy"></app-calender>
+                              </div>
+                              <!-- <div class="ui-g-12 ui-md-6">
+                                  <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_metodePerhitungan'| translate | splitCharT}}
+                                      <span *ngIf="!formKeputusan.get('metodePerhitungan').valid && formKeputusan.get('metodePerhitungan').touched" style="color: red">*</span>
+                                  </label>
+                                  <p-dropdown [filter]="true" filterBy="label" id="metodePerhitungan" formControlName="metodePerhitungan" [options]="listMetodePerhitungan"
+                                  [autoWidth]="false"></p-dropdown>
+                              </div> -->
+                              <!-- <div class="ui-g-12 ui-md-12">
+                                  <p-dataTable [value]="listDataKeputusanVerifikasi" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [(selection)]="selectedDataKeputusanVerifikasi"
+                                  [headerCheckboxToggleAllPages]="true" scrollable="true">
+
+                                  <p-column [style]="{'width':'38px','text-align':'center'}" selectionMode="multiple"></p-column>
+                                  <p-column field="namaPerspectiveD" header="{{'frmDaftarMonitoringPengajuanKpiPegawai_perspektif'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                  <p-column field="namaStrategyD" header="{{'frmDaftarMonitoringPengajuanKpiPegawai_strategi'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                  <p-column field="namaKPI" header="{{'frmDaftarMonitoringPengajuanKpiPegawai_kpi'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                  <p-column field="bobotKPI" header="{{'frmDaftarMonitoringPengajuanKpiPegawai_bobot'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                  <p-column field="namaSatuanHasil" header="{{'frmDaftarMonitoringPengajuanKpiPegawai_satuanHasil'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                  <p-column field="namaTypeDataObjek" header="{{'frmDaftarMonitoringPengajuanKpiPegawai_tipeDataObjek'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                  <p-column field="targetKPI" header="{{'frmDaftarMonitoringPengajuanKpiPegawai_target'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                  <p-column field="asalData" header="{{'frmDaftarMonitoringPengajuanKpiPegawai_sumberData'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                  <p-column field="periodeData" header="{{'frmDaftarMonitoringPengajuanKpiPegawai_periodeData'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                  <p-column field="namaMetodeHitung" header="{{'frmDaftarMonitoringPengajuanKpiPegawai_metodePerhitungan'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                                </p-dataTable>
+                              </div> -->
+                              <div class="ui-g-12 ui-md-6">
+                                  <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_keputusan'| translate | splitCharT}}
+                                    <span *ngIf="!formKeputusan.get('keputusan').valid && formKeputusan.get('keputusan').touched" style="color: red">*</span>
+                                  </label>
+                                  <p-dropdown [filter]="true" filterBy="label" id="keputusan" formControlName="keputusan" [options]="listKeputusan" [autoWidth]="false" [(ngModel)]="kdkeputusanKeteranganAlasan" (onChange)="selectKeputusanKeteranganAlasan($event)"></p-dropdown>
+                              </div>
+                              <div class="ui-g-12 ui-md-6">
+                                  <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_catatan'| translate | splitCharT}}</label>
+                                  <textarea [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize" formControlName="catatan"></textarea>
+                              </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- <div class="ui-g-12 ui-md-12" *ngIf="KeteranganAlasanDisetujui == kdkeputusanKeteranganAlasan" style="margin-top: -30px">
+                    <p-fieldset legend="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_btnBuatSK'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+                      <form [formGroup]="formSk">
+                        <div class="ui-g form-group" style="margin-bottom: 16px;">
+                          <div class="ui-g-12 ui-md-6" hidden>
+                            <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_noSk'| translate | splitCharT}}</label>
+                            <input type="text" pInputText formControlName="noSk" />
+                          </div>
+                          <div class="ui-g-12 ui-md-6" hidden>
+                            <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_namaSk'| translate | splitCharT}}</label>
+                            <input type="text" pInputText formControlName="namaSk" />
+                          </div>
+                          <!- <div class="ui-g-12 ui-md-12">
+                            <p-checkbox [(ngModel)]="cekOtomatis" formControlName="cekOtomatis" binary="true" label="{{'No SK Otomatis'| translate | splitCharT }}"
+                              (onChange)="otomatis($event)"  [disabled]="checkboxAktifCek"></p-checkbox>
+                          </div>
+                          <div class="ui-g-12 ui-md-12">
+                            <label>{{'noSkTerakhir'| translate | splitCharT}}</label>
+                            <input type="text" pInputText formControlName="noSkTerakhir" />
+                          </div>
+                          <div class="ui-g-12 ui-md-11">
+                            <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_noSk'| translate | splitCharT}}</label>
+                            <input type="text" pInputText formControlName="noSkSekarang" (keyup)="changeValue($event)"/>
+                          </div>
+                          <div class="ui-g-12 ui-md-1">
+                            <br>
+                            <button pButton type="button" icon="fa-check" [disabled]="buttonAktifCek" (click)="cekNoSk()"></button>
+                          </div> -->
+                          <!-- <div class="ui-g-12 ui-md-6">
+                            <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_periodeAwalSk'| translate | splitCharT}}
+                              <span *ngIf="!formSk.get('periodeAwalSk').valid && formSk.get('periodeAwalSk').touched" style="color: red">*</span>
+                            </label>
+                            <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" formControlName="periodeAwalSk" [showIcon]="true"
+                              appendTo="body" (onSelect)="setMinDate($event)" [minDate]="minDateAwal"  dateFormat="dd M yy"></app-calender>
+                          </div>
+                          <div class="ui-g-12 ui-md-6">
+                            <label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_periodeAkhirSk'| translate | splitCharT}}
+                              <span *ngIf="!formSk.get('periodeAkhirSk').valid && formSk.get('periodeAkhirSk').touched" style="color: red">*</span>
+                            </label>
+                            <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" formControlName="periodeAkhirSk" [showIcon]="true"
+                              appendTo="body" [minDate]="minDate"  dateFormat="dd M yy"></app-calender>
+                          </div>
+                          <div class="ui-g-12 ui-md-6" hidden>
+                              <label hidden>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_jenisKeputusan'| translate | splitCharT}}
+                                <span *ngIf="!formSk.get('jenisKeputusan').valid && formSk.get('jenisKeputusan').touched" style="color: red">*</span>
+                              </label>
+                              <p-dropdown hidden [filter]="true" filterBy="label" id="jenisKeputusan" formControlName="jenisKeputusan" [options]="listJenisKeputusan"
+                                [autoWidth]="false" (onChange)="isGenerateSK($event)"></p-dropdown>
+                          </div>
+                        </div>
+                      </form>
+                    </p-fieldset>
+                  </div>  -->
+                  
+              </div>
+              <p-footer>
+                  <div class="ui-g-12 ui-md-9">
+  
+                  </div>
+                  <div class="ui-g-12 ui-md-1" style="margin-right:10px">
+                    <button type="button" pButton icon="fa-close" (click)="reset()" label="{{'tutup'| translate | splitCharT}}"></button>
+                  </div>
+                  <div class="ui-g-12 ui-md-1">
+                    <button type="button" pButton icon="fa-check" (click)="onSubmit()" [disabled]="buttonAktifSkTersedia" label="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_btnSimpan'| translate | splitCharT}}"></button>
+                  </div>
+                  <div class="ui-g-12 ui-md-1"></div>
+                </p-footer>
+            </p-dialog>
+  
+            <p-dialog header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_detailKpi'| translate | splitCharT }}" [resizable]="false" responsive="true" showEffect="fade"
+            [modal]="true" [(visible)]="dialogDetailKpi" width="1280">
+            <div class="ui-g form-group" style="margin-bottom: 5px;">
+              <div class="ui-g-12">
+                <p-dataTable [value]="dataDetailKPI" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+                  <p-header>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_detailKpi'| translate | splitCharT }}</p-header>
+                  <p-column field="no" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_no'| translate | splitCharT}}" [style]="{'width':'50px'}">
+                    <ng-template pTemplate="body" let-i="rowIndex">
+                      {{i+1}}
+                    </ng-template>
+                  </p-column>
+                  <p-column field="namaPerspectiveD" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_perspektif'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                  <p-column field="namaKPI" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_kpi'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                  <p-column field="bobotKPI" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_bobot'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                  <p-column field="namaSatuanHasil" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_satuanHasil'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                  <p-column field="namaTypeDataObjek" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tipeDataObjek'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                  <p-column field="asalData" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_sumberData'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                  <p-column field="periodeData" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_periodeData'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                  <p-column field="namaMetodeHitung" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_metodePerhitungan'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                  <!-- <p-column field="statusPengajuan" header="{{'frmDaftarMonitoringPengajuanKpiPegawai_statusPengajuan'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column> -->
+                </p-dataTable>
+              </div>
+            </div>
+          </p-dialog>
+          
+            <p-dialog header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_detailStatusPengajuan'| translate | splitCharT }}" [resizable]="false" responsive="true"
+              showEffect="fade" [modal]="true" [(visible)]="dialogDetailNoVerifikasi" width="800">
+              <div class="ui-g form-group" style="margin-bottom: 16px;">
+                <div class="ui-g-12">
+                  <p-dataTable [value]="dataNoVerifikasi" [rows]="10" [pageLinks]="3">
+                    <p-header>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_detailStatusPengajuan'| translate | splitCharT }}</p-header>
+                    <p-footer>{{approved}} of {{totalApprove}}</p-footer>
+                    <p-column field="namaVerifikasi" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawaik_statusVerif'| translate | splitCharT}}"></p-column>
+                    <p-column field="isCanByPass" header="{{'isCanByPass'| translate | splitCharT}}">
+                      <ng-template pTemplate="body" let-pengajuan="rowData">
+                        <span *ngIf="pengajuan.isCanByPass == 1">{{'ya'| translate | splitCharT}}</span>
+                        <span *ngIf="pengajuan.isCanByPass == 0">{{'tidak'| translate | splitCharT}}</span>
+                      </ng-template>
+                    </p-column>
+                    <p-column field="namaLengkap" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_verifikator'| translate | splitCharT}}"></p-column>
+                    <p-column field="tglVerifikasi" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tanggalVerifikasi'| translate | splitCharT}}">
+                      <ng-template pTemplate="body" let-pengajuan="rowData">
+                        {{pengajuan.tglVerifikasi * 1000 | date:'dd MMM yyyy'}}
+                      </ng-template>
+                    </p-column>
+                    <p-column field="namaJabatan" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_jabatan'| translate | splitCharT}}"></p-column>
+                    <p-column field="keteranganLainnya" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_keterangan'| translate | splitCharT}}"></p-column>
+                  </p-dataTable>
+                </div>
+              </div>
+            </p-dialog>
+
+          <p-dialog [(visible)]="dialogDetailRealisasi" header="Detail Realisasi" [resizable]="false" responsive="true" 
+          showEffect="fade" [modal]="true" width="800" (onHide)="onDialogHide()">
+          <!-- <div class="ui-g-12 ui-md-8"> -->
+            <div class="ui-g form-group" style="margin-bottom: 5px;">
+              <div class="ui-g-12">
+              <div class="u-g-12">
+                  <div class="ui-g-12 ui-md-4">
+                    <label>{{'frmPengajuanRealisasiKpiPegawai_metodePerhitunganActual'| translate | splitCharT}}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <span>:</span>
+                    <label>{{metodePerAcText}}</label>
+                  </div>
+              </div>
+              <div class="ui-g-12">
+                  <div class="ui-g-12 ui-md-4">
+                    <label>{{'frmPengajuanRealisasiKpiPegawai_Perspektif'| translate | splitCharT}}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <span>:</span>
+                    <label>{{perspektifText}}</label>
+                  </div>
+              </div>
+              <div class="ui-g-12">
+                  <div class="ui-g-12 ui-md-4">
+                    <label>{{'frmPengajuanRealisasiKpiPegawai_Strategi'| translate | splitCharT}}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <span>:</span>
+                    <label>{{strategiText}}</label>
+                  </div>
+              </div>
+              <div class="ui-g-12">
+                  <div class="ui-g-12 ui-md-4">
+                    <label>{{'frmPengajuanRealisasiKpiPegawai_KPI'| translate | splitCharT}}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <span>:</span>
+                    <label>{{kpiText}}</label>
+                  </div>
+              </div>
+              <div class="ui-g-12">
+                  <div class="ui-g-12 ui-md-4">
+                    <label>{{'frmPengajuanRealisasiKpiPegawai_PeriodeRealisasi'| translate | splitCharT}}</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-6">
+                    <span>:</span>
+                    <label>{{ periodeRealisasiText * 1000 | date:'dd-MMM-yyyy'}}</label> - <label>{{ periodeRealisasiAkhirText * 1000 | date:'dd-MMM-yyyy'}}</label>
+                  </div>
+              </div>
+            </div>
+            </div>
+            <div class="ui-g-12">
+              <p-dataTable [value]="listDataDetailRealisasi" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" 
+              [(selection)]="selectedDataRealisasiDetail" scrollable="true">
+                <p-column *ngFor="let dataCol of dataDetailBulan" [header]="dataCol.namaBulan" [field]="dataCol.namaBulan">
+                  <ng-template let-colo let-data="rowData" pTemplate="body">
+                      {{dataCol.nilai}}
+                  </ng-template>
+                </p-column>
+                <p-column header="Total" field="total"></p-column>
+              </p-dataTable>
+            </div>
+
+            <!-- </div> -->
+          </p-dialog>
+
+          <div class="ui-g-12 ui-md-3">
+            <div>
+							<label>{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_periode'| translate | splitCharT}}</label>
+							<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" [options]="listPeriodeHead" [autoWidth]="false"
+               (onChange)="getKode($event)" [(ngModel)]="kodeHeadPeriode"></p-dropdown>
+            </div>
+            <div>
+               <p-dataTable [value]="listPeriode" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+               [(selection)]="selectedPeriode" scrollable="true" (onRowClick)="pushPeriode()" (onRowSelect)="pilihPeriode($event)" >
+                <p-column field="nomorUrut" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_no'| translate | splitCharT}}" [style]="{'width':'50px','text-align': 'center'}">
+                  <ng-template pTemplate="body" let-i="rowIndex">
+                    {{i+1}}
+                  </ng-template>
+                </p-column>
+                <p-column field="namaPeriode" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_namaPeriode'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+              </p-dataTable>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-md-12">
+            <p-dataTable [value]="listMonitoringPengajuanRealisasiKpiPegawai" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" scrollable="true" 
+            [expandableRows]="true" [expandedRows]="expandedDetail" (onRowExpand)="onRowExpand($event)">
+
+              <p-column [expander]="true" styleClass="col-icon" [style]="{'width':'28px'}"></p-column>
+              <p-column field="nomorUrut" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_no'| translate | splitCharT}}" [style]="{'width':'50px','text-align': 'center'}">
+                <ng-template pTemplate="body" let-i="rowIndex">
+                  {{i+1}}
+                </ng-template>
+              </p-column>
+              <!-- <p-column field="noPosting" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableNoPengajuan'| translate | splitCharT}}" [style]="{'width':'150px', 'height':'40px'}"></p-column> -->
+              <p-column field="tglPengajuan" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableTanggalPengajuan'| translate | splitCharT}}" [style]="{'width':'150px', 'height':'40px'}">
+                <ng-template pTemplate="body" let-pengajuan="rowData">
+                  {{pengajuan.tglPengajuan * 1000 | date:'dd MMM yyyy'}}
+                </ng-template>
+              </p-column>
+              <p-column field="namaLengkap" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableNamaPegawai'| translate | splitCharT}}" [style]="{'width':'200px', 'height':'40px'}"></p-column>
+              <p-column field="nik" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableNik'| translate | splitCharT}}" [style]="{'width':'150px', 'height':'40px'}"></p-column>
+              <p-column field="namaJabatan" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableJabatan'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+              <p-column field="unitKerjaPegawai" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableUnitKerja'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+              <!-- <p-column styleClass="col-button" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableRealisasi'| translate | splitCharT}}" [style]="{'width':'150px'}">
+                <ng-template let-pegawai="rowData" pTemplate="body">
+                  <button pButton type="button" label="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableDetail'| translate | splitCharT}}" (click)="detailKpiPegawai(pegawai.noPosting)"></button>
+                </ng-template>
+              </p-column> -->
+
+              <!-- <p-column field="totalApprove" styleClass="col-button" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableStatusPengajuan'| translate | splitCharT}}"
+                [style]="{'width':'150px'}">
+                <ng-template let-pengajuan="rowData" pTemplate="body">
+                  <button pButton type="button" label="{{pengajuan.totalApprove}}" (click)="detailNoVerifikasi(pengajuan.noPosting)"></button>
+                </ng-template>
+              </p-column>
+              <p-column header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableTanggalSuratKeputusan'| translate | splitCharT}}" [style]="{'width':'200px'}">
+                <ng-template pTemplate="body" let-sk="rowData">
+                  <span *ngIf="sk.tglBerlakuAkhir != null">{{sk.tglBerlakuAwal * 1000 | date:'dd MMM yyyy'}} - {{sk.tglBerlakuAkhir * 1000 | date:'dd MMM yyyy'}}</span>
+                  <span *ngIf="sk.tglBerlakuAkhir == null">-</span>
+                </ng-template>
+              </p-column> -->
+
+              <!-- <p-column field="tglRetur" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableTanggalBatalPengajuan'| translate | splitCharT}}" [style]="{'width':'200px'}">
+                <ng-template pTemplate="body" let-retur="rowData">
+                  <span *ngIf="retur.tglRetur != null">{{retur.tglRetur * 1000 | date:'dd MMM yyyy'}}</span>
+                  <span *ngIf="retur.tglRetur == null">-</span>
+                </ng-template>
+              </p-column> -->
+              <ng-template let-data expanded="true" pTemplate="rowexpansion" let-ri="rowIndex" >
+                <div>
+                <p-dataTable [value]="listMonitoringPengajuanRealisasiKpiPegawai[ri].detail" scrollable="true" selectionMode="single" (onRowSelect)="pilihDataDetail($event)">
+                  <p-column field="periodeRealisasi" [style]="{'width':'100px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableperiodeRealisasi'| translate | splitCharT}}" ></p-column>
+                  <p-column field="namaPerspective" [style]="{'width':'150px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableperspektif'| translate | splitCharT}}" ></p-column>
+                  <p-column field="namaStrategy" [style]="{'width':'150px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tablestrategi'| translate | splitCharT}}" ></p-column>
+                  <p-column field="namaKPI" [style]="{'width':'150px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tablekpi'| translate | splitCharT}}" ></p-column>
+                  <p-column field="bobotKPISK" [style]="{'width':'100px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tablebobot'| translate | splitCharT}}" ></p-column>
+                  <p-column field="satuanHasil" [style]="{'width':'150px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tablesatuanHasil'| translate | splitCharT}}" ></p-column>
+                  <p-column field="tipeDataObjek" [style]="{'width':'150px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tabletipeDataObjek'| translate | splitCharT}}" ></p-column>
+                  <p-column field="targetKPI" [style]="{'width':'100px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tabletarget'| translate | splitCharT}}" ></p-column>
+                  <p-column field="sumberData" [style]="{'width':'150px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tablesumberData'| translate | splitCharT}}" ></p-column>
+                  <p-column field="namaPeriode" [style]="{'width':'150px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableperiodeData'| translate | splitCharT}}" ></p-column>
+                  <p-column field="metodePerhitungan" [style]="{'width':'100px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tablemetodePerhitungan'| translate | splitCharT}}" ></p-column>
+                  <p-column field="realisasi" [style]="{'width':'100px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tablerealisasi'| translate | splitCharT}}" >
+                    <ng-template let-row="rowData" let-i="rowIndex" pTemplate="body">
+                      <a [routerLink]="['/daftar-monitoring-pengajuan-realisasi-kpi-pegawai']" (click)="detailRealisasi(row)" style="border-bottom:1px solid blue;color:#ffb600">{{ row.realisasi }}</a>
+                    </ng-template>
+                  </p-column>
+                  <p-column field="metodePerhitunganSK" [style]="{'width':'150px'}" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tablemetodePerhitunganActual'| translate | splitCharT}}" ></p-column>
+                  <p-column field="totalApprove" styleClass="col-button" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableStatusPengajuan'| translate | splitCharT}}"
+                    [style]="{'width':'150px'}">
+                  <ng-template let-pengajuan="rowData" pTemplate="body">
+                    <button pButton type="button" label="{{pengajuan.totalApprove}}" (click)="detailNoVerifikasi(pengajuan.noPosting)"></button>
+                  </ng-template>
+                  </p-column>
+                  <p-column header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableTanggalSuratKeputusan'| translate | splitCharT}}" [style]="{'width':'200px'}">
+                    <ng-template pTemplate="body" let-sk="rowData">
+                      <span *ngIf="sk.tglBerlakuAkhir != null">{{sk.tglBerlakuAwal * 1000 | date:'dd MMM yyyy'}} - {{sk.tglBerlakuAkhir * 1000 | date:'dd MMM yyyy'}}</span>
+                      <span *ngIf="sk.tglBerlakuAkhir == null">-</span>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
+              </div>
+              </ng-template>
+            </p-dataTable>
+
+          </div>
+          <div class="ui-g-12 ui-md-9"></div>
+          <div class="ui-g-12 ui-md-2">
+            <p-splitButton label="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_btnCetak'| translate | splitCharT }}" icon="fa-print" [model]="items" ></p-splitButton>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+              <button pButton type="button" icon="fa-edit" [disabled]="buttonAktif" label="{{'frmDaftarMonitoringPengajuanKpiPegawai_btnKeputusan'| translate | splitCharT}}"
+              (click)="keputusan()"></button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

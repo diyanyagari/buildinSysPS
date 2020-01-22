@@ -1,0 +1,99 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"
+  [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item action">
+        <img src="../../../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img src="../../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <h2>Informasi - Profile - Rekanan</h2>
+      </div>
+      <div class="header-item action">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/power-button.svg"
+          alt="logout" (click)="logout($event)">
+      </div>
+    </div>
+  </div>
+  <div class="container-grid">
+    <!-- <div class="main-content-rekanan">
+      <div class="card-rekanan">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/rekanan-logo-1.png"
+          alt="Avatar" class="image-rekanan">
+        <div class="rekanan-text">Health Insurance</div>
+      </div>
+      <div class="card-rekanan">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/rekanan-logo-2.png"
+          alt="Avatar" class="image-rekanan">
+        <div class="rekanan-text">Health Insurance</div>
+      </div>
+      <div class="card-rekanan">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/rekanan-logo-3.png"
+          alt="Avatar" class="image-rekanan">
+        <div class="rekanan-text">Health Insurance</div>
+      </div>
+      <div class="card-rekanan">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/rekanan-logo-4.png"
+          alt="Avatar" class="image-rekanan">
+        <div class="rekanan-text">Health Insurance</div>
+      </div>
+      <div class="card-rekanan">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/rekanan-logo-5.png"
+          alt="Avatar" class="image-rekanan">
+        <div class="rekanan-text">Health Insurance</div>
+      </div>
+      <div class="card-rekanan">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/rekanan-logo-1.png"
+          alt="Avatar" class="image-rekanan">
+        <div class="rekanan-text">Health Insurance</div>
+      </div>
+      <div class="card-rekanan">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/rekanan-logo-2.png"
+          alt="Avatar" class="image-rekanan">
+        <div class="rekanan-text">Health Insurance</div>
+      </div>
+      <div class="card-rekanan">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/rekanan-logo-6.png"
+          alt="Avatar" class="image-rekanan">
+        <div class="rekanan-text">Health Insurance</div>
+      </div>
+    </div> -->
+    <div class="main-content-rekanan">
+      <div class="card-rekanan" *ngFor="let item of listRekanan"
+        [style.width]="isOne ? '100%':'45%'" 
+        [style.width]="isTwo ? '45%':'30%'"
+        [style.width]="isThree ? '30%':'25%'"
+        [style.width]="isFour ? '25%':'45%'">
+        <img src="{{item.gambarLogo}}" alt="image-logo" class="image-rekanan">
+        <div class="rekanan-text">{{item.namaRekanan}}</div>
+      </div>
+      <!-- </div> -->
+
+      <!-- <div class="card-rekanan" *ngFor="let item of listRekanan">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/rekanan-logo-1.png"
+          alt="Avatar" class="image-rekanan">
+        <div class="rekanan-text">{{item.namaRekanan}}</div>
+      </div> -->
+    </div>
+  </div>
+  <div class="informasi-action">
+    <!-- <hr> -->
+    <div class="container">
+      <button class="btn-subscribe bg-violet"
+        routerLink="/kiosk/informasi/profile/">Kembali</button>
+    </div>
+  </div>
+</div>

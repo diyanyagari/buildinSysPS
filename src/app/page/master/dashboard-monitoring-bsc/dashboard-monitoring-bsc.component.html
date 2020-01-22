@@ -1,0 +1,96 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<h1>{{'frmdashboardMonitoringBSC_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+
+          <div class="ui-g-6">
+              <div class="ui-g form-group">
+              <div class="ui-g-12 ui-md-4">
+                  <label>{{'frmdashboardMonitoringBSC_tglMulaiPeriode'| translate | splitCharT}}</label>
+                  <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAwal"  [showIcon]="true" dateFormat="dd M yy"></app-calender>
+              </div>
+              <div>
+                  <br>
+                  <label>-</label>
+              </div>
+              <div class="ui-g-12 ui-md-4">
+                  <label>{{'frmdashboardMonitoringBSC_tglBerakhirPeriode'| translate | splitCharT}}</label>
+                  <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAkhir" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+              </div>
+              <!-- <div class="ui-g-12 ui-md-1">
+                  <br>
+                  <button pButton type="button" icon="fa-search" (click)="cari()"></button>
+              </div> -->
+              </div>
+          </div>
+							
+		
+			
+				<div class="ui-g-6">
+							<p-fieldset legend="Filter-By">
+                  <div class="ui-g">
+                    <div class="ui-g-12 ui-md-10">
+                      <div class="ui-g-12 ui-md-6">
+                          <p-radioButton name="filterBSC" value="BSCPerusahaan" label="BSCPerusahaan" [(ngModel)]="filterbsc" inputId="BSCPerusahaan"></p-radioButton>
+                      </div>
+                      <div class="ui-g-12 ui-md-6"></div>
+                    </div>
+                    <!-- <div class="ui-g-12"></div> -->
+                    <div class="ui-g-12 ui-md-10">
+                      <div class="ui-g-12 ui-md-6">
+                        <p-radioButton name="filterBSC" value="BSCDepartemen" label="BSCDepartemen" [(ngModel)]="filterbsc" inputId="BSCDepartemen"></p-radioButton>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <p-dropdown [options]="listDepartemenD" [autoWidth]="false"  required="true" [filter]="true" filterBy="label" appendTo="body"></p-dropdown>
+                      </div>
+                    </div>
+                    <!-- <div class="ui-g-12"></div> -->
+                    <div class="ui-g-12 ui-md-10">
+                      <div class="ui-g-12 ui-md-6">
+                        <p-radioButton name="filterBSC" value="BSCPegawai" label="BSCPegawai" [(ngModel)]="filterbsc" inputId="BSCPegawai"></p-radioButton>
+                      </div>
+                      <div class="ui-g-12 ui-md-6">
+                        <p-dropdown [options]="listPegawai" [autoWidth]="false" required="true" [filter]="true" filterBy="label" appendTo="body"></p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </p-fieldset>
+            </div>
+						
+						
+          </div>
+          <div class="ui-g-12"></div>
+
+					<div class="ui-g-12 ui-md-12">
+						<p-dataTable [value]="listBSC" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyRoad)="loadPage($event)" scrollable="true" expandableRows="true">
+							<p-column field="namaPerspective" header="{{'frmdashboardMonitoringBSC_TablenamaPerspective' | translate | splitCharT }}"></p-column>
+							<p-column field="namaStrategy" header="{{'frmdashboardMonitoringBSC_TablenamaStrategy' | translate | splitCharT }}"></p-column>
+							<p-column field="namaKPI" header="{{'frmdashboardMonitoringBSC_TablenamaKPI' | translate | splitCharT }}"></p-column>
+							<p-column field="bobotKPI" header="{{'frmdashboardMonitoringBSC_TablebobotKPI' | translate | splitCharT }}"></p-column>							
+							<p-column field="satuanHasil" header="{{'frmdashboardMonitoringBSC_TablesatuanHasil' | translate | splitCharT }}"></p-column>
+							<p-column field="typeDataObjek" header="{{'frmdashboardMonitoringBSC_TabletypeDataObjek' | translate | splitCharT }}"></p-column>
+							<p-column field="targetKPI" header="{{'frmdashboardMonitoringBSC_TabletargetKPI' | translate | splitCharT }}"></p-column>
+							<p-column field="realisasiKPI" header="{{'frmdashboardMonitoringBSC_TablerealisasiKPI' | translate | splitCharT }}"></p-column>
+							<p-column field="metodePerhitungan" header="{{'frmdashboardMonitoringBSC_TablemetodePerhitungan' | translate | splitCharT }}"></p-column>
+							<p-column field="skor" header="{{'frmdashboardMonitoringBSC_Tableskor' | translate | splitCharT }}"></p-column>
+							<p-column field="skorAkhir" header="{{'frmdashboardMonitoringBSC_TableskorAkhir' | translate | splitCharT }}"></p-column>
+						</p-dataTable>
+					</div>
+
+					<div class="ui-g-12 ui-md-12">
+						<div class="ui-g-12 ui-md-11"></div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'batal'| translate | splitCharT }}" icon="fa-close" (click)="reset()"></button>
+						</div>
+						<!-- <div class="ui-g-12 ui-md-1">
+							<p-splitButton pButton type="button" label="{{'cetak'| translate | splitCharT }}" icon="fa-print" [model]=""></p-splitButton>
+						</div> -->
+          </div>
+          
+				</div>
+			</div>
+		</div>
+	</div>
+

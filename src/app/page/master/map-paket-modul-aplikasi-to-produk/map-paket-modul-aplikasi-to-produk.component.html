@@ -1,0 +1,220 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmMapPaketMdlApkToProduk_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<form style="width: 100%;" [formGroup]="form">
+						<div class="ui-g form-group">
+							<p-fieldset class="ui-g-12 ui-md-12 ui-lg-12" legend="">
+								<div class="ui-g-12 ui-md-3 ui-lg-3">
+									<label>{{'frmMapPaketMdlApkToProduk_NamaSK'|translate|splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('noSK').valid && form.get('noSK').touched"
+											style="color: red">
+											{{'required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown filter="filter" (onChange)="ambilSK($event)"
+										class="ui-inputwrapper-filled" placeholder="--Pilih--" formControlName="noSK"
+										[options]="listNamaSK" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<br>
+									<button pButton type="submit"
+										label="{{'frmMapPaketMdlApkToProduk_buatSK'| translate | splitCharT}}"
+										(click)="getKelompokTransaksi()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-5">
+									<div class="ui-g form-group">
+										<div class="ui-g-12 ui-md-10 ui-g-offset-1">
+											<label>{{'frmMapPaketMdlApkToProduk_periodeBerlakuSk'| translate | splitCharT}}
+											</label>
+										</div>
+										<div class="ui-g-12 ui-md-5 ui-g-offset-1">
+											<app-calender [(ngModel)]="tglAwal" [ngModelOptions]="{standalone: true}"
+												class="ui-inputwrapper-filled" disabled="true" [showIcon]="true"
+												dateFormat="dd M yy"></app-calender>
+										</div>
+										<div>
+											<label>-</label>
+										</div>
+										<div class="ui-g-12 ui-md-5">
+											<app-calender [(ngModel)]="tglAkhir" [ngModelOptions]="{standalone: true}"
+												class="ui-inputwrapper-filled" disabled="true" [showIcon]="true"
+												dateFormat="dd M yy"></app-calender>
+										</div>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-3" style="margin-top: 9px;">
+									<label>{{'frmMapPaketMdlApkToProduk_NomorIntern'| translate | splitCharT }}</label>
+									<input [(ngModel)]="noskinternal" [ngModelOptions]="{standalone: true}" id="input"
+										type="text" class="ui-inputwrapper-filled" disabled pInputText />
+								</div>
+							</p-fieldset>
+
+							<p-fieldset class="ui-g-12 ui-md-12 ui-lg-12" legend="">
+								<div class="ui-g-12 ui-md-2 ui-lg-2">
+									<!-- {{'frmProfileKonfigurasiDesign_Profile'| translate | splitCharT}} -->
+									<label>{{'frmMapPaketMdlApkToProduk_paket'|translate|splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdPaket').valid && form.get('kdPaket').touched"
+											style="color: red">
+											{{'required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+										formControlName="kdPaket" (onChange)="mapFilter($event)" [options]="paket"
+										[autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-2 ui-lg-2">
+									<!-- {{'frmProfileKonfigurasiDesign_Profile'| translate | splitCharT}} -->
+									<label>{{'frmMapPaketMdlApkToProduk_mdlAplikasi'|translate|splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched"
+											style="color: red">
+											{{'required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+										formControlName="kdModulAplikasi" (onChange)="mapFilter($event)"
+										[options]="mdlAplikasi" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-2 ui-lg-2">
+									<label>{{'frmMapPaketMdlApkToProduk_version'|translate|splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdVersion').valid && form.get('kdVersion').touched"
+											style="color: red">
+											{{'required'| translate | splitCharT}}</span>
+									</label>
+									<!-- <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+										formControlName="kdVersion" (onChange)="mapFilter($event)" [options]="version"
+										[autoWidth]="false">
+									</p-dropdown> -->
+
+									<div class="ui-g-12 ui-md-12"
+										style="border: 1px solid #cfcfcf; width: 100%;height: 24px;background: #ffffff;padding: 0em;">
+										<div class="ui-g-12 ui-md-10" (click)="openDropdown()" style="cursor: pointer;
+												overflow: hidden;
+												height: 23px;
+												white-space: nowrap;
+												text-overflow: ellipsis;
+												padding: 2px;" *ngIf="selectedVersion != null">
+											<label>{{selectedVersion}}</label>
+										</div>
+										<div class="ui-g-12 ui-md-10" (click)="openDropdown()" style="cursor: pointer;
+												overflow: hidden;
+												height: 23px;
+												white-space: nowrap;
+												text-overflow: ellipsis;
+												padding: 2px;" *ngIf="selectedVersion == null">
+											<label>{{'-- Pilih Version --' | translate | splitCharT }}</label>
+										</div>
+
+										<div class="ui-g-12 ui-md-2" style="text-align: right" style="cursor: pointer;padding: 2px"
+											(click)="openDropdown()">
+											<span class="ui-clickable fa fa-fw fa-caret-down"
+												ng-reflect-klass="ui-clickable"
+												ng-reflect-ng-class="fa fa-fw fa-caret-down"></span>
+										</div>
+										<div class="ui-g-12 ui-md-12"
+											style="z-index: 1;border:1px solid #cfcfcf; width: 12vw;background: #ffffff;display: none;position: relative; margin: 1.368px 1.4px 1.4px -1px;max-height: 20vh;overflow-y: scroll;"
+											id="dropdownTree" appendTo="body">
+											<p-tree [style]="{'border':'0px','background': '#ffffff'}"
+												[value]="listVersion" selectionMode="single"
+												[(selection)]="selectedFiles" (onNodeSelect)="nodeSelect($event)"
+												(onNodeUnselect)="nodeUnselect($event)">
+											</p-tree>
+										</div>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-2 ui-lg-2">
+									<!-- {{'frmProfileKonfigurasiDesign_Profile'| translate | splitCharT}} -->
+									<label>{{'frmMapPaketMdlApkToProduk_edisi'|translate|splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdEdisi').valid && form.get('kdEdisi').touched"
+											style="color: red">
+											{{'required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+										formControlName="kdEdisi" (onChange)="mapFilter($event)" [options]="edisi"
+										[autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-2 ui-lg-4">
+									<!-- {{'frmProfileKonfigurasiDesign_Profile'| translate | splitCharT}} -->
+									<label>{{'frmMapPaketMdlApkToProduk_kelompokKlien'|translate|splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span
+											*ngIf="!form.get('kdKelompokKlien').valid && form.get('kdKelompokKlien').touched"
+											style="color: red">
+											{{'required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+										formControlName="kdKelompokKlien" (onChange)="mapFilter($event)"
+										[options]="kelompokKlien" [autoWidth]="false">
+									</p-dropdown>
+								</div>
+							</p-fieldset>
+
+							<div class="ui-g-12 ui-md-12">
+								<div class="ui-g form-group">
+									<p-fieldset class="ui-g-12 ui-md-12 ui-lg-12"
+										legend="{{'frmMapPaketMdlApkToProduk_layanan' | translate | splitCharT }}">
+										<div class="ui-helper-clearfix">
+											<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+											<input style="width: 20%;float:right;" type="text" [(ngModel)]="pencarian"
+												[ngModelOptions]="{standalone: true}"
+												placeholder="{{'frmMapPaketMdlApkToProduk_pencarian' | translate |splitCharT}}"
+												(keyup)="globalFilter($event.target.value)">
+										</div>
+
+										<p-dataTable [value]="listData" [rows]="5" [paginator]="true" [pageLinks]="3"
+											[(selection)]="selectedMenu" [editable]="true"
+											[headerCheckboxToggleAllPages]="true" [loading]="loading" loadingIcon="fa-spinner"
+											[lazy]="true" [totalRecords]="totalRecords"
+											(onLazyLoad)="loadPage($event)">
+											<p-column field="isCheck" [style]="{'width':'38px'}"
+												selectionMode="multiple"></p-column>
+											<p-column field="namaProduk"
+												header="{{'frmMapPaketMdlApkToProduk_layanan'| translate | splitCharT }}"
+												[editable]="false"></p-column>
+											<p-column field="mapPaketToProdukOutput" [style]="{'width':'100px'}"
+												header="{{'frmMapPaketMdlApkToProduk_qtyMin'| translate | splitCharT }}">
+												<ng-template let-col let-komponen="rowData" pTemplate="body">
+													<input id="input" [(ngModel)]="komponen[col.field].qtyMin"
+														[ngModelOptions]="{standalone: true}" type="number"
+														pInputText />
+												</ng-template>
+											</p-column>
+											<p-column field="mapPaketToProdukOutput" [style]="{'width':'100px'}"
+												header="{{'frmMapPaketMdlApkToProduk_qtyMax'| translate | splitCharT }}">
+												<ng-template let-col let-komponen="rowData" pTemplate="body">
+													<input id="input" [(ngModel)]="komponen[col.field].qtyMax"
+														[ngModelOptions]="{standalone: true}" type="number"
+														pInputText />
+												</ng-template>
+											</p-column>
+
+										</p-dataTable>
+									</p-fieldset>
+								</div>
+							</div>
+							<div class='ui-g-12 ui-md-12'>
+								<div style="float: right" class="ui-g-12 ui-md-1">
+									<button pButton type="submit"
+										label="{{'frmMapPaketMdlApkToProduk_reset'| translate | splitCharT}}"
+										icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div style="float: right" class="ui-g-12 ui-md-1">
+									<button pButton type="submit"
+										label="{{'frmMapPaketMdlApkToProduk_simpan'| translate | splitCharT}}"
+										icon="fa-save" (click)="onSubmit()"></button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,290 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmMasterPegawaiSkAsuransi_title' | translate | splitCharT }}</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <div class="ui-g-12">
+              <div class="ui-g-5">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                  <div class="ui-g-9">
+                    <label>{{'frmMasterPegawaiSkAsuransi_namaSK'| translate | splitCharT }}
+                      <span style="color: red;font-weight: bolder;">*</span>
+                      <span *ngIf="!form.get('namaSK').valid && form.get('namaSK').touched" style="color: red">{{'frmMasterPegawaiSkAsuransi_required'| translate | splitCharT}}</span>
+                    </label>
+                    <!-- <p-autoComplete formControlName="namaSK" [suggestions]="dataSK" field="namaSK" [size]="30" [minLength]="1" [style]="{'width':'100%'}"
+                      [dropdown]="true" (completeMethod)="filterSk($event)" (onSelect)="pilihSK($event)" class="ui-inputwrapper-filled"
+                      [inputStyle]="{'padding': '0.36em 1.5em 0.36em 0'}"></p-autoComplete> -->
+                    <p-dropdown formControlName="namaSK" (onChange)="ambilSK($event)" class="ui-inputwrapper-filled" [options]="namaSk" [autoWidth]="false"
+                      [filter]="true" filterBy="label"></p-dropdown>
+                  </div>
+                  <div class="ui-g-3" style="margin: 19px 0px 0px;">
+                    <button pButton (click)="getKelompokTransaksi()" type="button" label="{{'frmMasterPegawaiSkAsuransi_btnBuatSk'| translate | splitCharT }}"></button>
+                  </div>
+                  <div class="ui-g-12">
+                    <label>{{'frmMasterPegawaiSkAsuransi_noSK'| translate | splitCharT }}</label>
+                    <input id="input" type="text" formControlName="noSK" class="ui-inputwrapper-filled" disabled pInputText/>
+                    <!-- <span *ngIf="!form.get('noSK').valid && form.get('noSK').touched" style="color: red">{{'required'| translate | splitCharT}}</span> -->
+                  </div>
+                  <div class="ui-g-5">
+                    <label>{{'frmMasterPegawaiSkAsuransi_tglBerlakuAwal'| translate | splitCharT }}</label>
+                    <app-calender formControlName="tglBerlakuSkDari" dateFormat="dd M yy" [monthNavigator]="true" [yearNavigator]="true" yearRange="1850:2050"
+                      [showIcon]="true" class="ui-inputwrapper-filled" disabled="true"></app-calender>
+                    <!-- <span *ngIf="!form.get('tglBerlakuSkDari').valid && form.get('tglBerlakuSkDari').touched" style="color: red">{{'required'| translate | splitCharT}}</span> -->
+                  </div>
+                  <div class="ui-g-2" style="margin: 19px 0px 0px 0px; text-align: center;">s/d</div>
+                  <div class="ui-g-5">
+                    <label>{{'frmMasterPegawaiSkAsuransi_tglBerlakuAkhir'| translate | splitCharT }}</label>
+                    <app-calender formControlName="tglBerlakuSkSampai" dateFormat="dd M yy" [monthNavigator]="true" [yearNavigator]="true" yearRange="1850:2050"
+                      [showIcon]="true" class="ui-inputwrapper-filled" disabled="true"></app-calender>
+                    <!-- <span *ngIf="!form.get('tglBerlakuSkSampai').valid && form.get('tglBerlakuSkSampai').touched" style="color: red">{{'required'| translate | splitCharT}}</span> -->
+                  </div>
+                  <div class="ui-g-12">
+                    <label>{{'frmMasterPegawaiSkAsuransi_rekananPenjamin'| translate | splitCharT }}
+                      <span style="color: red;font-weight: bolder;">*</span>
+                      <span *ngIf="!form.get('kdRekananPenjamin').valid && form.get('kdRekananPenjamin').touched" style="color: red">{{'frmMasterPegawaiSkAsuransi_required'| translate | splitCharT}}</span>
+
+                    </label>
+                    <p-dropdown formControlName="kdRekananPenjamin" class="ui-inputwrapper-filled" [options]="rekananPenjamin" [autoWidth]="false"
+                      [filter]="true" filterBy="label"></p-dropdown>
+                  </div>
+                  <div class="ui-g-12">
+                    <label>{{'frmMasterPegawaiSkAsuransi_komponenHarga'| translate | splitCharT }}
+                      <span style="color: red;font-weight: bolder;">*</span>
+                      <span *ngIf="!form.get('kdKomponenHarga').valid && form.get('kdKomponenHarga').touched" style="color: red">{{'frmMasterPegawaiSkAsuransi_required'| translate | splitCharT}}</span>
+
+                    </label>
+                    <p-dropdown formControlName="kdKomponenHarga" class="ui-inputwrapper-filled" [options]="komponenHarga" [autoWidth]="false"
+                      [filter]="true" filterBy="label"></p-dropdown>
+                    <div class="ui-g-12">
+                      <label>{{'frmMasterPegawaiSkAsuransi_hargaSatuanPremi'| translate | splitCharT }}
+                        <!-- <span style="color: red;font-weight: bolder;">*</span>
+                        <span *ngIf="!form.get('hargaSatuanPremi').valid && form.get('hargaSatuanPremi').touched" style="color: red">{{'required'| translate | splitCharT}}</span> -->
+
+                      </label>
+                      <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon">
+                          <p-radioButton name="group1" value="harga" formControlName="persenHarga" (click)="setpersenHargaSatuan()"></p-radioButton>
+                        </span>
+                        <input type="number" formControlName="hargaSatuanPremi" pInputText/>
+                      </div>
+                    </div>
+                    <div class="ui-g-12">
+                      <label>{{'frmMasterPegawaiSkAsuransi_persenHargaSatuanPremi'| translate | splitCharT }}
+                        <!-- <span style="color: red;font-weight: bolder;">*</span>
+                        <span *ngIf="!form.get('persenHargaSatuanPremi').valid && form.get('persenHargaSatuanPremi').touched" style="color: red">{{'required'| translate | splitCharT}}</span> -->
+
+                      </label>
+                      <div class="ui-inputgroup">
+                        <span class="ui-inputgroup-addon">
+                          <p-radioButton name="group1" value="persen" formControlName="persenHarga" (click)="setpersenHargaSatuan()"></p-radioButton>
+                        </span>
+                        <input type="number" formControlName="persenHargaSatuanPremi" pInputText/>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="ui-g-4">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                  <div class="ui-g-12">
+                    <label>{{'frmMasterPegawaiSkAsuransi_totalHargaSatuanPremiMax'| translate | splitCharT }}
+                      <span style="color: red;font-weight: bolder;">*</span>
+                      <span *ngIf="!form.get('totalHargaSatuanPremiMax').valid && form.get('totalHargaSatuanPremiMax').touched" style="color: red">{{'frmMasterPegawaiSkAsuransi_required'| translate | splitCharT}}</span>
+
+                    </label>
+                    <div class="ui-inputgroup">
+                      <span class="ui-inputgroup-addon">
+                        <p-checkbox formControlName="totalPremiMax" binary="true" (onChange)="premiMax($event)"></p-checkbox>
+                      </span>
+                      <input type="number" formControlName="totalHargaSatuanPremiMax" pInputText/>
+                    </div>
+                  </div>
+                  <div class="ui-g-12">
+                    <div class="ui-g-6">
+                      <p-radioButton name="group2" formControlName="isByMonth" value="1" label="{{'frmMasterPegawaiSkAsuransi_bulanan'| translate | splitCharT }}" inputId="preopt1"></p-radioButton>
+                    </div>
+                    <div class="ui-g-6">
+                      <p-radioButton name="group2" formControlName="isByYear" value="1" label="{{'frmMasterPegawaiSkAsuransi_tahunan'| translate | splitCharT }}" inputId="preopt2"></p-radioButton>
+                    </div>
+                  </div>
+                  <div class="ui-g-12">
+                    <div class="ui-g-12 ui-md-6">
+                      <p-checkbox name="group1" binary="true" (onChange)="changeTgl($event)" label="{{'frmMasterPegawaiSkAsuransi_tglMasukKerjaMin'| translate | splitCharT }}" inputId="ny"></p-checkbox>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                      <label>{{'frmMasterPegawaiSkAsuransi_tglMasukKerjaMin'| translate | splitCharT }}</label>
+                      <app-calender [yearNavigator]="true" [monthNavigator]="true" yearRange="2000:2030" [showIcon]="true" formControlName="tglMasukKerjaMin"
+                        dateFormat="dd M yy"></app-calender>
+                    </div>
+                  </div>
+                </form>
+                <div class="ui-g-12">
+                  <p-fieldset legend="{{'frmMasterPegawaiSkAsuransi_komponenGaji'| translate | splitCharT }}">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12">
+                        <!-- <p-toolbar>
+                          <div class="ui-toolbar-group-left">
+                            <button pButton type="button" label="Tambah" icon="fa-plus" (click)="tambahKomponen()"></button>
+                          </div>
+                        </p-toolbar> -->
+                        <p-dataTable [value]="listKomponenGaji" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true"
+                          scrollable="true" [responsive]="true">
+                          <p-header>
+                            <div class="ui-helper-clearfix">
+                              <button type="button" pButton icon="fa-plus" (click)="tambahKomponen()" style="float:left; font-size: 13px !important;"></button>
+                            </div>
+                          </p-header>
+                          <p-column field="komponen" header="{{'frmMasterPegawaiSkAsuransi_komponenGaji'| translate | splitCharT}} *" [editable]="true">
+                            <ng-template let-col let-gaji="rowData" pTemplate="body">
+                              {{gaji[col.field].namaKomponen}}
+                            </ng-template>
+                            <ng-template let-col let-gaji="rowData" pTemplate="editor">
+                              <div *ngIf="gaji.noSK != null">
+                                {{gaji[col.field].namaKomponen}}
+                              </div>
+                              <div *ngIf="gaji.noSK == null">
+                                <p-dropdown [(ngModel)]="gaji[col.field]" [options]="kdKomponenGaji" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                                  appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                              </div>
+                            </ng-template>
+                          </p-column>
+                          <p-column field="statusEnabled" header="{{'frmMasterPegawaiSkAsuransi_statusAktif'| translate | splitCharT}} *" styleClass="col-button" [style]="{'width':'50px'}">
+                            <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                              <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                            </ng-template>
+                          </p-column>
+                          <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                            <ng-template pTemplate="header"></ng-template>
+                            <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                              <div *ngIf="data.noSK == null">
+                                <button type="button" pButton icon="fa-trash" (click)="hapusRow(i)"></button>
+                              </div>
+                            </ng-template>
+                          </p-column>
+                        </p-dataTable>
+                      </div>
+                    </div>
+                  </p-fieldset>
+                </div>
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                  <div class="ui-g-12 ui-md-12">
+                    <p-checkbox binary="true" label="{{'frmMasterPegawaiSkAsuransi_statusAktif'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                    <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">* {{'frmMasterPegawaiSkAsuransi_required'| translate | splitCharT}}</span>
+                  </div>
+                </form>
+              </div>
+              <div class="ui-g-3">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                  <div class="ui-g-12">
+                    <label>{{'frmMasterPegawaiSkAsuransi_keteranganLainnya'| translate | splitCharT }}</label>
+                    <textarea rows="5" formControlName="keteranganLainnya" class="ui-inputwrapper-filled" cols="30" pInputTextarea></textarea>
+                  </div>
+                </form>
+                <p-fieldset legend="{{'frmMasterPegawaiSkAsuransi_optional'| translate | splitCharT }}" [toggleable]="true" collapsed="false">
+                  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="ui-g-12">
+                      <label>{{'frmMasterPegawaiSkAsuransi_factorRate'| translate | splitCharT }}
+                        <span style="color: red;font-weight: bolder;">*</span>
+                        <span *ngIf="!form.get('factorRate').valid && form.get('factorRate').touched" style="color: red">{{'frmMasterPegawaiSkAsuransi_required'| translate | splitCharT}}</span>
+
+                      </label>
+                      <input id="input" type="number" formControlName="factorRate" pInputText/>
+                    </div>
+                    <div class="ui-g-12">
+                      <label>{{'frmMasterPegawaiSkAsuransi_operatorFactorRate'| translate | splitCharT }}
+                        <span style="color: red;font-weight: bolder;">*</span>
+                        <span *ngIf="!form.get('operatorFactorRate').valid && form.get('operatorFactorRate').touched" style="color: red">{{'frmMasterPegawaiSkAsuransi_required'| translate | splitCharT}}</span>
+                      </label>
+                      <p-dropdown formControlName="operatorFactorRate" class="ui-inputwrapper-filled" [options]="operatorFactorRate" [autoWidth]="false"
+                        [filter]="true" filterBy="label"></p-dropdown>
+
+                    </div>
+                  </form>
+                </p-fieldset>
+                <div class="ui-g-12"></div>
+
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-7"></div>
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmMasterPegawaiSkAsuransi_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="submit" label="{{'frmMasterPegawaiSkAsuransi_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmPegawaiSkStatus_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <button pButton type="button" label="{{'frmMasterPegawaiSkAsuransi_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetak()"></button>
+                </div>
+                <div class="ui-g-12 ui-md-1">
+                  <p-splitButton label="{{'frmMasterPegawaiSkAsuransi_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+                </div>
+              </form>
+            </div>
+
+          </div>
+          <div class="ui-g-12">
+
+            <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+              [(selection)]="selected" (onRowSelect)="onRowSelect($event)" scrollable="true" expandableRows="true" [totalRecords]="totalRecords"
+              (onLazyLoad)="loadPage($event)" [lazy]="true">
+              <p-header>
+                <div class="ui-helper-clearfix">
+                  <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                  <input type="text" pInputText size="50" placeholder="{{'frmMasterPegawaiSkAsuransi_tablePencarianRekananPenjamin'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+                    style="width: 20%;float:right;">
+                  <span style="float: left;padding:0.3em;">{{'frmMasterPegawaiSkAsuransi_tableDaftarMasterPegawaiSKAsuransi'| translate | splitCharT }}</span>
+                </div>
+              </p-header>
+              <p-column field="noSK" header="{{'frmMasterPegawaiSkAsuransi_tableNoSK' | translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+              <p-column field="namaSK" header="{{'frmMasterPegawaiSkAsuransi_tableNamaSk' | translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+              <p-column field="tglBerlakuAwal" header="{{'frmMasterPegawaiSkAsuransi_tableTglBerlakuAwal' | translate | splitCharT }}" [style]="{'width':'150px'}">
+                <ng-template let-pick="rowData" pTemplate type="body">
+                  {{pick.tglBerlakuAwal * 1000 | date: 'dd MMM yyyy'}}
+                </ng-template>
+              </p-column>
+              <p-column field="tglBerlakuAkhir" header="{{'frmMasterPegawaiSkAsuransi_tableTglBerlakuAkhir' | translate | splitCharT }}" [style]="{'width':'150px'}">
+                <ng-template pTemplate="body" let-StatusSK="rowData">
+                  <span *ngIf="StatusSK.tglBerlakuAkhir != null">{{StatusSK.tglBerlakuAkhir * 1000 | date:'dd MMM yyyy'}}</span>
+                  <span *ngIf="StatusSK.tglBerlakuAkhir == null">-</span>
+                </ng-template>
+              </p-column>
+              <p-column field="namaRekanan" header="{{'frmMasterPegawaiSkAsuransi_tableRekananPenjamin'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+              <p-column field="namaKomponen" header="{{'frmMasterPegawaiSkAsuransi_tableKomponenHarga'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+              <p-column field="hargaSatuanPremi" header="{{'frmMasterPegawaiSkAsuransi_tableHargaSatuanPremi'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="persenHargaSatuanPremi" header="{{'frmMasterPegawaiSkAsuransi_tablePersenHargaSatuanPremi'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="factorRate" header="{{'frmMasterPegawaiSkAsuransi_tableFactorRate'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="operatorFactorRate" header="{{'frmMasterPegawaiSkAsuransi_tableOperatorFactorRate'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="totalFactorRatePremi" header="{{'frmMasterPegawaiSkAsuransi_tableTotalFactorRatePremi'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="totalHargaSatuanPremiMax" header="{{'frmMasterPegawaiSkAsuransi_tableTotalHargaSatuanPremiMax'| translate | splitCharT }}" [style]="{'width':'200px'}">
+                <ng-template let-col let-asuransi="rowData" pTemplate="body">
+                  <span *ngIf="asuransi.totalHargaSatuanPremiMax > 999999999999 || asuransi.totalHargaSatuanPremiMax == 0">-</span>
+                  <span *ngIf="asuransi.totalHargaSatuanPremiMax < 999999999999 && asuransi.totalHargaSatuanPremiMax > 0">{{asuransi.totalHargaSatuanPremiMax | currency:'IDR':true}}</span>
+                </ng-template>
+              </p-column>
+              <p-column field="tglMasukKerjaMin" header="{{'frmMasterPegawaiSkAsuransi_tableTglMasukKerjaMin'| translate | splitCharT }}" [style]="{'width':'200px'}">
+                <ng-template pTemplate="body" let-StatusSK="rowData">
+                  <span *ngIf="StatusSK.tglMasukKerjaMin != null">{{StatusSK.tglMasukKerjaMin * 1000 | date:'dd MMM yyyy'}}</span>
+                  <span *ngIf="StatusSK.tglMasukKerjaMin == null">-</span>
+                </ng-template>
+              </p-column>
+              <p-column field="keteranganLainnya" header="{{'frmMasterPegawaiSkAsuransi_tableKeteranganLainnya'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="statusEnabled" header="{{'frmMasterPegawaiSkAsuransi_tableStatusEnabled'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                <ng-template let-col="rowData" pTemplate type="body">
+                  {{col.statusEnabled | truefalse | translate | splitCharT }}
+              </ng-template> 
+              </p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

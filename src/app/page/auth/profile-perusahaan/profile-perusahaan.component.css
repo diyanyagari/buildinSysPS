@@ -1,0 +1,29 @@
+.ui-inputgroup .ui-inputgroup-addon {
+    border: 1px solid #cfcfcf !important;
+    background-color: #aaa !important;
+}
+
+.bg-green {
+	color: #eee; float: left; position: absolute; top: 15%; background: rgba(10, 166, 153, 0.5);
+}
+
+.bg-solid-white {
+	color:'#eee !important';
+	border-bottom:'1px solid #eee';
+
+}
+
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: blue;
+    opacity: 0.3; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: blue;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: blue;
+    opacity: 0.3; 
+}

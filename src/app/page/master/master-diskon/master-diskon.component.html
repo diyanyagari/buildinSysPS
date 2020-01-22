@@ -1,0 +1,400 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<form [formGroup]="form" (ngSubmit)="onSubmit()">
+					<h1>{{'frmMasterDiskon_title'| translate | splitCharT }}</h1>
+					<div class="ui-g form-group">
+						<div class="ui-g-12 ui-md-12">
+							<div class="ui-g-12 ui-md-12">
+								<p-fieldset legend="">
+									<div class="ui-g form-group">
+										<div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+											<div class="ui-g-12 ui-md-9">
+												<label>{{'frmMasterDiskon_namaSK'| translate | splitCharT}}
+													<!-- <span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('noSK').valid && form.get('noSK').touched"
+														style="color: red;font-weight: bolder;">
+														{{'frmMasterDiskon_required'| translate | splitCharT}}</span> -->
+												</label>
+												<p-dropdown #filterSK formControlName="noSK"
+													(onChange)="ambilSK($event)" class="ui-inputwrapper-filled"
+													[options]="namaSK" [autoWidth]="false" [filter]="true"
+													filterBy="label">
+												</p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-3">
+												<br>
+												<button style="height: 25px; padding-top: 0px" pButton
+													(click)="getKelompokTransaksi()" type="button"
+													label="{{'frmMasterDiskon_buatSk'| translate | splitCharT }}"></button>
+											</div>
+										</div>
+										<div class="ui-g-12 ui-md-1"></div>
+										<div class="ui-g-12 ui-md-4" style="margin-left: -80px;">
+											<div class="ui-g form-group">
+												<div class="ui-g-12 ui-md-12">
+													<label>{{'frmMasterDiskon_tanggalBerlakuSk'| translate | splitCharT}}
+													</label>
+												</div>
+												<div style="width: 45%" class="ui-g-12 ui-md-4">
+													<app-calender dateFormat="dd M yy" [monthNavigator]="true"
+														[yearNavigator]="true" yearRange="2000:2030" [showIcon]="true"
+														[(ngModel)]="tglSKAwal" [ngModelOptions]="{standalone: true}"
+														[disabled]="true"></app-calender>
+												</div>
+												<div>
+													<label>-</label>
+												</div>
+												<div style="width: 45%" class="ui-g-12 ui-md-4">
+													<app-calender dateFormat="dd M yy" [monthNavigator]="true"
+														[yearNavigator]="true" yearRange="2000:2030" [showIcon]="true"
+														[(ngModel)]="tglSKAkhir" [ngModelOptions]="{standalone: true}"
+														[disabled]="true"></app-calender>
+												</div>
+											</div>
+										</div>
+										<div class="ui-g-12 ui-md-3" style="margin-top: 8px;">
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmMasterDiskon__nmrInternal'| translate | splitCharT}}
+												</label>
+												<input id="input" [(ngModel)]="noSKIn"
+													[ngModelOptions]="{standalone: true}" type="text" pInputText
+													disabled />
+											</div>
+										</div>
+									</div>
+								</p-fieldset>
+							</div>
+							<div class="ui-g-12 ui-md-7">
+								<p-fieldset legend="">
+									<div class="ui-g form-group">
+										<div class="ui-g-12 ui-md-4">
+											<label for="input">
+												{{'frmMasterDiskon_nmrKdDiskon'| translate | splitCharT }}
+												<span style="color: red;font-weight: bolder">*</span>
+												<span
+													*ngIf="!form.get('nomorKode').valid && form.get('nomorKode').touched"
+													style="color: red">
+													{{'frmMasterDiskon_required'| translate | splitCharT}}</span>
+											</label>
+											<input id="input" maxlength="15" type="text" formControlName="nomorKode"
+												pInputText />
+										</div>
+										<div class="ui-g-12 ui-md-2">
+											<label for="input">
+												{{'frmMasterDiskon_%diskon'| translate | splitCharT }}
+											</label>
+											<!-- <input id="input" maxlength="150" type="text"
+												formControlName="persenDiscount" pInputText /> -->
+
+											<p-spinner [disabled]="!persenDiskon" (keyup)="persenDis()" id="input"
+												formControlName="persenDiscount" [step]="0.1" thousandSeparator=","
+												decimalSeparator="." [min]="0" [max]="100"></p-spinner>
+										</div>
+										<div class="ui-g-12 ui-md-2">
+											<label for="input">
+												{{'frmMasterDiskon_hargaDiskon'| translate | splitCharT }}
+											</label>
+											<!-- <input id="input" maxlength="150" type="text"
+												formControlName="hargaDiscount" pInputText /> -->
+
+											<p-spinner [disabled]="!hargaDiskon" (keyup)="hargaDis()" id="input"
+												formControlName="hargaDiscount" [min]="0" [max]="hargaSatuanMin">
+											</p-spinner>
+										</div>
+										<div class="ui-g-12 ui-md-2">
+											<label for="input">
+												{{'frmMasterDiskon_qtyUseMax'| translate | splitCharT }}
+											</label>
+											<input id="input" maxlength="15" type="number" formControlName="qtyUseMax"
+												pInputText />
+										</div>
+										<div class="ui-g-12 ui-md-2">
+											<label
+												for="input">{{'frmMasterDiskon_rekanan'| translate | splitCharT }}</label>
+											<p-dropdown #filterRekanan class="ui-inputwrapper-filled" filter="filter"
+												[options]="listRekanan" [autoWidth]="false" formControlName="noKontak">
+											</p-dropdown>
+										</div>
+										<div class="ui-g-12 ui-md-3">
+											<label for="input">
+												{{'frmMasterDiskon_hargaSatuanMin'| translate | splitCharT }}
+											</label>
+											<!-- <input id="input" maxlength="150" type="text"
+												formControlName="hargaSatuanMin" pInputText /> -->
+
+											<p-spinner id="input" (keyup)="maxHargaDis()"
+												formControlName="hargaSatuanMin" [min]="0">
+											</p-spinner>
+										</div>
+										<div class="ui-g-12 ui-md-3">
+											<label for="input">
+												{{'frmMasterDiskon_HargaTtlMin'| translate | splitCharT }}
+											</label>
+											<!-- <input id="input" maxlength="150" type="text"
+												formControlName="hargaTotalMin" pInputText /> -->
+
+											<p-spinner id="input" formControlName="hargaTotalMin" [min]="0"></p-spinner>
+										</div>
+										<div class="ui-g-12 ui-md-2">
+											<label for="input">
+												{{'frmMasterDiskon_imgDiskon'| translate | splitCharT }}
+											</label>
+											<p-fileUpload mode="basic" class="ui-inputwrapper-filled"
+												(onUpload)="fileUpload($event)" accept="image/*" name="file"
+												maxFileSize="1000000" (onBeforeSend)="addHeader($event)" auto="auto"
+												[url]="urlUpload()" withCredentials="true"> </p-fileUpload>
+										</div>
+										<div class="ui-g-12 ui-md-2">
+											<br>
+											<input id="filePath" type="text" formControlName="fileImagePathFile"
+												[(ngModel)]="namaFile" disabled pInputText />
+										</div>
+										<div class="ui-g-12 ui-md-1">
+											<br>
+											<button *ngIf="namaFile!=''" style="height: 25px; padding-top: 0px" pButton
+												(click)="op1.toggle($event)" type="button"><i
+													class="fa fa-television"></i></button>
+											<button *ngIf="namaFile==''" style="height: 25px; padding-top: 0px" pButton
+												type="button"><i class="fa fa-television"></i></button>
+										</div>
+										<div class="ui-g-12 ui-md-1">
+											<br>
+											<p-checkbox binary="true"
+												label="{{'frmMisi_status'| translate | splitCharT}}"
+												formControlName="statusEnabled"></p-checkbox>
+											<span
+												*ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+												style="color: red">*</span>
+											<span
+												*ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+												style="color: red">{{'required'| translate | splitCharT}}</span>
+										</div>
+									</div>
+								</p-fieldset>
+								<p-overlayPanel [style]="{'width':'40px'}" #op1>
+									<!-- <img src="../../../../assets/layout/images/avatar3.png" alt="" /> -->
+									<img [src]="(smbrFile | imgsec) | async" height="175px" class="img-responsive" />
+								</p-overlayPanel>
+							</div>
+							<div class="ui-g-12 ui-md-5">
+								<p-fieldset legend="">
+									<div class="ui-g-12 ui-md-6">
+										<p-checkbox [(ngModel)]="blocked1" [ngModelOptions]="{standalone: true}"
+											(onChange)="checkDiskonBank($event)" binary="true"
+											label="{{'frmMisi_sttsDiskonBank'| translate | splitCharT}}"></p-checkbox>
+									</div>
+									<div style="padding: 0px;" class="ui-g-12 ui-md-6">
+										<button [disabled]="!blocked1" pButton type="button" icon="fa-plus"
+											(click)="tambahDiskonBank()" style="float:right;"></button>
+									</div>
+									<p-blockUI [target]="pnl1" [blocked]="!blocked1" [baseZIndex]=10
+										[autoZIndex]="false">
+										<i class="fa fa-lock fa-5x"
+											style="position:absolute;top:25%;left:50%;font-size: 25px;"></i>
+									</p-blockUI>
+									<div style="padding-top: 2.5%; padding-bottom: 20px;" class="ui-g-12 ui-md-12">
+										<p-dataTable #pnl1 [value]="listDiskonBank" [editable]="true">
+											<!-- <p-header>
+											<div class="ui-helper-clearfix">
+												<label
+													style="float:center;">{{'frmDokumen_pgwPemilikDokumen'| translate | splitCharT}}</label>
+												<button pButton type="button" icon="fa-plus"
+													(click)="tambahPegawaiPemilikDokumen()"
+													style="float:left;"></button>
+											</div>
+										</p-header> -->
+											<p-column [style]="{'width':'30px'}" field=""
+												header="{{'frmMasterDiskon_bankTableNo'| translate | splitCharT}}">
+												<ng-template pTemplate="body" let-i="rowIndex">
+													{{i+1}}
+												</ng-template>
+											</p-column>
+											<p-column field="kdDiskonBank"
+												header="{{'frmMasterDiskon_bankTableNama'| translate | splitCharT}}"
+												[editable]="true">
+												<ng-template let-col let-data="rowData" pTemplate="body">
+													{{data[col.field].namaBank}}
+												</ng-template>
+												<ng-template let-col let-data="rowData" let-i="rowIndex"
+													pTemplate="editor">
+													<p-dropdown #filterBank id="dropdown"
+														(onChange)="changeNoAkunBank(i, data.kdDiskonBank.noAkunBank)"
+														class="ui-inputwrapper-filled" [options]="listBank"
+														filter="filter" [(ngModel)]="data[col.field]"
+														[autoWidth]="false" [ngModelOptions]="{standalone: true}"
+														appendTo="body">
+													</p-dropdown>
+												</ng-template>
+											</p-column>
+											<p-column field="nmrAkunBank"
+												header="{{'frmMasterDiskon_bankTableNmr'| translate | splitCharT}}">
+												<ng-template let-col let-data="rowData" let-i="rowIndex"
+													pTemplate="body">
+													<div>
+														<input disabled type="text" pInputText
+															[(ngModel)]="data[col.field]"
+															[ngModelOptions]="{standalone: true}" appendTo="body"
+															placeholder=" " />
+													</div>
+												</ng-template>
+											</p-column>
+											<p-column [style]="{'width':'60px'}" field="sttsAktif"
+												header="{{'frmMasterDiskon_bankTableAktif'| translate | splitCharT}}"
+												[editable]="true">
+												<ng-template let-col let-data="rowData" pTemplate="body">
+													<!-- <div *ngIf="data[col.field]">Aktif</div>
+													<div *ngIf="!data[col.field]">Tidak Aktif</div> -->
+													<p-checkbox [(ngModel)]="data[col.field]"
+														[ngModelOptions]="{standalone: true}" binary="true">
+													</p-checkbox>
+												</ng-template>
+												<ng-template let-col let-data="rowData" let-i="rowIndex"
+													pTemplate="editor">
+													<p-checkbox [(ngModel)]="data[col.field]"
+														[ngModelOptions]="{standalone: true}" binary="true">
+													</p-checkbox>
+												</ng-template>
+											</p-column>
+											<p-column styleClass="col-button" [style]="{'width': '50px'}">
+												<ng-template pTemplate="header">
+												</ng-template>
+												<ng-template pTemplate type="body" let-col let-dokumen="rowData"
+													let-ri="rowIndex">
+													<button type="button" pButton (click)="hapusListBank(ri)"
+														icon="fa-trash"></button>
+												</ng-template>
+											</p-column>
+										</p-dataTable>
+									</div>
+								</p-fieldset>
+							</div>
+						</div>
+					</div>
+				</form>
+				<div class="ui-g-12">
+					<div class="ui-g-12 ui-md-7"></div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmMasterDiskon_btnBatal'| translate | splitCharT}}"
+							icon="fa-refresh" (click)="reset()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="submit" label="{{'frmMasterDiskon_btnSimpan'| translate | splitCharT}}"
+							icon="fa-save" (click)="onSubmit()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmMasterDiskon_btnHapus'| translate | splitCharT}}"
+							icon="fa-trash" (click)="confirmDelete()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmMasterDiskon_btnCetak'| translate | splitCharT}}"
+							icon="fa-print" (click)="cetak()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<p-splitButton label="{{'frmMasterDiskon_btnExport'| translate | splitCharT }}"
+							icon="fa-external-link" [model]="items"></p-splitButton>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-fluid">
+					<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+						[rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected"
+						(onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+						[totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" scrollable="true"
+						expandableRows="true">
+						<p-header>
+							<div class="ui-helper-clearfix">
+								<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+								<input type="text" pInputText size="50"
+									placeholder="{{'frmMasterDiskon_tablePencarian'| translate | splitCharT}}"
+									[(ngModel)]="pencarian" (keyup)="cari(1, 10, '')" style="width: 20%;float:right;">
+								<span
+									style="float: left;padding:0.3em;">{{'frmMasterDiskon_tableTitle'| translate | splitCharT}}</span>
+							</div>
+						</p-header>
+						<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+						<p-column [style]="{'width':'30px'}"
+							header="{{'frmMasterDiskon_tableNo'| translate | splitCharT }}">
+							<ng-template pTemplate="body" let-i="rowIndex">
+								{{i+1}}
+							</ng-template>
+						</p-column>
+						<p-column field="nomorKode"
+							header="{{'frmMasterDiskon_tableNmrKodeDiskon'| translate | splitCharT }}">
+						</p-column>
+						<p-column field="persenDiscount"
+							header="{{'frmMasterDiskon_tablePersen'| translate | splitCharT }}">
+						</p-column>
+						<p-column field="hargaDiscount"
+							header="{{'frmMasterDiskon_tableHargaDiskon'| translate | splitCharT }}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								<span>{{pick.hargaDiscount | currency:'IDR':'code'}}</span>
+							</ng-template>
+						</p-column>
+						<p-column field="qtyUseMax" header="{{'frmMasterDiskon_tableQtyMax'| translate | splitCharT }}">
+						</p-column>
+						<p-column field="namaKontak"
+							header="{{'frmMasterDiskon_tableRekanan'| translate | splitCharT }}">
+						</p-column>
+						<p-column field="hargaSatuanMin"
+							header="{{'frmMasterDiskon_tableHargaSMin'| translate | splitCharT }}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								<span>{{pick.hargaSatuanMin | currency:'IDR':'code'}}</span>
+							</ng-template>
+						</p-column>
+						<p-column field="hargaTotalMin"
+							header="{{'frmMasterDiskon_tableHargaTMin'| translate | splitCharT }}">
+							<ng-template let-pick="rowData" pTemplate type="body">
+								<span>{{pick.hargaSatuanMin | currency:'IDR':'code'}}</span>
+							</ng-template>
+						</p-column>
+						<p-column field="fileImagePathFile"
+							header="{{'frmMasterDiskon_tableImageDiskon'| translate | splitCharT }}">
+						</p-column>
+						<p-column field="namaSK" header="{{'frmMasterDiskon_tableNamaSK'| translate | splitCharT }}">
+						</p-column>
+						<p-column field="tglBerlakuAwalSk"
+							header="{{'frmMasterDiskon_tableTglBerlaku'| translate | splitCharT }}">
+							<ng-template pTemplate="body" let-col let-data="rowData">
+								<span>
+									{{data.tglBerlakuAwalSk | date:'dd/MM/yyyy'}} -
+									{{data.tglBerlakuAkhirSk | date:'dd/MM/yyyy'}}
+								</span>
+							</ng-template>
+						</p-column>
+						<p-column field="statusEnabled"
+							header="{{'frmMasterDiskon_tableAktif'| translate | splitCharT }}">
+							<ng-template let-col let-data="rowData" pTemplate="body">
+								<div *ngIf="data[col.field]">Aktif</div>
+								<div *ngIf="!data[col.field]">Tidak Aktif</div>
+							</ng-template>
+						</p-column>
+						<ng-template let-details pTemplate="rowexpansion">
+							<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+								<div class="ui-grid ui-grid-responsive ui-grid-pad">
+									<div class="ui-grid-col-12">
+										<table style="text-align: left;">
+											<tr>
+												<th>{{'frmMasterDiskon_tableNamaBank'| translate | splitCharT }}
+												</th>
+												<th>{{'frmMasterDiskon_tableNoAkunBank'| translate | splitCharT }}
+												</th>
+											</tr>
+											<tr *ngFor="let data of details.discountBankAccounts; let i = index">
+												<th style="font-weight: lighter;">
+													{{details.discountBankAccounts[i].namaBank}}</th>
+												<th style="font-weight: lighter;">
+													{{details.discountBankAccounts[i].noAkunBank}}</th>
+											</tr>
+										</table>
+									</div>
+								</div>
+							</div>
+						</ng-template>
+					</p-dataTable>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

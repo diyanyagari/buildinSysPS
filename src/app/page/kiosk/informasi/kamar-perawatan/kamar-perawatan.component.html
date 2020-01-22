@@ -1,0 +1,51 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img
+          src="../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <h2>Informasi - Kamar Perawatan</h2>
+      </div>
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/power-button.svg" (click)="logout($event)" alt="logout">
+      </div>
+    </div>
+  </div>
+  <div class="container-grid">
+    <div class="main-content">
+      <div style="padding: 20px;">
+        <img class="image-content" src="../../../../../assets/layout/images/kiosk/icon-kamar-perawatan-available.png" [routerLink]="['/kiosk/informasi/ketersediaan-kamar']" style="width: 120px;height: 100px;">
+        <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/ketersediaan-kamar']">Ketersediaan</a>
+      </div>
+      <div>
+        <img class="image-content" src="../../../../../assets/layout/images/kiosk/icon-kamar-perawatan-1.png" [routerLink]="['/kiosk/informasi/']" style="width: 120px;height: 100px;background: #81bee8;">
+        <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/']">Kelas I</a>
+      </div>
+      <div>
+        <img class="image-content" src="../../../../../assets/layout/images/kiosk/icon-kamar-perawatan-2.png" [routerLink]="['/kiosk/informasi/']" style="width: 120px;height: 100px;background: #f05470;">
+        <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/']">Kelas II</a>
+      </div>
+      <div>
+        <img class="image-content" src="../../../../../assets/layout/images/kiosk/icon-kamar-perawatan-3.png" [routerLink]="['/kiosk/informasi/']" style="width: 120px;height: 100px;background: #6fc386;">
+        <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/']">Kelas III</a>
+      </div>
+      <div>
+        <img class="image-content" src="../../../../../assets/layout/images/kiosk/icon-kamar-perawatan-vip.png" [routerLink]="['/kiosk/informasi/']" style="width: 120px;height: 100px;background: #79797a;">
+        <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/']">Kelas VIP</a>
+      </div>
+    </div>
+  </div>
+  <div class="informasi-action" style="margin-top: 100px;">
+    <hr>
+    <div class="container">
+      <button class="btn-subscribe bg-violet"
+        [routerLink]="['/kiosk/informasi']">Kembali</button>
+    </div>
+  </div>
+</div>

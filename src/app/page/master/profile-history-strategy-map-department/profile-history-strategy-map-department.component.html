@@ -1,0 +1,111 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>Master {{'frmProfileHistoryStrategyMapDept_title' | translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-12 ui-md-2">
+						<label>{{'frmProfileHistoryStrategyMap_periodeAwal' | translate | splitCharT }}</label>
+						<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAwal" [showIcon]="true"
+						 dateFormat="dd M yy"></app-calender>
+					</div>
+					<div>
+						<br>
+						<label>-</label>
+					</div>
+					<div class="ui-g-12 ui-md-2">
+						<label>{{'frmProfileHistoryStrategyMap_periodeAkhir' | translate | splitCharT }}</label>
+						<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="tanggalAkhir" [showIcon]="true"
+						 dateFormat="dd M yy"></app-calender>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+						<br>
+						<button pButton type="button" icon="fa-search" (click)="cari()"></button>
+						<button pButton type="button" icon="fa-refresh" (click)="getAllProfileHistoryStrategyMapD()"></button>
+					</div>
+					<div class="ui-g-12">
+						<div class="ui-g-2">
+							<label>{{'departemen'| translate | splitCharT}}
+								<p-dropdown [(ngModel)]="pilihDepartmen" [options]="listDepartemen" [autoWidth]="false" [filter]="true" filterBy="label"
+								 placeholder="{{'departemen'| translate | splitCharT}}"></p-dropdown>
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="ui-g-2">
+					<p-listbox [options]="menuStrategyPerspectiveForMenu" [(ngModel)]="selectedPerspectiveForMenu" (click)="getProfileHistoryStrategyMapByPerspective()">
+						<p-header>
+							{{'frmProfileHistoryStrategyMapDept_perspective'| translate | splitCharT}}
+						</p-header>
+					</p-listbox>
+				</div>
+				<div class="ui-g-10">
+					<div class="card card-w-title">
+						<div class="ui-g-12">
+							<div class="ui-g-3 box-perspective" *ngFor="let data of dataProfileHistoryStrategyMap" style="margin: .5em">
+								<div class="content-box">
+									{{data.namaStrategy}}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ui-g-12 ui-md-1 ui-md-offset-9">
+					<button pButton type="button" label="{{'frmProfileHistoryStrategyMap_tambah'| translate | splitCharT}}" icon="fa-plus" (click)="showDialog()"></button>
+				</div>
+				<p-dialog header="{{'frmProfileHistoryStrategyMap_createSasaranKerjaStrategisDept' | translate | splitCharT }}" [(visible)]="displayDialogCreate"
+				 [modal]="true" [responsive]="true" [width]="1000" [minWidth]="500" [autoZIndex]="true">
+					<div class="card card-w-title">
+						<div class="ui-g form-group">
+							<div class="ui-g-12 ui-md-2">
+								<label>{{'frmProfileHistoryStrategyMap_periodeAwal' | translate | splitCharT }}</label>
+								<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="inputTanggalAwal" [showIcon]="true"
+								 dateFormat="dd M yy"></app-calender>
+							</div>
+							<div>
+								<br>
+								<label>-</label>
+							</div>
+							<div class="ui-g-12 ui-md-2">
+								<label>{{'frmProfileHistoryStrategyMap_periodeAkhir' | translate | splitCharT }}</label>
+								<app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030" [(ngModel)]="inputTanggalAkhir" [showIcon]="true"
+								 dateFormat="dd M yy"></app-calender>
+							</div>
+							<div class="ui-g-12">
+								<div class="ui-g-2">
+									<p-dropdown [(ngModel)]="pilihDepartmenDialog" [options]="listDepartemen" [autoWidth]="false" [filter]="true" filterBy="label"
+									 placeholder="{{'departemen'| translate | splitCharT}}"></p-dropdown>
+								</div>
+							</div>
+						</div>
+						<div class="ui-g-3">
+							<p-listbox [options]="menuStrategyPerspectiveForMenu" [(ngModel)]="selectedPerspectiveForDialog" (click)="getProfileHistoryStrategyMapByPerspectiveForDialog()">
+								<p-header>
+									{{'frmProfileHistoryStrategyMap_perspective'| translate | splitCharT}}
+								</p-header>
+							</p-listbox>
+						</div>
+						<div class="ui-g-9">
+							<p-dataTable [value]="dataProfileHistoryStrategyMapForDialog" [rows]="10" [(selection)]="selectedNamaStrategy" [paginator]="true"
+							 [pageLinks]="3" [editable]="true" scrollable="true" [headerCheckboxToggleAllPages]="true">
+								<!-- p-column dibawah untuk menampilkan header checkbox -->
+								<p-column [style]="{'width':'38px','text-align':'center'}" selectionMode="multiple"></p-column>
+								<p-column field="namaStrategy" header="{{'frmProfileHistoryStrategyMap_listNamaStrategy' | translate | splitCharT }}">
+									<ng-template pTemplate="body" let-data="rowData">
+										{{data.namaStrategy}}
+									</ng-template>
+								</p-column>
+							</p-dataTable>
+						</div>
+					</div>
+					<p-footer>
+						<button pButton type="button" label="{{'frmProfileHistoryStrategyMap_simpan' | translate | splitCharT  }}" icon="fa-save" (click)="simpanData()"></button>
+						<button pButton type="button" label="{{'frmProfileHistoryStrategyMap_batal' | translate | splitCharT  }}" icon="fa-close" (click)="closeDialog()"></button>
+					</p-footer>
+				</p-dialog>
+			</div>
+		</div>
+	</div>
+</div>

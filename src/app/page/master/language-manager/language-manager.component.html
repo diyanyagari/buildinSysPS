@@ -1,0 +1,283 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+				<p-dialog header="{{'frmLanguageManager_title' | translate | splitCharT }}" [(visible)]="konfirmasiDialog"
+					modal="modal" width="425" [responsive]="true">
+					<form style="width: 100%;" [formGroup]="form">
+
+						<div class="ui-g form-group">
+							<div class="ui-g-12 ui-md-6">
+								<label for="input">{{'Version Lama' | translate | splitCharT}}
+								</label>
+								<input id="input" type="text" formControlName="versionLama" pInputText />
+							</div>
+							<div class="ui-g-12 ui-md-6">
+								<label for="input">{{'Version Baru' | translate | splitCharT}}
+								</label>
+								<input id="input" type="text" formControlName="versionBaru" pInputText />
+							</div>
+						</div>
+					</form>
+					<p-footer>
+						<button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"
+							(click)="simpan()"></button>
+					</p-footer>
+				</p-dialog>
+				<h1>{{'frmLanguageManager_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<form style="width: 100%;" [formGroup]="form">
+						<div class="ui-g form-group">
+							<div class="ui-g-12 ui-md-12 ui-lg-2 ui-g-nopad">
+								<p-fieldset legend="{{'frmLanguageManager_title' | translate | splitCharT }}">
+									<div class="ui-g form-group">
+											<div class="ui-g-12 ui-md-12 ui-lg-12">
+												<!-- {{'frmProfileKonfigurasiDesign_Profile'| translate | splitCharT}} -->
+													<label>{{'frmLanguageManager_Profile'|translate|splitCharT }}
+														<span style="color: red;font-weight: bolder;">*</span>
+														<span
+															*ngIf="!form.get('kdProfile').valid && form.get('kdProfile').touched"
+															style="color: red"> {{'required'| translate | splitCharT}}</span>
+													</label>
+													<p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+														formControlName="kdProfile" [options]="listDropdownProfile"
+														[autoWidth]="false"></p-dropdown>
+												</div>
+										<div class="ui-g-12 ui-md-12">
+											<label for="input">{{'frmLanguageManager_bahasa' | translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span
+													*ngIf="!form.get('kdBahasa').valid && form.get('kdBahasa').touched"
+													style="color: red">{{'required'| translate | splitCharT}}</span>
+											</label>
+											<p-dropdown id="dropdown" (onChange)="getList()" formControlName="kdBahasa"
+												filter="filter" class="ui-inputwrapper-filled" [autoWidth]="false"
+												[options]="listBahasa"></p-dropdown>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label for="input">{{'frmLanguageManager_mdlAplikasi' | translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span
+													*ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched"
+													style="color: red">{{'required'| translate | splitCharT}}</span>
+											</label>
+											<p-dropdown #dd id="dropdown" formControlName="kdModulAplikasi"
+												filter="filter" (click)="clearFilter(dd)" class="ui-inputwrapper-filled"
+												[autoWidth]="false" [options]="listMdlAplikasi"
+												>
+												<!-- (onChange)="getListVersion()" -->
+											</p-dropdown>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label for="input">{{'frmLanguageManager_version' | translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<!-- <span *ngIf="!form.get('version').valid && form.get('version').touched"
+													style="color: red">{{'required'| translate | splitCharT}}</span> -->
+											</label>
+											<div class="ui-g-12 ui-md-12"
+                        style="border: 1px solid #cfcfcf; width: 100%;height: 24px;background: #ffffff;padding: 0em;">
+                        <div class="ui-g-12 ui-md-10" (click)="openDropdown()" style="cursor: pointer;
+                        overflow: hidden;
+                        height: 23px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;" *ngIf="selectedVersion != null">
+                          <label>{{selectedVersion}}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-10" (click)="openDropdown()" style="cursor: pointer;
+                        overflow: hidden;
+                        height: 23px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;" *ngIf="selectedVersion == null">
+                          <label>{{'-- Pilih Version --' | translate | splitCharT }}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-2" style="text-align: right" style="cursor: pointer;"
+                          (click)="openDropdown()">
+                          <span class="ui-clickable fa fa-fw fa-caret-down" ng-reflect-klass="ui-clickable"
+                            ng-reflect-ng-class="fa fa-fw fa-caret-down"></span>
+                        </div>
+                        <div class="ui-g-12 ui-md-12"
+                          style="z-index: 1;border:1px solid #cfcfcf; width: 12vw;background: #ffffff;display: none;position: relative; margin: 1.368px 1.4px 1.4px -1px;max-height: 20vh;overflow-y: scroll;"
+                          id="dropdownTree" appendTo="body">
+                          <p-tree  [style]="{'border':'0px','background': '#ffffff'}" [value]="listVersion"
+                            selectionMode="single" [(selection)]="selectedFiles" (onNodeSelect)="nodeSelect($event)"
+                            (onNodeUnselect)="nodeUnselect($event)">
+                          </p-tree>
+                        </div>
+                      </div>
+											<!-- <p-dropdown #dd id="dropdown" (onChange)="getList()"
+												formControlName="version" filter="filter" (click)="clearFilter(dd)"
+												class="ui-inputwrapper-filled" [autoWidth]="false"
+												[options]="listDropdownVersion">
+											</p-dropdown> -->
+										</div>
+									</div>
+								</p-fieldset>
+							</div>
+
+							<div class="ui-g-12 ui-md-12 ui-lg-10">
+								<div class="ui-g form-group">
+									<p-fieldset legend="{{'frmLanguageManager_menu' | translate | splitCharT }}">
+										<!-- {{listData[0].data.labelHead}} -->
+										<!-- <label for="input">{{'frmMapRuanganToJurusan_titleLabel' | translate | splitCharT}}</label> -->
+										<div class="ui-helper-clearfix">
+											<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+											<input style="width: 20%;float:right;" type="text" [(ngModel)]="pencarian"
+												[ngModelOptions]="{standalone: true}" placeholder="Master Search"
+												(keyup)="globalFilter($event.target.value)">
+										</div>
+										<p-dataTable [value]="listData" (onLazyLoad)="loadPage($event)" [rows]="5"
+											[paginator]="true" [pageLinks]="3" loadingIcon="fa-spinner"
+											[totalRecords]="totalRecords" expandableRows="true"
+											(onPage)="loadPage($event)" [headerCheckboxToggleAllPages]="true"
+											[(selection)]="selectedMenu">
+											<p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+											<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"
+												#dt>
+											</p-column>
+											<p-column field="data.labelHead">
+												<!-- <ng-template let-col="rowData" let-i="rowIndex" pTemplate type="body">
+												{{data.labelHead}}
+											</ng-template> -->
+											</p-column>
+											<ng-template let-anggaran pTemplate="rowexpansion" expanded="true"
+												let-ri="rowIndex">
+												<p-dataTable [value]="listData[ri+first].children" [rows]="5"
+													[paginator]="true" [pageLinks]="3" [editable]="true"
+													scrollable="true">
+													<p-column field="data.labelHead" [style]="{'width':'60px'}"
+														header="Component">
+													</p-column>
+													<p-column [editable]="true" field="data.valueOLD" [style]="{'width':'60px'}"
+														header="Default">
+													</p-column>
+													<p-column [style]="{'width':'60px'}" header="User">
+																<ng-template let-col let-data="rowData" pTemplate="body" let-i="rowIndex">
+																		<div>
+																				<input type="text" pInputText
+																					[(ngModel)]="data[col.field]"
+																					[ngModelOptions]="{standalone: true}"
+																					[placeholder]="listData[ri+first].children[i].data.valueUser"
+																					(input)="changeValue(ri+first,i,data,data[col.field])"
+																					appendTo="body" />
+																			</div>
+																</ng-template>
+													
+													</p-column>
+												</p-dataTable>
+											</ng-template>
+										</p-dataTable>
+									</p-fieldset>
+								</div>
+							</div>
+							<div class='ui-g-12 ui-md-12'>
+									<div style="float: right" class="ui-g-12 ui-md-2">
+										<p-fileUpload mode="basic" (onUpload)="jsonUpload($event)" accept=".json"
+											name="file" maxFileSize="1000000" (onBeforeSend)="addHeader($event)" auto="true"
+											[url]="urlUpload()" chooseLabel="import json file" withCredentials="true">
+										</p-fileUpload>
+									</div>
+									<div style="float: right" class="ui-g-12 ui-md-1">
+										<button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"
+											(click)="onSubmit()"></button>
+									</div>
+									<div style="float: right" class="ui-g-12 ui-md-1">
+										<button pButton type="submit" label="{{'Export'| translate | splitCharT}}" icon="fa-download"
+											(click)="exportToFile()"></button>
+									</div>
+								</div>
+							
+							
+							<div class="ui-g-12 ui-md-12">
+								<div class="ui-g form-group">
+									<p-fieldset legend="{{'frmLanguageManager_regMenuBaru' | translate | splitCharT }}">
+										<div class="ui-g-12 ui-md-4">
+											<label for="input">{{'frmLanguageManager_namaForm' | translate | splitCharT}}
+											</label>
+											<input id="input" type="text" formControlName="namaFormKomponen" pInputText />
+										</div>
+										<div class="ui-g-12 ui-md-4">
+											<label for="input">{{'frmLanguageManager_namaFormDefault' | translate | splitCharT}}
+											</label>
+											<input id="input" type="text" formControlName="namaFormDefault" pInputText />
+										</div>
+										<div class="ui-g-12 ui-md-4">
+											<label for="input">{{'frmLanguageManager_namaFormUser' | translate | splitCharT}}
+											</label>
+											<input id="input" type="text" formControlName="namaFormUser" pInputText />
+										</div>
+										
+										<div class="ui-g-12 ui-md-10">
+											<p-dataTable [value]="dataRegForm" [rows]="5" [rowsPerPageOptions]="[5,10,20]" [paginator]="true" [pageLinks]="3" [editable]="true">
+												<p-header>
+													<div class="ui-helper-clearfix">
+														<button pButton type="button" icon="fa-plus" (click)="tambahNamaBaru()" style="float:left;"></button>
+													</div>
+												</p-header>
+												<p-column field="nomor" header="{{'No'| translate | splitCharT }}" [style]="{'width':'40px'}">
+													<ng-template pTemplate="body" let-i="rowIndex">
+														{{i+1}}
+													</ng-template>
+												</p-column>
+												<p-column [editable]="true" field="komponen" header="{{'frmLanguageManager_tblKomponen'| translate | splitCharT}}" [style]="{'width':'60px'}">
+														<ng-template let-col let-data="rowData" pTemplate="body">
+																<span *ngIf="data.komponen != null ">
+																		{{data.komponen}}
+																	</span>
+																	<span *ngIf="data.komponen == null ">
+																		{{'--input--'}}
+																	</span>
+															</ng-template>
+												</p-column>
+												<p-column [editable]="true" field="default" header="{{'frmLanguageManager_tblDefault'| translate | splitCharT}}" [style]="{'width':'60px'}">
+														<ng-template let-col let-data="rowData" pTemplate="body">
+																<span *ngIf="data.default == null ">
+																	{{'--input--'}}
+																</span>
+																<span *ngIf="data.default != null ">
+																		{{data.default}}
+																	</span>
+														</ng-template>
+												</p-column>
+												<p-column [editable]="true" field="user" header="{{'frmLanguageManager_tblUser'| translate | splitCharT}}" [style]="{'width':'60px'}">
+														<ng-template let-col let-data="rowData" pTemplate="body">
+																<span *ngIf="data.user == null ">
+																	{{'--input--'}}
+																</span>
+																<span *ngIf="data.user != null ">
+																		{{data.user}}
+																	</span>
+																
+														</ng-template>
+												</p-column>
+												<p-column styleClass="col-button" [style]="{'width':'40px'}">
+														<ng-template pTemplate="header"></ng-template>
+														<ng-template pTemplate type="body" let-col let-kpi="rowData" let-ri="rowIndex">
+															<button type="button" pButton (click)="hapusBaru(ri)" icon="fa-trash"></button>
+														</ng-template>
+												</p-column>
+											</p-dataTable>
+										</div>
+										<div class="ui-g-12 ui-md-2">
+												<div class="ui-g-12 ui-md-12">
+													<button pButton type="button" label="{{'frmLanguageManager_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="simpanReg()"></button>
+												</div>
+												<div class="ui-g-12 ui-md-12">
+													<button pButton type="button" label="{{'frmLanguageManager_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="resetReg()"></button>
+												</div>
+										</div>
+									</p-fieldset>
+								</div>	
+							</div>
+							
+
+
+							
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

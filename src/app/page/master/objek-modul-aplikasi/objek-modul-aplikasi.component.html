@@ -1,0 +1,233 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmMasterObjekModulAplikasi_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<form [formGroup]="form" (ngSubmit) = "onSubmit()">
+						<div class="ui-g form-group">
+							<div class="ui-g-12">
+								<div class="ui-g-4">
+									<div class="ui-g-12 ui-md-11" hidden>
+										<label for="input" hidden>{{'frmMasterObjekModulAplikasi_kode'| translate | splitCharT }}</label>
+										<input hidden type="text" pTooltip="kode" tooltipPosition="top" placeholder="kode" formControlName="kode" pInputText readonly="true"
+										/>
+									</div>
+									<!-- <div class="ui-g-12 ui-md-11" hidden>
+										<label for="input" hidden>{{'version'| translate | splitCharT }}</label>
+										<input hidden type="text" pTooltip="version" tooltipPosition="top" placeholder="version" formControlName="version" pInputText readonly="true"
+										/>
+									</div> -->
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterObjekModulAplikasi_parentObjekModulAplikasi'| translate | splitCharT }}
+										</label>
+										<p-dropdown (onChange)="getTree($event)" filter="filter" filterBy="label" id="dropdownModulAplikasi" formControlName="kdObjekModulAplikasiHead" [options]="listObjekModulAplikasiHead"  [autoWidth]="false"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterObjekModulAplikasi_namaObjekModulAplikasi'| translate | splitCharT }}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span *ngIf="!form.get('namaObjekModulAplikasi').valid && form.get('namaObjekModulAplikasi').touched" style="color: red"> {{'frmMasterObjekModulAplikasi_isRequired'| translate | splitCharT}}.</span>
+										</label>						
+										<input id="input" type="text" formControlName="namaObjekModulAplikasi" maxlength="200" (keyup)="setReportDisplay()" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterObjekModulAplikasi_alamatUrl'| translate | splitCharT }}
+										</label>						
+										<input id="input" type="text" formControlName="alamatURLFormObjek" maxlength="500" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterObjekModulAplikasi_contohDataObjek'| translate | splitCharT }}
+										</label>
+										<input id="input" type="text" formControlName="cthDataObjek" maxlength="300" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterObjekModulAplikasi_deskripsiObjek'| translate | splitCharT }}
+										</label>
+										<input id="input" type="text" formControlName="deskripsiObjek" maxlength="500" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterObjekModulAplikasi_fungsiObjek'| translate | splitCharT }}
+										</label>
+										<input id="input" type="text" formControlName="fungsiObjek" maxlength="500" pInputText/>
+									</div>
+								</div>
+								<div class="ui-g-4">							
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterObjekModulAplikasi_kdKelompokTransaksi'| translate | splitCharT }}
+										</label>
+										<p-dropdown id="dropdownModulAplikasi" formControlName="kdKelompokTransaksi" [options]="listKelompokTransaksi"  [autoWidth]="false"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<label for="input">{{'frmMasterObjekModulAplikasi_kdTypeDataObjek'| translate | splitCharT }}
+										</label>
+										<p-dropdown id="dropdownModulAplikasi" formControlName="kdTypeDataObjek" [options]="listTypeDataObjek"  [autoWidth]="false"></p-dropdown>
+									</div>
+									<div class="ui-g-12 ui-md-4">
+										<label for="input">{{'frmMasterObjekModulAplikasi_lengthObjek'| translate | splitCharT }}
+										</label>
+										<input id="input" type="number" formControlName="lengthObjek" pInputText/>
+									</div> 
+									<div class="ui-g-12 ui-md-4">
+										<label for="input">{{'frmMasterObjekModulAplikasi_precisionObjek'| translate | splitCharT }}
+										</label>
+										<input id="input" type="number" formControlName="precisionObjek" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-3">
+										<label for="input">{{'frmMasterObjekModulAplikasi_noUrut'| translate | splitCharT }}
+										</label>
+										<input id="input" type="number" formControlName="noUrutObjek" pInputText/>
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<div class="ui-g-6">
+											<div class="ui-g-12 ui-md-10">
+												<p-checkbox binary="true" label="{{'frmMasterObjekModulAplikasi_isObjekFK'| translate | splitCharT}}" formControlName="isObjekFK"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<p-checkbox binary="true" label="{{'frmMasterObjekModulAplikasi_isObjekFKPK'| translate | splitCharT}}" formControlName="isObjekFKPK"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<p-checkbox binary="true" label="{{'frmMasterObjekModulAplikasi_isMenu'| translate | splitCharT}}" formControlName="isMenu"></p-checkbox>
+											</div>
+										</div>
+										<div class="ui-g-6">
+											<div class="ui-g-12 ui-md-10">
+												<p-checkbox binary="true" label="{{'frmMasterObjekModulAplikasi_isObjekNullable'| translate | splitCharT}}" formControlName="isObjekNullable"></p-checkbox>
+											</div>
+											<div class="ui-g-12 ui-md-10">
+												<p-checkbox binary="true" label="{{'frmMasterObjekModulAplikasi_isObjekPK'| translate | splitCharT}}" formControlName="isObjekPK"></p-checkbox>
+											</div>
+										</div>
+									</div>
+									<div class="ui-g-12 ui-md-11">
+										<p-checkbox binary="true" label="{{'frmMasterObjekModulAplikasi_statusEnabled'| translate | splitCharT}}" formControlName="statusEnabled"></p-checkbox>
+										<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+										<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'frmMasterObjekModulAplikasi_required'| translate | splitCharT}}</span>
+									</div>
+								</div>
+								<div class="ui-g-4">
+									<p-fieldset legend="Optional" [toggleable]="true" [collapsed]="true">
+										<form [formGroup]="form" (ngSubmit)="onSubmit()">
+											<div class="ui-g-12 ui-md-11">
+												<label for="input">{{'frmMasterObjekModulAplikasi_reportDisplay'| translate | splitCharT }}
+													<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">*</span>
+													<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red"> {{'frmMasterObjekModulAplikasi_required'| translate | splitCharT}}</span>
+												</label>
+												<input id="input" type="text" formControlName="reportDisplay" [(ngModel)]="report" (keyup)="setReportDisplay()" pInputText
+												/>
+											</div>
+										</form>
+									</p-fieldset>
+									<div class="treeD">
+										<!-- <label>{{'frmObjekModulAplikasi_dataTree'| translate | splitCharT}}</label> -->
+										<p-tree [value]="objekModulTree" selectionMode="single" [(selection)]="selectedObjek" (onNodeSelect)="nodeSelect($event)">
+										</p-tree>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="ui-g-12">
+						<div class="ui-g-12 ui-md-7"></div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmMasterObjekModulAplikasi_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="submit" label="{{'frmMasterObjekModulAplikasi_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmMasterObjekModulAplikasi_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+						<button pButton type="button" label="{{'frmMasterObjekModulAplikasi_btnCetak' | translate | splitCharT }}" icon="fa-print" (click)="cetak()"></button>
+					</div>
+					<div class="ui-g-12 ui-md-1">
+							<p-splitButton label="{{'frmMasterObjekModulAplikasi_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+						<!-- <button pButton type="button" label="{{'export' | translate | splitCharT }}" icon="fa-external-link"></button> -->
+					</div>
+					</div>
+
+					<div class="ui-g-12 ui-fluid">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" scrollable="true" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50" placeholder="{{'frmMasterObjekModulAplikasi_pencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+									style="width: 20%;float:right;">
+									<span style="float: left;padding:0.3em;">{{'frmMasterObjekModulAplikasi_objekModulAplikasi'| translate | splitCharT}}</span>
+								</div>
+							</p-header>
+							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column>
+							<p-column field="namaObjekModulAplikasi" header="{{'frmMasterObjekModulAplikasi_tblNamaObjekModulAplikasi'| translate | splitCharT }}" [style]="{'width':'200px'}" ></p-column>
+							<p-column field="namaObjekModulAplikasiHead" header="{{'frmMasterObjekModulAplikasi_tblNamaObjekModulAplikasiHead'| translate | splitCharT }}" [style]="{'width':'200px'}" ></p-column>
+							<p-column field="alamatURLFormObjek" header="{{'frmMasterObjekModulAplikasi_tblAlamatURLFormObjek'| translate | splitCharT }}" [style]="{'width':'200px'}" ></p-column>
+							<p-column field="cthDataObjek" header="{{'frmMasterObjekModulAplikasi_tblCthDataObjek'| translate | splitCharT }}" [style]="{'width':'200px'}" ></p-column>
+							<p-column field="deskripsiObjek" header="{{'frmMasterObjekModulAplikasi_tblDeskripsiObjek'| translate | splitCharT }}" [style]="{'width':'200px'}" ></p-column>
+							<p-column field="fungsiObjek" header="{{'frmMasterObjekModulAplikasi_tblFungsiObjek'| translate | splitCharT }}" [style]="{'width':'200px'}" ></p-column>
+							<p-column field="namaKelompokTransaksi" header="{{'frmMasterObjekModulAplikasi_tblNamaKelompokTransaksi'| translate | splitCharT }}" [style]="{'width':'200px'}" ></p-column>
+							<p-column field="namaTypeDataObjek" header="{{'frmMasterObjekModulAplikasi_tblNamaTypeDataObjek'| translate | splitCharT }}" [style]="{'width':'200px'}" ></p-column>
+							<p-column field="lengthObjek" header="lengthObjek" [style]="{'width':'150px'}" ></p-column>
+							<p-column field="precisionObjek" header="{{'frmMasterObjekModulAplikasi_tblPrecisionObjek'| translate | splitCharT }}" [style]="{'width':'150px'}" ></p-column>
+							<p-column field="noUrutObjek" header="{{'frmMasterObjekModulAplikasi_tblNoUrutObjek'| translate | splitCharT }}" [style]="{'width':'150px'}" ></p-column>
+							<p-column field="isObjekFK" header="{{'frmMasterObjekModulAplikasi_tblIsObjekFK'| translate | splitCharT }}" [style]="{'width':'70px'}" >
+								<ng-template let-data="rowData" pTemplate="body">
+									<span *ngIf="data.isObjekFK ==1">{{'frmMasterObjekModulAplikasi_Ya'| translate | splitCharT}}</span>
+									<span *ngIf="data.isObjekFK ==0">{{'frmMasterObjekModulAplikasi_tidak'| translate | splitCharT}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="isObjekFKPK" header="{{'frmMasterObjekModulAplikasi_tblIsObjekFKPK'| translate | splitCharT }}" [style]="{'width':'70px'}" >
+								<ng-template let-data="rowData" pTemplate="body">
+									<span *ngIf="data.isObjekFKPK ==1">{{'frmMasterObjekModulAplikasi_Ya'| translate | splitCharT}}</span>
+									<span *ngIf="data.isObjekFKPK ==0">{{'frmMasterObjekModulAplikasi_tidak'| translate | splitCharT}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="isObjekNullable" header="{{'frmMasterObjekModulAplikasi_tblIsObjekNullable'| translate | splitCharT }}" [style]="{'width':'70px'}" >
+								<ng-template let-data="rowData" pTemplate="body">
+									<span *ngIf="data.isObjekNullable ==1">{{'frmMasterObjekModulAplikasi_Ya'| translate | splitCharT}}</span>
+									<span *ngIf="data.isObjekNullable ==0">{{'frmMasterObjekModulAplikasi_tidak'| translate | splitCharT}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="isObjekPK" header="{{'frmMasterObjekModulAplikasi_tblIsObjekPK'| translate | splitCharT }}" [style]="{'width':'70px'}" >
+								<ng-template let-data="rowData" pTemplate="body">
+									<span *ngIf="data.isObjekPK ==1">{{'frmMasterObjekModulAplikasi_Ya'| translate | splitCharT}}</span>
+									<span *ngIf="data.isObjekPK ==0">{{'frmMasterObjekModulAplikasi_tidak'| translate | splitCharT}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="isMenu" header="{{'frmMasterObjekModulAplikasi_tblIsMenu'| translate | splitCharT }}" [style]="{'width':'70px'}" >
+								<ng-template let-data="rowData" pTemplate="body">
+									<span *ngIf="data.isMenu ==1">{{'frmMasterObjekModulAplikasi_Ya'| translate | splitCharT}}</span>
+									<span *ngIf="data.isMenu ==0">{{'frmMasterObjekModulAplikasi_tidak'| translate | splitCharT}}</span>
+								</ng-template>
+							</p-column>
+							<p-column field="statusEnabled" header="{{'frmMasterObjekModulAplikasi_tblStatusEnabled'| translate | splitCharT }}" [style]="{'width':'150px'}" >
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template> 
+							</p-column>
+							<ng-template let-objek pTemplate="rowexpansion">
+								<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+										<div class="ui-grid-col-12">
+											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+												<div class="ui-grid-row">
+													<div class="ui-grid-col-2 label">
+														<span style="color:black">{{ 'frmMasterObjekModulAplikasi_optional' | translate | splitCharT }}</span>
+													</div>
+												</div>
+												<hr>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmMasterObjekModulAplikasi_reportDisplay'| translate | splitCharT }} </div>
+													<div class="ui-grid-col-4"> {{reportDisplay}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

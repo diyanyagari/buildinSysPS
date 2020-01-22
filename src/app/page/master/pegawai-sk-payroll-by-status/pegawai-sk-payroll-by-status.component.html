@@ -1,0 +1,392 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmPegawaiSKPayrollbyStatus_title' | translate | splitCharT }}</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-12">
+                <p-fieldset legend="">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+                      <div class="ui-g-12 ui-md-8">
+                        <label>{{'frmPegawaiSKPayrollbyStatus_namaSK'| translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'frmPegawaiSKPayrollbyStatus_required'| translate | splitCharT}}</span>
+                        </label>
+                        <p-dropdown formControlName="namaSk" (onChange)="ambilSK($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+                        [filter]="true" filterBy="label"></p-dropdown>
+                      </div>
+                      <div class="ui-g-12 ui-md-3">
+                        <br/>
+                        <button pButton type="button" (click)="getKelompokTransaksi()" label="{{'frmPegawaiSKPayrollbyStatus_buatSk'| translate | splitCharT }}"></button>
+                      </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-3" style="margin-top: 9px;">
+                      <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-7">
+                          <label>{{'frmPegawaiSKPayrollbyStatus_noSK'| translate | splitCharT }}</label>
+                          <input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-4" style="margin-top: 6px; margin-left: -90px;">
+                      <div class="ui-g form-group">
+                        <div class="ui-g-12 ui-md-10">
+                          <label>{{'frmPegawaiSKPayrollbyStatus_periodeBerlakuSk'| translate | splitCharT}}
+                          </label>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                          <!-- <label>{{'frmPegawaiSKPayrollbyStatus_tglBerlakuSkDari'| translate | splitCharT }}</label> -->
+                          <app-calender formControlName="tanggalAwal" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy" ></app-calender>
+                        </div>
+                        <div class="ui-g-12 ui-md-1" style="text-align:  center;">
+                          <label>-</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                          <!-- <label>{{'frmPegawaiSKPayrollbyStatus_tglBerlakuSkSampai'| translate | splitCharT }}</label> -->
+                          <app-calender formControlName="tanggalAkhir" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </p-fieldset>
+              </div>
+
+
+
+              <div class="ui-g-4">
+                <p-fieldset legend="">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-12">
+                      <div class="ui-g-12 ui-md-10">
+                        <label>{{'frmPegawaiSKPayrollbyStatus_rangeMasaStatus'| translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('kdRangeMasaStatus').valid && form.get('kdRangeMasaStatus').touched" style="color: red;font-weight: bolder;">
+                          required</span>
+                        </label>
+                        <p-multiSelect [options]="listRange" formControlName="kdRangeMasaStatus" [(ngModel)]="selectedRange" multiple="multiple"
+                        checkbox="checkbox" filter="filter" optionLabel="label">
+                      </p-multiSelect>
+                    </div>
+                  </div>
+                </div>
+              </p-fieldset>
+            </div>
+
+
+            <div class="ui-g-8">
+              <p-fieldset legend="">
+                <div class="ui-g form-group">
+                  <div class="ui-g-12 ui-md-12">
+                    <div class="ui-g-12 ui-md-6">
+                      <div class="ui-g-12 ui-md-10">
+                        <label>{{'frmPegawaiSKPayrollbyStatus_kategoriPegawai'| translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red;font-weight: bolder;">required</span>
+                        </label>
+                          <!-- <p-multiSelect [options]="listKategoryPegawai" formControlName="kdKategoryPegawai" [(ngModel)]="selectedKategori" multiple="multiple"
+                            checkbox="checkbox" filter="filter" optionLabel="label">  </p-multiSelect>-->
+                            <p-dropdown formControlName="kdKategoryPegawai" [options]="listKategoryPegawai" [(ngModel)]="kdKategoriPegawai" (ngModelChange)="valuechangeGetKomponen($event)"
+                            [autoWidth]="false" [filter]="true" filterBy="label" class="ui-inputwrapper-filled"></p-dropdown>
+                          </div>
+                        </div>
+                        <div class="ui-g-12 ui-md-6">
+                          <div class="ui-g-12 ui-md-10">
+                            <label>{{'frmPegawaiSKPayrollbyStatus_komponenHarga'| translate | splitCharT }}
+                              <span style="color: red;font-weight: bolder;">*</span>
+                              <span *ngIf="!form.get('kdKomponenHarga').valid && form.get('kdKomponenHarga').touched" style="color: red"> {{'frmPegawaiSKPayrollbyStatus_required'| translate | splitCharT}}</span>
+                            </label>
+                            <p-dropdown [filter]="true" filterBy="label" formControlName="kdKomponenHarga" class="ui-inputwrapper-filled" [options]="listKomponen"
+                            [autoWidth]="false"></p-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </p-fieldset>
+                </div>
+
+
+                <div class="ui-g-12">
+                  <p-fieldset legend="">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12 ui-md-6">
+                        <div class="ui-g-12 ui-md-10">
+                          <label>{{'frmPegawaiSKPayrollbyStatus_levelJabatan'| translate | splitCharT }}
+                            <span style="color: red;font-weight: bolder;">*</span>
+                            <span *ngIf="!form.get('kdGolonganPegawai').valid && form.get('kdGolonganPegawai').touched" style="color: red"> {{'required'| translate | splitCharT}}</span>
+                          </label>
+                          <p-multiSelect [options]="listGolonganPegawai" formControlName="kdGolonganPegawai" [(ngModel)]="selectedGolongan" multiple="multiple"
+                          checkbox="checkbox" filter="filter" optionLabel="label">
+                        </p-multiSelect>
+                      </div>
+                      <div class="ui-g-12 ui-md-10">
+                        <label>{{'frmPegawaiSKPayrollbyStatus_pangkat'| translate | splitCharT }}
+                          <span style="color: red;font-weight: bolder;">*</span>
+                          <span *ngIf="!form.get('kdPangkat').valid && form.get('kdPangkat').touched" style="color: red"> {{'frmPegawaiSKPayrollbyStatus_required'| translate | splitCharT}}</span>
+                        </label>
+                        <p-multiSelect [options]="listPangkat" formControlName="kdPangkat" [(ngModel)]="selectedPangkat" multiple="multiple" checkbox="checkbox"
+                        filter="filter" optionLabel="label">
+                      </p-multiSelect>
+                    </div>
+                  </div>
+
+                  <div class="ui-g-12 ui-md-6">
+                    <div class="ui-g-12 ui-md-10">
+                      <label>{{'frmPegawaiSKPayrollbyStatus_statusPegawai'| translate | splitCharT }}
+                        <span style="color: red;font-weight: bolder;">*</span>
+                        <span *ngIf="!form.get('kdStatusPegawai').valid && form.get('kdStatusPegawai').touched" style="color: red"> {{'frmPegawaiSKPayrollbyStatus_required'| translate | splitCharT}}</span>
+                      </label>
+                      <p-dropdown [filter]="true" filterBy="label" formControlName="kdStatusPegawai" class="ui-inputwrapper-filled" [options]="listStatus"
+                      [autoWidth]="false"></p-dropdown>
+                    </div>
+                    <div class="ui-g-12 ui-md-10">
+                      <p-checkbox binary="true" label="{{'frmPegawaiSKPayrollbyStatus_isByDay'| translate | splitCharT }}" formControlName="isByDay" (onChange)="changeByDay($event)"></p-checkbox>
+                    </div>
+                    <div class="ui-g-12 ui-md-10">
+                      <p-checkbox binary="true" label="{{'frmPegawaiSKPayrollbyStatus_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                      <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">* {{'frmPegawaiSKPayrollbyStatus_required'| translate | splitCharT}}</span>
+                    </div>
+                  </div>
+                </div>
+              </p-fieldset>
+            </div>
+
+
+          </form>
+
+            <!-- <div class="ui-g-12">
+
+                <div class="ui-g-12">
+                  <label>{{'frmPegawaiSKPayrollbyStatus_komponenHargaTake'| translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('kdKomponenHargaTake').valid && form.get('kdKomponenHargaTake').touched" style="color: red"> {{'frmPegawaiSKPayrollbyStatus_required'| translate | splitCharT}}</span>
+                  </label>
+                  <p-dropdown [filter]="true" filterBy="label" formControlName="kdKomponenHargaTake" class="ui-inputwrapper-filled" [options]="listKomponenTake"
+                    [autoWidth]="false"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-12">
+                  <label for="input">{{'frmPegawaiSKPayrollbyStatus_hargaSatuan'| translate | splitCharT }}</label>
+                  <p-spinner id="input" [min]="0" type="text" formControlName="hargaSatuan"></p-spinner>
+                </div>
+                <div class="ui-g-12 ui-md-12">
+                  <label for="input">{{'frmPegawaiSKPayrollbyStatus_%HargaSatuan'| translate | splitCharT }}</label>
+                  <input id="input" type="text" formControlName="hargaSatuanPersen" pInputText/>
+                </div>
+                <div class="ui-g-12 ui-md-12">
+                  <label for="input">{{'frmPegawaiSKPayrollbyStatus_factorRate'| translate | splitCharT }}</label>
+                  <input id="input" type="text" formControlName="factorRate" pInputText/>
+                </div>
+                <div class="ui-g-12 ui-md-12">
+                  <label for="input">{{'frmPegawaiSKPayrollbyStatus_operatorFactorRate'| translate | splitCharT }}</label>
+                  <p-dropdown id="operatorFactorRate" formControlName="kdOperatorFactorRate" [options]="listOperatorFactorRate" [autoWidth]="false"
+                    [filter]="true" filterBy="label" class="ui-inputwrapper-filled"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-12">
+                  <label for="input">{{'frmPegawaiSKPayrollbyStatus_factorRateDivide'| translate | splitCharT }}</label>
+                  <input id="input" type="text" formControlName="factorRateDivide" pInputText/>
+                </div>
+
+              </div> -->
+              <div class="ui-g-12">
+                <div class="ui-g-12">
+                  <p-fieldset legend="">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12">
+                      <!-- <p-checkbox label="{{'frmPegawaiSKPayrollbyStatus_komponenHargaTake'| translate | splitCharT }}" [(ngModel)]="ceklistKomponen" [ngModelOptions]="{standalone: true}"
+                        binary="true" (onChange)="getKomponenHargaTake($event)"></p-checkbox>
+                      <hr>
+                      <p-blockUI [baseZIndex]=10 [autoZIndex]="false" [target]="gridKomponenHargaTake" [blocked]="cekKomponenHargaTake">
+                        <i class="fa fa-lock fa-5x lock-grid" style="position:absolute;top:25%;left:50%"></i>
+                      </p-blockUI> -->
+                      <p-dataTable #gridKomponenHargaTake [value]="listHarga" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]"
+                      [editable]="true" scrollable="true" [responsive]="true">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <label style="float:center;">{{'frmPegawaiSKPayrollbyStatus_tableDataKomponenHargaTake'| translate | splitCharT }}
+                          </label>
+                          <button type="button" pButton icon="fa-plus" (click)="tambahKomponen()" style="float:left; font-size: 13px !important;"></button>
+                        </div>
+                      </p-header>
+                      <p-column field="dataHarga" header="{{'frmPegawaiSKPayrollbyStatus_tableKomponenHargaTake'| translate | splitCharT}}" [editable]="true"
+                      [style]="{'width':'150px'}">
+                      <ng-template let-col let-komponen="rowData" pTemplate="body">
+                        {{komponen[col.field].namaKomponen}}
+                      </ng-template>
+                      <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                        <p-dropdown [(ngModel)]="komponen[col.field]" [options]="listKomponenTake" [autoWidth]="false" required="true" appendTo="body"
+                        [filter]="true" filterBy="label"></p-dropdown>
+                      </ng-template>
+
+                          <!-- <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                            <div *ngIf="komponen.noSK != null">
+                              {{komponen[col.field].namaKomponen}}
+                            </div>
+                            <div *ngIf="komponen.noSK == null">
+                              <p-dropdown [(ngModel)]="komponen[col.field]" [options]="listKomponenTake" [autoWidth]="false" required="true" appendTo="body"
+                                [filter]="true" filterBy="label"></p-dropdown>
+                            </div>
+                          </ng-template> -->
+                        </p-column>
+                        <p-column field="hargaSatuan" header="{{'frmPegawaiSKPayrollbyStatus_tableHargaSatuan'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                          <ng-template let-col let-data="rowData" pTemplate="body">
+                            <!-- {{ setHarga(data[col.field]) }} -->
+                            <div *ngIf="dataEditHarga !== true">
+                              {{data.hargaSatuan | number}}
+                            </div>
+                            <div *ngIf="data.persenHargaSatuan === null">                            
+                             <p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                           </div>
+                         </ng-template>
+                         <!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+                          <!-- <div *ngIf="data.persenHargaSatuan == null"> -->
+                            <!-- <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                            <!-- </div> -->
+                            <!-- <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" (keyup)="getHarga(i)"> -->
+                            <!-- </ng-template> -->
+                          </p-column>
+                          <p-column field="persenHargaSatuan" header="{{'frmPegawaiSKPayrollbyStatus_tableKomponenHargaTakePersenHargaSatuan'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                            <ng-template let-col let-data="rowData" pTemplate="body">
+                              <!-- {{data[col.field]}} -->
+                              <div *ngIf="dataEditPersen !== true">
+                                {{data.persenHargaSatuan | number}}
+                              </div>
+                              <div *ngIf="data.hargaSatuan === null">                            
+                               <p-spinner id="input" [min]="0" type="text" [(ngModel)]="data[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                             </div>
+                           </ng-template>
+                           <!-- <ng-template let-col let-data="rowData" let-i="rowIndex" pTemplate="editor"> -->
+                            <!-- <div *ngIf="data.hargaSatuan == null"> -->
+                              <!-- <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                              <!-- </div> -->
+                              <!-- <input type="number" pInputText [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" (keyup)="getPersen(i)"> -->
+                              <!-- </ng-template> -->
+                            </p-column>
+                            <p-column field="factorRate" header="{{'frmPegawaiSKPayrollbyStatus_tableKomponenHargaTakeFaktorRate'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                              <ng-template let-col let-komponen="rowData" pTemplate="body">
+                                <!-- <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>                            -->
+                                <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                              </ng-template>
+                            </p-column>
+                            <p-column field="dataRate" header="{{'frmPegawaiSKPayrollbyStatus_tableKomponenHargaTakeOperatorFaktorRate'| translate | splitCharT}}"
+                            [editable]="true" [style]="{'width':'100px'}">
+                            <ng-template let-col let-komponen="rowData" pTemplate="body">
+                              {{komponen[col.field].kode}}
+                            </ng-template>
+                            <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                              <p-dropdown [(ngModel)]="komponen[col.field]" [options]="listOperatorFactorRate" [autoWidth]="false" required="true" appendTo="body"
+                              [filter]="true" filterBy="label"></p-dropdown>
+                            </ng-template>
+                          </p-column>
+                          <p-column field="factorRateDivide" header="{{'frmPegawaiSKPayrollbyStatus_tableKomponenHargaTakeFaktorRateDevide'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                          <ng-template let-col let-komponen="rowData" pTemplate="body">
+                            <!-- <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>                            -->
+                           <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="statusAktif" header="{{'frmPegawaiSKPayrollbyStatus_tableKomponenHargaTakeStatus'| translate | splitCharT}}" [style]="{'width':'50px'}">
+                          <ng-template pTemplate type="body" let-col let-checked="rowData" let-ri="rowIndex">
+                            <p-checkbox [(ngModel)]="checked[col.field]" binary="true"></p-checkbox>
+                          </ng-template>
+                        </p-column>
+
+                        <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                          <ng-template pTemplate="header"></ng-template>
+                          <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                            <div *ngIf="data.noSK == null">
+                              <button type="button" pButton icon="fa-trash" (click)="hapusRow(i)"></button>
+                            </div>
+                          </ng-template>
+                        </p-column>
+                      </p-dataTable>
+                    </div>
+                  </div>
+                </p-fieldset>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="ui-g-12">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="ui-g-12 ui-md-7"></div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="button" label="{{'frmPegawaiSKPayrollbyStatus_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="submit" label="{{'frmPegawaiSKPayrollbyStatus_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="button" label="{{'frmPegawaiSKPayrollbyStatus_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="button" label="{{'frmPegawaiSKPayrollbyStatus_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetak()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <p-splitButton label="{{'frmPegawaiSKPayrollbyStatus_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+            </div>
+
+          </form>
+        </div>
+
+
+        <div class="ui-g-12">
+          <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+          [(selection)]="selected" scrollable="true" (onRowSelect)="onRowSelect($event)" expandableRows="true" [totalRecords]="totalRecords"
+          (onLazyLoad)="loadPage($event)" [lazy]="true">
+          <p-header>
+            <div class="ui-helper-clearfix">
+              <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+              <input type="text" pInputText size="50" placeholder="{{'frmPegawaiSKPayrollbyStatus_tablepencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+              (keyup)="cari()" style="width: 20%;float:right;">
+              <span style="float: left;padding:0.3em;">{{'frmPegawaiSKPayrollbyStatus_tableTitle'| translate | splitCharT }}</span>
+            </div>
+          </p-header>
+          <p-column field="kode.noSK" header="{{'frmPegawaiSKPayrollbyStatus_tableNoSk' | translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+          <p-column field="namaSK" header="{{'frmPegawaiSKPayrollbyStatus_tableNamaSk' | translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+          <p-column field="tglBerlakuAwal" header="{{'frmPegawaiSKPayrollbyStatus_tableTglBerlakuSkAwal' | translate | splitCharT }}" [style]="{'width':'150px'}">
+            <ng-template pTemplate="body" let-StatusSK="rowData">
+              <span *ngIf="StatusSK.tglBerlakuAwal != null">{{StatusSK.tglBerlakuAwal * 1000 | date:'dd MMM yyyy'}}</span>
+              <span *ngIf="StatusSK.tglBerlakuAwal == null">-</span>
+            </ng-template>
+          </p-column>
+          <p-column field="tglBerlakuAkhir" header="{{'frmPegawaiSKPayrollbyStatus_tableTglBerlakuSkAkhir' | translate | splitCharT }}" [style]="{'width':'150px'}">
+            <ng-template pTemplate="body" let-StatusSK="rowData">
+              <span *ngIf="StatusSK.tglBerlakuAkhir != null">{{StatusSK.tglBerlakuAkhir * 1000 | date:'dd MMM yyyy'}}</span>
+              <span *ngIf="StatusSK.tglBerlakuAkhir == null">-</span>
+            </ng-template>
+          </p-column>
+          <p-column field="namaKategoryPegawai" header="{{'frmPegawaiSKPayrollbyStatus_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+          <p-column field="namaGolonganPegawai" header="{{'frmPegawaiSKPayrollbyStatus_tableLevelJabatan'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+          <p-column field="namaPangkat" header="{{'frmPegawaiSKPayrollbyStatus_tablePangkat'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+          <p-column field="namaStatusPegawai" header="{{'frmPegawaiSKPayrollbyStatus_tableStatusPegawai'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+          <!-- <p-column field="rangeMasaKerja" header="{{'frmPegawaiSKPayrollbyStatus_tableRangeStatus'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column> -->
+          <p-column field="namaKomponenHarga" header="{{'frmPegawaiSKPayrollbyStatus_tableKomponenHarga'| translate | splitCharT }}" [style]="{'width':'220px'}"></p-column>
+            <!-- <p-column field="komponenHargaTake" header="{{'frmPegawaiSKPayrollbyStatus_tableKomponenHargaTake'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="hargaSatuan" header="{{'frmPegawaiSKPayrollbyStatus_tableHargaSatuan'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="persenHargaSatuan" header="{{'frmPegawaiSKPayrollbyStatus_table%HargaSatuan'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="factorRate" header="{{'frmPegawaiSKPayrollbyStatus_tableFactorRate'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="operatorFactorRate" header="{{'frmPegawaiSKPayrollbyStatus_tableOperatorFactorRate'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column> -->
+              <p-column field="isByDay" header="{{'frmPegawaiSKPayrollbyStatus_tableIsByDay'| translate | splitCharT }}" [style]="{'width':'150px'}">
+                <ng-template pTemplate="body" let-StatusSK="rowData">
+                  <span *ngIf="StatusSK.isByDay == 1">Ya</span>
+                  <span *ngIf="StatusSK.isByDay == 0">Tidak</span>
+                </ng-template>
+              </p-column>
+              <!-- <p-column field="operatorFactorRate" header="{{'frmPegawaiSKPayrollbyStatus_tableFactorRateDivide'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column> -->
+              <p-column field="statusEnabled" header="{{'frmPegawaiSKPayrollbyStatus_tableStatusAktif'| translate | splitCharT }}" [style]="{'width':'100px'}">
+                <ng-template let-col="rowData" pTemplate type="body">
+                  {{col.statusEnabled | truefalse | translate | splitCharT }}
+                </ng-template> 
+              </p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

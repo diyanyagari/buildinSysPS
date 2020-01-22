@@ -1,0 +1,429 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmPegawaiSkWaktuKerja_title' | translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<form [formGroup]="form" (ngSubmit)="onSubmit()">
+						<div class="ui-g-12">
+							<p-fieldset legend="">
+								<div class="ui-g form-group">
+									<div class="ui-g-12 ui-md-4" style="margin-top: 8px;">
+										<div class="ui-g-12 ui-md-8">
+											<label>{{'frmPegawaiSkWaktuKerja_nama'| translate | splitCharT }}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'frmPegawaiSkWaktuKerja_required'| translate | splitCharT}}</span>
+											</label>
+											<p-dropdown formControlName="namaSk" (onChange)="ambilSK($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+											[filter]="true" filterBy="label"></p-dropdown>
+										</div>
+										<div class="ui-g-12 ui-md-3">
+											<br/>
+											<button pButton type="button" (click)="getKelompokTransaksi()" label="{{'frmPegawaiSkWaktuKerja_buatSk'| translate | splitCharT }}"></button>
+										</div>
+										<div class="ui-g-12 ui-md-12" style="margin-top: 9px;" hidden="true">
+												<div class="ui-g form-group">
+													<div class="ui-g-12 ui-md-7">
+														<label>{{'frmPegawaiSkWaktuKerja_nomor'| translate | splitCharT }}</label>
+														<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+													</div>
+												</div>
+											</div>
+		
+										<div class="ui-g-12 ui-md-11" style="margin-top: 9px;">
+											<label>{{'frmPegawaiSkWaktuKerja_nomorIntern'| translate | splitCharT }}</label>
+											<input id="input" type="text" formControlName="noSkIntern" class="ui-inputwrapper-filled" disabled pInputText/>
+										</div>
+
+									</div>
+									<div class="ui-g-12 ui-md-1"></div>
+
+									<!-- <div class="ui-g-12 ui-md-3" style="margin-top: 9px;" hidden="true">
+										<div class="ui-g form-group">
+											<div class="ui-g-12 ui-md-7">
+												<label>{{'frmPegawaiSkWaktuKerja_nomor'| translate | splitCharT }}</label>
+												<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+											</div>
+										</div>
+									</div>
+
+									<div class="ui-g-12 ui-md-3" style="margin-top: 9px;">
+										<div class="ui-g form-group">
+											<div class="ui-g-12 ui-md-7">
+												<label>{{'frmPegawaiSkWaktuKerja_nomorIntern'| translate | splitCharT }}</label>
+												<input id="input" type="text" formControlName="noSkIntern" class="ui-inputwrapper-filled" disabled pInputText/>
+											</div>
+										</div>
+									</div> -->
+
+									<div class="ui-g-12 ui-md-6" style="margin-top: 6px; margin-left: -90px;">
+										<div class="ui-g form-group">
+											<div class="ui-g-12 ui-md-10">
+												<label>{{'frmPegawaiSkWaktuKerja_periodeBerlakuSk'| translate | splitCharT}}
+												</label>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<app-calender formControlName="tanggalAwal" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+											</div>
+											<div>
+												<label>-</label>
+											</div>
+											<div class="ui-g-12 ui-md-4">
+												<app-calender formControlName="tanggalAkhir" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</p-fieldset>
+							<!-- <div class="ui-g-4">
+								<div class="ui-g-9">
+									<label>{{'frmPegawaiSkWaktuKerja_nama'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'frmPegawaiSkWaktuKerja_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown formControlName="namaSk" (onChange)="ambilSK($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+									[filter]="true" filterBy="label"></p-dropdown>
+								</div>
+								<div class="ui-g-3">
+									<br/>
+									<button pButton type="button" (click)="getKelompokTransaksi()" label="{{'frmPegawaiSkWaktuKerja_buatSk'| translate | splitCharT }}"></button>
+								</div>
+								<div class="ui-g-12" hidden="true">
+									<label>{{'frmPegawaiSkWaktuKerja_nomor'| translate | splitCharT }}</label>
+									<input id="input" type="text" formControlName="noSk" class="ui-inputwrapper-filled" disabled pInputText/>
+								</div>
+								<div class="ui-g-12">
+									<label>{{'frmPegawaiSkWaktuKerja_nomorIntern'| translate | splitCharT }}</label>
+									<input id="input" type="text" formControlName="noSkIntern" class="ui-inputwrapper-filled" disabled pInputText/>
+								</div>
+								<div class="ui-g-5">
+									<label>{{'frmPegawaiSkWaktuKerja_periodeBerlakuSk'| translate | splitCharT}}</label>
+									<app-calender formControlName="tanggalAwal" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true"></app-calender>
+								</div>
+								<div class="ui-g-1">
+									<br/>
+                    				<label>s/d</label>
+								</div>
+								<div class="ui-g-6">
+									<app-calender formControlName="tanggalAkhir" class="ui-inputwrapper-filled" disabled="true" [showIcon]="true"></app-calender>
+								</div>
+							</div> -->
+						</div>
+
+						<div class="ui-g-12">
+							<p-fieldset legend="">
+								<div class="ui-g form-group">
+									<div class="ui-g-12 ui-md-3">
+										<div class="ui-g-12 ui-md-12">
+											<label>
+												{{'frmPegawaiSkWaktuKerja_levelJabatan'| translate | splitCharT }}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!form.get('kdGolonganPegawai').valid && form.get('kdGolonganPegawai').touched" style="color: red;font-weight: bolder;">
+												{{'frmPegawaiSkWaktuKerja_required'| translate | splitCharT}}</span>
+											</label>
+											<p-multiSelect [options]="listGolonganPegawai" formControlName="kdGolonganPegawai" [(ngModel)]="selectedGolongan" multiple="multiple"
+											checkbox="checkbox" filter="filter" optionLabel="label" readonly="true">
+										</p-multiSelect>
+									</div>
+								</div>
+								<div class="ui-g-12 ui-md-3">
+									<div class="ui-g-12 ui-md-12">
+										<label>
+											{{'frmPegawaiSkWaktuKerja_kategoriPegawai'| translate | splitCharT }}
+											<span style="color: red;font-weight: bolder;">*</span>
+											<span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red;font-weight: bolder;">
+											{{'frmPegawaiSkWaktuKerja_required'| translate | splitCharT}}</span>
+										</label>
+										<p-multiSelect [options]="listKategoryPegawai" formControlName="kdKategoryPegawai" [(ngModel)]="selectedKategori" multiple="multiple"
+										checkbox="checkbox" filter="filter" optionLabel="label" readonly="true">
+									</p-multiSelect>
+								</div>
+							</div>
+						</div>
+					</p-fieldset>
+				</div>
+				<div class="ui-g-12">
+					<p-fieldset legend="">
+						<div class="ui-g form-group">
+							<div class="ui-g-12 ui-md-3" style="margin-top: 15px;">
+								<div class="ui-g-12 ui-md-8">
+									<label for="input">{{'frmPegawaiSkWaktuKerja_bisaTukarJadwal' | translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<p-checkbox binary="true" label="{{'frmPegawaiSkWaktuKerja_ya'| translate | splitCharT}}" formControlName="allowTukarJadwal" (onChange)="changeTukarJadwal($event)"></p-checkbox>
+								</div>
+								<div class="ui-g-12 ui-md-8">
+									<label for="input">{{'frmPegawaiSkWaktuKerja_kelebihanJamKerja' | translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<p-checkbox binary="true" label="{{'frmPegawaiSkWaktuKerja_ya'| translate | splitCharT}}" formControlName="autoOver" (onChange)="changeAutoOver($event)"></p-checkbox>
+								</div>
+								<div class="ui-g-12 ui-md-8">
+									<label for="input">{{'frmPegawaiSkWaktuKerja_kelebihanJamKerjaBisaDigantikanKeLibur' | translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<p-checkbox binary="true" label="{{'frmPegawaiSkWaktuKerja_ya'| translate | splitCharT}}" formControlName="holidayOverAllowToOff" (onChange)="changeHolidayOverAllowToOff($event)"></p-checkbox>
+								</div>
+								<div class="ui-g-12 ui-md-8">
+									<label for="input">{{'frmPegawaiSkWaktuKerja_normalOverAllowToOff' | translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<p-checkbox binary="true" label="{{'frmPegawaiSkWaktuKerja_ya'| translate | splitCharT}}" formControlName="normalOverAllowToOff" (onChange)="changeNormalOverAllowToOff($event)"></p-checkbox>
+								</div>
+								<div class="ui-g-12 ui-md-8">
+									<label for="input">{{'frmPegawaiSkWaktuKerja_kelebihanJamKerjaBisaDiakumulasi' | translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<p-checkbox binary="true" label="{{'frmPegawaiSkWaktuKerja_ya'| translate | splitCharT}}" formControlName="overAllowAccumulated" (onChange)="changeOverAllowAccumulated($event)"></p-checkbox>
+								</div>
+								<div class="ui-g-12 ui-md-8">
+									<label for="input">{{'frmPegawaiSkWaktuKerja_kelebihanJamKerjaBisaDigantiUntukKeterlambatan' | translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<p-checkbox binary="true" label="{{'frmPegawaiSkWaktuKerja_ya'| translate | splitCharT}}" formControlName="overAllowToLate" (onChange)="changeOverAllowToLate($event)"></p-checkbox>
+								</div>
+								<div class="ui-g-12 ui-md-8">
+									<label for="input">{{'frmPegawaiSkWaktuKerja_isRekapByDay' | translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<p-checkbox binary="true" label="{{'frmPegawaiSkWaktuKerja_ya'| translate | splitCharT}}" formControlName="isRekapByDay" (onChange)="changeOverRekapByDay($event)"></p-checkbox>
+								</div>
+							</div>
+							<div class="ui-g-12 ui-md-3">
+								<div class="ui-g-6 ui-md-12">
+									<label for="input">{{'frmPegawaiSkWaktuKerja_Periode' | translate | splitCharT }}</label>
+									<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" formControlName="kdPeriode" [options]="listPeriode"
+									[autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmPegawaiSkWaktuKerja_qtyHariMinPostingTukarJadwal'| translate | splitCharT}}</label>
+									<input id="input" type="number" formControlName="qtyHariMinPostingTukarJadwal" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmPegawaiSkWaktuKerja_qtyHariOverExpired'| translate | splitCharT}}</label>
+									<input id="input" type="number" formControlName="qtyHariOverExpired" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmPegawaiSkWaktuKerja_qtyJamMaxPostingTukarJadwal'| translate | splitCharT}}</label>
+									<input id="input" type="number" formControlName="qtyJamMaxPostingTukarJadwal" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmPegawaiSkWaktuKerja_qtyMenitMaxAllowLate'| translate | splitCharT}}</label>
+									<input id="input" type="number" formControlName="qtyMenitMaxAllowLate" pInputText/>
+								</div>
+							</div>
+
+							<div class="ui-g-12 ui-md-3">
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmPegawaiSkWaktuKerja_qtyMenitMaxOver'| translate | splitCharT}}</label>
+									<input id="input" type="number" formControlName="qtyMenitMaxOver" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmPegawaiSkWaktuKerja_qtyMenitMaxOverAccumulated'| translate | splitCharT}}</label>
+									<input id="input" type="number" formControlName="qtyMenitMaxOverAccumulated" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmPegawaiSkWaktuKerja_qtyMenitMinOver'| translate | splitCharT}}</label>
+									<input id="input" type="number" formControlName="qtyMenitMinOver" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmPegawaiSkWaktuKerja_qtyMenitMinOverMasuk'| translate | splitCharT}}</label>
+									<input id="input" type="number" formControlName="qtyMenitMinOverMasuk" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-12">
+									<label>{{'frmPegawaiSkWaktuKerja_qtyMenitMinOverPulang'| translate | splitCharT}}</label>
+									<input id="input" type="number" formControlName="qtyMenitMinOverPulang" pInputText/>
+								</div>
+										<!-- <div class="ui-g-12 ui-md-12">
+											<label>{{'frmPegawaiSkWaktuKerja_qtyMenitOffForHolidayOver'| translate | splitCharT}}</label>
+											<input id="input" type="number" formControlName="qtyMenitOffForHolidayOver" pInputText/>
+										</div> -->
+									</div>
+									<div class="ui-g-12 ui-md-3">
+										<!-- <div class="ui-g-12 ui-md-12">
+											<label>{{'frmPegawaiSkWaktuKerja_qtyMenitOffForNormalOver'| translate | splitCharT}}</label>
+											<input id="input" type="number" formControlName="qtyMenitOffForNormalOver" pInputText/>
+										</div> -->
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'qtyMenitMaxBeforeCheckin'| translate | splitCharT}}</label>
+											<input id="input" type="number" formControlName="qtyMenitMaxBeforeCheckin" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'qtyMenitMinBeforeCheckout'| translate | splitCharT}}</label>
+											<input id="input" type="number" formControlName="qtyMenitMinBeforeCheckout" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-12" hidden="true">
+											<label>{{'qtyRangeMasaKerja_label'| translate | splitCharT}}</label>
+											<input id="input" type="number" formControlName="qtyRangeMasaKerja" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-12">
+											<label>{{'frmPegawaiSkWaktuKerja_tanggalCutOffAwal'| translate | splitCharT}}
+												<span style="color: red;font-weight: bolder;">*</span>
+												<span *ngIf="!form.get('tanggalCutOffAwal').valid && form.get('tanggalCutOffAwal').touched" style="color: red;">{{'frmPegawaiSkWaktuKerja_required'| translate | splitCharT}}</span>
+											</label>
+											<!-- <app-calender dateFormat="dd M yy" pTooltip="{{'tanggalPengajuan'| translate | splitCharT}}" tooltipPosition="top" placeholder="{{'tanggalPengajuan'| translate | splitCharT}}"dateFormat="dd M yy" pTooltip="{{'tanggalPengajuan'| translate | splitCharT}}" tooltipPosition="top" placeholder="{{'tanggalPengajuan'| translate | splitCharT}}"formControlName="tanggalCutOffAwal" [monthNavigator]="true" [showIcon]="true" dateFormat="dd/MM" [yearNavigator]="true"
+												yearRange="2000:2030"></app-calender> -->
+												<p-dropdown id="unitKerja" filter="filter" formControlName="tanggalCutOffAwal" [options]="listTanggal" [autoWidth]="false"
+												(onChange)="showTanggal($event)"></p-dropdown>
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<label>{{'frmPegawaiSkWaktuKerja_tanggalCutOffAkhir'| translate | splitCharT}}
+													<span style="color: red;font-weight: bolder;">*</span>
+													<span *ngIf="!form.get('tanggalCutOffAkhir').valid && form.get('tanggalCutOffAkhir').touched" style="color: red;">{{'frmPegawaiSkWaktuKerja_required'| translate | splitCharT}}</span>
+												</label>
+												<p-dropdown id="unitKerja" filter="filter" formControlName="tanggalCutOffAkhir" [options]="listTanggal" [autoWidth]="false"
+												(onChange)="showTanggal($event)"></p-dropdown>
+											<!-- <app-calender dateFormat="dd M yy" pTooltip="{{'tanggalPengajuan'| translate | splitCharT}}" tooltipPosition="top" placeholder="{{'tanggalPengajuan'| translate | splitCharT}}"dateFormat="dd M yy" pTooltip="{{'tanggalPengajuan'| translate | splitCharT}}" tooltipPosition="top" placeholder="{{'tanggalPengajuan'| translate | splitCharT}}"formControlName="tanggalCutOffAkhir" [monthNavigator]="true" [showIcon]="true" dateFormat="dd/MM" [yearNavigator]="true"
+												yearRange="2000:2030"></app-calender> -->
+											</div>
+											<div class="ui-g-12 ui-md-12">
+												<p-checkbox binary="true" label="{{'frmPegawaiSkWaktuKerja_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+												<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red;">
+												{{'* frmPegawaiSkWaktuKerja_required'| translate | splitCharT}}</span>
+
+											</div>
+										</div>
+									</div>
+								</p-fieldset>
+							</div>
+
+							<div class="ui-g-12">
+								<div class="ui-g-12 ui-md-7"></div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmPegawaiSkWaktuKerja_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="submit" label="{{'frmPegawaiSkWaktuKerja_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmPegawaiSkWaktuKerja_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<button pButton type="button" label="{{'frmPegawaiSkWaktuKerja_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetak()"></button>
+								</div>
+								<div class="ui-g-12 ui-md-1">
+									<p-splitButton label="{{'frmPegawaiSkWaktuKerja_btnEexport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+								</div>
+							</div>
+						</form>
+						<div class="ui-g-12 ui-fluid">
+							<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+							[(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+							[totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" scrollable="true">
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50" placeholder="{{'frmPegawaiSkWaktuKerja_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+									(keyup)="cari()" style="width: 20%;float:right;">
+									<span style="float: left;padding:0.3em;">{{'frmPegawaiSkWaktuKerja_tableTitle'| translate | splitCharT }}</span>
+								</div>
+							</p-header>
+							<p-column hidden="true" field="noSK" header="{{'frmPegawaiSkWaktuKerja_tableNomor'| translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+							<p-column field="noSKIntern" header="{{'frmPegawaiSkWaktuKerja_tableNomorIntern'| translate | splitCharT }}"[style]="{'width':'150px'}"></p-column>
+							<p-column field="namaSK" header="{{'frmPegawaiSkWaktuKerja_tableNama'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+							<p-column field="tglBerlakuAwal" header="{{'frmPegawaiSkWaktuKerja_tableTanggalAwalBerlaku'| translate | splitCharT }}" [style]="{'width':'150px'}">
+								<ng-template pTemplate="body" let-StatusSK="rowData">
+									<span *ngIf="StatusSK.tglBerlakuAwal != null && StatusSK.tglBerlakuAwal != 0">{{StatusSK.tglBerlakuAwal * 1000 | date:'dd MMM yyyy'}}</span>
+									<span *ngIf="StatusSK.tglBerlakuAwal == null">-</span>
+									<span *ngIf="StatusSK.tglBerlakuAwal == 0">-</span>
+								</ng-template>
+							</p-column>
+							<p-column field="tglBerlakuAkhir" header="{{'frmPegawaiSkWaktuKerja_tableTanggalAkhirBerlaku'| translate | splitCharT }}" [style]="{'width':'150px'}">
+								<ng-template pTemplate="body" let-StatusSK="rowData">
+									<span *ngIf="StatusSK.tglBerlakuAkhir != null && StatusSK.tglBerlakuAkhir != 0">{{StatusSK.tglBerlakuAkhir * 1000 | date:'dd MMM yyyy'}}</span>
+									<span *ngIf="StatusSK.tglBerlakuAkhir == null">-</span>
+									<span *ngIf="StatusSK.tglBerlakuAkhir == 0">-</span>
+								</ng-template>
+							</p-column>
+							<p-column field="namaGolonganPegawai" header="{{'frmPegawaiSkWaktuKerja_tableLevelJabatan'| translate | splitCharT }}" [style]="{'width':'240px'}"></p-column>
+							<p-column field="namaKategoryPegawai" header="{{'frmPegawaiSkWaktuKerja_tableKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+							<p-column field="isAllowTukarJadwal" header="{{'frmPegawaiSkWaktuKerja_tableBisaTukarJadwal'| translate | splitCharT }}" [style]="{'width':'150px'}">
+								<ng-template pTemplate="body" let-StatusSK="rowData">
+									<span *ngIf="StatusSK.isAllowTukarJadwal == 1">Ya</span>
+									<span *ngIf="StatusSK.isAllowTukarJadwal == 0">Tidak</span>
+								</ng-template>
+							</p-column>
+							<p-column field="isAutoOver" header="{{'frmPegawaiSkWaktuKerja_tableKelebihanJamKerja'| translate | splitCharT }}" [style]="{'width':'200px'}">
+								<ng-template pTemplate="body" let-StatusSK="rowData">
+									<span *ngIf="StatusSK.isAutoOver == 1">Ya</span>
+									<span *ngIf="StatusSK.isAutoOver == 0">Tidak</span>
+								</ng-template>
+							</p-column>
+							<p-column field="isHolidayOverAllowToOff" header="{{'frmPegawaiSkWaktuKerja_tableKelebihanJamKerjaBisaDigantikanKeLibur'| translate | splitCharT }}"
+							[style]="{'width':'200px'}">
+							<ng-template pTemplate="body" let-StatusSK="rowData">
+								<span *ngIf="StatusSK.isHolidayOverAllowToOff == 1">Ya</span>
+								<span *ngIf="StatusSK.isHolidayOverAllowToOff == 0">Tidak</span>
+							</ng-template>
+						</p-column>
+						<p-column field="isNormalOverAllowToOff" header="{{'frmPegawaiSkWaktuKerja_tableNormalOverAllowToOff'| translate | splitCharT }}" [style]="{'width':'200px'}">
+							<ng-template pTemplate="body" let-StatusSK="rowData">
+								<span *ngIf="StatusSK.isNormalOverAllowToOff == 1">Ya</span>
+								<span *ngIf="StatusSK.isNormalOverAllowToOff == 0">Tidak</span>
+							</ng-template>
+						</p-column>
+						<p-column field="isOverAllowAccumulated" header="{{'frmPegawaiSkWaktuKerja_tableKelebihanJamKerjaBisaDiakumulasi'| translate | splitCharT }}"
+						[style]="{'width':'250px'}">
+						<ng-template pTemplate="body" let-StatusSK="rowData">
+							<span *ngIf="StatusSK.isOverAllowAccumulated == 1">Ya</span>
+							<span *ngIf="StatusSK.isOverAllowAccumulated == 0">Tidak</span>
+						</ng-template>
+					</p-column>
+					<p-column field="isOverAllowToLate" header="{{'frmPegawaiSkWaktuKerja_tableKelebihanJamKerjaBisaDigantiUntukKeterlambatan'| translate | splitCharT }}"
+					[style]="{'width':'250px'}">
+					<ng-template pTemplate="body" let-StatusSK="rowData">
+						<span *ngIf="StatusSK.isOverAllowToLate == 1">Ya</span>
+						<span *ngIf="StatusSK.isOverAllowToLate == 0">Tidak</span>
+					</ng-template>
+				</p-column>
+				<p-column field="isRekapByDay" header="{{'frmPegawaiSkWaktuKerja_tableIsRekapByDay'| translate | splitCharT }}" [style]="{'width':'150px'}">
+					<ng-template pTemplate="body" let-StatusSK="rowData">
+						<span *ngIf="StatusSK.isRekapByDay == 1">Ya</span>
+						<span *ngIf="StatusSK.isRekapByDay == 0">Tidak</span>
+					</ng-template>
+				</p-column>
+				<p-column field="namaPeriode" header="{{'frmPegawaiSkWaktuKerja_tablePeriode'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+				<p-column field="qtyHariMinPostingTukarJadwal" header="{{'frmPegawaiSkWaktuKerja_tableQtyHariMinPostingTukarJadwal'| translate | splitCharT }}"
+				[style]="{'width':'250px'}"></p-column>
+				<p-column field="qtyHariOverExpired" header="{{'frmPegawaiSkWaktuKerja_tableQtyHariOverExpired'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+				<p-column field="qtyJamMaxPostingTukarJadwal" header="{{'qtyJamMaxPostingTukarJadwal'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+				<p-column field="qtyMenitMaxAllowLate" header="{{'frmPegawaiSkWaktuKerja_tableQtyMenitMaxAllowLate'| translate | splitCharT }}" [style]="{'width':'180px'}"></p-column>
+				<p-column field="qtyMenitMaxOver" header="{{'frmPegawaiSkWaktuKerja_tableQtyMenitMaxOver'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+				<p-column field="qtyMenitMaxOverAccumulated" header="{{'frmPegawaiSkWaktuKerja_tableQtyMenitMaxOverAccumulated'| translate | splitCharT }}"
+				[style]="{'width':'220px'}"></p-column>
+				<p-column field="qtyMenitMinOver" header="{{'frmPegawaiSkWaktuKerja_tableQtyMenitMinOver'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+				<p-column field="qtyMenitMinOverMasuk" header="{{'frmPegawaiSkWaktuKerja_tableQtyMenitMinOverMasuk'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+				<p-column field="qtyMenitMinOverPulang" header="{{'frmPegawaiSkWaktuKerja_tableQtyMenitMinOverPulang'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+				<p-column field="qtyMenitMaxBeforeCheckin" header="{{'qtyMenitMaxBeforeCheckin'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+				<p-column field="qtyMenitMinBeforeCheckout" header="{{'qtyMenitMinBeforeCheckout'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+				<p-column field="qtyRangeMasaKerja" header="{{'qtyRangeMasaKerja_label'| translate | splitCharT }}" [style]="{'width':'200px'}" hidden="true"></p-column>
+							<!-- <p-column field="qtyMenitOffForHolidayOver" header="{{'frmPegawaiSkWaktuKerja_tableQtyMenitOffForHolidayOver'| translate | splitCharT }}"
+							 [style]="{'width':'250px'}"></p-column>
+							<p-column field="qtyMenitOffForNormalOver" header="{{'frmPegawaiSkWaktuKerja_tableQtyMenitOffForNormalOver'| translate | splitCharT }}"
+							[style]="{'width':'250px'}"></p-column> -->
+							<p-column field="tglCutOffAwal" header="{{'frmPegawaiSkWaktuKerja_tableTanggalCutOffAwal'| translate | splitCharT }}" [style]="{'width':'150px'}">
+								<!-- <ng-template pTemplate="body" let-StatusSK="rowData">
+									<span *ngIf="StatusSK.tglCutOffAwal != null">{{StatusSK.tglCutOffAwal * 1000 | date:'dd/MM'}}</span>
+									<span *ngIf="StatusSK.tglCutOffAwal == null">-</span>
+								</ng-template> -->
+							</p-column>
+							<p-column field="tglCutOffAkhir" header="{{'frmPegawaiSkWaktuKerja_tableTanggalCutOffAkhir'| translate | splitCharT }}" [style]="{'width':'150px'}">
+								<!-- <ng-template pTemplate="body" let-StatusSK="rowData">
+									<span *ngIf="StatusSK.tglCutOffAkhir != null">{{StatusSK.tglCutOffAkhir * 1000 | date:'dd/MM'}}</span>
+									<span *ngIf="StatusSK.tglCutOffAkhir == null">-</span>
+								</ng-template> -->
+							</p-column>
+							<p-column field="statusEnabled" header="{{'frmPegawaiSkWaktuKerja_tableStatusEnabled'| translate | splitCharT }}" [style]="{'width':'100px'}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template> 
+							</p-column>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

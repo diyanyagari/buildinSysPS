@@ -1,0 +1,111 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmRekapitulasiSkorAkhirKpi_title'| translate | splitCharT}}</h1>
+        <div class="ui-g form-gorup">
+
+          <div class="ui-g-12 ui-md-3">
+            <div>
+							<label>{{'frmRekapitulasiSkorAkhirKpi_periode'| translate | splitCharT}}</label>
+							<p-dropdown id="dropdown" filter="filter" class="ui-inputwrapper-filled" [options]="listPeriodeHead" [autoWidth]="false"
+               (onChange)="getKode($event)" [(ngModel)]="kodeHeadPeriode"></p-dropdown>
+            </div>
+            <div>
+               <p-dataTable [value]="listPeriode" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+               [(selection)]="selectedPeriode" scrollable="true" (onRowSelect)="pilihPeriode($event)" >
+                <p-column field="nomorUrut" header="{{'frmRekapitulasiSkorAkhirKpi_no'| translate | splitCharT}}" [style]="{'width':'50px','text-align': 'center'}">
+                  <ng-template pTemplate="body" let-i="rowIndex">
+                    {{i+1}}
+                  </ng-template>
+                </p-column>
+                <p-column field="namaPeriode" header="{{'frmRekapitulasiSkorAkhirKpi_namaPeriode'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+              </p-dataTable>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-md-6">
+            <p-fieldset legend="Filter Berdasarkan">
+
+              <div class="ui-g-12 ui-md-6">
+                <p-radioButton value="departemen" [(ngModel)]="typeFilter" [ngModelOptions]="{standalone: true}" label="{{'frmRekapitulasiSkorAkhirKpi_pilihDepartemen'| translate | splitCharT}}" (ngModelChange)="getTypePilih($event)" ></p-radioButton>
+                <div style="margin-top:5px" [hidden]="onoffD">
+                  <p-tree [value]="departemenTree" selectionMode="single" [(selection)]="selectedDepartemenNode" (onNodeSelect)="nodeSelectDepartemen($event)"></p-tree>
+                </div>
+               
+              </div>
+
+              <div class="ui-g-12 ui-md-6">
+                <p-radioButton value="pegawai" [(ngModel)]="typeFilter" [ngModelOptions]="{standalone: true}" label="{{'frmRekapitulasiSkorAkhirKpi_pilihPegawai'| translate | splitCharT}}" (ngModelChange)="getTypePilih($event)" ></p-radioButton>
+                <div [hidden]="onoffP">
+                  <p-dataTable [value]="listPegawai" [rows]="5" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+                  [(selection)]="selectedPegawai" [pageLinks]="3" loadingIcon="fa-spinner" [totalRecords]="totalRecordsPegawai" 
+                  scrollable="true" (onRowSelect)="pilihPegawai($event)">
+							      <p-column field="namaLengkap" header="{{'frmRekapitulasiSkorAkhirKpi_tableNamaPegawai'| translate | splitCharT}}" [style]="{'width':'200px'}"></p-column>
+						      </p-dataTable>
+                </div>
+              </div>
+
+            </p-fieldset>
+          </div>
+
+          <div class="ui-g-12 ui-md-12">
+              <p-dataTable [value]="listRekap" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" scrollable="true" 
+              [expandableRows]="true" [expandedRows]="expandedDetail" (onRowExpand)="onRowExpand($event)">
+  
+                <p-column [expander]="true" styleClass="col-icon" [style]="{'width':'28px'}"></p-column>
+                <p-column field="nomorUrut" header="{{'frmRekapitulasiSkorAkhirKpi_no'| translate | splitCharT}}" [style]="{'width':'50px','text-align': 'center'}">
+                  <ng-template pTemplate="body" let-i="rowIndex">
+                    {{i+1}}
+                  </ng-template>
+                </p-column>
+                <!-- <p-column field="noPosting" header="{{'frmDaftarMonitoringPengajuanRealisasiKpiPegawai_tableNoPengajuan'| translate | splitCharT}}" [style]="{'width':'150px', 'height':'40px'}"></p-column> -->
+                <p-column field="tglPengajuan" header="{{'frmRekapitulasiSkorAkhirKpi_tableTanggalPengajuan'| translate | splitCharT}}" [style]="{'width':'150px', 'height':'40px'}">
+                  <ng-template pTemplate="body" let-pengajuan="rowData">
+                    {{pengajuan.tglPengajuan * 1000 | date:'dd MMM yyyy'}}
+                  </ng-template>
+                </p-column>
+                <p-column field="namaLengkap" header="{{'frmRekapitulasiSkorAkhirKpi_tableNamaPegawai'| translate | splitCharT}}" [style]="{'width':'200px', 'height':'40px'}"></p-column>
+                <p-column field="nik" header="{{'frmRekapitulasiSkorAkhirKpi_tableNik'| translate | splitCharT}}" [style]="{'width':'150px', 'height':'40px'}"></p-column>
+                <p-column field="namaJabatan" header="{{'frmRekapitulasiSkorAkhirKpi_tableJabatan'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+                <p-column field="unitKerjaPegawai" header="{{'frmRekapitulasiSkorAkhirKpi_tableUnitKerja'| translate | splitCharT}}" [style]="{'width':'150px'}"></p-column>
+
+                <ng-template let-data expanded="true" pTemplate="rowexpansion" let-ri="rowIndex" >
+                  <div>
+                  <p-dataTable [value]="listRekap[ri].children" scrollable="true">
+                    
+                    <p-column field="namaPerspective" [style]="{'width':'150px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tableperspektif'| translate | splitCharT}}" ></p-column>
+                    <p-column field="namaStrategy" [style]="{'width':'150px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tablestrategi'| translate | splitCharT}}" ></p-column>
+                    <p-column field="namaKPI" [style]="{'width':'150px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tablekpi'| translate | splitCharT}}" ></p-column>
+                    <p-column field="satuanHasil" [style]="{'width':'150px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tablesatuanHasil'| translate | splitCharT}}" ></p-column>
+                    <p-column field="tipeDataObjek" [style]="{'width':'150px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tabletipeDataObjek'| translate | splitCharT}}" ></p-column>
+                    <p-column field="sumberData" [style]="{'width':'150px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tablesumberData'| translate | splitCharT}}" ></p-column>
+                    <p-column field="namaPeriode" [style]="{'width':'150px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tableperiodeData'| translate | splitCharT}}" ></p-column>
+                    <p-column field="metodePerhitungan" [style]="{'width':'100px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tablemetodePerhitungan'| translate | splitCharT}}" ></p-column>
+                    <p-column field="bobotKPISK" [style]="{'width':'100px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tablebobot'| translate | splitCharT}}" ></p-column>
+                    <p-column field="targetKPI" [style]="{'width':'100px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tabletarget'| translate | splitCharT}}" ></p-column>
+                    <p-column field="realisasi" [style]="{'width':'100px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tablerealisasi'| translate | splitCharT}}" ></p-column>
+                    <p-column field="skor" [style]="{'width':'100px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tableskor'| translate | splitCharT}}" ></p-column>
+                    <p-column field="skorAkhir" [style]="{'width':'100px'}" header="{{'frmRekapitulasiSkorAkhirKpi_tableskorAkhir'| translate | splitCharT}}" ></p-column>
+                  </p-dataTable>
+                </div>
+                </ng-template>
+              </p-dataTable>
+  
+            </div>
+            <div class="ui-g-12 ui-md-10"></div>
+            <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'batal'| translate | splitCharT}}" icon="fa-refresh" (click)="bersih()"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" icon="fa-save" label="{{'frmRekapitulasiSkorAkhirKpi_btnSimpan'| translate | splitCharT}}"
+                (click)="simpan()"></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+

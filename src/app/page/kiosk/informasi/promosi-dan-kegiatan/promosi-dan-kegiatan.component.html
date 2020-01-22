@@ -1,0 +1,54 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img
+          src="../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <h2>Informasi - Promosi & Kegiatan</h2>
+      </div>
+      <div class="header-item">
+        <img  
+          src="../../../../assets/layout/images/kiosk/power-button.svg" (click)="logout($event)"
+          alt="logout">
+      </div>
+    </div>
+    <div class="container-grid">
+      <div class="main-content">
+        <div>
+          <img src="../../../../../assets/layout/images/kiosk/promosi-kegiatan-terbaru.png" [routerLink]="['/kiosk/informasi/promosi-kegiatan/terbaru']"> 
+          <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/promosi-kegiatan/terbaru']">Terbaru</a>
+        </div>
+        <div>
+          <img src="../../../../../assets/layout/images/kiosk/promosi-kegiatan-berita.png" [routerLink]="['/kiosk/informasi/promosi-kegiatan/berita']"> 
+          <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/promosi-kegiatan/berita']">Berita</a>
+        </div>
+        <div>
+          <img src="../../../../../assets/layout/images/kiosk/promosi-kegiatan-promosi.png" [routerLink]="['/kiosk/informasi/promosi-kegiatan/promosi']"> 
+          <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/promosi-kegiatan/promosi']">Promosi</a>
+        </div>
+        <div>
+          <img src="../../../../../assets/layout/images/kiosk/promosi-kegiatan-penyuluhan.png" [routerLink]="['/kiosk/informasi/promosi-kegiatan/penyuluhan']"> 
+          <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/promosi-kegiatan/penyuluhan']">Penyuluhan</a>
+        </div>
+        <div>
+          <img src="../../../../../assets/layout/images/kiosk/promosi-kegiatan-pendidikan.png" [routerLink]="['/kiosk/informasi/promosi-kegiatan/pendidikan-dan-pelatihan']"> 
+          <a href="#" class="underlined" [routerLink]="['/kiosk/informasi/promosi-kegiatan/pendidikan-dan-pelatihan']">Pendidikan & Pelatihan</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="informasi-action" style="margin-top: 100px;">
+    <hr>
+    <div class="container">
+      <button class="btn-subscribe bg-violet" [routerLink]="['/kiosk/informasi/']">Kembali</button>
+    </div>
+
+  </div>
+</div>

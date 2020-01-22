@@ -1,0 +1,960 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmMasterProfileSKKomponenGaji_title' | translate | splitCharT }}</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-12">
+            <div class="ui-g-12">
+              <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <!-- <div class="ui-g-12 ui-md-3">
+                <label>{{'namaSK'| translate | splitCharT }}</label>
+                <p-dropdown formControlName="namaSK" (onChange)="ambilSK($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+                <span *ngIf="!form.get('namaSK').valid && form.get('namaSK').touched" style="color: red">*</span>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <br/>
+                <button pButton type="button" [routerLink]="['/master-sk/surat-keputusan']" label="{{'buatSk'| translate | splitCharT }}"></button>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <label>{{'noSK'| translate | splitCharT }}</label>
+                <input id="input" type="text" formControlName="noSK" class="ui-inputwrapper-filled" disabled pInputText/>
+                <span *ngIf="!form.get('noSK').valid && form.get('noSK').touched" style="color: red">*</span>
+            </div>
+
+            <div class="ui-g-12 ui-md-3">
+                <label>{{'tglBerlakuSkDari'| translate | splitCharT }}</label>
+                <app-calender formControlName="tglBerlakuSkDari" class="ui-inputwrapper-filled" disabled="true"></app-calender>
+                <span *ngIf="!form.get('tglBerlakuSkDari').valid && form.get('tglBerlakuSkDari').touched" style="color: red">*</span>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <label>{{'tglBerlakuSkSampai'| translate | splitCharT }}</label>
+                <app-calender formControlName="tglBerlakuSkSampai" class="ui-inputwrapper-filled" disabled="true"></app-calender>
+                <span *ngIf="!form.get('tglBerlakuSkSampai').valid && form.get('tglBerlakuSkSampai').touched" style="color: red">*</span>
+            </div>
+
+
+            <div class="ui-g-12 ui-md-3">
+                <label>{{'kategoriPegawai'| translate | splitCharT }}</label>
+                <p-dropdown [filter]="true" filterBy="label" formControlName="kategoriPegawai" class="ui-inputwrapper-filled" [options]="kategoriPegawai" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('kategoriPegawai').valid && form.get('kategoriPegawai').touched" style="color: red">*</span>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <label>{{'komponenHarga'| translate | splitCharT }}</label>
+                <p-dropdown [filter]="true" filterBy="label" formControlName="komponenHarga" class="ui-inputwrapper-filled" [options]="komponenHarga" [autoWidth]="false"></p-dropdown>
+                <span *ngIf="!form.get('komponenHarga').valid && form.get('komponenHarga').touched" style="color: red">*</span>
+            </div>
+
+            <div class="ui-g-12 ui-md-2">
+                <br/>
+                <p-checkbox binary="true" label="{{'isByStruktur'| translate | splitCharT }}" (onChange)="changeStruktur($event)" formControlName="isByStruktur"></p-checkbox> 
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <label>{{'namaTabel'| translate | splitCharT }}</label>
+                <p-dropdown [filter]="true" filterBy="label" placeholder="{{'--Pilih Nama Tabel--'| translate | splitCharT }}" formControlName="namaTabel" (ngModelChange)="ambilTable($event)" class="ui-inputwrapper-filled" [options]="tableRelasi" (ngModelChange)="getValueTable($event)" [autoWidth]="false"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-3">
+                <label>{{'Pilih'| translate | splitCharT  }}</label>
+                <p-multiSelect [options]="fieldKeyTabelRelasi" formControlName="FKCriteriaBy" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>
+                <!-- <p-dropdown [filter]="true" filterBy="label" pTooltip="{{'FKCriteriaBy'| translate | splitCharT }}" tooltipPosition="top" tooltipEvent="focus" placeholder="{{'--Pilih Criteria By--'| translate | splitCharT }}" formControlName="FKCriteriaBy" class="ui-inputwrapper-filled" [options]="fieldKeyTabelRelasi" [autoWidth]="false"></p-dropdown> -->
+                <!-- </div>
+            <div class="ui-g-12 ui-md-3">
+                <label>{{'keteranganLainnya'| translate | splitCharT }}</label>                    
+                <textarea formControlName="keteranganLainnya" rows="3" cols="30" pInputTextarea autoResize="autoResize"></textarea>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+                <br/>
+                <p-checkbox binary="true" label="{{'statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+              </div>                   -->
+              <div class="ui-g-4">
+                <div class="ui-g-9">
+                  <label>{{'frmMasterProfileSKKomponenGaji_namaSK'| translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('namaSK').valid && form.get('namaSK').touched" style="color: red"> {{'frmMasterProfileSKKomponenGaji_required'| translate | splitCharT}}</span>
+                  </label>
+                  <p-dropdown formControlName="namaSK" (onChange)="ambilSK($event)" class="ui-inputwrapper-filled" [options]="namaSK" [autoWidth]="false"
+                  [filter]="true" filterBy="label"></p-dropdown>
+
+                </div>
+                <div class="ui-g-3">
+                  <br/>
+                  <button pButton type="button" (click)="getKelompokTransaksi()" label="{{'frmMasterProfileSKKomponenGaji_buatSk'| translate | splitCharT }}"></button>
+                </div>
+                <div class="ui-g-12" hidden="true">
+                  <label>{{'frmMasterProfileSKKomponenGaji_noSK'| translate | splitCharT }}</label>
+                  <input id="input" type="text" formControlName="noSK" class="ui-inputwrapper-filled" disabled pInputText/>
+                  <!-- <span *ngIf="!form.get('noSK').valid && form.get('noSK').touched" style="color: red">*</span> -->
+                </div>
+
+                <div class="ui-g-12">
+                  <label>{{'frmMasterProfileSKKomponenGaji_noSKInternal'| translate | splitCharT }}</label>
+                  <input id="input" type="text" formControlName="noSkIntern" class="ui-inputwrapper-filled" disabled pInputText/>
+                  <!-- <span *ngIf="!form.get('noSK').valid && form.get('noSK').touched" style="color: red">*</span> -->
+                </div>
+
+
+
+                <div class="ui-g-5">
+                  <label>{{'frmMasterProfileSKKomponenGaji_tglBerlakuSkDari'| translate | splitCharT }}</label>
+                  <app-calender formControlName="tglBerlakuSkDari" class="ui-inputwrapper-filled" disabled="true" dateFormat="dd M yy"></app-calender>
+                  <!-- <span *ngIf="!form.get('tglBerlakuSkDari').valid && form.get('tglBerlakuSkDari').touched" style="color: red">*</span> -->
+                </div>
+                <div class="ui-g-1">
+                  <br/>
+                  <label>{{'frmMasterProfileSKKomponenGaji_s/d'| translate | splitCharT }}</label>
+                </div>
+                <div class="ui-g-6">
+                  <label>{{'frmMasterProfileSKKomponenGaji_tglBerlakuSkSampai'| translate | splitCharT }}</label>
+                  <app-calender formControlName="tglBerlakuSkSampai" class="ui-inputwrapper-filled" disabled="true" dateFormat="dd M yy"></app-calender>
+                  <!-- <span *ngIf="!form.get('tglBerlakuSkSampai').valid && form.get('tglBerlakuSkSampai').touched" style="color: red">*</span> -->
+                </div>
+              </div>
+              <div class="ui-g-4">
+                <div class="ui-g-12">
+                  <label>{{'frmMasterProfileSKKomponenGaji_kategoriPegawai'| translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('kategoriPegawai').valid && form.get('kategoriPegawai').touched" style="color: red"> {{'frmMasterProfileSKKomponenGaji_required'| translate | splitCharT}}</span>
+                  </label>
+                  <p-dropdown [filter]="true" filterBy="label" formControlName="kategoriPegawai" class="ui-inputwrapper-filled" [options]="kategoriPegawai"
+                  [autoWidth]="false"></p-dropdown>
+
+                </div>
+                <div class="ui-g-12">
+                  <label>{{'frmProfileSKKomponenGaji_komponenHarga'| translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('komponenHarga').valid && form.get('komponenHarga').touched" style="color: red"> {{'frmMasterProfileSKKomponenGaji_required'| translate | splitCharT}}</span>
+                  </label>
+                  <p-dropdown [filter]="true" filterBy="label" formControlName="komponenHarga" class="ui-inputwrapper-filled" [options]="komponenHarga"
+                  [autoWidth]="false"></p-dropdown>
+
+                </div>
+                <div class="ui-g-12">
+                  <p-checkbox binary="true" label="{{'frmMasterProfileSKKomponenGaji_isByStruktur'| translate | splitCharT }}" (onChange)="changeStruktur($event)" formControlName="isByStruktur"></p-checkbox>
+                </div>
+                <div class="ui-g-12">
+                  <label>{{'frmMasterProfileSKKomponenGaji_namaTabel'| translate | splitCharT }}</label>
+                  <p-dropdown [filter]="true" filterBy="label" placeholder="{{'frmMasterProfileSKKomponenGaji_pilihNamaTabel'| translate | splitCharT }}" formControlName="namaTabel"
+                  (ngModelChange)="ambilTable($event)" class="ui-inputwrapper-filled" [options]="tableRelasi" (ngModelChange)="getValueTable($event)"
+                  [autoWidth]="false"></p-dropdown>
+                </div>
+                <div class="ui-g-12" hidden>
+                  <p-multiSelect [options]="fieldKeyTabelRelasi" formControlName="FKCriteriaBy" [panelStyle]="{minWidth:'12em'}"></p-multiSelect>
+                  <!-- <p-dropdown [filter]="true" filterBy="label" pTooltip="{{'FKCriteriaBy'| translate | splitCharT }}" tooltipPosition="top" tooltipEvent="focus" placeholder="{{'--Pilih Criteria By--'| translate | splitCharT }}" formControlName="FKCriteriaBy" class="ui-inputwrapper-filled" [options]="fieldKeyTabelRelasi" [autoWidth]="false"></p-dropdown> -->
+                </div>
+              </div>
+              <div class="ui-g-4">
+                <div class="ui-g-12">
+                  <label>{{'frmMasterProfileSKKomponenGaji_keteranganLainnya'| translate | splitCharT }}</label>
+                  <textarea formControlName="keteranganLainnya" rows="3" cols="30" pInputTextarea autoResize="autoResize"></textarea>
+                </div>
+                <div class="ui-g-12">
+                  <p-checkbox binary="true" label="{{'frmMasterProfileSKKomponenGaji_statusEnabled'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                  <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">* {{'frmMasterProfileSKKomponenGaji_required'| translate | splitCharT}}.</span>
+                </div>
+              </div>
+
+            </form>
+            <div class="ui-g-12">
+              <p-fieldset legend="{{'frmMasterProfileSKKomponenGaji_profileStrukturGajiByGp'| translate | splitCharT }}" [toggleable]="true" *ngIf="table == 'ProfileStrukturGajiByGP_M'">
+                <div class="ui-g form-group">
+                  <div class="ui-g-12">
+                      <!-- <p-toolbar>
+                        <div class="ui-toolbar-group-left">
+                          <button pButton type="button" label="Tambah" icon="fa-plus" (click)="addGP()"></button>
+                        </div>
+                      </p-toolbar> -->
+                      <p-dataTable [value]="listGP" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true"
+                      scrollable="true" [responsive]="true">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <button type="button" pButton icon="fa-plus" (click)="addGP()" style="float:left; font-size: 13px !important;"></button>
+                        </div>
+                      </p-header>
+                      <p-column field="golonganPegawai" header="{{'frmMasterProfileSKKomponenGaji_tblGolonganPegawai'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-produk="rowData" pTemplate="body">
+                          {{produk[col.field].namaGolonganPegawai}}
+                        </ng-template>
+                        <ng-template let-col let-produk="rowData" pTemplate="editor">
+                          <div *ngIf="produk.noSK != null">
+                            {{produk[col.field].namaGolonganPegawai}}
+                          </div>
+                          <div *ngIf="produk.noSK == null">
+                            <p-dropdown [(ngModel)]="produk[col.field]" [options]="golonganPegawai" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                            appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="pangkat" header="{{'frmMasterProfileSKKomponenGaji_tblPangkat'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-kondisi="rowData" pTemplate="body">
+                          {{kondisi[col.field].namaPangkat}}
+                        </ng-template>
+                        <ng-template let-col let-kondisi="rowData" pTemplate="editor">
+                          <div *ngIf="kondisi.noSK != null">
+                            {{kondisi[col.field].namaPangkat}}
+                          </div>
+                          <div *ngIf="kondisi.noSK == null">
+                            <p-dropdown [(ngModel)]="kondisi[col.field]" [options]="pangkat" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                            appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="totalPoin" header="{{'frmMasterProfileSKKomponenGaji_tblTotalPoin'| translate | splitCharT}}">
+                        <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="body">
+                          <div *ngIf="dataEditTotal !== true">
+                            <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" disabled="true"> -->
+                            <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}" disabled></p-spinner>
+                          </div>
+                          <div *ngIf="komponen.hargaSatuan == null && dataEditTotal === true">
+                            <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                            <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="hargaSatuan" header="{{'frmMasterProfileSKKomponenGaji_tblHargaSatuan'| translate | splitCharT}}">
+                        <!-- <ng-template let-col let-komponen="rowData" pTemplate="body"> -->
+                          <!-- {{ setHarga(komponen[col.field]) }} -->
+                          <!-- </ng-template> -->
+                          <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="body">
+                            <div *ngIf="dataEditHarga !== true">
+                              <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body" disabled="true"> -->
+                              <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}" disabled></p-spinner>
+                            </div>
+                            <div *ngIf="komponen.totalPoin == null && dataEditHarga === true">
+                              <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                              <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                            </div>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="factorRate" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRate'| translate | splitCharT}}">
+                          <ng-template let-col let-komponen="rowData" pTemplate="body">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                          <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="operatorFactorRate" header="{{'frmMasterProfileSKKomponenGaji_tblOperatorFactorRate'| translate | splitCharT}}" [editable]="true">
+                          <ng-template let-col let-komponen="rowData" pTemplate="body">
+                            {{komponen[col.field].kode}}
+                          </ng-template>
+                          <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                            <p-dropdown [(ngModel)]="komponen[col.field]" [options]="operatorFactorRate" [autoWidth]="false" [style]="{'width':'100%'}"
+                            required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="factorRateDivide" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRateDivide'| translate | splitCharT}} *" >
+                          <ng-template let-col let-komponen="rowData" pTemplate="body">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                          <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="isGroupToRangeHarga" header="{{'frmMasterProfileSKKomponenGaji_tblIsGroupToRangeHarga'| translate | splitCharT}}">
+                          <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                            <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="statusAktif" header="{{'frmMasterProfileSKKomponenGaji_tblStatusAktif'| translate | splitCharT}}">
+                          <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                            <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                          </ng-template>
+                        </p-column>
+                        <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                          <ng-template pTemplate="header"></ng-template>
+                          <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                            <div *ngIf="data.noSK == null">
+                              <button type="button" pButton icon="fa-trash" (click)="hapusGP(i)"></button>
+                            </div>
+                          </ng-template>
+                        </p-column>
+                      </p-dataTable>
+                    </div>
+                  </div>
+                </p-fieldset>
+
+                <p-fieldset legend="{{'frmMasterProfileSKKomponenGaji_profileStrukturGajiByGPMKP'| translate | splitCharT }}" [toggleable]="true" *ngIf="table == 'ProfileStrukturGajiByGPMKP_M'">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <!-- <p-toolbar>
+                        <div class="ui-toolbar-group-left">
+                          <button pButton type="button" label="Tambah" icon="fa-plus" (click)="addGPMKP()"></button>
+                        </div>
+                      </p-toolbar> -->
+                      <p-dataTable [value]="listGPMKP" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true"
+                      scrollable="true" [responsive]="true">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <button type="button" pButton icon="fa-plus" (click)="addGPMKP()" style="float:left; font-size: 13px !important;"></button>
+                        </div>
+                      </p-header>
+                      <p-column field="golonganPegawai" header="{{'frmMasterProfileSKKomponenGaji_tblGolonganPegawai'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-produk="rowData" pTemplate="body">
+                          {{produk[col.field].namaGolonganPegawai}}
+                        </ng-template>
+                        <ng-template let-col let-produk="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="produk[col.field]" [options]="golonganPegawai" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="pangkat" header="{{'frmMasterProfileSKKomponenGaji_tblPangkat'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-kondisi="rowData" pTemplate="body">
+                          {{kondisi[col.field].namaPangkat}}
+                        </ng-template>
+                        <ng-template let-col let-kondisi="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="kondisi[col.field]" [options]="pangkat" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="pendidikan" header="{{'frmMasterProfileSKKomponenGaji_tblPendidikan'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-kondisi="rowData" pTemplate="body">
+                          {{kondisi[col.field].namaPendidikan}}
+                        </ng-template>
+                        <ng-template let-col let-kondisi="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="kondisi[col.field]" [options]="pendidikan" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="rangeMasaKerja" header="{{'frmMasterProfileSKKomponenGaji_tblRangeMasaKerja'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-kondisi="rowData" pTemplate="body">
+                          {{kondisi[col.field].namaRange}}
+                        </ng-template>
+                        <ng-template let-col let-kondisi="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="kondisi[col.field]" [options]="rangeMasaKerja" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="totalPoin" header="{{'frmMasterProfileSKKomponenGaji_tblTotalPoin'| translate | splitCharT}}">
+                        <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="body">
+                          <div *ngIf="komponen.hargaSatuan == null">
+                            <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                            <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="hargaSatuan" header="{{'frmMasterProfileSKKomponenGaji_tblHargaSatuan'| translate | splitCharT}}">
+                        <!-- <ng-template let-col let-komponen="rowData" pTemplate="body"> -->
+                          <!-- {{ setHarga(komponen[col.field]) }} -->
+                          <!-- </ng-template> -->
+                          <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="body">
+                            <div *ngIf="komponen.totalPoin == null">
+                              <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                              <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                            </div>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="factorRate" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRate'| translate | splitCharT}}">
+                          <ng-template let-col let-komponen="rowData" pTemplate="body">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                          <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="operatorFactorRate" header="{{'frmMasterProfileSKKomponenGaji_OperatorFactorRate'| translate | splitCharT}}" [editable]="true">
+                          <ng-template let-col let-komponen="rowData" pTemplate="body">
+                            {{komponen[col.field].kode}}
+                          </ng-template>
+                          <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                            <p-dropdown [(ngModel)]="komponen[col.field]" [options]="operatorFactorRate" [autoWidth]="false" [style]="{'width':'100%'}"
+                            required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="factorRateDivide" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRateDivide'| translate | splitCharT}} *" >
+                          <ng-template let-col let-komponen="rowData" pTemplate="body">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                          <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="isGroupToRangeHarga" header="{{'frmMasterProfileSKKomponenGaji_tblIsGroupToRangeHarga'| translate | splitCharT}}">
+                          <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                            <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="statusAktif" header="{{'frmMasterProfileSKKomponenGaji_tblStatusAktif'| translate | splitCharT}}">
+                          <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                            <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                          </ng-template>
+                        </p-column>
+                        <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                          <ng-template pTemplate="header"></ng-template>
+                          <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                            <div *ngIf="data.noSK == null">
+                              <button type="button" pButton icon="fa-trash" (click)="hapusGPMKP(i)"></button>
+                            </div>
+                          </ng-template>
+                        </p-column>
+                      </p-dataTable>
+                    </div>
+                  </div>
+                </p-fieldset>
+
+                <p-fieldset legend="{{'frmMasterProfileSKKomponenGaji_profileStrukturGajiByJeP'| translate | splitCharT }}" [toggleable]="true" *ngIf="table == 'ProfileStrukturGajiByJeP_M'">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <!-- <p-toolbar>
+                        <div class="ui-toolbar-group-left">
+                          <button pButton type="button" label="Tambah" icon="fa-plus" (click)="addJEP()"></button>
+                        </div>
+                      </p-toolbar> -->
+                      <p-dataTable [value]="listJEP" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true"
+                      scrollable="true" [responsive]="true">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <button type="button" pButton icon="fa-plus" (click)="addJEP()" style="float:left; font-size: 13px !important;"></button>
+                        </div>
+                      </p-header>
+                      <p-column field="jenisPegawai" header="{{'frmMasterProfileSKKomponenGaji_tblJenisPegawai'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-produk="rowData" pTemplate="body">
+                          {{produk[col.field].namaJenisPegawai}}
+                        </ng-template>
+                        <ng-template let-col let-produk="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="produk[col.field]" [options]="jenisPegawai" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="totalPoin" header="{{'frmMasterProfileSKKomponenGaji_tblTotalPoin'| translate | splitCharT}}" >
+                        <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="body">
+                          <div *ngIf="komponen.hargaSatuan == null">
+                            <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                            <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="hargaSatuan" header="{{'frmMasterProfileSKKomponenGaji_tblHargaSatuan'| translate | splitCharT}}">
+                        <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          <!-- {{ setHarga(komponen[col.field]) }} -->
+                          <div *ngIf="komponen.totalPoin == null">
+                            <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                          </div>
+                        </ng-template>
+                        <!-- <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="editor"> -->
+                          <!-- <div *ngIf="komponen.totalPoin == null"> -->
+                            <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                            <!-- <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner> -->
+                            <!-- </div> -->
+                            <!-- </ng-template> -->
+                          </p-column>
+                          <p-column field="factorRate" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRate'| translate | splitCharT}}">
+                            <ng-template let-col let-komponen="rowData" pTemplate="body">
+                              <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                            </ng-template>
+                            <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                              <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                            </ng-template>
+                          </p-column>
+                          <p-column field="operatorFactorRate" header="{{'frmMasterProfileSKKomponenGaji_tblOperatorFactorRate'| translate | splitCharT}}" [editable]="true">
+                            <ng-template let-col let-komponen="rowData" pTemplate="body">
+                              {{komponen[col.field].kode}}
+                            </ng-template>
+                            <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                              <p-dropdown [(ngModel)]="komponen[col.field]" [options]="operatorFactorRate" [autoWidth]="false" [style]="{'width':'100%'}"
+                              required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                            </ng-template>
+                          </p-column>
+                          <p-column field="factorRateDivide" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRateDivide'| translate | splitCharT}} *" >
+                            <ng-template let-col let-komponen="rowData" pTemplate="body">
+                              <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                            </ng-template>
+                            <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                              <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                            </ng-template>
+                          </p-column>
+                          <p-column field="isGroupToRangeHarga" header="{{'frmMasterProfileSKKomponenGaji_tblIsGroupToRangeHarga'| translate | splitCharT}}">
+                            <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                              <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                            </ng-template>
+                          </p-column>
+                          <p-column field="statusAktif" header="{{'frmMasterProfileSKKomponenGaji_tblStatusAktif'| translate | splitCharT}}">
+                            <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                              <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                            </ng-template>
+                          </p-column>
+                          <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                            <ng-template pTemplate="header"></ng-template>
+                            <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                              <div *ngIf="data.noSK == null">
+                                <button type="button" pButton icon="fa-trash" (click)="hapusJEP(i)"></button>
+                              </div>
+                            </ng-template>
+                          </p-column>
+                        </p-dataTable>
+                      </div>
+                    </div>
+                  </p-fieldset>
+
+                  <p-fieldset legend="{{'frmMasterProfileSKKomponenGaji_profileStrukturGajiByJLT'| translate | splitCharT }}" [toggleable]="true" *ngIf="table == 'ProfileStrukturGajiByJLT_M'">
+                    <div class="ui-g form-group">
+                      <div class="ui-g-12">
+                      <!-- <p-toolbar>
+                        <div class="ui-toolbar-group-left">
+                          <button pButton type="button" label="Tambah" icon="fa-plus" (click)="addJLT()"></button>
+                        </div>
+                      </p-toolbar> -->
+                      <p-dataTable [value]="listJLT" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true"
+                      scrollable="true" [responsive]="true">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <button type="button" pButton icon="fa-plus" (click)="addJLT()" style="float:left; font-size: 13px !important;"></button>
+                        </div>
+                      </p-header>
+                      <p-column field="jabatan" header="{{'frmMasterProfileSKKomponenGaji_tblJabatan'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-produk="rowData" pTemplate="body">
+                          {{produk[col.field].namaJabatan}}
+                        </ng-template>
+                        <ng-template let-col let-produk="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="produk[col.field]" [options]="jabatan" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="levelTingkat" header="{{'frmMasterProfileSKKomponenGaji_tblLevelTingkat'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-kondisi="rowData" pTemplate="body">
+                          {{kondisi[col.field].namaLevelTingkat}}
+                        </ng-template>
+                        <ng-template let-col let-kondisi="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="kondisi[col.field]" [options]="levelTingkat" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="totalPoin" header="{{'frmMasterProfileSKKomponenGaji_tblTotalPoin'| translate | splitCharT}}">
+                        <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="body">
+                          <div *ngIf="komponen.hargaSatuan == null">
+                            <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                            <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="hargaSatuan" header="{{'frmMasterProfileSKKomponenGaji_tblHargaSatuan'| translate | splitCharT}}">
+                        <!-- <ng-template let-col let-komponen="rowData" pTemplate="body"> -->
+                          <!-- {{ setHarga(komponen[col.field]) }} -->
+                        <!-- </ng-template> -->
+                        <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="body">
+                          <div *ngIf="komponen.totalPoin == null">
+                            <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                            <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="factorRate" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRate'| translate | splitCharT}}">
+                        <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                        <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="operatorFactorRate" header="{{'frmMasterProfileSKKomponenGaji_tblOperatorFactorRate'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          {{komponen[col.field].kode}}
+                        </ng-template>
+                        <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="komponen[col.field]" [options]="operatorFactorRate" [autoWidth]="false" [style]="{'width':'100%'}"
+                          required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="factorRateDivide" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRateDivide'| translate | splitCharT}} *">
+                         <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                        <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="isGroupToRangeHarga" header="{{'frmMasterProfileSKKomponenGaji_tblIsGroupToRangeHarga'| translate | splitCharT}}">
+                        <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                          <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="statusAktif" header="{{'frmMasterProfileSKKomponenGaji_tblStatusAktif'| translate | splitCharT}}">
+                        <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                          <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                        </ng-template>
+                      </p-column>
+                      <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                        <ng-template pTemplate="header"></ng-template>
+                        <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                          <div *ngIf="data.noSK == null">
+                            <button type="button" pButton icon="fa-trash" (click)="hapusJLT(i)"></button>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                    </p-dataTable>
+                  </div>
+                </div>
+              </p-fieldset>
+
+              <p-fieldset legend="{{'frmMasterProfileSKKomponenGaji_profileStrukturGajiByJP'| translate | splitCharT }}" [toggleable]="true" *ngIf="table == 'ProfileStrukturGajiByJP_M'">
+                <div class="ui-g form-group">
+                  <div class="ui-g-12">
+                      <!-- <p-toolbar>
+                        <div class="ui-toolbar-group-left">
+                          <button pButton type="button" label="Tambah" icon="fa-plus" (click)="addJP()"></button>
+                        </div>
+                      </p-toolbar> -->
+                      <p-dataTable [value]="listJP" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true"
+                      scrollable="true" [responsive]="true">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <button type="button" pButton icon="fa-plus" (click)="addJP()" style="float:left; font-size: 13px !important;"></button>
+                        </div>
+                      </p-header>
+                      <p-column field="jabatan" header="{{'frmMasterProfileSKKomponenGaji_tblJabatan'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-produk="rowData" pTemplate="body">
+                          {{produk[col.field].namaJabatan}}
+                        </ng-template>
+                        <ng-template let-col let-produk="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="produk[col.field]" [options]="jabatan" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="pendidikan" header="{{'frmMasterProfileSKKomponenGaji_tblPendidikan'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-kondisi="rowData" pTemplate="body">
+                          {{kondisi[col.field].namaPendidikan}}
+                        </ng-template>
+                        <ng-template let-col let-kondisi="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="kondisi[col.field]" [options]="pendidikan" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="totalPoin" header="{{'frmMasterProfileSKKomponenGaji_tblTotalPoin'| translate | splitCharT}}">
+                        <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="body">
+                          <div *ngIf="komponen.hargaSatuan == null">
+                            <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                            <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="hargaSatuan" header="{{'frmMasterProfileSKKomponenGaji_tblHargaSatuan'| translate | splitCharT}}">
+                        <!-- <ng-template let-col let-komponen="rowData" pTemplate="body"> -->
+                          <!-- {{ setHarga(komponen[col.field]) }} -->
+                        <!-- </ng-template> -->
+                        <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="body">
+                          <div *ngIf="komponen.totalPoin == null">
+                            <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                            <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="factorRate" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRate'| translate | splitCharT}}">
+                        <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                        <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="operatorFactorRate" header="{{'frmMasterProfileSKKomponenGaji_tblOperatorFactorRate'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          {{komponen[col.field].kode}}
+                        </ng-template>
+                        <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="komponen[col.field]" [options]="operatorFactorRate" [autoWidth]="false" [style]="{'width':'100%'}"
+                          required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="factorRateDivide" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRateDivide'| translate | splitCharT}} *">
+                        <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                        <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="isGroupToRangeHarga" header="{{'frmMasterProfileSKKomponenGaji_tblIsGroupToRangeHarga'| translate | splitCharT}}">
+                        <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                          <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="statusAktif" header="{{'frmMasterProfileSKKomponenGaji_tblStatusAktif'| translate | splitCharT}}">
+                        <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                          <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                        </ng-template>
+                      </p-column>
+                      <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                        <ng-template pTemplate="header"></ng-template>
+                        <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                          <div *ngIf="data.noSK == null">
+                            <button type="button" pButton icon="fa-trash" (click)="hapusJP(i)"></button>
+                          </div>
+                        </ng-template>
+                      </p-column>
+                    </p-dataTable>
+                  </div>
+                </div>
+              </p-fieldset>
+
+              <!-- ed99 -->
+
+              <p-fieldset legend="{{'frmMasterProfileSKKomponenGaji_profileStrukturGajiByJ'| translate | splitCharT }}" [toggleable]="true" *ngIf="table == 'ProfileStrukturGajiByJ_M'">
+                <div class="ui-g form-group">
+                  <div class="ui-g-12">
+                      <!-- <p-toolbar>
+                        <div class="ui-toolbar-group-left">
+                          <button pButton type="button" label="Tambah" icon="fa-plus" (click)="addJP()"></button>
+                        </div>
+                      </p-toolbar> -->
+                      <p-dataTable [value]="listJ" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true"
+                      scrollable="true" [responsive]="true">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <button type="button" pButton icon="fa-plus" (click)="addJ()" style="float:left; font-size: 13px !important;"></button>
+                        </div>
+                      </p-header>
+                      <p-column field="jabatan" header="{{'frmMasterProfileSKKomponenGaji_tblJabatan'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-produk="rowData" pTemplate="body">
+                          {{produk[col.field].namaJabatan}}
+                        </ng-template>
+                        <ng-template let-col let-produk="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="produk[col.field]" [options]="jabatan" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                        <!-- <p-column field="pendidikan" header="{{'pendidikan'| translate | splitCharT}}" [editable]="true">
+                          <ng-template let-col let-kondisi="rowData" pTemplate="body">
+                            {{kondisi[col.field].namaPendidikan}}
+                          </ng-template>
+                          <ng-template let-col let-kondisi="rowData" pTemplate="editor">
+                            <p-dropdown [(ngModel)]="kondisi[col.field]" [options]="pendidikan" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                              appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                          </ng-template>
+                        </p-column> -->
+                        <p-column field="totalPoin" header="{{'frmMasterProfileSKKomponenGaji_tblTotalPoin'| translate | splitCharT}}">
+                          <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="body">
+                            <div *ngIf="komponen.hargaSatuan == null">
+                              <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                              <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                            </div>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="hargaSatuan" header="{{'frmMasterProfileSKKomponenGaji_tblHargaSatuan'| translate | splitCharT}}">
+                          <!-- <ng-template let-col let-komponen="rowData" pTemplate="body"> -->
+                            <!-- {{ setHarga(komponen[col.field]) }} -->
+                          <!-- </ng-template> -->
+                          <ng-template let-col let-komponen="rowData" let-i="rowIndex" pTemplate="body">
+                            <div *ngIf="komponen.totalPoin == null">
+                              <!-- <input type="number" pInputText [(ngModel)]="komponen[col.field]" [ngModelOptions]="{standalone: true}" appendTo="body"> -->
+                              <p-spinner id="input" [min]="0" type="text" [(ngModel)]="komponen[col.field]"  [ngModelOptions]="{standalone: true}" appendTo="body" [ngModelOptions]="{standalone: true}"></p-spinner>
+                            </div>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="factorRate" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRate'| translate | splitCharT}}" >
+                          <ng-template let-col let-komponen="rowData" pTemplate="body">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                          <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="operatorFactorRate" header="{{'frmMasterProfileSKKomponenGaji_tblOperatorFactorRate'| translate | splitCharT}}" [editable]="true">
+                          <ng-template let-col let-komponen="rowData" pTemplate="body">
+                            {{komponen[col.field].kode}}
+                          </ng-template>
+                          <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                            <p-dropdown [(ngModel)]="komponen[col.field]" [options]="operatorFactorRate" [autoWidth]="false" [style]="{'width':'100%'}"
+                            required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="factorRateDivide" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRateDivide'| translate | splitCharT}} *" >
+                          <ng-template let-col let-komponen="rowData" pTemplate="body">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                          <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                            <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="isGroupToRangeHarga" header="{{'frmMasterProfileSKKomponenGaji_tblIsGroupToRangeHarga'| translate | splitCharT}}">
+                          <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                            <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                          </ng-template>
+                        </p-column>
+                        <p-column field="statusAktif" header="{{'frmMasterProfileSKKomponenGaji_tblStatusAktif'| translate | splitCharT}}">
+                          <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                            <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                          </ng-template>
+                        </p-column>
+                        <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                          <ng-template pTemplate="header"></ng-template>
+                          <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                            <div *ngIf="data.noSK == null">
+                              <button type="button" pButton icon="fa-trash" (click)="hapusJ(i)"></button>
+                            </div>
+                          </ng-template>
+                        </p-column>
+                      </p-dataTable>
+                    </div>
+                  </div>
+                </p-fieldset>
+
+
+
+                <p-fieldset legend="{{'frmMasterProfileSKKomponenGaji_profileStrukturGajiByMKRH'| translate | splitCharT }}" [toggleable]="true" *ngIf="table == 'ProfileStrukturGajiByMKRH_M'">
+                  <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                      <!-- <p-toolbar>
+                        <div class="ui-toolbar-group-left">
+                          <button pButton type="button" label="Tambah" icon="fa-plus" (click)="addMKRH()"></button>
+                        </div>
+                      </p-toolbar> -->
+                      <p-dataTable [value]="listMKRH" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" [editable]="true"
+                      scrollable="true" [responsive]="true">
+                      <p-header>
+                        <div class="ui-helper-clearfix">
+                          <button type="button" pButton icon="fa-plus" (click)="addMKRH()" style="float:left; font-size: 13px !important;"></button>
+                        </div>
+                      </p-header>
+                      <p-column field="rangeMasaKerja" header="{{'frmMasterProfileSKKomponenGaji_tblRangeMasaKerja'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-produk="rowData" pTemplate="body">
+                          {{produk[col.field].namaRange}}
+                        </ng-template>
+                        <ng-template let-col let-produk="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="produk[col.field]" [options]="rangeMasaKerja" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="rangeHargaGroup" header="{{'frmMasterProfileSKKomponenGaji_tblRangeHargaGroup'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-kondisi="rowData" pTemplate="body">
+                          {{kondisi[col.field].namaRange}}
+                        </ng-template>
+                        <ng-template let-col let-kondisi="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="kondisi[col.field]" [options]="rangeHargaGroup" [autoWidth]="false" [style]="{'width':'100%'}" required="true"
+                          appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <!-- <p-column field="totalPoin" header="{{'totalPoin'| translate | splitCharT}}" [editable]="true"></p-column>                       -->
+                      <p-column field="persenHargaSatuan" header="{{'frmMasterProfileSKKomponenGaji_tblPersenHargaSatuan'| translate | splitCharT}}">
+                        <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="factorRate" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRate'| translate | splitCharT}}" >
+                        <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                        <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="operatorFactorRate" header="{{'frmMasterProfileSKKomponenGaji_tblOperatorFactorRate'| translate | splitCharT}}" [editable]="true">
+                        <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          {{komponen[col.field].kode}}
+                        </ng-template>
+                        <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                          <p-dropdown [(ngModel)]="komponen[col.field]" [options]="operatorFactorRate" [autoWidth]="false" [style]="{'width':'100%'}"
+                          required="true" appendTo="body" [filter]="true" filterBy="label"></p-dropdown>
+                        </ng-template>
+                      </p-column>
+                      <p-column field="factorRateDivide" header="{{'frmMasterProfileSKKomponenGaji_tblFactorRateDivide'| translate | splitCharT}} *">
+                        <ng-template let-col let-komponen="rowData" pTemplate="body">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                        <ng-template let-col let-komponen="rowData" pTemplate="editor">
+                          <input id="input" [(ngModel)]="komponen[col.field]" type="number" pInputText/>
+                        </ng-template>
+                      </p-column>
+                        <!-- <p-column field="isGroupToRangeHarga" header="{{'isGroupToRangeHarga'| translate | splitCharT}}">
+                    <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                        <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                    </ng-template>
+                  </p-column>                -->
+                  <p-column field="statusAktif" header="{{'frmMasterProfileSKKomponenGaji_tblStatusAktif'| translate | splitCharT}}">
+                    <ng-template pTemplate type="body" let-col let-komponen="rowData" let-ri="rowIndex">
+                      <p-checkbox [(ngModel)]="komponen[col.field]" binary="true"></p-checkbox>
+                    </ng-template>
+                  </p-column>
+                  <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                    <ng-template pTemplate="header"></ng-template>
+                    <ng-template let-data="rowData" let-i="rowIndex" pTemplate="body">
+                      <div *ngIf="data.noSK == null">
+                        <button type="button" pButton icon="fa-trash" (click)="hapusMKRH(i)"></button>
+                      </div>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
+              </div>
+            </div>
+          </p-fieldset>
+
+        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="ui-g-12 ui-md-7"></div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" label="{{'frmMasterProfileSKKomponenGaji_btnBatal'| translate | splitCharT }}" icon="fa-refresh" (click)="reset()"></button>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="submit" label="{{'frmMasterProfileSKKomponenGaji_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" label="{{'frmMasterProfileSKKomponenGaji_btnHapus'| translate | splitCharT }}" icon="fa-trash" (click)="confirmDelete()"></button>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <button pButton type="button" label="{{'frmMasterProfileSKKomponenGaji_btnCetak'| translate | splitCharT }}" icon="fa-print" (click)="cetak()"></button>
+          </div>
+          <div class="ui-g-12 ui-md-1">
+            <p-splitButton label="{{'frmMasterProfileSKKomponenGaji_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+          </div>
+
+        </form>
+      </div>
+      <div class="ui-g-12">
+
+        <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+        [(selection)]="selected" (onRowSelect)="onRowSelect($event)" scrollable="true" [totalRecords]="totalRecords"
+        (onLazyLoad)="loadPage($event)" [lazy]="true">
+        <p-header>
+          <div class="ui-helper-clearfix">
+            <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+            <input type="text" pInputText size="50" placeholder="{{'frmMasterProfileSKKomponenGaji_pencarianKategoriPegawai'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()"
+            style="width: 20%;float:right;">
+            <span style="float: left;padding:0.3em;">{{'frmMasterProfileSKKomponenGaji_profileSKKomponenGajiTable'| translate | splitCharT }}</span>
+          </div>
+        </p-header>
+        <p-column hidden="true" field="kode.noSK" header="{{'frmMasterProfileSKKomponenGaji_tblNoSk' | translate | splitCharT }}" [style]="{'width':'100px'}"></p-column>
+        <p-column field="noSKIntern" header="{{'frmMasterProfileSKKomponenGaji_tblNoSKInternal'| translate | splitCharT }}"[style]="{'width':'150px'}"></p-column>
+        <p-column field="namaSK" header="{{'frmMasterProfileSKKomponenGaji_tblNamaSk' | translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+        <p-column field="tglBerlakuAwal" header="{{'frmMasterProfileSKKomponenGaji_tblTglBerlakuSkAwal' | translate | splitCharT }}" [style]="{'width':'150px'}">
+          <ng-template let-pick="rowData" pTemplate type="body">
+            {{pick.tglBerlakuAwal * 1000 | date: 'dd MMM yyyy'}}
+          </ng-template>
+        </p-column>
+        <p-column field="tglBerlakuAkhir" header="{{'frmMasterProfileSKKomponenGaji_tblTglBerlakuSkAkhir' | translate | splitCharT }}" [style]="{'width':'150px'}">
+          <ng-template pTemplate="body" let-StatusSK="rowData">
+            <span *ngIf="StatusSK.tglBerlakuAkhir != null">{{StatusSK.tglBerlakuAkhir * 1000 | date:'dd MMM yyyy'}}</span>
+            <span *ngIf="StatusSK.tglBerlakuAkhir == null">-</span>
+          </ng-template>
+        </p-column>
+        <p-column field="namaKategoryPegawai" header="{{'frmMasterProfileSKKomponenGaji_tblKategoriPegawai'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+        <p-column field="namaKomponenHarga" header="{{'frmMasterProfileSKKomponenGaji_tblKomponenHarga'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+        <p-column field="isByStruktur" header="{{'frmMasterProfileSKKomponenGaji_tblIsByStruktur'| translate | splitCharT }}" [style]="{'width':'100px'}">
+          <ng-template let-row="rowData" pTemplate type="body">
+            <span *ngIf="row.isByStruktur == 1">
+              {{ 'true' }}
+            </span>
+            <span *ngIf="row.isByStruktur == 0">
+              {{ 'false' }}
+            </span>
+          </ng-template>
+        </p-column>
+        <p-column field="namaTabelStruktur" header="{{'frmMasterProfileSKKomponenGaji_tblNamaTabel'| translate | splitCharT }}" [style]="{'width':'250px'}"></p-column>
+        <p-column field="fKCriteriaBy" header="{{'frmMasterProfileSKKomponenGaji_FKCriteriaBy'| translate | splitCharT }}" [style]="{'width':'250px'}">
+                  <!-- <ng-template let-row="rowData" pTemplate type="body">
+                  <span>
+                    {{ row.fKCriteriaBy.replace(/[| }}
+                  </span>
+                </ng-template> -->
+              </p-column>
+              <p-column field="keteranganLainnya" header="{{'frmMasterProfileSKKomponenGaji_tblKeteranganLainnya'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column>
+              <p-column field="statusEnabled" header="{{'frmMasterProfileSKKomponenGaji_tblStatusAktif'| translate | splitCharT }}" [style]="{'width':'200px'}">
+                <ng-template let-col="rowData" pTemplate type="body">
+                  {{col.statusEnabled | truefalse | translate | splitCharT }}
+                </ng-template> 
+              </p-column>
+            </p-dataTable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

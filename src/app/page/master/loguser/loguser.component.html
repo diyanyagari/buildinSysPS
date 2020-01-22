@@ -1,0 +1,49 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <h1>Form Log User</h1>
+                <div class="ui-g form-group">
+
+
+
+                    <div class="ui-g-12">
+                        <p-dataTable [value]="listdatadua" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)">
+                            <p-header>Modul Operasi</p-header>
+                            <p-column field="" header="NO"></p-column>
+                            <p-column field="entities" header="OPERASI"></p-column>
+                            <p-column field="" header="DETAIL OPERASI"></p-column>
+
+                        </p-dataTable>
+                    </div>
+                    <div class="ui-g-12">
+                        <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)">
+                            <p-header>Subsistem</p-header>
+                            <p-column field="namaLengkap" header="NAMA PEGAWAI "></p-column>
+
+                            <p-column field="namaUser" header="NAMA USER"></p-column>
+
+                        </p-dataTable>
+                    </div>
+                    <div class="ui-g-12">
+                        <p-dataTable [value]="listdatatiga" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+                            <p-header>Log Information</p-header>
+                            <p-column field="tglCRUDin" header="NO"></p-column>
+                            <p-column field="kdUser" header="NIP"></p-column>
+                            <p-column field="namaObjekCRUD" header="NAMA PEGAWAI"></p-column>
+                            <p-column field="detailDataCRUD" header="NAMA USER"></p-column>
+                            <p-column field="namaHost" header="DEPARTEMEN"></p-column>
+                            <p-column field="tglLogin" header="KELOMPOK USER"></p-column>
+                            <p-column field="noRecP" header="KELOMPOK USER"></p-column>
+                            <p-column field="tglLogout" header="KELOMPOK USER"></p-column>
+                            <p-column field="detailObjekCRUD" header="KELOMPOK USER"></p-column>
+                            <p-column field="tglCRUDout" header="KELOMPOK USER"></p-column>
+                            <p-column field="namaProses" header="KELOMPOK USER"></p-column>
+                            <p-column field="kdRuanganUser" header="KELOMPOK USER"></p-column>
+                        </p-dataTable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

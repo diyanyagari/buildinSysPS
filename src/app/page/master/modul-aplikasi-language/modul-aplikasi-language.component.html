@@ -1,0 +1,149 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+                <h1>{{'frmModulAplikasiLanguage_title'| translate | splitCharT }}</h1>
+                <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="ui-g form-group">
+                                <!-- <div class="ui-g-12 ui-md-12 ui-lg-3 ui-g-nopad"> -->
+                                <div class="ui-g-12 ui-md-12 ui-lg-2">
+                                    <label>{{'frmModulAplikasiLanguage_ModulAplikasi'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span
+                                            *ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched"
+                                            style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+                                        formControlName="kdModulAplikasi" [options]="listDropdownModulAplikasi"
+                                        [autoWidth]="false"></p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-12 ui-lg-2">
+                                    <label>{{'frmModulAplikasiLanguage_Negara'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdNegara').valid && form.get('kdNegara').touched"
+                                            style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+                                        formControlName="kdNegara" [options]="dropdownNegara" [autoWidth]="false"
+                                        (onChange)="changeNegara($event)">
+                                    </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-12 ui-lg-2">
+                                    <label>{{'frmModulAplikasiLanguage_Bahasa'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdBahasa').valid && form.get('kdBahasa').touched"
+                                            style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+                                        formControlName="kdBahasa" [options]="listDropdownBahasa" [autoWidth]="false">
+                                    </p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-12 ui-lg-2">
+                                    <label>{{'frmModulAplikasiLanguage_Version'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdVersion').valid && form.get('kdVersion').touched"
+                                            style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--"
+                                        formControlName="kdVersion" [options]="listDropdownVersion" [autoWidth]="false">
+                                    </p-dropdown>
+                                </div>
+                                <!-- </div> -->
+                                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                    <label>{{'frmModulAplikasiLanguage_FileBahasa' | translate | splitCharT }}</label>
+                                    <div style="display: flex; padding: 0px; margin: 0px">
+                                        <p-fileUpload #fubauto mode="basic" (onUpload)="imageUpload($event)"
+                                            accept="image/*" name="file" maxFileSize="1000000"
+                                            (onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()"
+                                            auto="true" chooseLabel="Browse" withCredentials="true"></p-fileUpload>
+                                        <input id="imagePath" type="text" formControlName="pathFileBahasa"
+                                            [(ngModel)]="pathBahasa" disabled pInputText />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                        <p-checkbox binary="true"
+                                            label="{{'frmModulAplikasiLanguage_tableStatus'| translate | splitCharT }}"
+                                            formControlName="statusEnabled"> </p-checkbox>
+                                        <span
+                                            *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                                            style="color: red">*</span>
+                                        <span
+                                            *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                                            style="color: red"> {{'required'| translate | splitCharT}}</span>
+                                    </div>
+                                </div>
+                                <div class="ui-g-12">
+                                    <div class="ui-g-12 ui-md-7"></div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button"
+                                            label="{{'frmModulAplikasiLanguage_btnBatal'| translate | splitCharT}}" icon="fa-refresh"
+                                            (click)="reset()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="submit"
+                                            label="{{'frmModulAplikasiLanguage_btnSimpan'| translate | splitCharT}}"
+                                            icon="fa-save"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button"
+                                            label="{{'frmModulAplikasiLanguage_btnHapus'| translate | splitCharT}}" icon="fa-trash"
+                                            (click)="confirmDelete()" [disabled]="formAktif"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button"
+                                            label="{{'frmModulAplikasiLanguage_btnCetak'| translate | splitCharT}}" icon="fa-print"
+                                            (click)="cetak()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <p-splitButton label="{{'frmModulAplikasiLanguage_btnExport'| translate | splitCharT }}"
+                                            icon="fa-external-link" [model]="items"></p-splitButton>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ui-g-12 ui-fluid">
+                        <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+                            [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected"
+                            (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="Loading"
+                            loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)"
+                            expandableRows="true">
+                            <p-header>
+                                <div class="ui-helper-clearfix">
+                                    <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                    <input type="text" pInputText size="50"
+                                        placeholder="{{'frmModulAplikasiLanguage_tablePencarian'| translate | splitCharT}}"
+                                        [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+                                    <span
+                                        style="float: left;padding:0.3em;">{{'frmModulAplikasiLanguage_tableTitle'| translate | splitCharT}}</span>
+                                </div>
+                            </p-header>
+                            <p-column styleClass="col-icon" [style]="{'width':'50px'}">
+                                <ng-template let-col="rowData" let-i="rowIndex" pTemplate type="body">
+                                    {{i+1}}
+                                </ng-template>
+                            </p-column>
+                            <p-column field="modulAplikasi.namaModulAplikasi"
+                                header="{{'frmModulAplikasiLanguage_tableModulAplikasi'| translate | splitCharT }}"></p-column>
+                            <p-column field="versionSystem.namaVersion"
+                                header="{{'frmModulAplikasiLanguage_tableVersi'| translate | splitCharT }}"></p-column>
+                            <p-column field="bahasa.namaBahasa"
+                                header="{{'frmModulAplikasiLanguage_tableBahasa'| translate | splitCharT }}"></p-column>
+                            <p-column field="pathFileBahasa"
+                                header="{{'frmModulAplikasiLanguage_tablePathFileBahasa'| translate | splitCharT }}"></p-column>
+                            <p-column field="statusEnabled"
+                                header="{{'frmModulAplikasiLanguage_tableStatus'| translate | splitCharT }}">
+                                <ng-template let-col="rowData" pTemplate type="body">
+                                    {{col.statusEnabled | truefalse | translate | splitCharT }}
+                                </ng-template>
+                            </p-column>
+                        </p-dataTable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

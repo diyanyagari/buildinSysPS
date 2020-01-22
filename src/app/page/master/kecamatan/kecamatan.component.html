@@ -1,0 +1,154 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        
+        <h1>{{'frmKecamatan_title' | translate | splitCharT }}</h1>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="ui-g form-group">
+            <div class="ui-g-12">
+              <div class="ui-g-6">
+                <div class="ui-g-12 ui-md-10" hidden>
+                  <span class="ui-float-label" hidden>
+                    <input id="input" hidden type="text" pInputText formControlName="kode" readonly="true" />
+                    <label for="input" hidden>{{'frmKecamatan_kodeKecamatan' | translate | splitCharT }}</label>
+                  </span>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmKecamatan_negara'| translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('kdNegara').valid && form.get('kdNegara').touched" style="color: red">{{'frmKecamatan_required'| translate | splitCharT}}</span>
+                  </label>
+                  <p-dropdown filter="filter" class="ui-inputwrapper-filled" (onChange)="getPropinsi(form.get('kdNegara').value)"
+                  formControlName="kdNegara" [options]="Negara" [autoWidth]="false"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmKecamatan_propinsi'| translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('kdPropinsi').valid && form.get('kdPropinsi').touched" style="color: red">{{'frmKecamatan_required'| translate | splitCharT}}</span>
+                  </label>
+                  <p-dropdown id="dropdownPropinsi" filter="filter" class="ui-inputwrapper-filled" (onChange)="valuechangekdPropinsi(form.get('kdPropinsi').value, form.get('kdNegara').value)"
+                  formControlName="kdPropinsi" [options]="Propinsi" [autoWidth]="false"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmKecamatan_kotaKabupaten'| translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('kdKotaKabupaten').valid && form.get('kdKotaKabupaten').touched" style="color: red">{{'frmKecamatan_required'| translate | splitCharT}}</span>
+                  </label>
+                  <p-dropdown id="dropdownKabupaten" filter="filter" class="ui-inputwrapper-filled" formControlName="kdKotaKabupaten" [options]="Kabupaten"
+                  [autoWidth]="false"></p-dropdown>
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <label for="input">{{'frmKecamatan_nama'| translate | splitCharT }}
+                    <span style="color: red;font-weight: bolder;">*</span>
+                    <span *ngIf="!form.get('namaKecamatan').valid && form.get('namaKecamatan').touched" style="color: red">{{'frmKecamatan_required'| translate | splitCharT}}</span>
+                  </label>
+                  <input id="input" type="text" formControlName="namaKecamatan" [(ngModel)]="toReport" (ngModelChange)="valuechange($event)"
+                  pInputText />
+                </div>
+                <div class="ui-g-12 ui-md-10">
+                  <p-checkbox binary="true" label="{{'frmKecamatan_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                  <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+                  <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'frmKecamatan_required'| translate | splitCharT}}</span>
+                </div>
+              </div>
+              <div class="ui-g-6">
+                <p-fieldset legend="{{'frmKecamatan_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+                  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="ui-g-12 ui-md-10">
+                      <label for="input">{{'frmKecamatan_reportDisplay'| translate | splitCharT }}
+                        <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">*</span>
+                        <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">{{'frmKecamatan_required'| translate | splitCharT}}</span>
+                      </label>
+                      <input type="text" formControlName="reportDisplay" [(ngModel)]="report" (keyup)="setReportDisplay()" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-10">
+                      <label for="input">{{'frmKecamatan_kodeExternal'| translate | splitCharT }}</label>
+                      <input type="text" formControlName="kodeExternal" pInputText />
+                    </div>
+                    <div class="ui-g-12 ui-md-10">
+                      <label for="input">{{'frmKecamatan_namaExternal'| translate | splitCharT }}</label>
+                      <input type="text" formControlName="namaExternal" pInputText />
+                    </div>
+                  </form>
+                </p-fieldset>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-7"></div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmKecamatan_nbtnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="submit" label="{{'frmKecamatan_nbtnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmKecamatan_nbtnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" label="{{'frmKecamatan_nbtnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <p-splitButton label="{{'frmKecamatan_nbtnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+                
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="ui-g-12 ui-fluid">
+          <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+          [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+          [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+          <p-header>
+            <div class="ui-helper-clearfix">
+              <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+              <input type="text" pInputText size="50" placeholder="{{'frmKecamatan_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+              (keyup)="cari()" style="width: 20%;float:right;">
+              <span style="float: left;padding:0.3em;">{{'frmKecamatan_tableTitle'| translate | splitCharT}}</span>
+            </div>
+          </p-header>
+          <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+          <p-column field="namaKecamatan" header="{{'frmKecamatan_tableNama'| translate | splitCharT }}"></p-column>
+          <p-column field="namaKotaKabupaten" header="{{'frmKecamatan_tableKotaKabupaten'| translate | splitCharT }}"></p-column>
+          <p-column field="namaPropinsi" header="{{'frmKecamatan_tablePropinsi'| translate | splitCharT }}"></p-column>
+          <p-column field="namaNegara" header="{{'frmKecamatan_negara'| translate | splitCharT }}"></p-column>
+          <p-column field="statusEnabled" header="{{'frmKecamatan_tableStatus'| translate | splitCharT }}">
+            <ng-template let-col="rowData" pTemplate type="body">
+              {{col.statusEnabled | truefalse | translate | splitCharT }}
+          </ng-template> 
+          </p-column>
+          <ng-template let-kecamatan pTemplate="rowexpansion">
+            <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+              <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                <div class="ui-grid-col-12">
+                  <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                    <div class="ui-grid-row">
+                      <div class="ui-grid-col-2 label">
+                        <span style="color:black">{{ 'frmKecamatan_optional' | translate | splitCharT }}</span>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="ui-grid-row">
+                      <div class="ui-grid label">{{'frmKecamatan_tableReportDisplay'| translate | splitCharT }} </div>
+                      <div class="ui-grid-col-4"> {{kecamatan.reportDisplay}}</div>
+                    </div>
+                    <div class="ui-grid-row">
+                      <div class="ui-grid label">{{'frmKecamatan_tableKodeExternal' | translate | splitCharT}} </div>
+                      <div class="ui-grid-col-4">{{kecamatan.kodeExternal}}</div>
+                    </div>
+                    <div class="ui-grid-row">
+                      <div class="ui-grid label">{{'frmKecamatan_tableNamaExternal'| translate | splitCharT}} </div>
+                      <div class="ui-grid-col-4">{{kecamatan.namaExternal}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </p-dataTable>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

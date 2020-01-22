@@ -1,0 +1,163 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmTipeProduk_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-12">
+						<form [formGroup]="form" (ngSubmit)="onSubmit()">
+							<div class="ui-g-6">
+								<div class="ui-g-12 ui-md-10" hidden>
+									<input hidden type="text" pTooltip="kode" tooltipPosition="top" placeholder="kode" formControlName="kode" pInputText readonly="true"
+									/>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label>{{'frmTipeProduk_negara'| translate | splitCharT}}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdNegara').valid && form.get('kdNegara').touched" style="color: red"> {{'frmTipeProduk_required'| translate | splitCharT}}</span>
+									</label>
+									<p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih Negara--" formControlName="kdNegara" [options]="dropdownNegara"
+									(ngModelChange)="getKdMerkProduk($event)" [autoWidth]="false"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmTipeProduk_merkProduk'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('kdMerkProduk').valid && form.get('kdMerkProduk').touched" style="color: red"> {{'frmTipeProduk_required'| translate | splitCharT}}</span>
+
+									</label>
+									<p-dropdown filter="filter" class="ui-inputwrapper-filled" [options]="kdMerkProduk" [autoWidth]="false" formControlName="kdMerkProduk"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmTipeProduk_kelompokProduk'| translate | splitCharT }}</label>
+									<p-dropdown filter="filter" class="ui-inputwrapper-filled" [options]="kdKelompokProduk" [autoWidth]="false" formControlName="kdKelompokProduk"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<label for="input">{{'frmTipeProduk_nama'| translate | splitCharT }}
+										<span style="color: red;font-weight: bolder;">*</span>
+										<span *ngIf="!form.get('namaTypeProduk').valid && form.get('namaTypeProduk').touched" style="color: red"> {{'frmTipeProduk_required'| translate | splitCharT}}</span>
+									</label>
+									<input type="text" formControlName="namaTypeProduk" (keyup)="setReportDisplay()" pInputText />
+
+								</div>
+								<div class="ui-g-12 ui-md-10">
+									<p-checkbox binary="true" label="{{'frmTipeProduk_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">*</span>
+									<span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">{{'frmTipeProduk_required'| translate | splitCharT}}</span>
+								</div>
+							</div>
+							<div class="ui-g-6">
+								<p-fieldset legend="{{'frmTipeProduk_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+									<form [formGroup]="form" (ngSubmit)="onSubmit()">
+										<div class="ui-g-12 ui-md-10">
+											<label for="input">{{'frmTipeProduk_reportDisplay'| translate | splitCharT }}
+												<span style="color: red;font-weight: bolder;"></span>
+												<span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">* {{'frmTipeProduk_required'| translate | splitCharT}}</span>
+											</label>
+											<input id="input" type="text" (keyup)="setReportDisplay()" formControlName="reportDisplay" (keyup)="setReportDisplay()" [(ngModel)]="report"
+											 pInputText/>
+
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<label for="input">{{'frmTipeProduk_kodeExternal'| translate | splitCharT }}</label>
+											<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+										</div>
+										<div class="ui-g-12 ui-md-10">
+											<label for="input">{{'frmTipeProduk_namaExternal'| translate | splitCharT }}</label>
+											<input id="input" type="text" formControlName="namaExternal" pInputText/>
+										</div>
+									</form>
+								</p-fieldset>
+							</div>
+						</form>
+					</div>
+					<div class="ui-g-12">
+						<div class="ui-g-12 ui-md-7"></div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmTipeProduk_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="submit" label="{{'frmTipeProduk_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmTipeProduk_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<button pButton type="button" label="{{'frmTipeProduk_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-1">
+							<p-splitButton label="{{'frmTipeProduk_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+
+						</div>
+					</div>
+
+
+
+					<div class="ui-g-12 ui-fluid">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single"
+						 [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+						 [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" scrollable="true" expandableRows="true">
+
+							<p-header>
+								<div class="ui-helper-clearfix">
+									<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+									<input type="text" pInputText size="50" placeholder="{{'frmTipeProduk_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+									 (keyup)="cari()" style="width: 20%;float:right;">
+									<span style="float: left;padding:0.3em;">{{'frmTipeProduk_tableTitle'| translate | splitCharT }}</span>
+								</div>
+							</p-header>
+							<p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"></p-column>
+							<!-- <p-column field="kdMerkProduk" header="{{'kdMerkProduk '| translate | splitCharT }}"></p-column> -->
+							<p-column field="namaMerkProduk" header="{{'frmTipeProduk_tableMerkProduk'| translate | splitCharT }}"></p-column>
+							<!-- <p-column field="kdKelompokProduk" header="{{'kdKelompokProduk '| translate | splitCharT }}"></p-column> -->
+							<p-column field="namaKelompokProduk" header="{{'frmTipeProduk_tableKelompokProduk'| translate | splitCharT }}"></p-column>
+							<!-- <p-column field="kdProfile" header="{{'kdProfile '| translate | splitCharT }} "></p-column> -->
+							<!-- <p-column field="kdTypeProduk" header="{{'kdTypeProduk'| translate | splitCharT }}"></p-column> -->
+							<p-column field="namaTypeProduk" header="{{'frmTipeProduk_tableNama'| translate | splitCharT }}"></p-column>
+							<!-- <p-column field="reportDisplay" header="{{'reportDisplay'| translate | splitCharT }}" [style]="{'width':'200px'}"></p-column> -->
+							<!-- <p-column field="noUrut" header="{{'noUrut'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column> -->
+							<!-- <p-column field="kdDepartemen" header="{{'kdDepartemen'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column> -->
+							<!-- <p-column field="kdExternal" header="{{'kdExternal'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column> -->
+							<!-- <p-column field="namaExternal" header="{{'namaExternal'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column> -->
+							<p-column field="namaNegara" header="{{'frmTipeProduk_tableNegara'| translate | splitCharT }}"></p-column>
+							<p-column field="statusEnabled" header="{{'frmTipeProduk_tableStatus'| translate | splitCharT }}">
+								<ng-template let-col="rowData" pTemplate type="body">
+									{{col.statusEnabled | truefalse | translate | splitCharT }}
+								</ng-template>
+							</p-column>
+							<!-- <p-column field="noRec" header="{{'noRec'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column> -->
+							<ng-template let-typeProduk pTemplate="rowexpansion">
+								<div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+									<div class="ui-grid ui-grid-responsive ui-grid-pad">
+										<div class="ui-grid-col-12">
+											<div class="ui-grid ui-grid-responsive ui-grid-pad">
+												<div class="ui-grid-row">
+													<div class="ui-grid-col-2 label">
+														<span style="color:black">{{ 'frmTipeProduk_optional' | translate | splitCharT }}</span>
+													</div>
+												</div>
+												<hr>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmTipeProduk_tableReportDisplay'| translate | splitCharT }} </div>
+													<div class="ui-grid-col-4"> {{typeProduk.reportDisplay}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmTipeProduk_tableKodeExternal' | translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{typeProduk.kodeExternal}}</div>
+												</div>
+												<div class="ui-grid-row">
+													<div class="ui-grid label">{{'frmTipeProduk_tableNamaExternal'| translate | splitCharT}} </div>
+													<div class="ui-grid-col-4">{{typeProduk.namaExternal}}</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</ng-template>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

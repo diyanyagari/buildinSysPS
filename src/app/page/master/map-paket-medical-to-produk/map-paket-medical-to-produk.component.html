@@ -1,0 +1,131 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+      <div class="ui-g-12">
+          <div class="card card-w-title">
+              <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+              <h1>{{'masterMapPaketMedicalToProduk'| translate | splitCharT }}</h1>
+              <div class="ui-g form-group">
+                  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                      <div class="ui-g-6">
+                          <div class="ui-g-12 ui-md-4">
+                              <label for="input">{{'noSk'| translate | splitCharT }}</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-8">
+                              <input id="input" type="text" formControlName="noSk" pInputText/>
+                              <span *ngIf="!form.get('noSk').valid && form.get('noSk').touched" style="color: red"> {{'noSk'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                          </div>
+                          <div class="ui-g-12 ui-md-4">
+                              <label for="input">{{'namaSk'| translate | splitCharT }}</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-8">
+                            <input id="input" type="text" formControlName="namaSk" pInputText/>
+                            <span *ngIf="!form.get('namaSk').valid && form.get('namaSk').touched" style="color: red"> {{'namaSk'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                          </div>
+                          <div class="ui-g-12 ui-md-4">
+                              <label for="input">{{'tglBerlaku'| translate | splitCharT }}</label>
+                          </div>
+                          <div class="ui-g-12 ui-md-8">
+                            <app-calender [yearNavigator]="true" [monthNavigator]="true" yearRange="2000:2030"  [showIcon]="true" formControlName="tglAwal" dateFormat="dd/mm/yy"></app-calender>
+                          </div>
+                          <div class="ui-g-12 ui-md-4">
+                            
+                          </div>
+                          <div class="ui-g-12 ui-md-8">
+                            s/d
+                          </div>
+                          <div class="ui-g-12 ui-md-4">
+
+                          </div>
+                          <div class="ui-g-12 ui-md-8">
+                            <app-calender [yearNavigator]="true" [monthNavigator]="true" yearRange="2000:2030"  [showIcon]="true" formControlName="tglAkhir" dateFormat="dd/mm/yy"></app-calender>
+                          </div>
+                      </div>
+
+                      <div class="ui-g-6">
+                        <div class="ui-g-12 ui-md-4">
+                            <label for="input">{{'kategoriPegawai'| translate | splitCharT }}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                          <p-dropdown id="dropdownTitle" [options]="kategoriPegawai" formControlName="kategoriPegawai" [autoWidth]="false"></p-dropdown>
+                          <span *ngIf="!form.get('kategoriPegawai').valid && form.get('kategoriPegawai').touched" style="color: red"> {{'kategoriPegawai'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label for="input">{{'masaKerja'| translate | splitCharT }}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                          <p-dropdown id="dropdownTitle" [options]="masaKerja" formControlName="masaKerja" [autoWidth]="false"></p-dropdown>
+                          <span *ngIf="!form.get('masaKerja').valid && form.get('masaKerja').touched" style="color: red"> {{'masaKerja'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label for="input">{{'jabatan'| translate | splitCharT }}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                          <p-dropdown id="dropdownTitle" [options]="jabatan" formControlName="jabatan" [autoWidth]="false"></p-dropdown>
+                          <span *ngIf="!form.get('jabatan').valid && form.get('jabatan').touched" style="color: red"> {{'jabatan'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label for="input">{{'hubunganKeluarga'| translate | splitCharT }}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                          <p-dropdown id="dropdownTitle" [options]="hubunganKeluarga" formControlName="hubunganKeluarga" [autoWidth]="false"></p-dropdown>
+                          <span *ngIf="!form.get('hubunganKeluarga').valid && form.get('hubunganKeluarga').touched" style="color: red"> {{'hubunganKeluarga'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                        </div>
+                        <div class="ui-g-12 ui-md-4">
+                            <label for="input">{{'namaPaket'| translate | splitCharT }}</label>
+                        </div>
+                        <div class="ui-g-12 ui-md-8">
+                          <p-dropdown id="dropdownTitle" [options]="namaPaket" formControlName="namaPaket" [autoWidth]="false"></p-dropdown>
+                          <span *ngIf="!form.get('namaPaket').valid && form.get('namaPaket').touched" style="color: red"> {{'namaPaket'| translate | splitCharT}} {{'isRequired'| translate | splitCharT}}.</span>
+                        </div> 
+                        <div class="ui-g-12 ui-md-12">
+                        <div class="ui-g ">	
+                          <div class="ui-g-12">
+                            <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" scrollable="true" [(selection)]="selected" (onHeaderCheckboxToggle)="onTableHeaderCheckboxToggle($event)" [editable]="true" (onRowSelect)="onRowSelect($event)">
+                              <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
+                              <p-column field="" header="{{'namaProduk'| translate | splitCharT }}"></p-column>
+                              <p-column field="" header="{{'maxQtyProduk'| translate | splitCharT }}" [editable]="true"></p-column>
+                            </p-dataTable>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                      <div class="ui-g-12">
+                          <div class="ui-g-12 ui-md-8"></div>
+                          <div class="ui-g-12 ui-md-1">
+                              <button pButton type="submit" label="{{'simpan'| translate | splitCharT}}" icon="fa-save"></button>
+                          </div>
+                          <div class="ui-g-12 ui-md-1">
+                              <button pButton type="button" label="{{'hapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+                          </div>
+                          <div class="ui-g-12 ui-md-1">
+                              <button pButton type="button" label="{{'batal'| translate | splitCharT}}" icon="fa-close" (click)="reset()"></button>
+                          </div>
+                          <div class="ui-g-12 ui-md-1">
+                              <p-splitButton label="{{'cetak'| translate | splitCharT }}" icon="fa-print" [model]="items"></p-splitButton>
+                          </div>
+                      </div>
+                  </form>
+                  <div class="ui-g-12 ui-fluid">
+                      <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none;">
+                        <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                        <input type="text" pInputText size="50" placeholder="{{'pencarianNama'| translate | splitCharT}}" [(ngModel)]="pencarian" (keypress)="cari()" style="width: 20%">
+                      </div>
+                      <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner"
+                          [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" scrollable="true">
+                          <p-column field="id.kode" header="{{'noSk'| translate | splitCharT }}"></p-column>
+                          <p-column field="namaPaket" header="{{'namaSk'| translate | splitCharT }}"></p-column>                          
+                          <p-column field="namaPaket" header="{{'tglBerlakuSk'| translate | splitCharT }}"></p-column>
+                          <p-column field="reportDisplay" header="{{'kategoriPegawai'| translate | splitCharT }}"></p-column>  
+                          <p-column field="reportDisplay" header="{{'masaKerja'| translate | splitCharT }}"></p-column>                                                    
+                          <p-column field="kodeExternal" header="{{'jabatan'| translate | splitCharT }}"></p-column>
+                          <p-column field="namaExternal" header="{{'hubunganKeluarga'| translate | splitCharT }}"></p-column>
+                          <p-column field="reportDisplay" header="{{'namaPaket'| translate | splitCharT }}"></p-column>
+                          <p-column field="reportDisplay" header="{{'namaProduk'| translate | splitCharT }}"></p-column> 
+                          <p-column field="reportDisplay" header="{{'maxQtyProduk'| translate | splitCharT }}"></p-column>                                                    
+                      </p-dataTable>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

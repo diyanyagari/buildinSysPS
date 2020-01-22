@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300');
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.navbar {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: .5vh;
+    height: 50px;
+    // width: 50px;
+}
+
+.navbar img {
+    cursor: pointer;
+    padding: 5px;
+
+}
+.center {
+    text-align: center;
+    width: 46%;
+    h2 {
+        font-size: 3.1em;
+        margin:.5em;
+    }
+
+}
+
+.center #buttonCenter{
+    max-width: 66%;
+    margin: 0 auto;
+}
+
+.container-dashboard {
+    display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	div.item{
+        flex:1 0 50%;
+    }
+}
+
+// /* #region main */
+// .kiosk-main {
+//     min-height: 100vh;
+//     background-image: url(../../../assets/layout/images/kiosk/background-humas.jpg);
+//     background-repeat: no-repeat;
+//     mix-blend-mode: lighten;
+//     background-size: cover;
+//     overflow: hidden;
+// }
+
+// .navbar {
+//     display: flex;
+//     justify-content: flex-end;
+//     padding: 10px;
+//     height: 50px;
+//     // width: 50px;
+// }
+
+// .navbar img {
+//     cursor: pointer;
+// }
+
+// // .image-dokter {
+// //     width: 82.5%;
+// //     margin-left: 50px;
+// // }
+
+// h2 {
+//     font-size: 38px;
+//     font-weight: 900;
+//     color: rgb(80, 80, 80);
+// }
+
+// .center {
+//     text-align: center;
+//     width: 46%;
+// }
+
+// .content {
+//     margin: 0 auto;
+//     text-align: center;
+
+//     h3 {
+//         display: block;
+//         margin-bottom: 0;
+//         font-size: 30px;
+//         color: whitesmoke;
+//     }
+
+//     .container-content {
+//         margin: 0 auto;
+//         padding: 10px;
+//     }
+// }
+
+// .kiosk-card {
+//     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+//     transition: 0.3s;
+//     border: solid thin whitesmoke;
+//     border-radius: 2px;
+//     background-color: rgba(255, 255, 255, 0.137);
+//     width: 80%;
+//     color: whitesmoke;
+//     margin: 0 auto;
+//     margin-bottom: 10px;
+
+//     &:hover {
+//         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+//     }
+
+//     &-content {
+//         padding: 10px 16px;
+//     }
+// }
+
+// /* #endregion main */

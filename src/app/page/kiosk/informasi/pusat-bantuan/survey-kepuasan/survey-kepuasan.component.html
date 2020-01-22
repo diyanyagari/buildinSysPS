@@ -1,0 +1,30 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+    <div class="header-title">
+      <div class="container">
+        <div class="header-item">
+          <img src="../../../../assets/layout/images/kiosk/home.svg"
+            [routerLink]="['/kiosk']" alt="home">
+        </div>
+        <div class="header-item">
+          <img
+            src="../../../../assets/layout/images/kiosk/icon-informasi.png"
+            alt="icon">
+          <h2>Informasi - Survey Kepuasan</h2>
+        </div>
+        <div class="header-item">
+          <img
+            src="../../../../assets/layout/images/kiosk/power-button.svg" (click)="logout($event)"
+            alt="logout">
+        </div>
+      </div>
+    </div>
+    
+    <div class="informasi-action" style="margin-top: 100px;">
+      <hr>
+      <div class="container">
+        <button class="btn-subscribe bg-violet" [routerLink]="['/kiosk/informasi/pusat-bantuan']">Kembali</button>
+      </div>
+  
+    </div>
+  </div>

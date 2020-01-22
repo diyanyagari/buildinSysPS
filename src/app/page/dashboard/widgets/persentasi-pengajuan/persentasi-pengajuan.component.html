@@ -1,0 +1,52 @@
+<div class="cicing-content activity-feed">
+	<div class="overview-chart-top">
+		<p-toolbar>
+			<div class="ui-toolbar-group-left">
+				<span class="overview-box-name">{{'PERSENTASI PENGAJUAN' | translate | splitCharT | splitCharT }}</span>
+			</div>
+			<div class="ui-toolbar-group-right" style="margin-right: 55px">
+				<p-dropdown [options]="listTampilan" [autoWidth]="false" [(ngModel)]="tampilanPersentasiPengajuan"></p-dropdown>
+			</div>
+		</p-toolbar>
+	</div>
+	<div id="dataPengajuan" style="overflow: auto; height: 274px">
+		<p-chart type="bar" [data]="dataPengajuan" *ngIf="tampilanPersentasiPengajuan == 2"></p-chart>
+		<p-chart type="polarArea" [data]="dataDonutPengajuan" *ngIf="tampilanPersentasiPengajuan == 4"></p-chart>
+		<p-chart type="line" [data]="dataLinePengajuan" *ngIf="tampilanPersentasiPengajuan == 3"></p-chart>
+		<p-dataTable [value]="pengajuan" expandableRows="true" [rows]="10" [paginator]="true" [pageLinks]="3" *ngIf="tampilanPersentasiPengajuan == 1">
+			<p-column expander="true" styleClass="col-icon" [style]="{'width':'40px'}"></p-column>
+			<p-column field="nama" header="Jenis Posting" [style]="{'width':'400px', 'text-align':'left'}">
+				<ng-template let-pengajuan="rowData" pTemplate type="body">
+					{{pengajuan.nama | translate | splitCharT | splitCharT }}
+				</ng-template>
+			</p-column>
+			<p-column field="total" header="Total" [style]="{'text-align':'left'}"></p-column>
+			<ng-template let-pengajuan pTemplate="rowexpansion">
+				<div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:12px;padding:20px">
+					<div class="ui-grid-row">
+						<div class="ui-grid-col-12">
+							<div class="ui-grid ui-grid-responsive ui-grid-pad">
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-4 label">{{'Pengajuan' | translate | splitCharT | splitCharT }}: </div>
+									<div class="ui-grid-col-2">{{pengajuan.pengajuan}}</div>
+									<div class="ui-grid-col-4 label">Proses: </div>
+									<div class="ui-grid-col-2">{{pengajuan.proses}}</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-4 label">{{'Setuju' | translate | splitCharT | splitCharT }}: </div>
+									<div class="ui-grid-col-2">{{pengajuan.setuju}}</div>
+									<div class="ui-grid-col-4 label">Tidak Disetujui: </div>
+									<div class="ui-grid-col-2">{{pengajuan.tdkSetuju}}</div>
+								</div>
+								<div class="ui-grid-row">
+									<div class="ui-grid-col-4 label">{{'Dibatalkan' | translate | splitCharT | splitCharT }}: </div>
+									<div class="ui-grid-col-2">{{pengajuan.batal}}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</ng-template>
+		</p-dataTable>
+	</div>
+</div>

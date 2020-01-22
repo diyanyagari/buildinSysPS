@@ -1,0 +1,58 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <h2>Informasi - Jadwal Pelayanan</h2>
+      </div>
+      <div class="header-item">
+        <img src="../../../../assets/layout/images/kiosk/power-button.svg" (click)="logout($event)"
+          alt="logout">
+      </div>
+    </div>
+
+  </div>
+  <div class="container-table">
+    <div class="search-input">
+      <input type="text" class="input input-medium" placeholder="Cari Poli / Ruangan">
+      <input type="text" class="input input-medium" placeholder="Urut Berdasarkan">
+      <!-- <button >Cari</button> -->
+    </div>
+
+    <table class="big-table">
+      <thead>
+        <tr class="row-head">
+          <th>Ruangan</th>
+          <th>Lokasi Ruangan</th>
+          <th>Jam Buka</th>
+          <th>Jam Tutup</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let item of data">
+        <td>{{item.namaRuangan}}</td>
+        <td>{{item.lokasiRuangan}}</td>
+        <td>{{item.jamBuka}}</td>
+        <td>{{item.jamTutup}}</td>
+        <td>{{item.qtyPasienMax}}</td>
+      </tr>
+    </table>
+    <p class="empty-message" *ngIf="data.length === 0">No Record Found</p>
+    <button class="load-more" *ngIf="data.length !== 0"  (click)="showMore(showTitle)">{{showTitle}}</button>
+    <!-- <button class="load-more" *ngIf="data.length !== 0 && !more" (click)="showLess()">{{showTitle}}</button> -->
+  </div>
+  <div class="informasi-action" style="margin-top: 100px;">
+    <hr>
+    <div class="container">
+      <button class="btn-subscribe bg-violet"
+        [routerLink]="['/kiosk/informasi/pelayanan']">Kembali</button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="cicing-content activity-feed">
+	<div class="overview-chart-top">
+		<p-toolbar>
+			<div class="ui-toolbar-group-left">
+				<span class="overview-box-name">{{'PERSENTASI JUMLAH PEGAWAI' | translate | splitCharT | splitCharT }}</span>
+			</div>
+			<div class="ui-toolbar-group-right" style="margin-right: 55px">
+				<p-dropdown [options]="filter_tipe_chart_jumlah_pegawai" [autoWidth]="false" [(ngModel)]="filterTipeChartJumlahPegawai" (onChange)="getDataJumlahPegawai(filterJumlahPegawai, filterTipeChartJumlahPegawai)"></p-dropdown>
+				<p-dropdown [options]="filter_jumlah_pegawai" [autoWidth]="false" [(ngModel)]="filterJumlahPegawai" (onChange)="getDataJumlahPegawai(filterJumlahPegawai, filterTipeChartJumlahPegawai)"></p-dropdown>
+			</div>
+		</p-toolbar>
+	</div>
+	<div id="dataJumlahPegawai" style="overflow: auto; height: 274px">
+		<p-chart *ngIf="filterTipeChartJumlahPegawai == 'pie'" type="pie" [data]="dataJumlahPegawai"></p-chart>
+		<p-chart *ngIf="filterTipeChartJumlahPegawai == 'polarArea'" type="polarArea" [data]="dataJumlahPegawai"></p-chart>
+		<p-chart *ngIf="filterTipeChartJumlahPegawai == 'line'" type="line" [data]="dataJumlahPegawai"></p-chart>
+		<p-chart *ngIf="filterTipeChartJumlahPegawai == 'bar'" type="bar" [data]="dataJumlahPegawai"></p-chart>
+	</div>
+</div>

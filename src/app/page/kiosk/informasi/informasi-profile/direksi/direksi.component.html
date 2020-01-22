@@ -1,0 +1,45 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item action">
+        <img src="../../../../../../assets/layout/images/kiosk/home.svg" [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img src="../../../../../assets/layout/images/kiosk/icon-informasi.png" alt="icon">
+        <h2>Informasi - Profile - Direksi</h2>
+      </div>
+      <div class="header-item action">
+        <img src="../../../../../../assets/layout/images/kiosk/power-button.svg" alt="logout" (click)="logout($event)">
+      </div>
+    </div>
+  </div>
+  <div class="container-grid direktur" *ngFor="let item of dataDirekturUtama">
+    <img *ngIf="item.photoDiri != null" src="{{item.photoDiri}}" class="profile-img">  
+    <img *ngIf="item.photoDiri == null" src="../../../../../../assets/layout/images/kiosk/avatar.jpg" class="profile-img">
+    <div class="profile-text">
+      <h1 class="profile-name" *ngIf="item.namaLengkap != null">{{item.namaLengkap}}</h1>
+      <h1 class="profile-name" *ngIf="item.namaLengkap == null">Tidak Ada Nama</h1>
+      <h4 class="profile-title">{{item.namaDepartemen}}</h4>
+    </div>
+  </div>
+  <div class="container-grid child" *ngFor="let item of dataBawahanDirektur">
+    <div>
+      <img *ngIf="item.photoDiri != null" src="{{item.photoDiri}}" class="profile-img">  
+      <img *ngIf="item.photoDiri == null" src="../../../../../../assets/layout/images/kiosk/avatar.jpg" class="profile-img">
+      <div class="profile-text">
+          <h1 class="profile-name" *ngIf="item.namaLengkap != null">{{item.namaLengkap}}</h1>
+          <h1 class="profile-name" *ngIf="item.namaLengkap == null">< Unknown ></h1>
+          <h4 class="profile-title">{{item.namaDepartemen}}</h4>
+        </div>
+    </div>
+  </div>
+  <div class="informasi-action">
+    <!-- <hr> -->
+    <div class="container">
+      <button class="btn-subscribe bg-violet"
+        routerLink="/kiosk/informasi/profile/">Kembali</button>
+    </div>
+
+  </div>
+</div>

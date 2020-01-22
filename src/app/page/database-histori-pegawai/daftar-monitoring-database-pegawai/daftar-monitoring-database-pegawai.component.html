@@ -1,0 +1,283 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+                <p-dialog header="{{'frmDaftarMonitoringDatabasePegawai_batalBergabungPerusahaan'| translate | splitCharT }}" [(visible)]="batalBergabung" [modal]="true" [responsive]="true" [width]="400"
+                    [minWidth]="200">
+
+                    <div class="ui-g">
+                        <div class="ui-g-12">{{'frmDaftarMonitoringDatabasePegawai_batalkanPegawaiIniBergabungDenganAlasan'| translate | splitCharT }}?</div>
+                        <div class="ui-g-12">
+                            <span class="ui-float-label">
+                                <input id="idAlasanBatal" type="text" size="30" [ngModel]="alasanBatal" pInputText />
+                                <label for="idAlasanBatal">{{'frmDaftarMonitoringDatabasePegawai_Alasan'| translate | splitCharT }}</label>
+                            </span>
+                        </div>
+                    </div>
+                    <p-footer>
+                        <button type="button" pButton icon="fa fa-check" (click)="batalGabung()" label="{{'frmDaftarMonitoringDatabasePegawai_Ya'| translate | splitCharT }}"></button>
+                        <button type="button" pButton icon="fa fa-question" (click)="batalBergabung=false" label="{{'frmDaftarMonitoringDatabasePegawai_Tidak'| translate | splitCharT }}" class="ui-button-secondary"></button>
+                    </p-footer>
+                </p-dialog>
+
+                <!-- <h1>{{'frmDaftarMonitoringDatabasePegawai_title'| translate}}</h1> -->
+                <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                        <!-- <p-dataTable
+                        [value]="listData" 
+                        scrollable="true" 
+                        virtualScroll="virtualScroll" 
+                        [lazy]="true" 
+                        [totalRecords]="rows" 
+                        (onLazyLoad)="loadDatabaseLazy($event)" 
+                        [loading]="loading"
+                        [rows]="10"
+                        selectionMode="single"
+                        [(selection)]="selected"
+                        (onRowSelect)="onRowSelect($event)"> -->
+                        <p-overlayPanel #op>
+                            <img [src]="(foto | imgsec) | async" width="75px" />
+                        </p-overlayPanel>
+                        <p-overlayPanel #op2 [showCloseIcon]="true" [dismissable]="false">
+                            <div class="ui-g" *ngIf="pilih">
+                                <div class="ui-g form-group">
+                                    <div class="ui-g-12">
+                                        <img [src]="(foto | imgsec) | async" />
+                                    </div>
+                                    <div class="ui-g-12" style="text-align: center; font-weight: bold">
+                                        <label>{{tnNyOv}} {{namaOv}}</label>
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <label>{{'frmDaftarMonitoringDatabasePegawai_jenisKelamin'| translate | splitCharT}}</label>
+                                    </div>
+                                    <div>:</div>
+                                    <div class="ui-g-5">
+                                        <label>{{jnskOv}}</label>
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <label>{{'frmDaftarMonitoringDatabasePegawai_nikIntern'| translate | splitCharT}}</label>
+                                    </div>
+                                    <div>:</div>
+                                    <div class="ui-g-5">
+                                        <label>{{nikIOv}}</label>
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <label>{{'frmDaftarMonitoringDatabasePegawai_tanggalMasuk'| translate | splitCharT}}</label>
+                                    </div>
+                                    <div>:</div>
+                                    <div class="ui-g-5">
+                                        <label>{{tglMOv * 1000 | date: 'dd/MM/yyyy'}}</label>
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <label>{{'frmDaftarMonitoringDatabasePegawai_jabatan'| translate | splitCharT}}</label>
+                                    </div>
+                                    <div>:</div>
+                                    <div class="ui-g-5">
+                                        <label>{{jbtOv}}</label>
+                                    </div>
+                                    <div class="ui-g-6">
+                                        <label>{{'frmDaftarMonitoringDatabasePegawai_departemen'| translate | splitCharT}}</label>
+                                    </div>
+                                    <div>:</div>
+                                    <div class="ui-g-5">
+                                        <label>{{deptOv}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-overlayPanel>
+                        <p-dataTable [value]="listData"  [rows]="rows" [paginator]="true" [rowsPerPageOptions]="[5,10,15,30,50,80,100]"  selectionMode="single"
+                            scrollable="true" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [totalRecords]="totalRecords"
+                            scrollHeight="{{tinggi}}" sortMode="multiple" (onLazyLoad)="loadDatabaseLazy($event)" [lazy]="true">
+                            <p-header>
+                                <div class="ui-helper-clearfix">
+                                    <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                    <input type="text" pInputText size="50" placeholder="{{'frmDaftarMonitoringDatabasePegawai_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarian"
+                                        (keyup)="cari()" style="width: 20%;float:right;padding: 0.5em 0.5em">
+                                        <p-dropdown [(ngModel)]="statusPegawaiGrid" [options]="listStatusPegawaiGrid" [style]="{'width':'20%','float':'right','padding':'0.5em 0.5em'}" (onChange)="filterStatusPegawai($event)"></p-dropdown>
+                                    <span style="float: left;padding:0.5em 0.5em;">{{'frmDaftarMonitoringDatabasePegawai_title'| translate | splitCharT}}</span>
+                                </div>
+                            </p-header>
+
+                            <p-column field="number" header="{{'frmDaftarMonitoringDatabasePegawai_nomor'| translate | splitCharT}}" 
+                            [style]="{'width':'50px', 'white-space': 'nowrap'}"></p-column>     
+
+                            <p-column [style]="{'width':'38px','text-align':'center'}" header="Foto">
+                                <ng-template let-pegawai="rowData" pTemplate="body">
+                                    <i class="fa fa-file-image-o" (click)="pilihPegawai($event,pegawai,op2)" style="font-size:18px"></i>
+                                    <!-- <button type="button" pButton (click)="pilihPegawai($event,pegawai,op);" icon="fa-search"></button> -->
+                                </ng-template>
+                            </p-column>    
+                                               
+                            <p-column field="id.kode" header="{{'frmDaftarMonitoringDatabasePegawai_tableKdPegawai'| translate | splitCharT}}" [style]="{'width':'100px', 'white-space': 'nowrap'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="nIKIntern" header="{{'frmDaftarMonitoringDatabasePegawai_tableNikIntern'| translate | splitCharT}}" [style]="{'width':'150px', 'white-space': 'nowrap'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="nIKGroup" header="{{'frmDaftarMonitoringDatabasePegawai_tableNikGroup'| translate | splitCharT}}" [style]="{'width':'150px', 'white-space': 'nowrap'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="titlePegawai" header="{{'frmDaftarMonitoringDatabasePegawai_tableTitle'| translate | splitCharT}}" [style]="{'width':'60px'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="namaLengkap" header="{{'frmDaftarMonitoringDatabasePegawai_tableNamaLengkap'| translate | splitCharT}}" [style]="{'width':'250px'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="tglMasuk" header="{{'frmDaftarMonitoringDatabasePegawai_tableJoinDatePerusahaan'| translate | splitCharT}}" [style]="{'width':'130px'}"
+                                [sortable]="true">
+                                <ng-template let-pick="rowData" pTemplate type="body">
+                                    {{pick.tglMasuk * 1000 | date: 'dd MMM yyyy'}}
+                                </ng-template>
+                            </p-column>
+
+                             <p-column field="tglDaftar" header="{{'frmDaftarMonitoringDatabasePegawai_tableJoinGroupDate'| translate | splitCharT}}" [style]="{'width':'130px'}"
+                                [sortable]="true">
+                                <ng-template let-pick="rowData" pTemplate type="body">
+                                    {{pick.tglDaftar * 1000 | date: 'dd MMM yyyy'}}
+                                </ng-template>
+                            </p-column>
+
+                            <p-column field="tglTerakhirBekerja" header="{{'frmDaftarMonitoringDatabasePegawai_tableTglTerakhirBekerja'| translate | splitCharT}}" [style]="{'width':'130px'}"
+                                [sortable]="true">
+                                <ng-template let-pick="rowData" pTemplate type="body">
+                                    <span *ngIf="pick.tglTerakhirBekerja == null"></span>
+                                    <span *ngIf="pick.tglTerakhirBekerja !== null">
+                                        {{pick.tglTerakhirBekerja * 1000 | date: 'dd MMM yyyy'}}
+                                    </span>
+                                </ng-template>
+                            </p-column>
+
+                            <p-column field="kategoriPegawai" header="{{'frmDaftarMonitoringDatabasePegawai_tableKategoriPegawai'| translate | splitCharT}}" [style]="{'width':'150px'}"
+                                [sortable]="true"></p-column>
+
+                             <p-column field="jabatan" header="{{'frmDaftarMonitoringDatabasePegawai_tableJabatan'| translate | splitCharT}}" [style]="{'width':'200px', 'white-space': 'nowrap'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="golonganPegawai" header="{{'frmDaftarMonitoringDatabasePegawai_tableLevel'| translate | splitCharT}}" [style]="{'width':'110px'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="pangkat" header="{{'frmDaftarMonitoringDatabasePegawai_tablePangkat'| translate | splitCharT}}" [style]="{'width':'100px'}"
+                                [sortable]="true"></p-column>
+
+
+                            <p-column field="ruanganKerja" header="{{'frmDaftarMonitoringDatabasePegawai_tableRuanganKerjaDivisi'| translate | splitCharT}}" [style]="{'width':'200px', 'white-space': 'nowrap'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="namaDepartemen" header="{{'frmDaftarMonitoringDatabasePegawai_tableDepartement'| translate | splitCharT}}" [style]="{'width':'200px', 'white-space': 'nowrap'}"
+                                [sortable]="true"></p-column>
+                            
+                            <p-column field="jenisPegawai" header="{{'frmDaftarMonitoringDatabasePegawai_tableJenisPegawai'| translate | splitCharT}}" [style]="{'width':'200px', 'white-space': 'nowrap'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="tipePegawai" header="{{'frmDaftarMonitoringDatabasePegawai_tableTipePegawai'| translate | splitCharT}}" [style]="{'width':'110px'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="namaLokasi" header="{{'frmDaftarMonitoringDatabasePegawai_lokasiKerja'| translate | splitCharT}}" [style]="{'width':'200px', 'white-space': 'nowrap'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="statusPegawai" header="{{'frmDaftarMonitoringDatabasePegawai_tableStatusPegawai'| translate | splitCharT}}" [style]="{'width':'150px'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="jenisKelamin" header="{{'frmDaftarMonitoringDatabasePegawai_tableJenisKelamin'| translate | splitCharT}}" [style]="{'width':'110px'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="tempatLahir" header="{{'frmDaftarMonitoringDatabasePegawai_tableTempatLahir'| translate | splitCharT}}" [style]="{'width':'140px'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="tglLahir" header="{{'frmDaftarMonitoringDatabasePegawai_tableTanggalLahir'| translate | splitCharT}}" [style]="{'width':'110px'}"
+                                [sortable]="true">
+                                <ng-template let-pick="rowData" pTemplate type="body">
+                                    {{pick.tglLahir * 1000 | date: 'dd MMM yyyy'}}
+                                </ng-template>
+                            </p-column>
+
+                            <p-column field="zodiak" header="{{'frmDaftarMonitoringDatabasePegawai_tableShio'| translate | splitCharT}}" [style]="{'width':'100px'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="zodiakUnsur" header="{{'frmDaftarMonitoringDatabasePegawai_tableElemen'| translate | splitCharT}}" [style]="{'width':'100px'}"
+                                [sortable]="true"></p-column>
+
+                            <p-column field="statusPerkawinan" header="{{'frmDaftarMonitoringDatabasePegawai_tableStatusNikah'| translate | splitCharT}}" [style]="{'width':'100px'}"
+                                [sortable]="true"></p-column>
+                           
+                             <p-column field="agama" header="{{'frmDaftarMonitoringDatabasePegawai_tableAgama'| translate | splitCharT}}" [style]="{'width':'150px'}"
+                                [sortable]="true"></p-column>   
+
+                              <p-column field="golonganDarah" header="{{'frmDaftarMonitoringDatabasePegawai_tableGolonganDarah'| translate | splitCharT}}" [style]="{'width':'120px'}"
+                                [sortable]="true"></p-column>
+
+                                <p-column field="statusRhesus" header="{{'frmDaftarMonitoringDatabasePegawai_tableRhesus'| translate | splitCharT}}" [style]="{'width':'100px'}"
+                                [sortable]="true"></p-column>
+
+                                <p-column field="suku" header="{{'frmDaftarMonitoringDatabasePegawai_tableSuku'| translate | splitCharT}}" [style]="{'width':'100px'}"
+                                [sortable]="true"></p-column>
+                          
+                            <p-column field="negaraAsal" header="{{'frmDaftarMonitoringDatabasePegawai_tableNegara'| translate | splitCharT}}" [style]="{'width':'100px'}"
+                                [sortable]="true"></p-column>
+
+                                <p-column field="noKTP" header="{{'frmDaftarMonitoringDatabasePegawai_tableKTP'| translate | splitCharT}}" [style]="{'width':'200px'}"
+                                [sortable]="true"></p-column>
+
+                                <p-column field="npwp" header="{{'frmDaftarMonitoringDatabasePegawai_tableNpwp'| translate | splitCharT}}" [style]="{'width':'200px'}"
+                                [sortable]="true"></p-column>
+
+                                
+
+                            <p-column field="fingerPrintID" header="{{'frmDaftarMonitoringDatabasePegawai_tableIdFingerPrint'| translate | splitCharT}}" [style]="{'width':'100px'}"
+                                [sortable]="true"></p-column>                           
+
+                            <p-column field="kualifikasiJurusan" header="{{'frmDaftarMonitoringDatabasePegawai_tablePendidikanTerakhir'| translate | splitCharT}}"
+                                [style]="{'width':'150px'}" hidden="true"></p-column>
+
+                            <p-column field="eselon" header="{{'frmDaftarMonitoringDatabasePegawai_tableEselon'| translate | splitCharT}}" [style]="{'width':'100px'}"
+                                hidden="true"></p-column>
+
+                            <p-column hidden="true" field="tglDaftarFingerPrint" header="{{'frmDaftarMonitoringDatabasePegawai_tableTglDaftarFingerPrint'| translate | splitCharT}}"
+                                [style]="{'width':'100px'}" [sortable]="true">
+                                <ng-template let-pick="rowData" pTemplate type="body">
+                                    {{pick.tglDaftarFingerPrint * 1000 | date: 'dd/MM/yyyy'}}
+                                </ng-template>
+                            </p-column>
+
+                            <p-footer>
+                                <div class="ui-helper-clearfix">
+                                <span style="float: left;padding:0.5em 0.5em;">{{'frmDaftarMonitoringDatabasePegawai_menampilkan'| translate | splitCharT}} {{shows}} {{'frmDaftarMonitoringDatabasePegawai_dari'| translate | splitCharT}} {{totalRecords}}</span>
+                            </div>
+                            </p-footer>
+
+                        </p-dataTable>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-1 ui-md-offset-2">&nbsp;</div>
+                    <div class="ui-g-12 ui-md-2" style="width: 10%;">
+                        <button pButton type="button" (click)="ngOnInit()" icon="fa-refresh" label="{{'frmDaftarMonitoringDatabasePegawai_btnReload'| translate | splitCharT}}"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-1">
+                        <button pButton type="button" (click)="tambahPegawai()" icon="fa-plus" label="{{'frmDaftarMonitoringDatabasePegawai_btnTambah'| translate | splitCharT}}"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-1">
+                        <button pButton type="button" (click)="ubahPegawai()" icon="fa-pencil" label="{{'frmDaftarMonitoringDatabasePegawai_btnEdit'| translate | splitCharT}}"
+                            [disabled]="btnDisable"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-1" hidden="true">
+                        <button pButton type="button" (click)="hapusPegawai()" icon="fa-minus" label="{{'frmDaftarMonitoringDatabasePegawai_btnHapus'| translate | splitCharT}}"
+                            [disabled]="btnDisable"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-1">
+                        <p-splitButton label="{{'frmDaftarMonitoringDatabasePegawai_btnCetak'| translate | splitCharT}}" icon="fa-print" [model]="items"></p-splitButton>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <button pButton type="button" (click)="periksaPegawai()" icon="fa-stethoscope" label="{{'frmDaftarMonitoringDatabasePegawai_btnPemeriksaan'| translate | splitCharT}}"
+                            [disabled]="btnDisable"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-2">
+                        <button pButton type="button" (click)="batalGabung()" icon="fa-trash-o" label="{{'frmDaftarMonitoringDatabasePegawai_btnBatalGabung'| translate | splitCharT}}"
+                            [disabled]="allowBatalMasuk"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

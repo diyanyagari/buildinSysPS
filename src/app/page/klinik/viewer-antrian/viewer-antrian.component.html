@@ -1,0 +1,117 @@
+<!-- npm install angular-bounce --save
+npm i speak-tts -->
+
+<div class="ui-fluid">
+    <div class="ui-g">
+        <!-- border:1px solid #c1c1c1; -->
+        <!-- <div class="card card-w-title" style="background: transparent"> -->
+        <!-- <button *ngIf="this.hilang" class="suaraAuto"  #klikSuara type="button" pButton (click)="SpechAuto()"></button> -->
+        <input style="width:0px;background-color: #006a7e;border: none;" type="button" id="suaraDingDong" (click)="dingDongPlay()">
+        <input style="width: 0px;background-color: #006a7e;border: none;" #klikSuara type="button" id="suaraAuto" (click)="SpechAuto($event)">
+        <!-- <iframe src="silence.mp3" allow="autoplay" id="audio" style="display:none" hidden></iframe> -->
+        <audio id="myAudio" controls #audioOption hidden>
+            <source src="../../../../assets/layout/sound/Dingdong.wav" type="audio/wav">
+        </audio>
+        <div class="ui-g-12" style="height: 95vh;width: 100vw;overflow-y: hidden;">
+            <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-1 ui-lg-1" style="height: 13vh;max-height: 13vh;">
+                    <div class="topbar1">
+                        <img class="img-responsive img-logo-top" [src]="smbrFileLogo">
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-5 ui-lg-5" style="height: 13vh;max-height: 13vh;">
+                    <div class="topbar1">
+                        <h1 class="nama-rumah-sakit">{{profileInfo.namaLengkapProfile}}</h1>
+                        <h2 class="alamat-rumah-sakit">Jalan Cikutra Baru Raya No. 28 Bandung</h2>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6" style="height: 13vh;max-height: 13vh;">
+                    <div class="topbar-date">
+                        <h4>
+                            Jumlah Antrian:
+                            <span class="jumlah-antrian">{{counter}}</span>
+                            <span class="tanggal">{{tanggal}}</span>
+                            <span class="jam">{{waktu}}</span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6"
+                    style="height: 50vh;max-height: 50vh;font-size: initial;overflow: hidden;">
+                    <div class="table-antrian">
+                        <table class="table" style="width: -webkit-fill-available;">
+                            <thead>
+                                <tr>
+                                    <th class="no-antrian">No. Antrian</th>
+                                    <th class="nama-pasien">Nama Pasien</th>
+                                    <th class="jenis-kelamin">JK</th>
+                                    <th class="status">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let viewer of listViewerAntrian">
+                                    <td class="no-antrian-atas">{{viewer.noAntrian}}</td>
+                                    <td class="no-loket-atas">{{viewer.namaPasien}}</td>
+                                    <td class="no-jk-atas">{{viewer.kodeExternalJenisKelamin}}</td>
+                                    <td class="no-panggilan-atas">{{viewer.statusAntrian}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-6 ui-lg-6"
+                    style="background-color:  #00353D;height: 200px;opacity: 0.7;height: 50vh;max-height: 50vh;">
+                    <div class="slideshow-container" style="height: 50vh;max-height: 50vh;text-align:center">
+                        <div class="mySlides fade" *ngFor="let image of images, let i=index" id="{{image.title}}"
+                            style="display: none;">
+                            <img *ngIf="image.type !== 'video'" src="{{image.src}}" style="height: 48vh;" alig
+                                id="{{i}}" />
+                            <video *ngIf="image.type == 'video'" #video style="height: 48vh;" id="{{i}}"
+                                (loadedmetadata)="onMetadata($event, video, i)" controls #cmp>
+                                <source src="{{image.src}}" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                    <div style="text-align:center">
+                        <span *ngFor="let image of images, let i=index" class="dot"></span>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-12" style="height: 27vh;max-height: 27vh;overflow: hidden;">
+                    <span *ngFor="let loket of Loket">
+                        <div class="ui-g-12 ui-md-3 ui-lg-3" name="loket" *ngIf="loket.value.statusLoket == true">
+                            <div class="no-antrian-bawah" id="{{loket.value.kdRuangan+'div'}}">
+                                <h2 id="{{loket.value.kdRuangan+'loket'}}">{{loket.label}}</h2>
+                                <h1 id="{{loket.value.kdRuangan+'noantrian'}}">
+                                    <span *ngIf="loket.value.noAntrian != null">{{loket.value.noAntrian}}</span>
+                                    <span *ngIf="loket.value.noAntrian == null">&nbsp;</span>
+                                </h1>
+                                <h3>
+                                    <span *ngIf="loket.value.noAntrian != null">Menunggu Pasien</span>
+                                    <span *ngIf="loket.value.noAntrian == null">&nbsp;</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-12" style="">
+                    <div class="running-text">
+                        <marquee direction="left">
+                            <h1>
+                                <span *ngFor="let slogan of runningText.sloganProfile"><img
+                                        src="../../../../assets/layout/images/klinik/icon-slogan.png" />{{slogan}}</span>
+                                <span *ngFor="let tagline of runningText.taglineProfile"><img
+                                        src="../../../../assets/layout/images/klinik/icon-tagline.png" />{{tagline}}</span>
+                                <span *ngFor="let motto of runningText.mottoProfile"><img
+                                        src="../../../../assets/layout/images/klinik/icon-motto.png" />{{motto}}</span>
+                                <span *ngFor="let semboyan of runningText.semboyanProfile"><img
+                                        src="../../../../assets/layout/images/klinik/icon-semboyan.png" />{{semboyan}}</span>
+                                <span *ngFor="let message of runningText.messageToKlien"><img
+                                        src="../../../../assets/layout/images/klinik/icon-message.png" />{{message}}</span>
+                            </h1>
+                        </marquee>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,407 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <div class="card card-w-title">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+                <h1>{{ 'frmGeneralProduk_title' | translate | splitCharT  }}</h1>
+                <div class="ui-g form-group">
+                    <div class="ui-g-12">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="ui-g form-group">
+
+
+                                <div class="ui-g-4">
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_kdNegara'| translate | splitCharT }}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('kdNegara').valid && form.get('kdNegara').touched" style="color: red">{{'frmGeneralProduk_required'| translate | splitCharT}}</span>
+                                        </label>
+                                        <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="{{'frmGeneralProduk_pilih'| translate | splitCharT }}" formControlName="kdNegara" (onChange)="getDataByNegara($event)"  [options]="dropdownnegara" [autoWidth]="false"></p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="ui-g-8">
+                                </div>
+                                <div class="ui-g-4">
+                                    <div class="ui-g-12 ui-md-12" hidden>
+                                        <span class="ui-float-label" hidden>
+                                            <input id="input" hidden type="text" formControlName="kode" pInputText readonly="true" />
+                                        </span>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_namaGeneralProduk'| translate | splitCharT }}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('namaGeneralProduk').valid && form.get('namaGeneralProduk').touched" style="color: red">{{'frmGeneralProduk_required'| translate | splitCharT}}</span>
+                                        </label>
+                                        <textarea [(ngModel)]="namaGeneralProduk" formControlName="namaGeneralProduk" rows="2" cols="30" pInputTextarea autoResize="false" [maxlength]="150" (ngModelChange)="valuechange($event)"></textarea>
+                                    </div>
+
+                                </div>
+
+                                <div class="ui-g-4">
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_kdGJenisProduk'| translate | splitCharT }}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('kdGeneralJenisProduk').valid && form.get('kdGeneralJenisProduk').touched" style="color: red">{{'frmGeneralProduk_required'| translate | splitCharT}}</span>
+                                        </label>
+                                        <p-dropdown filter="filter" class="ui-inputwrapper-filled" placeholder="--Pilih--" formControlName="kdGeneralJenisProduk" [options]="dropdowngJenisProduk" [autoWidth]="false"></p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="ui-g-4"></div>
+                                <div class="ui-g-4">
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_descNamaStrukturKimia'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="descNamaStrukturKimia" formControlName="descNamaStrukturKimia" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="500"></textarea>
+                                    </div>
+
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_descKeteranganLainnya'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="descKeteranganLainnya" formControlName="descKeteranganLainnya" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="500"></textarea>
+                                    </div>
+
+                                </div>
+
+                                <div class="ui-g-4">
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_descFisikokimia'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="descFisikokimia" formControlName="descFisikokimia" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="500"></textarea>
+                                    </div> 
+
+                                </div>
+
+                                <div class="ui-g-4">
+                                    <div class="ui-g-12 ui-md-12"> 
+                                         <div class="ui-g-12 ui-md-10">
+                                        <br>
+                                        <p-fileUpload #fubauto mode="basic" (onUpload)="fileUpload($event)" accept="image/*" name="file" maxFileSize="1000000" (onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()" auto="true" chooseLabel="Browse" withCredentials="true"></p-fileUpload>
+                                        <label>{{'frmGeneralProduk_descRumusBangun'| translate | splitCharT }}</label>
+                                        <input id="descRumusBangun" type="text" formControlName="descRumusBangun" [(ngModel)]="namaFoto" disabled pInputText /> 
+                                        <img *ngIf="smbrFoto !== null" [src]="(smbrFoto | imgsec) | async" height="100px"
+                                         class="img-responsive" />
+                                    </div>
+                                    </div>
+                                </div>
+
+                                <div class="ui-g-4">
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_golongan'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="golongan" formControlName="golongan" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="500"></textarea>
+                                    </div>
+
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_dosisCPFrekLP'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="dosisCPFrekLP" formControlName="dosisCPFrekLP" rows="3" cols="30" pInputTextarea autoResize="false"></textarea>
+                                    </div>
+
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_kontraIndikasi'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="kontraIndikasi" formControlName="kontraIndikasi" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="1000"></textarea> </div>
+
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_interaksiDgnMakanan'| translate | splitCharT }}
+                                        </label>
+
+                                        <textarea [(ngModel)]="interaksiDgnMakanan" formControlName="interaksiDgnMakanan" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="1000"></textarea>
+                                    </div>
+
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_daftarPustaka'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="daftarPustaka" formControlName="daftarPustaka" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="1000"></textarea>
+                                    </div>
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <p-checkbox binary="true" label="{{'frmGeneralProduk_status'| translate | splitCharT }}" formControlName="statusEnabled"></p-checkbox>
+                                        <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red"> *</span>
+                                        <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red"> {{'frmGeneralProduk_required'| translate | splitCharT}}</span>
+                                    </div>
+                                </div>
+                                <div class="ui-g-4">
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_indikasi'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="indikasi" formControlName="indikasi" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="1000"></textarea>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_farmakologi'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="farmakologi" formControlName="farmakologi" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="1000"></textarea>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_peringatanPerhatian'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="peringatanPerhatian" formControlName="peringatanPerhatian" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="1000"></textarea>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_monitoringPasien'| translate | splitCharT }}
+                                        </label>
+
+                                        <textarea [(ngModel)]="monitoringPasien" formControlName="monitoringPasien" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="1000"></textarea>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_keteranganLainnya'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="keteranganLainnya" formControlName="keteranganLainnya" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="500"></textarea>
+                                    </div>
+                                </div>
+                                <div class="ui-g-4">
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_p3OffLabel'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="p3OffLabel" formControlName="p3OffLabel" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="1000"></textarea>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_stabilitasPenyimpanan'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="stabilitasPenyimpanan" formControlName="stabilitasPenyimpanan" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="500"></textarea>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_reaksiObatTdkDikehendaki'| translate | splitCharT }}
+                                        </label>
+
+                                        <textarea [(ngModel)]="reaksiObatTdkDikehendaki" formControlName="reaksiObatTdkDikehendaki" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="1000"></textarea>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label>{{'frmGeneralProduk_bentukKekuatan'| translate | splitCharT }}
+                                        </label>
+                                        <textarea [(ngModel)]="bentukKekuatan" formControlName="bentukKekuatan" rows="3" cols="30" pInputTextarea autoResize="false" [maxlength]="1000"></textarea> </div>
+
+                                    <p-fieldset legend="{{'frmGeneralProduk_optional'| translate | splitCharT }}" [toggleable]="true" [collapsed]="true">
+                                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                                            <div class="ui-g form-group">
+                                                <div class="ui-g-12 ui-md-12">
+                                                    <label>{{'frmGeneralProduk_reportDisplay'| translate | splitCharT }}
+                                                        <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red">*</span>
+                                                        <span *ngIf="!form.get('reportDisplay').valid && form.get('reportDisplay').touched" style="color: red"> {{'frmGeneralProduk_required'| translate | splitCharT}}</span>
+                                                    </label>
+                                                    <input id="input" formControlName="reportDisplay" [maxlength]="150" [(ngModel)]="report" pInputText />
+
+                                                </div>
+                                                <div class="ui-g-12 ui-md-12">
+                                                    <label>{{'frmGeneralProduk_kodeExternal'| translate | splitCharT }}</label>
+                                                    <input id="input" type="text" formControlName="kodeExternal" [(ngModel)]="kodeExternal" pInputText />
+                                                </div>
+                                                <div class="ui-g-12 ui-md-12">
+                                                    <label>{{'frmGeneralProduk_namaExternal'| translate | splitCharT }}</label>
+                                                    <input id="input" type="text" formControlName="namaExternal" [(ngModel)]="namaExternal" pInputText />
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </p-fieldset>
+                                </div>
+
+
+
+
+
+                                <div class="ui-g-12">
+                                    <div class="ui-g-12 ui-md-7"></div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmGeneralProduk_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="submit" label="{{'frmGeneralProduk_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmGeneralProduk_btnHapus'| translate | splitCharT}}" icon="fa-trash" (click)="confirmDelete()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <button pButton type="button" label="{{'frmGeneralProduk_btnCetak'| translate | splitCharT}}" icon="fa-print" (click)="cetak()"></button>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-1">
+                                        <p-splitButton label="{{'frmGeneralProduk_btnExport'| translate | splitCharT }}" icon="fa-external-link" [model]="items"></p-splitButton>
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ui-g-12">
+                        <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selected" (onRowSelect)="onRowSelect($event)" [lazy]="true" [loading]="loading" loadingIcon="fa-spinner" [totalRecords]="totalRecords" (onLazyLoad)="loadPage($event)" expandableRows="true">
+
+                            <p-header>
+                                <div class="ui-helper-clearfix">
+                                    <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                                    <input type="text" pInputText size="50" placeholder="{{'frmGeneralProduk_DaftarnamaGeneralProdukPencarian'| translate | splitCharT}}" [(ngModel)]="pencarian" (keyup)="cari()" style="width: 20%;float:right;">
+                                     <p-dropdown [(ngModel)]="kdNegaraTable" [options]="dropdownnegara2" [style]="{'width':'20%','float':'right'}" (onChange)="filterdata($event)"></p-dropdown> 
+                                    <span style="float: left;padding:0.3em;">{{'frmGeneralProduk_DaftarGeneralProdukTitle'| translate | splitCharT }}</span>
+                                </div>
+                            </p-header>
+                            <p-column expander="true" styleClass="col-icon" [style]="{'width':'50px'}"> </p-column>
+                            <p-column field="namaGeneralProduk" header="{{'frmGeneralProduk_tableNamaGeneralProduk'| translate | splitCharT}}"></p-column>
+                            <p-column field="generalJenisProduk" header="{{'frmGeneralProduk_tablekdGJenisProduk'| translate | splitCharT}}"></p-column>
+                            <p-column field="kdNegara" header="{{'frmGeneralProduk_tablekdNegara'| translate | splitCharT}}"></p-column>
+                            <p-column field="statusEnabled" header="{{'frmGeneralProduk_tableStatus'| translate | splitCharT }}">
+                                <ng-template let-col="rowData" pTemplate type="body">
+                                    {{col.statusEnabled | truefalse | translate | splitCharT }}
+                                </ng-template>
+                            </p-column>
+                            <!-- <p-column field="descNamaStrukturKimia" header="{{'frmdescNamaStrukturKimia'| translate | splitCharT}}"></p-column>
+                                <p-column field="descRumusBangun" header="{{'frmdescRumusBangun'| translate | splitCharT}}"></p-column>
+                                <p-column field="descFisikokimia" header="{{'frmdescFisikokimia'| translate | splitCharT}}"></p-column>
+                                <p-column field="descKeteranganLainnya" header="{{'frmdescKeteranganLainnya'| translate | splitCharT}}"></p-column>
+
+                                <p-column field="golongan" header="{{'frmgolongan'| translate | splitCharT}}"></p-column>
+                                <p-column field="indikasi" header="{{'frmindikasi'| translate | splitCharT}}"></p-column>
+                                <p-column field="p3OffLabel" header="{{'frmp3OffLabel'| translate | splitCharT}}"></p-column>
+                                <p-column field="dosisCPFrekLP" header="{{'frmdosisCPFrekLP'| translate | splitCharT}}"></p-column>
+                                <p-column field="farmakologi" header="{{'frmfarmakologi'| translate | splitCharT}}"></p-column>
+
+                                <p-column field="stabilitasPenyimpanan" header="{{'frmstabilitasPenyimpanan'| translate | splitCharT}}"></p-column>
+                                <p-column field="kontraIndikasi" header="{{'frmkontraIndikasi'| translate | splitCharT}}"></p-column>
+                                <p-column field="peringatanPerhatian" header="{{'frmperingatanPerhatian'| translate | splitCharT}}"></p-column>
+                                <p-column field="reaksiObatTdkDikehendaki" header="{{'frmreaksiObatTdkDikehendaki'| translate | splitCharT}}"></p-column>
+                                <p-column field="interaksiDgnMakanan" header="{{'frminteraksiDgnMakanan'| translate | splitCharT}}"></p-column>
+                                <p-column field="monitoringPasien" header="{{'frmmonitoringPasien'| translate | splitCharT}}"></p-column>
+                                <p-column field="bentukKekuatan" header="{{'frmbentukKekuatan'| translate | splitCharT}}"></p-column>
+                                <p-column field="daftarPustaka" header="{{'frmdaftarPustaka'| translate | splitCharT}}"></p-column>
+                                
+                                <p-column field="keteranganLainnya" header="{{'frmketeranganLainnya'| translate | splitCharT}}"></p-column> -->
+                            <ng-template let-generalProduk pTemplate="rowexpansion">
+                                <div class="ui-grid ui-grid-responsive ui-fluid" style="padding-left:27px">
+                                    <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                        <div class="ui-grid-col-12">
+                                            <div class="ui-grid ui-grid-responsive ui-grid-pad">
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid-col-2 label">
+                                                        <span style="color:black">{{ 'frmGeneralProduk_optional' | translate | splitCharT }}</span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableDescNamaStrukturKimia'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.descNamaStrukturKimia}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableDescRumusBangun'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.descRumusBangun}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableDescFisikokimia'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.descFisikokimia}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableDescKeteranganLainnya'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.descKeteranganLainnya}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableGolongan'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.golongan}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableIndikasi'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.indikasi}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableP3OffLabel'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.p3OffLabel}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableDosisCPFrekLP'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.dosisCPFrekLP}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableFarmakologi'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.farmakologi}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableStabilitasPenyimpanan'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.stabilitasPenyimpanan}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableKontraIndikasi'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.kontraIndikasi}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tablePeringatanPerhatian'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.peringatanPerhatian}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableKontraIndikasi'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.kontraIndikasi}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableReaksiObatTdkDikehendaki'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.reaksiObatTdkDikehendaki}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableInteraksiDgnMakanan'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.interaksiDgnMakanan}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableMonitoringPasien'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.monitoringPasien}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableBentukKekuatan'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.bentukKekuatan}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableDaftarPustaka'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.daftarPustaka}}</div>
+                                                </div>
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableKeteranganLainnya'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.keteranganLainnya}}</div>
+                                                </div>
+
+
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableReportDisplay'| translate | splitCharT }} </div>
+                                                    <div class="ui-grid-col-4"> {{generalProduk.reportDisplay}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableKodeExternal' | translate | splitCharT}} </div>
+                                                    <div class="ui-grid-col-4">{{generalProduk.kodeExternal}}</div>
+                                                </div>
+                                                <div class="ui-grid-row">
+                                                    <div class="ui-grid label">{{'frmGeneralProduk_tableNamaExternal'| translate | splitCharT}} </div>
+                                                    <div class="ui-grid-col-4">{{generalProduk.namaExternal}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-dataTable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

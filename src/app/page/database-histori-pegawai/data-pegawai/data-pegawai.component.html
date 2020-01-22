@@ -1,0 +1,374 @@
+<div class="ui-fluid">
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <!-- <app-proses-registrasi-pegawai></app-proses-registrasi-pegawai> -->
+            <div class="card card-w-title">
+                <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+                <h1>{{'frmDataPegawai_title'| translate | splitCharT}}</h1>
+                <div class="ui-g form-group">
+                    <div class="ui-g-12 ui-md-6">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <p-dialog header="{{'frmDataPegawai_previewDokumen'| translate | splitCharT}}" [resizable]="false" responsive="true" showEffect="fade" modal="modal"
+                            [(visible)]="dialogPreviewDokumen" width="600">
+                            <div class="ui-g form-group" style="position: relative;height: 350px;">
+                                <div class="ui-g-12">
+                                    <embed name="preview" id="preview" src="" type='application/pdf' width="565" height="345">
+                                    </div>
+                                </div>
+                                <p-footer>
+                                    <div class="ui-g-12 ui-md-4 ui-md-offset-8">
+                                        <button pButton type="button" label="{{'frmDataPegawai_btnTutup'| translate | splitCharT}}" icon="fa-close" (click)="close()"></button>
+                                    </div>
+                                </p-footer>
+                            </p-dialog>
+                            <p-dialog header="{{'frmDataPegawai_previewDokumen'| translate | splitCharT}}" [resizable]="false" responsive="true" showEffect="fade" modal="modal"
+                            [(visible)]="dialogPreviewImage" width="600">
+                            <div class="ui-g form-group" style="position: relative;height: 350px;">
+                                <div class="ui-g-12">
+                                    <img *ngIf="smbrFile !== null" [src]="(smbrFile | imgsec) | async" height="175px" class="img-responsive" />
+                                </div>
+
+                            </div>
+                            <p-footer>
+                                <div class="ui-g-12 ui-md-4 ui-md-offset-8">
+                                    <button pButton type="button" label="{{'frmDataPegawai_btnTutup'| translate | splitCharT}}" icon="fa-close" (click)="close()"></button>
+                                </div>
+                            </p-footer>
+                        </p-dialog>
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12 ui-md-6">
+                                <p-checkbox binary="true" [ngModelOptions]="{standalone: true}" [(ngModel)]="cekNik" (onChange)="aktifnik($event)"></p-checkbox>
+                                <label for="nikIntern">{{'frmDataPegawai_nikIntern'| translate | splitCharT}}</label>
+                                <input id="nikIntern" type="text" formControlName="nikintern" pInputText disabled/>
+                            </div>
+                            <div class="ui-g-12 ui-md-6">
+                                <label for="negara">{{'frmDataPegawai_negara'| translate | splitCharT}} 
+                                    <span style="color: red;font-weight: bolder;">*</span>
+                                    <span *ngIf="!form.get('kdNegara').valid && form.get('kdNegara').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                </label>
+                                <p-dropdown id="negara" filter="filter" [options]="kdNegara" formControlName="kdNegara" (ngModelChange)="ambilNegara($event)" [autoWidth]="false"></p-dropdown>
+                            </div>
+                            <div class="ui-g-12 ui-md-6">
+                                <p-checkbox binary="true" [ngModelOptions]="{standalone: true}" [(ngModel)]="cekGroup" (onChange)="aktifGroup($event)"></p-checkbox>
+                                <label for="nikGroup">{{'frmDataPegawai_nikGroup'| translate | splitCharT}}</label>
+                                <input id="nikGroup" type="text" formControlName="nikgroup" pInputText disabled/>
+                            </div>
+                            <input hidden id="idPegawai" formControlName="kode" (ngModelChange)="getId($event)" disabled pInputText/>
+                            <div class="ui-g-12 ui-md-6">
+                                <label for="statusPerkawinan">{{'frmDataPegawai_statusPerkawinan'| translate | splitCharT}}
+                                    <span style="color: red;font-weight: bolder;">*</span>
+                                    <span *ngIf="!form.get('kdStatusPerkawinan').valid && form.get('kdStatusPerkawinan').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                </label>
+                                <p-dropdown id="statusPerkawinan" filter="filter" [options]="kdStatusPerkawinan" formControlName="kdStatusPerkawinan" [autoWidth]="false"
+                                (ngModelChange)="resetPTKPStatusKawin($event)"></p-dropdown>
+                            </div>
+                            <div class="ui-g-12 ui-md-6">
+                                <label for="title">{{'frmDataPegawai_title'| translate | splitCharT}}</label>
+                                <p-dropdown id="title" filter="filter" [options]="kdTitle" formControlName="kdTitle" [autoWidth]="false"></p-dropdown>
+                            </div>
+                            <div class="ui-g-12 ui-md-6">
+                                <label for="suku">{{'frmDataPegawai_suku'| translate | splitCharT}}
+                                    <!-- <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdSuku').valid && form.get('kdSuku').touched" style="color: red"> {{'frmDataPegawai_required'|translate}}</span> -->
+                                    </label>
+                                    <p-dropdown id="suku" filter="filter" [options]="kdSuku" formControlName="kdSuku" [autoWidth]="false"></p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="namaAwal">{{'frmDataPegawai_namaAwal'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('namaAwal').valid && form.get('namaAwal').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                    </label>
+                                    <input id="namaAwal" type="text" size="30" formControlName="namaAwal" pInputText required="true" />
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="agama">{{'frmDataPegawai_agama'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdAgama').valid && form.get('kdAgama').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown id="agama" filter="filter" [options]="kdAgama" formControlName="kdAgama" [autoWidth]="false"></p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="namaTengah">{{'frmDataPegawai_namaTengah'| translate | splitCharT}}</label>
+                                    <input id="namaTengah" type="text" formControlName="namaTengah" pInputText/>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="golonganDarah">{{'frmDataPegawai_golonganDarah'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdGolonganDarah').valid && form.get('kdGolonganDarah').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown id="golonganDarah" filter="filter" [options]="kdGolonganDarah" formControlName="kdGolonganDarah" [autoWidth]="false"></p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="namaAkhir">{{'frmDataPegawai_namaAkhir'| translate | splitCharT}}</label>
+                                    <input id="namaAkhir" type="text" formControlName="namaAkhir" pInputText/>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="statusRhesus">{{'frmDataPegawai_statusRhesus'| translate | splitCharT}}</label>
+                                    <p-dropdown id="statusRhesus" filter="filter" [options]="statusRhesus" formControlName="statusRhesus" [autoWidth]="false"></p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="jenisKelamin">{{'frmDataPegawai_jenisKelamin'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdJenisKelamin').valid && form.get('kdJenisKelamin').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown id="jenisKelamin" filter="filter" [options]="kdJenisKelamin" formControlName="kdJenisKelamin" [autoWidth]="false"
+                                    (ngModelChange)="resetPTKPJenisKelamin($event)"></p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="input">{{'frmDataPegawai_ptkp'| translate | splitCharT}} <span *ngIf="!form.get('kdPTKP').valid && form.get('kdPTKP').touched" style="color: red;font-weight: bolder;">*</span></label>
+                                    <p-dropdown id="kdPTKP" filter="filter" [options]="kdPTKP" formControlName="kdPTKP" [autoWidth]="false" [disabled]="isPTKP"></p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="tempatLahir">{{'frmDataPegawai_tempatLahir'| translate | splitCharT}}</label>
+                                    <input id="tempatLahir" type="text" formControlName="tempatLahir" pInputText/>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <span *ngIf="!form.get('npwp').valid" style="color: red;font-weight: bolder;">*{{'frmDataPegawai_isiDgnAngkaSaja'| translate | splitCharT}}</span>
+                                    <label for="npwp">{{'frmDataPegawai_noNpwp'| translate | splitCharT}}</label>
+                                    <input id="npwp" type="text" (input)="cekNPWP()" formControlName="npwp" pInputText OnlyNumber="true" [maxlength]="15"  />
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="tanggalLahir">{{'frmDataPegawai_tanggalLahir'| translate | splitCharT}} 
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('tglLahir').valid && form.get('tglLahir').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                    </label>
+                                    <app-calender [showIcon]="true" [yearNavigator]="true" [monthNavigator]="true" yearRange="1945:2017" formControlName="tglLahir" (ngModelChange)="valuezodiak($event)" dateFormat="dd M yy"></app-calender>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="joinDate">{{'frmDataPegawai_joinDate'| translate | splitCharT}} 
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('tglMasuk').valid && form.get('tglMasuk').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                    </label>
+                                    <app-calender [yearNavigator]="true" [monthNavigator]="true" yearRange="1945:2030" [showIcon]="true" formControlName="tglMasuk" (ngModelChange)="cekTglMasuk($event)" dateFormat="dd M yy"></app-calender>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label>{{'frmDataPegawai_shio'| translate | splitCharT}}</label>
+                                    <input hidden id="kdZodiak" type="text" formControlName="kdZodiak" [(ngModel)]="kdZodiak" pInputText disabled />
+                                    <input id="zodiak" type="text" formControlName="zodiak" [(ngModel)]="zodiak" pInputText disabled/>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="joinGroupDate">{{'frmDataPegawai_joinGroupDate'| translate | splitCharT}} 
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('tglDaftar').valid && form.get('tglDaftar').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                    </label>
+                                    <app-calender [yearNavigator]="true" [monthNavigator]="true" yearRange="1945:2030" [showIcon]="true" formControlName="tglDaftar" (ngModelChange)="cekTglDaftar($event)" dateFormat="dd M yy"></app-calender>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="elemen">{{'frmDataPegawai_elemen'| translate | splitCharT}}</label>
+                                    <input hidden id="kdZodiakUnsur" type="text" formControlName="kdZodiakUnsur" [(ngModel)]="kdZodiakUnsur" pInputText disabled/>
+                                    <input id="zodiakUnsur" type="text" formControlName="zodiakUnsur" [(ngModel)]="zodiakUnsur" pInputText disabled />
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="input">{{'frmDataPegawai_pendidikan'| translate | splitCharT}}</label>
+                                    <input id="kdKualifikasiJurusan" type="text" formControlName="kdKualifikasiJurusan" pInputText disabled />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="ui-g-12 ui-md-6">
+                        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                            <div class="ui-g form-group">
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="input">{{'frmDataPegawai_jabatan'| translate | splitCharT}}
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdJabatan').valid && form.get('kdJabatan').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown id="kdJabatan" filter="filter" [options]="kdJabatan" formControlName="kdJabatan" [autoWidth]="false"   (ngModelChange)="resetJabatan($event)"></p-dropdown>
+                                </div>
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="fingerPrintID">{{'frmDataPegawai_idFingerPrint'| translate | splitCharT}}</label>
+                                    <input id="fingerPrintID" type="text" formControlName="fingerPrintID" pInputText/>
+                                </div>
+                                
+                                <div class="ui-g-12 ui-md-6">
+                                    <label for="input">{{'frmDataPegawai_tipePegawai'| translate | splitCharT}} 
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdTypePegawai').valid && form.get('kdTypePegawai').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                    </label>
+                                    <p-dropdown id="kdTypePegawai" filter="filter" [options]="kdTypePegawai" formControlName="kdTypePegawai" [autoWidth]="false"></p-dropdown>
+                                </div>
+
+                                <div class="ui-g-12 ui-md-6">
+                                    <label>{{'frmDataPegawai_jumlahAnak'| translate | splitCharT}}</label>
+                                    <input id="jumlahAnak" type="text" [(ngModel)]="jumlahAnak" [ngModelOptions]="{standalone: true}" disabled="true" pInputText/>
+                                </div>
+
+                                <div hidden class="ui-g-12 ui-md-6">
+                                    <label hidden for="input">{{'frmDataPegawai_tglDaftarFingerPrint'| translate | splitCharT}}</label>
+                                    <app-calender hidden [yearNavigator]="true" [monthNavigator]="true" yearRange="1945:2030" showButtonBar="true" [showIcon]="true"
+                                    formControlName="tglDaftarFingerPrint" dateFormat="dd/mm/yy"></app-calender>
+                                </div>
+                                <div class="ui-g-12 ui-md-6 ui-g-nopad">
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label for="input">{{'frmDataPegawai_jenisPegawai'| translate | splitCharT}} 
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('kdJenisPegawai').valid && form.get('kdJenisPegawai').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                        </label>
+                                        <p-dropdown id="kdJenisPegawai" filter="filter" [options]="listJenisPegawai" formControlName="kdJenisPegawai" [autoWidth]="false"></p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label for="input">{{'frmDataPegawai_levelJabatan'| translate | splitCharT}}</label>
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdGolonganPegawai').valid && form.get('kdGolonganPegawai').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                        <p-dropdown id="kdGolonganPegawai" filter="filter" [options]="kdGolonganPegawai" formControlName="kdGolonganPegawai" (ngModelChange)="valuegolongan($event)"
+                                        [autoWidth]="false"></p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label for="input">{{'frmDataPegawai_pangkatGrade'| translate | splitCharT}}</label>
+                                        <span style="color: red;font-weight: bolder;">*</span>
+                                        <span *ngIf="!form.get('kdPangkat').valid && form.get('kdPangkat').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                        <p-dropdown id="kdPangkat" filter="filter" [options]="kdPangkat" formControlName="kdPangkat" [autoWidth]="false" (onChange)="pilihPangkat($event)"></p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label for="input">{{'frmDataPegawai_kategoriPegawai'| translate | splitCharT}}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('kdKategoryPegawai').valid && form.get('kdKategoryPegawai').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                        </label>
+                                        <p-dropdown id="kdKategoryPegawai" filter="filter" [options]="kdKategoryPegawai" formControlName="kdKategoryPegawai" (onChange)="getTanggalAkhirGabung($event)" [autoWidth]="false"></p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12" *ngIf="istglMasuk== true && iskdKategoryPegawai==true">
+                                        <div class="ui-g-12 ui-md-5">
+                                            <label for="input">{{'frmDataPegawai_tanggalAwal'| translate | splitCharT}}
+                                            </label>
+                                            <app-calender formControlName="tanggalAwalKontrak" appendTo="body" [yearNavigator]="true" [monthNavigator]="true" yearRange="2000:2030" [showIcon]="true" dateFormat="dd M yy" [minDate]="minDate"></app-calender>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-5">
+                                            <label for="input">{{'frmDataPegawai_tanggalAkhir'| translate | splitCharT}}
+                                            </label>
+                                            <app-calender formControlName="tanggalAkhirKontrak" appendTo="body" [yearNavigator]="true" [monthNavigator]="true" yearRange="2000:2030" [showIcon]="true" dateFormat="dd M yy" ></app-calender>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label for="input">{{'frmDataPegawai_statusPegawai'| translate | splitCharT}}</label>
+
+                                        <input hidden id="kdStatusPegawai" type="text" formControlName="kdStatusPegawai" [(ngModel)]="kdStatusPegawai" pInputText
+                                        />
+
+                                        <input id="statusPegawai" type="text" formControlName="statusPegawai" [(ngModel)]="statusPegawai" pInputText/>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label for="input">{{'frmDataPegawai_departement'| translate | splitCharT}}
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('kdDepartemen').valid && form.get('kdDepartemen').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                        </label>
+                                        <p-dropdown id="kdDepartemen" filter="filter" [options]="kdDepartemen" formControlName="kdDepartemen" [autoWidth]="false"></p-dropdown>
+                                    </div>
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label for="input">{{'frmDataPegawai_lokasiKerja'| translate | splitCharT}} 
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('kdLokasi').valid && form.get('kdLokasi').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                        </label>
+                                        <p-dropdown id="kdLokasi" filter="filter" [options]="kdLokasi" formControlName="kdLokasi" [autoWidth]="false" (ngModelChange)="resetLokasi($event)"></p-dropdown>
+                                    </div>
+
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label for="input">{{'frmDataPegawai_unitKerja'| translate | splitCharT}} 
+                                            <span style="color: red;font-weight: bolder;">*</span>
+                                            <span *ngIf="!form.get('kdRuanganKerja').valid && form.get('kdRuanganKerja').touched" style="color: red"> {{'frmDataPegawai_required'|translate | splitCharT}}</span>
+                                        </label>
+                                        <p-dropdown id="unitKerja" filter="filter" [options]="kdRuanganKerja" formControlName="kdRuanganKerja" [autoWidth]="false" [disabled]="isRuangan"></p-dropdown>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-12">
+                                        <label for="input">{{'frmDataPegawai_atasanPegawai'| translate | splitCharT}} <span *ngIf="!form.get('kdPegawaiHead').valid && form.get('kdPegawaiHead').touched" style="color: red;font-weight: bolder;">*</span></label>
+                                        <p-dropdown id="kdPegawaiHead" filter="filter" [options]="kdPegawaiHead" formControlName="kdPegawaiHead" [autoWidth]="false" disable></p-dropdown>
+                                    </div>                                
+                                </div>
+                                    <div class="ui-g-12 ui-md-6">
+                                        <br>
+                                        <p-fileUpload #fubauto mode="basic" (onUpload)="fileUpload($event)" accept="image/*" name="file" maxFileSize="1000000" (onBeforeSend)="addHeader($event)"
+                                        auto="true" [url]="urlUpload()" auto="true" chooseLabel="Browse" withCredentials="true"></p-fileUpload>
+                                        <label for="input">{{'frmDataPegawai_photoDiri'| translate | splitCharT}}</label>
+                                        <input id="photoDiri" type="text" formControlName="photoDiri" [(ngModel)]="namaFoto" disabled pInputText/>
+                                        <input hidden id="ambilFoto" type="text" formControlName="ambilFoto" (ngModelChange)="fotoUpload($event)" disabled pInputText/>
+                                        <img *ngIf="smbrFoto !== null" [src]="(smbrFoto | imgsec) | async" height="175px" class="img-responsive" />
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="ui-g-12 ui-md-12">
+                            <div class="ui-g form-group">
+                                <div class="ui-g-12 ui-md-12">
+                                    <p-fieldset legend="{{'frmDataPegawai_pegawaiidDokumen'| translate | splitCharT}}">
+                                        <p-dataTable [style]="{'margin-top':'20px'}" [editable]="true" [value]="listPegawaiDokumen" [(selection)]="selectedDocument"
+                                        scrollable="true">
+                                        <p-column field="namaJenisDokumen" [style]="{'width':'80px'}"></p-column>
+                                        <p-column field="kdJenisDokumen" [style]="{'width':'67px'}" hidden="true"></p-column>
+                                        <p-column field="kdDokumen" [style]="{'width':'67px'}" hidden="true"></p-column>
+                                        <p-column field="noDokumen" header="{{'frmDataPegawai_noDokumen'| translate | splitCharT}}" [editable]="true" [style]="{'width':'180px'}" >
+                                           <ng-template let-col let-dataNomorDokumen="rowData" pTemplate="body">
+                                            <!-- {{dataNomorDokumen[col.field]}}                                                      -->
+                                            <input type="text" pInputText [(ngModel)]="dataNomorDokumen[col.field]" [ngModelOptions]="{standalone: true}"
+                                            appendTo="body"/>
+                                        </ng-template>
+                                        <ng-template let-rix="rowIndex" let-col let-dataNomorDokumen="rowData" pTemplate="editor">
+                                            <input type="text" (blur)="onGanti(rix,$event)" pInputText [(ngModel)]="dataNomorDokumen[col.field]" [ngModelOptions]="{standalone: true}" OnlyNumber="true" [(maxlength)]="dataNomorDokumen.panjang" (input)="cekKTP(rix,$event)">
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column styleClass="col-button" header="{{'frmDataPegawai_unggah'| translate | splitCharT}}" [style]="{'width':'100px'}">
+                                        <ng-template pTemplate="body" let-col let-dokumen="rowData" let-ri="rowIndex">
+                                            <p-fileUpload #fubauto mode="basic" (onUpload)="dokumenUpload(ri,$event)" accept="image/*,.pdf" name="file" maxFileSize="1000000"
+                                            (onBeforeSend)="addHeader($event)" auto="true" [url]="urlUpload()" auto="true"
+                                            withCredentials="true" chooseLabel="Browse"></p-fileUpload>
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="pathFile" header="{{'frmDataPegawai_hasilUnggah'| translate | splitCharT}}" [style]="{'width':'180px'}"></p-column>
+                                    <p-column styleClass="col-button" [style]="{'width': '50px'}">
+                                        <ng-template pTemplate type="body" let-col let-dokumen="rowData" let-ri="rowIndex">
+                                            <div *ngIf="dokumen.pathFile != null && dokumen.pathFile !=''">
+                                                <button type="button" pButton (click)="clickReview(dokumen.pathFile,ri)" icon="fa-desktop"></button>
+                                            </div>
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="tglSeumurHidup" header="{{'frmDataPegawai_seumurHidup'| translate | splitCharT}}" [style]="{'width':'60px'}">
+                                        <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
+                                            <span *ngIf="data.pathFile == null || data.pathFile =='' ">
+                                            </span>
+                                            <span *ngIf="data.pathFile != null && data.pathFile != '' ">
+                                                <p-checkbox binary="true" [(ngModel)]="data[col.field]" appendTo="body" (onChange)="cekTampil(ri,$event)"></p-checkbox>
+                                            </span>
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column field="tglAkhirBerlaku" header="{{'frmDataPegawai_tanggalBerlaku'| translate | splitCharT}}" [editable]="true" [style]=" {'overflow':'visible','width':'100px'}">
+                                        <ng-template let-col let-car="rowData" pTemplate="body">
+                                            <span *ngIf="car.statusLifetime == false && car.noDokumen != '-'">
+                                                {{car[col.field]|date }}
+                                            </span>
+                                            <span *ngIf="car.statusLifetime == false && car.noDokumen == '-' ">
+                                                -
+                                            </span>
+                                            <span *ngIf="car.statusLifetime == true" style="color: #555; width: 100px">{{'frmDataPegawai_seumurHidup'| translate | splitCharT}}</span>
+                                        </ng-template>
+                                        <ng-template let-col let-car="rowData" pTemplate="editor">
+                                            <span *ngIf="car.pathFile == null || car.pathFile =='' ">
+                                            </span>
+                                            <span *ngIf="car.pathFile != null && car.pathFile != '' ">
+                                                <app-calender [(ngModel)]="car[col.field]" appendTo="body" [yearNavigator]="true" [monthNavigator]="true" yearRange="2000:2030"
+                                                [showIcon]="true" placeholder="-- Pilih --" dateFormat="dd M yy"></app-calender>
+                                            </span>
+                                        </ng-template>
+                                    </p-column>
+                                    <p-column hidden="true" field="isPrimaryAddress" [style]="{'width':'60px'}" header="{{'frmDataPegawai_isPrimary'| translate | splitCharT}}">
+                                        <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
+                                            <span *ngIf="data.pathFile == null || data.pathFile =='' || ri > 0 ">
+                                            </span>
+                                            <span *ngIf="data.pathFile != null && data.pathFile != '' && ri <= 0 ">
+                                                <p-checkbox binary="true" [(ngModel)]="data[col.field]" appendTo="body" [disabled]="((ri != tampung_index) && (disableCheckbox == true) ? true : false)"
+                                                (onChange)="cekValidasi(ri)"></p-checkbox>
+                                            </span>
+                                        </ng-template>
+                                    </p-column>
+                                </p-dataTable>
+                            </p-fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-1 ui-md-offset-11">
+                    <button pButton [disabled]="buttonAktif" type="button" label="{{'frmDataPegawai_btnSimpan'| translate | splitCharT}}" icon="fa-save" (click)="onSubmit()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

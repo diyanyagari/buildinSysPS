@@ -1,0 +1,19 @@
+<div class="splash-screen" *ngIf="muncul" >
+    <img class="buble-load" src="assets/layout/images/buble2.gif"/>
+</div>
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+                    <h1>{{'Hasil pencarian'| translate | splitCharT }}</h1>
+                    <div class="ui-g">
+                            <div class="ui-g-12">
+                                <ul *ngIf="ketemu" [innerHTML]='cari' ></ul>
+                                <span *ngIf="peringatan">Kata kunci <i>{{qcari}}</i> terlalu pendek</span>
+                                <span *ngIf="!ketemu">Maaf, hasil pencarian <i>{{qcari}}</i> tidak ditemukan, coba gunakan kata kunci yang lebih spesifik.</span>   
+                            </div>            
+                    </div>    
+            </div>
+        </div>
+    </div>
+</div>                

@@ -1,0 +1,12 @@
+<div class="cicing-content activity-feed">
+	<div class="overview-chart-top">
+		<p-toolbar>
+			<div class="ui-toolbar-group-left">
+				<span class="overview-box-name">{{'PERSENTASI STRUKTUR KOLEGA' | translate | splitCharT | splitCharT }}</span>
+			</div>
+		</p-toolbar>
+	</div>
+	<div id="dataKolega" style="overflow: auto; height: 274px">
+		<p-tree [value]="dataKolega" [style]="{'background-color':'transparent','border':'0px', 'overflow': 'visible'}"></p-tree>
+	</div>
+</div>

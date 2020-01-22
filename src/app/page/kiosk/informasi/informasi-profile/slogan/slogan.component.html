@@ -1,0 +1,69 @@
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425" [responsive]="true"></p-confirmDialog>
+<div class="kiosk-main">
+  <div class="header-title">
+    <div class="container">
+      <div class="header-item action">
+        <img src="../../../../../../assets/layout/images/kiosk/home.svg"
+          [routerLink]="['/kiosk']" alt="home">
+      </div>
+      <div class="header-item">
+        <img src="../../../../../assets/layout/images/kiosk/icon-informasi.png"
+          alt="icon">
+        <h2>Informasi - Profile - Slogan</h2>
+      </div>
+      <div class="header-item action">
+        <img
+          src="../../../../../../assets/layout/images/kiosk/power-button.svg" alt="logout" (click)="logout($event)">
+      </div>
+
+
+    </div>
+  </div>
+  <div class="content">
+    <div class="container-content" *ngFor="let item of data">
+      <div class="kiosk-card">
+        <h1>{{item.slogan.name}}</h1>
+        <div class="kiosk-card-content text-big">
+          <div class="card-content">
+            <p>{{item.slogan.desc}}</p>
+            <!-- <p>{{sloganProfile}}</p> -->
+          </div>
+        </div>
+      </div>
+      <div class="kiosk-card">
+        <h1>{{item.tagline.name}}</h1>
+        <div class="kiosk-card-content text-big">
+          <div class="card-content">
+            <p>{{item.tagline.desc}}</p>
+            <!-- <p>{{taglineProfile}}</p> -->
+          </div>
+        </div>
+      </div>
+      <div class="kiosk-card">
+        <h1>{{item.motto.name}}</h1>
+        <div class="kiosk-card-content text-big">
+          <div class="card-content">
+            <p>{{item.motto.desc}}</p>
+            <!-- <p>{{mottoProfile}}</p> -->
+          </div>
+        </div>
+      </div>
+      <div class="kiosk-card">
+        <h1>{{item.semboyan.name}}</h1>
+        <div class="kiosk-card-content text-big">
+          <div class="card-content">
+              <p>{{item.semboyan.desc}}</p>
+              <!-- <p>{{semboyanProfile}}</p> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="informasi-action">
+    <div class="container">
+      <button class="btn-subscribe bg-violet"
+        routerLink="/kiosk/informasi/profile/">Kembali</button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,168 @@
+// .kiosk-main {
+//     min-height: 100vh;
+//     position: relative;
+//     background-image: url(../../../../../../assets/layout/images/kiosk/background-humas.jpg);
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//     // overflow-y: scroll;
+// }
+
+// ::-webkit-scrollbar {
+//     display: none;
+// }
+
+// .header-title {
+//     width: 100%;
+//     margin: 0 auto;
+//     margin-bottom: 60px;
+
+//     .container {
+//         display: flex;
+//         justify-content: center;
+//         align-items: center;
+//     }
+
+//     h2 {
+//         display: block;
+//         margin-bottom: 0;
+//         font-size: 35px;
+//         color: whitesmoke;
+//     }
+// }
+
+// div.container-grid {
+//     margin: 30px 50px 30px 50px; // border: 2px solid #00A;
+//     // background-color:#FFF;
+// }
+
+// .main-content {
+//     display: grid;
+//     width: 100%;
+//     margin-right: auto;
+//     margin-left: auto; // grid-template-columns: auto auto auto auto auto;
+//     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+//     grid-template-rows: auto;
+//     vertical-align: middle;
+//     padding: 20px;
+//     padding-left: 0;
+
+//     div {
+//         align-self: center;
+//         justify-self: center;
+//         text-align: center;
+//         font-size: 30px;
+
+//         img {
+//             width: 229px;
+//             height: 169px;
+//             display: block;
+//             margin: 0 auto;
+//             cursor: pointer;
+//             transition: transform .2s;
+
+//             &:active {
+//                 transform: scale(1.1);
+//             }
+//         }
+
+//         a {
+//             display: inline-block;
+//             position: relative;
+//             font-size: 16px;
+//             align-self: center;
+//             justify-self: center;
+//             font-weight: bold;
+//             color: whitesmoke;
+//             cursor: pointer;
+
+//             &::after {
+//                 content: '';
+//                 position: absolute;
+//                 left: 0;
+//                 display: inline-block;
+//                 height: 1em;
+//                 width: 100%;
+//                 border-bottom: 1px solid;
+//                 margin-top: 10px;
+//                 opacity: 0;
+//                 -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+//                 transition: opacity 0.35s, transform 0.35s;
+//                 -webkit-transform: scale(0, 1);
+//                 transform: scale(0, 1);
+//             }
+
+//             &:active::after,
+//             &:visited {
+//                 opacity: 1;
+//                 -webkit-transform: scale(1);
+//                 transform: scale(1); // text-decoration: underline;
+//                 // border-bottom: 2px solid thin;
+//             }
+//         }
+//     }
+// }
+
+// .informasi-action {
+//     margin-top: 100px;
+//     padding-right: 15px;
+//     padding-left: 15px;
+//     margin: 0 auto;
+// }
+
+// .btn-subscribe {
+//     width: 450px;
+//     height: 80px;
+//     border: 0;
+//     border-radius: 0;
+//     background: green;
+//     color: #ffffff;
+//     display: table;
+//     margin: 0 auto;
+//     margin-bottom: 5px;
+//     font-family: 'neotericregular';
+//     font-size: 40px;
+//     margin-top: 30px;
+// }
+
+// .input.input-big {
+//     margin-top: 130px;
+//     display: table;
+//     margin: 0 auto;
+//     height: 80px;
+//     width: 50%;
+//     padding: 0 20px;
+//     font-size: 30px;
+//     color: #444444;
+//     border: 5px solid #466179;
+// }
+
+.content {
+    margin: 0 auto;
+    text-align: center;
+
+    h3 {
+        display: block;
+        margin-bottom: 0;
+        font-size: 30px;
+        color: whitesmoke;
+    }
+
+    .container-content {
+        margin: 0 auto;
+        padding: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        vertical-align: middle;
+
+        div {
+            align-self: center;
+            justify-self: center;
+            text-align: center;
+        }
+
+        p {
+            font-size: 25px;
+        }
+    }
+}

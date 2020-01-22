@@ -1,0 +1,69 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <h1>PROFILE HISTORI LOWONGAN S & D_T</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-6">
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Nomor Histori</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input id="input" type="text" [(ngModel)]="noHistori" pInputText/>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Jabatan</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+                <p-dropdown id="dropdownKJabatan" [options]="listJabatan" [(ngModel)]="jabatan" [autoWidth]="false"></p-dropdown>
+            </div>
+          </div>
+          <div class="ui-g-6">
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Spesifikasi</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <p-dropdown id="dropdownSpek" [options]="listSpek" [(ngModel)]="spek" [autoWidth]="false"></p-dropdown>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <label for="input">Keterangan Lainnya</label>
+            </div>
+            <div class="ui-g-12 ui-md-8">
+              <input id="input" type="text" [(ngModel)]="ket" pInputText/>
+            </div>
+            <div class="ui-g-12 ui-md-4">            
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <p-checkbox name="cbAktif" value="" label="Aktif" [(ngModel)]="kdaktif"></p-checkbox>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g-12 ui-md-8"></div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="button" label="SIMPAN" icon="fa-save"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="submit" label="HAPUS" icon="fa-close"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="submit" label="BATAL" icon="fa-close"></button>
+            </div>
+            <div class="ui-g-12 ui-md-1">
+              <button pButton type="submit" label="TUTUP" icon="fa-close"></button>
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <p-dataTable [value]="dataPasien" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]">
+              <p-column field="noHistori" header="Nomor Histori"></p-column>
+              <p-column field="jabatan" header="Jabatan"></p-column>
+              <p-column field="spek" header="Spesifikasi"></p-column>
+              <p-column field="ket" header="Keterangan lainnya"></p-column>
+           
+            </p-dataTable>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

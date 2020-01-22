@@ -1,0 +1,66 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmMapRuanganToKasusPenyakit_title'| translate | splitCharT}}</h1>
+        <div class="ui-g form-group">
+          <div class="ui-g-6">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-6 ui-md-8">
+                <label for="input">{{'frmMapRuanganToKasusPenyakit_titleLabel'| translate | splitCharT}}
+                  <span style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('kdUnitKerja').valid && form.get('kdUnitKerja').touched" style="color: red">
+                    {{'frmMapRuanganToKasusPenyakit_required'| translate | splitCharT}}</span>
+                </label>
+                <p-dropdown id="dropdown" (ngModelChange)="clearPanelBawah($event)" filter="filter" [options]="kdRuanganUnit"
+                  [(ngModel)]="kdUnitKerja" formControlName="kdUnitKerja" class="ui-inputwrapper-filled" [autoWidth]="false" resetFilterOnHide="true">
+                </p-dropdown>
+              </div>
+            </form>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g-12">
+              <p-blockUI [target]="pnl1" [blocked]="hasilCek" [baseZIndex]=10 [autoZIndex]="false">
+                <i class="fa fa-lock fa-3x" style="position:absolute;top:25%;left:50%"></i>
+              </p-blockUI>
+              <p-fieldset #pnl1 legend="{{'frmMapRuanganToKasusPenyakit_kasusPenyakit'| translate | splitCharT}}">
+                <div class="ui-g-6">
+                  <p-checkbox [(ngModel)]="pilihSemuaPenyakit" (click)="selectAllPenyakit()" label="{{'frmMapRuanganToKasusPenyakit_pilihSemuaPenyakit'| translate | splitCharT}}"
+                    binary="true"></p-checkbox>
+                </div>
+                <div class="ui-g-6">
+                  <i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+                  <input type="text" [(ngModel)]="pencarian" pInputText size="50" placeholder="{{'frmMapRuanganToKasusPenyakit_pencarianNamaKasusPenyakit'| translate | splitCharT}}" style="width: 35%;float:right;" (keyup)="filterPenyakit($event.target.value)">
+                </div>
+                <hr size="3px">
+                <div *ngFor="let data of listDataPenyakit; let i = index" class="ui-g-3">
+                  <p-checkbox (change)="onChange()" value={{data.kode}} label="{{data.namaKasusPenyakit}}" [(ngModel)]="pilihanPenyakit"
+                    inputId="{{i}}"></p-checkbox>
+                </div>
+              </p-fieldset>
+            </div>
+          </div>
+          <div class="ui-g-6 ui-md-10">
+            <div class="checkbox_cont">
+            </div>
+          </div>
+          <div class="ui-g-12">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-8"></div>
+              <div class="ui-g-12 ui-md-2">
+                  <button pButton type="submit" label="{{'frmMapRuanganToKasusPenyakit_btnSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+                </div>
+              <div class="ui-g-12 ui-md-2">
+                  <button pButton type="button" label="{{'frmMapRuanganToKasusPenyakit_btnBatal'| translate | splitCharT}}" icon="fa-refresh" (click)="reset()"></button>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

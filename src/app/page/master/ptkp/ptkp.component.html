@@ -1,0 +1,177 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>Master {{'PTKP'| translate | splitCharT}}</h1>
+				<div class="ui-g form-group">
+					<form [formGroup]="form" (ngSubmit)="onSubmit()">
+							<div class="ui-g-12 ui-md-6">
+								<div class="ui-g-12">
+
+									<div class="ui-g-12 ui-md-4">
+										<span class="ui-float-label">
+											<input id="statusPtkp" type="text" formControlName="namaStatusPtkp" pInputText/>
+											<label for="statusPtkp">{{'Status PTKP'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-2"></div>
+									<div class="ui-g-12 ui-md-4">
+										<span class="ui-float-label">
+											<input id="kodeExternal" type="text" formControlName="kodeExternal" pInputText/>
+											<label for="kodeExternal">{{'Kode Eksternal'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-4">
+										<span class="ui-float-label">
+											<p-dropdown id="statusPerkawinan" formControlName="kdStatusPerkawinan" [options]="listStatusPerkawinan"  [autoWidth]="false" class="ui-inputwrapper-filled" [filter]="true" filterBy="label"></p-dropdown>
+											<label for="statusPerkawinan">{{'Status Perkawinan'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-2"></div>
+									<div class="ui-g-12 ui-md-4">
+										<span class="ui-float-label">
+											<input id="namaExternal" type="text" formControlName="namaExternal" pInputText/>
+											<label for="namaExternal">{{'Nama Eksternal'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-4">
+										<span class="ui-float-label">
+											<p-dropdown id="qtyAnak" formControlName="kdQtyAnak" [options]="listQtyAnak"  [autoWidth]="false" class="ui-inputwrapper-filled" [filter]="true" filterBy="label"></p-dropdown>
+											<label for="qtyAnak">{{'Qty Anak'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-2"></div>
+									<div class="ui-g-12 ui-md-4" >
+										<span class="ui-float-label">
+											<input id="tampilanLaporan" type="text" formControlName="reportDisplay" pInputText/>
+											<label for="tampilanLaporan">{{'Tampilan Laporan'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-4" >
+										<span class="ui-float-label">
+											<input id="totalPtkp" type="text" formControlName="totalPtkp" pInputText/>
+											<label for="totalPtkp">{{'Total PTKP Setahun'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-12"></div>
+									<div class="ui-g-12 ui-md-4" >
+										<span class="ui-float-label">
+											<p-dropdown id="departemen" formControlName="kdDepartemen" [options]="listDepartemen"  [autoWidth]="false" class="ui-inputwrapper-filled" [filter]="true" filterBy="label"></p-dropdown>
+											<label for="departemen">{{'Departemen*'| translate | splitCharT }}</label>
+										</span>
+									</div>
+									<div class="ui-g-12 ui-md-12"></div>
+									<div class="ui-g-12 ui-md-4">
+										<span class="ui-float-label">
+											<textarea [rows]="1" [cols]="30" formControlName="deskripsi" pInputTextarea autoResize="autoResize" class="ui-inputwrapper-filled"></textarea>
+											<!-- <input id="deskripsi" type="text" formControlName="deskripsi" pInputText/> -->
+											<label for="deskripsi">{{'Deskripsi'| translate | splitCharT }}</label>
+										</span>
+									</div>
+
+								</div>
+							</div>
+							<!-- <div class="ui-g-6">
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'Status PTKP'| translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<input id="input" type="text" formControlName="statusPtkp" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'Status Perkawinan'| translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<p-dropdown id="statusPerkawinan" formControlName="kdStatusPerkawinan" [options]="listStatusPerkawinan"  [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+									
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'Qty Anak'| translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<p-dropdown id="qtyAnak" formControlName="kdQtyAnak" [options]="listQtyAnak"  [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'Total PTKP Setahun'| translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<input id="input" type="text" formControlName="totalPtkp" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'Departemen'| translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<p-dropdown id="departemen" formControlName="kdDepartemen" [options]="listDepartemen"  [autoWidth]="false" [filter]="true" filterBy="label"></p-dropdown>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'Deskripsi'| translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<input id="input" type="text" formControlName="deskripsi" pInputText/>
+								</div>
+								
+							</div>
+
+							<div class="ui-g-6">
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'Kode Eksternal'| translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<input id="input" type="text" formControlName="kodeExternal" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'Nama Eksternal'| translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<input id="input" type="text" formControlName="namaExternal" pInputText/>
+								</div>
+								<div class="ui-g-12 ui-md-4">
+									<label for="input">{{'Tampilan Laporan'| translate | splitCharT }}</label>
+								</div>
+								<div class="ui-g-12 ui-md-6">
+									<input id="input" type="text" formControlName="tampilanLaporan" pInputText/>
+								</div>
+							</div> -->
+						
+						<div class="ui-g-12">
+						<div class="ui-g-12">
+							<div class="ui-g-12 ui-md-8"></div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="submit" label="{{'simpan'| translate | splitCharT }}" icon="fa-save"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'batal'| translate | splitCharT }}" icon="fa-close" (click)="reset()"></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<button pButton type="button" label="{{'hapus'| translate | splitCharT }}" icon="fa-close" ></button>
+							</div>
+							<div class="ui-g-12 ui-md-1">
+								<p-splitButton label="{{'cetak'| translate | splitCharT }}" icon="fa-edit" [model]="items"></p-splitButton>
+							</div>
+						</div>
+						</div>
+					</form>
+					<div class="ui-g-12">
+						<div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none;">
+							<i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+							<input type="text" pInputText size="50" style="width: 20%">
+						</div>
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" scrollable="true" frozenWidth="200px" unfrozenWidth="1020px" [(selection)]="selected" >
+							<p-header>Data {{'Objek PTKP'| translate | splitCharT}}</p-header>
+							<p-column field="" header="{{'Status PTKP'| translate | splitCharT }}" [style]="{'width':'100px'}" frozen="true"></p-column>
+							<p-column field="" header="{{'Status Perkawinan'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="" header="{{'Qty Anak'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="" header="{{'Total PTKP Setahun'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="" header="{{'Departemen'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="" header="{{'Deskripsi'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="" header="{{'Kode Eksternal'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="" header="{{'Nama Eksternal'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+							<p-column field="" header="{{'Tampilan Laporan'| translate | splitCharT }}" [style]="{'width':'150px'}"></p-column>
+						</p-dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

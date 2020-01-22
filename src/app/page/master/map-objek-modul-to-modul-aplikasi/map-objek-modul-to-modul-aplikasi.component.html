@@ -1,0 +1,94 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+				<h1>{{'frmMasterMapObjekModulToModulAplikasi_title'| translate | splitCharT }}</h1>
+				<div class="ui-g form-group">
+					<div class="ui-g-6">
+						<form [formGroup]="form" (ngSubmit)="onSubmit()">
+							<div class="ui-g-6 ui-md-8">
+								<label>{{'frmMasterMapObjekModulToModulAplikasi_modulAplikasi'| translate | splitCharT}}
+									<span style="color: red;font-weight: bolder;">*</span>
+									<span *ngIf="!form.get('kdModulAplikasi').valid && form.get('kdModulAplikasi').touched" style="color: red"> {{'frmMasterMapObjekModulToModulAplikasi_required'| translate | splitCharT}}</span>
+								</label>
+								<p-dropdown id="dropdown" (onChange)="clearPanelBawah($event)" filter="filter" filterBy="label" formControlName="kdModulAplikasi"
+								[options]="listModulAplikasi" [autoWidth]="false"></p-dropdown>
+							</div>
+						</form>
+					</div>
+
+					<div class="ui-g-8">
+						<p-blockUI [target]="pnl" [blocked]="hasilCek" [baseZIndex]=10 [autoZIndex]="false">
+							<i class="fa fa-lock fa-5x" style="position:absolute;top:25%;left:50%"></i>
+						</p-blockUI>
+						<p-fieldset #pnl>
+							<div class="ui-helper-clearfix">
+								<i class="fa fa-search" style="padding:0.5em 0.5em;float:right"></i>
+								<input #gb type="text" pInputText size="50" placeholder="{{'frmMasterMapObjekModulToModulAplikasi_pencarianObjekModulAplikasi'| translate | splitCharT}}" style="width: 20%;float:right;">
+								<span style="float: left;padding:0.3em;">{{'frmMasterMapObjekModulToModulAplikasi_objekModulAplikasi'| translate | splitCharT}}</span>
+							</div>
+							<p-dataTable [value]="listData" [(selection)]="selected" dataKey="namaObjekModulAplikasi" [editable]="true" [headerCheckboxToggleAllPages]="true"  loadingIcon="fa-spinner" [totalRecords]="totalRecords"  (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)" (onHeaderCheckboxToggle)="selectAll($event)"  [loading]="loading"  [scrollable]="true" [rows]="20" scrollHeight="300px" [globalFilter]="gb" #dt>
+								<!-- <p-column field="isCheck" [style]="{'width':'38px'}" selectionMode="multiple"></p-column> -->
+								<p-column field="isCheck" [style]="{'width':'50px'}">
+									<ng-template pTemplate type="body" let-col let-checked="rowData" let-ri="rowIndex">
+										<p-checkbox [(ngModel)]="checked[col.field]" [ngModelOptions]="{standalone: true}" binary="true" [disabled]="false" ></p-checkbox>
+										<!-- (onChange)="changeSelectedData($event, checked.kode)" -->
+									</ng-template>
+								</p-column>
+								<p-column field="namaObjekModulAplikasi" header="{{'frmMasterMapObjekModulToModulAplikasi_tblObjekModulAplikasi'| translate | splitCharT }}"> [sortable]="true"</p-column>
+								<p-column field="noUrutObjek" header="{{'frmMasterMapObjekModulToModulAplikasi_tblNoUrutObjek'| translate | splitCharT }}" [editable]="true">
+									<ng-template let-col let-data="rowData" pTemplate="body">
+										<span *ngIf="data.isCheck==false">
+											-
+										</span>
+										<span *ngIf="data.isCheck==true">
+											{{data[col.field]}}
+										</span>
+									</ng-template>
+									<ng-template let-col let-data="rowData" pTemplate="editor">
+										<span *ngIf="data.isCheck==false">
+											<input type="number" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" disabled pInputText/>
+											<!-- <p-spinner size="10" [min]="0" [max]="100" [disabled]="true"></p-spinner> -->
+										</span>
+										<span *ngIf="data.isCheck==true">
+											<input type="number" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}"  pInputText/>
+											<!-- <p-spinner size="10" [(ngModel)]="data[col.field]" [min]="0" [max]="100" [ngModelOptions]="{standalone: true}"  ></p-spinner> -->
+										</span>
+									</ng-template>
+								</p-column>
+								<p-column field="isEncrypted" header="{{'frmMasterMapObjekModulToModulAplikasi_tblIsEncrypted'| translate | splitCharT }}">
+									<ng-template pTemplate="body" let-data="rowData" let-col>
+										<span *ngIf="data.isCheck==false">
+											<p-checkbox binary="true" [disabled]="true"></p-checkbox>
+										</span>
+										<!-- <span *ngIf="data.isCheck==true">
+											<p-checkbox binary="true" (onChange)="changeSelectedData($event, data.kode)" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" [disabled]="false"></p-checkbox>
+										</span> -->
+										<span *ngIf="data.isCheck==true">
+											<p-checkbox binary="true" [(ngModel)]="data[col.field]" [ngModelOptions]="{standalone: true}" [disabled]="false"></p-checkbox>
+										</span>
+									</ng-template>
+								</p-column>
+							</p-dataTable>
+						</p-fieldset>
+					</div>
+
+					<div class="ui-g-12">
+						<form [formGroup]="form" (ngSubmit)="onSubmit()">
+							<div class="ui-g-12 ui-md-8"></div>
+							<div class="ui-g-12 ui-md-8"></div>
+							<div class="ui-g-12 ui-md-8"></div>
+							<div class="ui-g-12 ui-md-2"></div>
+							<div class="ui-g-12 ui-md-2">
+								<button pButton type="submit" label="{{'frmMasterMapObjekModulToModulAplikasi_tblSimpan'| translate | splitCharT}}" icon="fa-save"></button>
+							</div>
+						</form>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

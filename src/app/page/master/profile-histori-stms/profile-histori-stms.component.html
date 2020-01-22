@@ -1,0 +1,181 @@
+<div class="ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="card card-w-title">
+        <p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+        <h1>{{'frmProfileHistoriStms_title' | translate | splitCharT }}</h1>
+        <form [formGroup]="form">
+          <div class="ui-g form-group">
+            <div class="ui-g-12 ui-md-8">
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>{{'frmProfileHistoriStms_sloganProfile' | translate | splitCharT }}</label>
+                <input maxlength="100" id="input" type="text" formControlName="sloganProfile" pInputText />
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>{{'frmProfileHistoriStms_taglineProfile' | translate | splitCharT }}</label>
+                <input id="input" maxlength="100" type="text" formControlName="taglineProfile" pInputText />
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>{{'frmProfileHistoriStms_mottoProfile' | translate | splitCharT }} <span
+                    style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('mottoProfile').valid && form.get('mottoProfile').touched" style="color: red">
+                    {{'required'| translate | splitCharT}}</span></label>
+                <input id="input" maxlength="100" type="text" formControlName="mottoProfile" pInputText />
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <label>{{'frmProfileHistoriStms_semBoyanProfile' | translate | splitCharT }} <span
+                    style="color: red;font-weight: bolder;">*</span>
+                  <span *ngIf="!form.get('semboyanProfile').valid && form.get('semboyanProfile').touched"
+                    style="color: red">
+                    {{'required'| translate | splitCharT}}</span></label>
+                <input id="input" maxlength="100" type="text" formControlName="semboyanProfile" pInputText />
+              </div>
+              <div class="ui-g-12 ui-md-6 ui-md-offset-6">
+                <label>{{'frmProfileHistoriStms_messageToKlien' | translate | splitCharT }}</label>
+                <textarea maxlength="150" [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize"
+                  formControlName="messageToKlien"></textarea>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-4">
+              <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <p-fieldset legend="{{'frmProfileHistoriStms_periode' | translate | splitCharT }}">
+                  <div class="ui-g-12 ui-md-5" style="width: 47%;">
+                    <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+                      formControlName="tglAwal" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+                  </div>
+                  <div class="ui-g-12 ui-md-2" style="width: 5%;text-align: center">
+                    <label>-</label>
+                  </div>
+                  <div class="ui-g-12 ui-md-5" style="width: 47%;">
+                    <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+                      formControlName="tglAkhir" [showIcon]="true" dateFormat="dd M yy"></app-calender>
+                  </div>
+                </p-fieldset>
+              </div>
+              <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <label>{{'frmProfileHistoriStms_keteranganLainnya' | translate | splitCharT }}</label>
+                <textarea maxlength="150" [rows]="3" [cols]="30" pInputTextarea autoResize="autoResize"
+                  formControlName="keteranganLainnya"></textarea>
+              </div>
+
+
+              <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <p-checkbox binary="true" label="{{'frmProfileHistoriStms_statusEnabled'| translate | splitCharT }}"
+                  formControlName="statusEnabled"> </p-checkbox>
+                <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched"
+                  style="color: red">*</span>
+                <span *ngIf="!form.get('statusEnabled').valid && form.get('statusEnabled').touched" style="color: red">
+                  {{'required'| translate | splitCharT}}</span>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <div class="ui-g-12 ui-md-7"></div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" (click)="onSubmit()"
+                  label="{{'frmProfileHistoriStms_btnSimpan'| translate | splitCharT }}" icon="fa-save"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" (click)="confirmDelete()" [disabled]="buttonAktif"
+                  label="{{'frmProfileHistoriStms_btnHapus'| translate | splitCharT }}" icon="fa-trash"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="button" (click)="reset()" label="{{'frmProfileHistoriStms_btnBatal'| translate | splitCharT }}"
+                  icon="fa-refresh"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <button pButton type="submit" label="{{'frmProfileHistoriStms_btnCetak'| translate | splitCharT }}"
+                  icon="fa-print"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1">
+                <p-splitButton label="{{'frmProfileHistoriStms_btnExport'| translate | splitCharT }}" icon="fa-external-link"
+                  [model]="items"></p-splitButton>
+
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <h1>{{'frmProfileHistoriStms_daftarSlogan' | translate | splitCharT }}</h1>
+              <div class="ui-g-12 ui-md-6 ui-lg-6">
+                <div class="ui-g-12 ui-md-12 ui-lg-12">
+                  <input type="text" pInputText size="50"
+                    placeholder="{{'frmProfileHistoriStms_tablePencarian'| translate | splitCharT}}" [(ngModel)]="pencarianSlogan"
+                    (keyup)="cari()" [ngModelOptions]="{standalone: true}" appendTo="body">
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-4 ui-lg-4 ui-md-offset-2" style="background:darkgrey">
+                <button pButton icon="fa fa-close" style="padding:0.5em 0.5em;float:right;width: 30px;height: 30px;"
+                  appendTo="body" (click)="reset()"></button>
+                <button pButton icon="fa fa-search" style="padding:0.5em 0.5em;float:right;width: 30px;height: 30px;"
+                  (click)="cari()" appendTo="body"></button>
+                <div class="ui-g-12 ui-md-5" style="width: 37%;float: right">
+                  <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+                    [(ngModel)]="tanggalAkhir" [ngModelOptions]="{standalone: true}" [showIcon]="true"
+                    dateFormat="dd M yy" appendTo="body"></app-calender>
+                </div>
+                <div class="ui-g-12 ui-md-2" style="width: 5%;text-align: center;float: right;">
+                  <label>-</label>
+                </div>
+                <div class="ui-g-12 ui-md-5" style="width: 37%;float: right;">
+                  <app-calender [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2030"
+                    [(ngModel)]="tanggalAwal" [ngModelOptions]="{standalone: true}" [showIcon]="true"
+                    dateFormat="dd M yy" appendTo="body"></app-calender>
+                </div>
+              </div>
+            </div>
+            <div class="ui-g-12">
+              <p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3"
+                [rowsPerPageOptions]="[5,10,20]" (onLazyLoad)="loadPage($event)" [lazy]="true"
+                (onRowSelect)="onRowSelect($event)" [(selection)]="selected" [rows]="10" [paginator]="true"
+                [rowsPerPageOptions]="[5,10,20]" selectionMode="single" scrollable="true">
+                <p-header>
+                </p-header>
+                <p-column field="number" header="{{'frmProfileHistoriStms_tableNo' | translate | splitCharT }}"
+                  [style]="{'width': '50px'}"></p-column>
+                <p-column field="tglAwal" header="{{'frmProfileHistoriStms_tableTglAwal' | translate | splitCharT }}"
+                  [style]="{'width': '100px'}">
+                  <ng-template pTemplate="body" let-profile="rowData">
+                    <span *ngIf="profile.tglAwal != null && profile.tglAwal != 0">
+                      {{profile.tglAwal * 1000 | date:'dd/MM/yyyy'}}
+                    </span>
+                    <span *ngIf="profile.tglAwal == null || profile.tglAwal == 0">
+                      -
+                    </span>
+                  </ng-template>
+                </p-column>
+                <p-column field="tglAkhir" header="{{'frmProfileHistoriStms_tableTglAkhir' | translate | splitCharT }}"
+                  [style]="{'width': '100px'}">
+                  <ng-template pTemplate="body" let-profile="rowData">
+                    <span *ngIf="profile.tglAkhir != null && profile.tglAkhir != 0">
+                      {{profile.tglAkhir * 1000 | date:'dd/MM/yyyy'}}
+                    </span>
+                    <span *ngIf="profile.tglAkhir == null || profile.tglAkhir == 0">
+                      -
+                    </span>
+                  </ng-template>
+                </p-column>
+                <p-column field="sloganProfile" header="{{'frmProfileHistoriStms_tableSloganProfile' | translate | splitCharT }}"
+                  [style]="{'width': '150px'}"></p-column>
+                <p-column field="taglineProfile" header="{{'frmProfileHistoriStms_tableTaglineProfile' | translate | splitCharT }}"
+                  [style]="{'width': '150px'}"></p-column>
+                <p-column field="mottoProfile" header="{{'frmProfileHistoriStms_tableMottoProfile' | translate | splitCharT }}"
+                  [style]="{'width': '150px'}"></p-column>
+                <p-column field="semboyanProfile" header="{{'frmProfileHistoriStms_tableSemboyanProfile' | translate | splitCharT }}"
+                  [style]="{'width': '150px'}"></p-column>
+                <p-column field="messageToKlien" header="{{'frmProfileHistoriStms_tableMessageToKlien' | translate | splitCharT }}"
+                  [style]="{'width': '150px'}"></p-column>
+                <p-column field="keteranganLainnya"
+                  header="{{'frmProfileHistoriStms_tableKeteranganLainnya' | translate | splitCharT }}" [style]="{'width': '150px'}">
+                </p-column>
+                <p-column field="statusEnabled" header="{{'frmProfileHistoriStms_tableStatus' | translate | splitCharT }}"
+                  [style]="{'width': '80px'}">
+                  <ng-template let-col="rowData" pTemplate type="body">
+                    {{col.statusEnabled | truefalse | translate | splitCharT }}
+                  </ng-template>
+                </p-column>
+              </p-dataTable>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

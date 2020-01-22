@@ -1,0 +1,52 @@
+.mainContent {
+    display: -ms-grid;
+    display: flex;
+    width: 100%;
+    /* margin-right: auto; */
+    /* margin-left: auto; */
+    -ms-grid-columns: 1fr 1fr 1fr 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
+    -ms-grid-rows: auto;
+    /* grid-template-rows: auto; */
+    vertical-align: middle;
+    padding: 20px;
+    padding-left: 0;
+    /* text-align: center; */
+    align-items: center;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#poliumum{
+    cursor: pointer;
+}
+
+#dropdownJam .ui-dropdown .ui-widget .ui-state-default .ui-corner-all .ui-helper-clearfix{
+    background-color: transparent !important;
+}
+
+#infoTglKunjungan{
+    position: absolute;
+    font-size: 30px;
+    left: 32%;
+}
+#infoTglKunjungan h4{
+    float: left;
+}
+#infoTglKunjungan label{
+    float: left;
+    margin-left: 15px;
+}
+
+// #dropJam .ui-dropdown label.ui-dropdown-label{
+//     color:#f5f7fa !important;
+// }

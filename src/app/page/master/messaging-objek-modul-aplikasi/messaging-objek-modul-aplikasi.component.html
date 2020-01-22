@@ -1,0 +1,73 @@
+<div class="ui-fluid">
+	<div class="ui-g">
+		<div class="ui-g-12">
+			<div class="card card-w-title">
+				<p-confirmDialog></p-confirmDialog>
+				<h1>Master Messaging Objek Modul Aplikasi</h1>
+			
+				<div class="ui-g form-group">
+					<div class="ui-g-6">
+						<div class="ui-g-12 ui-md-4">
+							<label for="input">Kode Messaging</label>
+						</div>
+						<div class="ui-g-12 ui-md-8">
+							<p-dropdown id="dropdownKodeMessaging" [options]="kodeME"  [autoWidth]="false" [(ngModel)]="item.kdMessaging"></p-dropdown>
+						</div>
+						<div class="ui-g-12 ui-md-4">
+							<label for="input">Kode Modul Aplikasi Tujuan</label>
+						</div>
+						<div class="ui-g-12 ui-md-8">
+							<p-dropdown id="dropdownKodeModulAplikasiTujuan" [options]="kodeMOT"  [autoWidth]="false" [(ngModel)]="item.kdModulAplikasiTujuan"></p-dropdown>
+						</div>
+						<div class="ui-g-12 ui-md-4">
+							<label for="input">Kode Objek Modul Aplikasi Tujuan</label>
+						</div>
+						<div class="ui-g-12 ui-md-8">
+							<p-dropdown id="dropdownKodeObjekModulAplikasiTujuan" [options]="kodeOMA"  [autoWidth]="false" [(ngModel)]="item.kdObjekModulAplikasiTujuan"></p-dropdown>
+						</div>
+					</div>
+					
+					<div class="ui-g-6">
+						<div class="ui-g-12 ui-md-4">
+							<label for="input">Kode Ruangan Tujuan</label>
+						</div>
+						<div class="ui-g-12 ui-md-8">
+							<p-dropdown id="dropdownKodeRuanganTujuan" [options]="kodeRuanganTujuan"  [autoWidth]="false" [(ngModel)]="item.kdRuanganTujuan"></p-dropdown>
+						</div>
+						<div class="ui-g-12 ui-md-4">
+							<label for="input">Status Aktif</label>
+						</div>
+						<div class="ui-g-12 ui-md-8">
+							<p-checkbox binary="true" label="Aktif" [(ngModel)]="item.statusEnabled"></p-checkbox>
+						</div>
+					</div>
+					<div class="ui-g-12">
+						<div class="ui-g-12 ui-md-4"></div>
+						<div class="ui-g-12 ui-md-2">
+							<button pButton type="button" label="Simpan" icon="fa-save" (click)="simpan()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-2">
+							<button pButton type="button" label="Hapus" icon="fa-close" (click)="hapus()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-2">
+							<button pButton type="button" label="Batal" icon="fa-close" (click)="reset()"></button>
+						</div>
+						<div class="ui-g-12 ui-md-2">
+							<button pButton type="button" label="Tutup" icon="fa-close"></button>
+						</div>
+					</div>
+					<div class="ui-g-12">
+						<p-dataTable [value]="listData" [rows]="10" [paginator]="true" [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" (onRowSelect)="onRowSelect($event)" selectionMode="single" [(selection)]="selected">
+							<p-header>Data Event</p-header>
+							<p-column field="namaMessaging" header="Messaging"></p-column>
+							<p-column field="namaModulAplikasiTujuan" header="Modul Aplikasi Tujuan"></p-column>
+							<p-column field="namaObjekModulAplikasiTujuan" header="Objek Modul Aplikasi Tujuan"></p-column>
+							<p-column field="namaRuanganTujuan" header="Ruangan Tujuan"></p-column>
+						</p-dataTable>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
